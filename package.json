@@ -1,6 +1,6 @@
 {
 	"name": "@vocadb/route-sphere",
-	"version": "1.0.0-rc.2",
+	"version": "1.0.0",
 	"description": "Sync query parameters with a MobX store and React Router.",
 	"main": "dist/index.js",
 	"devDependencies": {
