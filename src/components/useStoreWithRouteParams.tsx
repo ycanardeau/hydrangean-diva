@@ -36,10 +36,10 @@ export const useRouteParamsToLocation = <TRouteParams,>(
 		return reaction(
 			() => store.routeParams,
 			(routeParams) => {
-				if (!store.popState) {
-					const newUrl = `?${qs.stringify(routeParams)}`;
-					navigate(newUrl);
-				}
+				if (store.popState) return;
+
+				const newUrl = `?${qs.stringify(routeParams)}`;
+				navigate(newUrl);
 			},
 		);
 	}, [store, navigate]);
