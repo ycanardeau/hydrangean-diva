@@ -28,7 +28,7 @@ const useStoreWithPagination = <TRouteParams>(store: StoreWithPagination<TRouteP
 const useStoreWithRouteParams = <TRouteParams>(store: StoreWithRouteParams<TRouteParams>): void;
 ```
 
-## The useStoreWithUpdateResults hook
+## useStoreWithUpdateResults hook
 
 The `useStoreWithUpdateResults` updates search results whenever the `routeParams` property changes. The `StoreWithUpdateResult` interface is defined as below:
 
@@ -49,7 +49,7 @@ The `useStoreWithUpdateResults` hook determines if search results should be clea
 - [SongLyrics.tsx](https://github.com/VocaDB/vocadb/blob/9dae1c215c3a18327b78254e3fb532656d4c7eca/VocaDbWeb/Scripts/Components/Song/SongLyrics.tsx#L30) and [SongLyricsStore.ts](https://github.com/VocaDB/vocadb/blob/9dae1c215c3a18327b78254e3fb532656d4c7eca/VocaDbWeb/Scripts/Stores/Song/SongLyricsStore.ts#L20) ([demo](https://vocadb.net/S/11807/lyrics?lyricsId=3634))
 - [SongRankings.tsx](https://github.com/VocaDB/vocadb/blob/9dae1c215c3a18327b78254e3fb532656d4c7eca/VocaDbWeb/Scripts/Components/Song/SongRankings.tsx#L47) and [RankingsStore.ts](https://github.com/VocaDB/vocadb/blob/9dae1c215c3a18327b78254e3fb532656d4c7eca/VocaDbWeb/Scripts/Stores/Song/RankingsStore.ts#L31) ([demo](https://vocadb.net/Song/Rankings))
 
-## The useStoreWithPagination hook
+## useStoreWithPagination hook
 
 The `useStoreWithPagination` hook is a helper hook that is composed of the `useStoreWithUpdateResults` and `useStoreWithRouteParams` hooks. The `StoreWithPagination` interface is defined as below:
 
@@ -67,7 +67,7 @@ interface StoreWithPagination<TRouteParams> extends StoreWithUpdateResults<TRout
 - [SearchIndex.tsx](https://github.com/VocaDB/vocadb/blob/9dae1c215c3a18327b78254e3fb532656d4c7eca/VocaDbWeb/Scripts/Components/Search/SearchIndex.tsx#L106) and [SearchStore.ts](https://github.com/VocaDB/vocadb/blob/9dae1c215c3a18327b78254e3fb532656d4c7eca/VocaDbWeb/Scripts/Stores/Search/SearchStore.ts#L65) ([demo](https://vocadb.net/Search))
 - [SongListDetails.tsx](https://github.com/VocaDB/vocadb/blob/9dae1c215c3a18327b78254e3fb532656d4c7eca/VocaDbWeb/Scripts/Components/SongList/SongListDetails.tsx#L126) and [SongListStore.ts](https://github.com/VocaDB/vocadb/blob/9dae1c215c3a18327b78254e3fb532656d4c7eca/VocaDbWeb/Scripts/Stores/SongList/SongListStore.ts#L77) ([demo](https://vocadb.net/L/20))
 
-## The useStoreWithRouteParams hook
+## useStoreWithRouteParams hook
 
 The `useStoreWithRouteParams` hook updates a store that implements the `StoreWithRouteParams` interface when a route changes, and vice versa. The `StoreWithRouteParams` interface is defined as below:
 
