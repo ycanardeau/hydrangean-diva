@@ -12,8 +12,13 @@ export const useLocationToRouteParams = <TRouteParams,>(
 	const location = useLocation();
 
 	// Pass `location` as deps instead of `location.search`.
+	const deserializer = React.useCallback(
+		() => qs.parse(location.search.slice(1)),
+		[location],
+	);
+
 	React.useEffect(() => {
-		const routeParams: any = qs.parse(location.search.slice(1));
+		const routeParams = deserializer();
 
 		if (store.validateRouteParams(routeParams)) {
 			store.popState = true;
@@ -22,7 +27,7 @@ export const useLocationToRouteParams = <TRouteParams,>(
 
 			store.popState = false;
 		}
-	}, [location, store]);
+	}, [store, deserializer]);
 };
 
 /** Updates a route when a store that implements the {@link StoreWithRouteParams} interface changes. */
@@ -31,6 +36,14 @@ export const useRouteParamsToLocation = <TRouteParams,>(
 ): void => {
 	const navigate = useNavigate();
 
+	const serializer = React.useCallback(
+		(routeParams: TRouteParams) => {
+			const newUrl = `?${qs.stringify(routeParams)}`;
+			navigate(newUrl);
+		},
+		[navigate],
+	);
+
 	React.useEffect(() => {
 		// Returns the disposer.
 		return reaction(
@@ -38,11 +51,10 @@ export const useRouteParamsToLocation = <TRouteParams,>(
 			(routeParams) => {
 				if (store.popState) return;
 
-				const newUrl = `?${qs.stringify(routeParams)}`;
-				navigate(newUrl);
+				serializer(routeParams);
 			},
 		);
-	}, [store, navigate]);
+	}, [store, serializer]);
 };
 
 /** Updates a store that implements the {@link StoreWithRouteParams} interface when a route changes, and vice versa. */

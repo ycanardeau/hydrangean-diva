@@ -1,3 +1,3 @@
-export type { StoreWithPagination } from './StoreWithPagination';
-export type { StoreWithRouteParams } from './StoreWithRouteParams';
-export type { StoreWithUpdateResults } from './StoreWithUpdateResults';
+export * from './StoreWithPagination';
+export * from './StoreWithRouteParams';
+export * from './StoreWithUpdateResults';

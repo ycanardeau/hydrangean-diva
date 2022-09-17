@@ -1,5 +1,5 @@
-export { ScrollToTop } from './ScrollToTop';
+export * from './ScrollToTop';
 
-export { useStoreWithPagination } from './useStoreWithPagination';
-export { useStoreWithRouteParams } from './useStoreWithRouteParams';
-export { useStoreWithUpdateResults } from './useStoreWithUpdateResults';
+export * from './useStoreWithPagination';
+export * from './useStoreWithRouteParams';
+export * from './useStoreWithUpdateResults';
