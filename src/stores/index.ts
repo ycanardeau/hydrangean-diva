@@ -1,2 +1,1 @@
-export * from './StoreWithRouteParams';
-export * from './StoreWithUpdateResults';
+export * from './RouteParamsStore';
