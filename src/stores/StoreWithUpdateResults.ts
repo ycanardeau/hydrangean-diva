@@ -1,9 +1,14 @@
 import { StoreWithRouteParams } from './StoreWithRouteParams';
 
+export interface RouteParamsChangeEvent<TRouteParams> {
+	keys: (keyof TRouteParams)[];
+	popState: boolean;
+}
+
 export interface StoreWithUpdateResults<TRouteParams>
 	extends StoreWithRouteParams<TRouteParams> {
-	readonly clearResultsByQueryKeys: (keyof TRouteParams)[];
-	/** Called when search results should be cleared. */
-	onClearResults?(): void;
-	updateResults(clearResults: boolean): Promise<void>;
+	onRouteParamsChange(event: RouteParamsChangeEvent<TRouteParams>): void;
 }
+
+export type StoreWithPagination<TRouteParams> =
+	StoreWithUpdateResults<TRouteParams>;

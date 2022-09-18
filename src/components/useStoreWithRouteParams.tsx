@@ -41,7 +41,7 @@ export const useRouteParamsToLocation = <TRouteParams,>(
 	);
 
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
-	const popStateRef = React.useRef(false);
+	const popStateRef = React.useRef(true);
 
 	React.useLayoutEffect(() => {
 		const popStateHandler = (): void => {

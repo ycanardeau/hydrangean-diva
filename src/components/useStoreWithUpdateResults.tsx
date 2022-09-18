@@ -2,7 +2,10 @@ import _, { PartialObject } from 'lodash';
 import { reaction } from 'mobx';
 import React from 'react';
 
-import { StoreWithUpdateResults } from '../stores/StoreWithUpdateResults';
+import {
+	StoreWithPagination,
+	StoreWithUpdateResults,
+} from '../stores/StoreWithUpdateResults';
 import { useStoreWithRouteParams } from './useStoreWithRouteParams';
 
 /** Updates search results whenever the {@link StoreWithUpdateResults.routeParams} property changes. */
@@ -12,7 +15,7 @@ export const useStoreWithUpdateResults = <
 	store: StoreWithUpdateResults<TRouteParams>,
 ): void => {
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
-	const popStateRef = React.useRef(false);
+	const popStateRef = React.useRef(true);
 
 	React.useLayoutEffect(() => {
 		const popStateHandler = (): void => {
@@ -32,10 +35,8 @@ export const useStoreWithUpdateResults = <
 		return reaction(
 			() => store.routeParams,
 			(routeParams, previousRouteParams) => {
-				// Determines if search results should be cleared by comparing the current and previous values.
-				// Assuming that the current value is `{ filter: 'Miku', page: 3939, searchType: 'Artist' }`, and the previous one is `{ filter: 'Miku', page: 1 }`,
-				// then the diff will be `{ page: 3939, searchType: 'Artist' }`, which results in `['page', 'searchType']`.
-				const clearResults = _.chain(routeParams)
+				// Compare the current and previous values.
+				const diff = _.chain(routeParams)
 					.omitBy((v, k) =>
 						_.isEqual(
 							previousRouteParams[
@@ -44,20 +45,21 @@ export const useStoreWithUpdateResults = <
 							v,
 						),
 					)
-					.keys()
-					.some((k) =>
-						store.clearResultsByQueryKeys.includes(
-							k as keyof TRouteParams,
-						),
-					)
 					.value();
 
-				if (clearResults) {
-					// Do not clear results when the back/forward buttons are clicked.
-					if (!popStateRef.current) store.onClearResults?.();
-				}
+				// Assuming that the current value is `{ filter: 'Miku', page: 3939, searchType: 'Artist' }`, and the previous one is `{ filter: 'Miku', page: 1 }`,
+				// then the diff will be `{ page: 3939, searchType: 'Artist' }`, which results in `['page', 'searchType']`.
+				const diffKeys = Object.keys(diff) as (keyof TRouteParams)[];
+				console.assert(diffKeys.length > 0);
 
-				store.updateResults(clearResults);
+				const popState = popStateRef.current;
+
+				const event = {
+					keys: diffKeys,
+					popState: popState,
+				};
+
+				store.onRouteParamsChange(event);
 			},
 		);
 	}, [store]);
@@ -65,11 +67,28 @@ export const useStoreWithUpdateResults = <
 	useStoreWithRouteParams(store);
 
 	React.useEffect(() => {
+		const diffKeys = Object.keys(
+			store.routeParams,
+		) as (keyof TRouteParams)[];
+
+		const popState = popStateRef.current;
+
+		const event = {
+			keys: diffKeys,
+			popState: popState,
+		};
+
 		// This is called when the page is first loaded.
-		store.updateResults(true);
+		store.onRouteParamsChange(event);
 	}, [store]);
 
 	React.useEffect(() => {
 		popStateRef.current = false;
 	});
+};
+
+export const useStoreWithPagination = <TRouteParams,>(
+	store: StoreWithPagination<TRouteParams>,
+): void => {
+	useStoreWithUpdateResults(store);
 };
