@@ -73,14 +73,10 @@ The `useStoreWithRouteParams` hook updates a store that implements the `StoreWit
 
 ```ts
 interface StoreWithRouteParams<TRouteParams> {
-	/** Whether currently processing popstate. This is to prevent adding the previous state to history. */
-	popState: boolean;
 	routeParams: TRouteParams;
 	validateRouteParams(data: any): data is TRouteParams;
 }
 ```
-
-The `popState` property is set by the `useStoreWithRouteParams` hook to prevent adding the previous state to history.
 
 The `validateRouteParams` function validates route params and should return `true` if and only if the passed data is valid. Validation happens every time [`location`](https://github.com/VocaDB/route-sphere/blob/fd53c1324df12e9bbc3c1495136ce97bb9da0377/src/components/useStoreWithRouteParams.tsx#L25) (not URL) changes, which means, when the page is first loaded, when the back/forward buttons on the browser are clicked, and when the page is navigated to a new location programmatically by using the `useNavigate` hook. Note that the `<Link>` component uses the `useNavigate` hook internally.
 

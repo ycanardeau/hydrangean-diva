@@ -11,6 +11,21 @@ export const useStoreWithUpdateResults = <
 >(
 	store: StoreWithUpdateResults<TRouteParams>,
 ): void => {
+	// Whether currently processing popstate. This is to prevent adding the previous state to history.
+	const popStateRef = React.useRef(false);
+
+	React.useLayoutEffect(() => {
+		const popStateHandler = (): void => {
+			popStateRef.current = true;
+		};
+
+		window.addEventListener('popstate', popStateHandler);
+
+		return (): void => {
+			window.removeEventListener('popstate', popStateHandler);
+		};
+	}, []);
+
 	// This must be called before `useStoreWithRouteParams` because this may change `routeParams` based on `clearResultsByQueryKeys`.
 	React.useEffect(() => {
 		// Returns the disposer.
@@ -39,7 +54,7 @@ export const useStoreWithUpdateResults = <
 
 				if (clearResults) {
 					// Do not clear results when the back/forward buttons are clicked.
-					if (!store.popState) store.onClearResults?.();
+					if (!popStateRef.current) store.onClearResults?.();
 				}
 
 				store.updateResults(clearResults);
@@ -53,4 +68,8 @@ export const useStoreWithUpdateResults = <
 		// This is called when the page is first loaded.
 		store.updateResults(true);
 	}, [store]);
+
+	React.useEffect(() => {
+		popStateRef.current = false;
+	});
 };

@@ -21,11 +21,7 @@ export const useLocationToRouteParams = <TRouteParams,>(
 		const routeParams = deserializer();
 
 		if (store.validateRouteParams(routeParams)) {
-			store.popState = true;
-
 			store.routeParams = routeParams;
-
-			store.popState = false;
 		}
 	}, [store, deserializer]);
 };
@@ -44,17 +40,34 @@ export const useRouteParamsToLocation = <TRouteParams,>(
 		[navigate],
 	);
 
+	// Whether currently processing popstate. This is to prevent adding the previous state to history.
+	const popStateRef = React.useRef(false);
+
+	React.useLayoutEffect(() => {
+		const popStateHandler = (): void => {
+			popStateRef.current = true;
+		};
+
+		window.addEventListener('popstate', popStateHandler);
+
+		return (): void => {
+			window.removeEventListener('popstate', popStateHandler);
+		};
+	}, []);
+
 	React.useEffect(() => {
 		// Returns the disposer.
 		return reaction(
 			() => store.routeParams,
 			(routeParams) => {
-				if (store.popState) return;
-
-				serializer(routeParams);
+				if (!popStateRef.current) serializer(routeParams);
 			},
 		);
 	}, [store, serializer]);
+
+	React.useEffect(() => {
+		popStateRef.current = false;
+	});
 };
 
 /** Updates a store that implements the {@link StoreWithRouteParams} interface when a route changes, and vice versa. */
