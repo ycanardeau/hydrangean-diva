@@ -2,10 +2,7 @@ import _, { PartialObject } from 'lodash';
 import { reaction } from 'mobx';
 import React from 'react';
 
-import {
-	StoreWithPagination,
-	StoreWithUpdateResults,
-} from '../stores/StoreWithUpdateResults';
+import { StoreWithUpdateResults } from '../stores/StoreWithUpdateResults';
 import { useStoreWithRouteParams } from './useStoreWithRouteParams';
 
 /** Updates search results whenever the {@link StoreWithUpdateResults.routeParams} property changes. */
@@ -57,6 +54,8 @@ export const useStoreWithUpdateResults = <
 				const event = {
 					keys: diffKeys,
 					popState: popState,
+					intersects: (keys: (keyof TRouteParams)[]) =>
+						_.intersectionBy(keys, diffKeys).length > 0,
 				};
 
 				store.onRouteParamsChange(event);
@@ -76,6 +75,8 @@ export const useStoreWithUpdateResults = <
 		const event = {
 			keys: diffKeys,
 			popState: popState,
+			intersects: (keys: (keyof TRouteParams)[]) =>
+				_.intersectionBy(keys, diffKeys).length > 0,
 		};
 
 		// This is called when the page is first loaded.
@@ -85,10 +86,4 @@ export const useStoreWithUpdateResults = <
 	React.useEffect(() => {
 		popStateRef.current = false;
 	});
-};
-
-export const useStoreWithPagination = <TRouteParams,>(
-	store: StoreWithPagination<TRouteParams>,
-): void => {
-	useStoreWithUpdateResults(store);
 };
