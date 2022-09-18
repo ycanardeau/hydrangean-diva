@@ -1,9 +1,12 @@
 import { StoreWithRouteParams } from './StoreWithRouteParams';
 
+export const includesAny = <T>(array: T[], values: T[]): boolean => {
+	return values.some((value) => array.includes(value));
+};
+
 export interface RouteParamsChangeEvent<TRouteParams> {
 	keys: (keyof TRouteParams)[];
 	popState: boolean;
-	intersects: (keys: (keyof TRouteParams)[]) => boolean;
 }
 
 export interface StoreWithUpdateResults<TRouteParams>

@@ -54,8 +54,6 @@ export const useStoreWithUpdateResults = <
 				const event = {
 					keys: diffKeys,
 					popState: popState,
-					intersects: (keys: (keyof TRouteParams)[]) =>
-						_.intersectionBy(keys, diffKeys).length > 0,
 				};
 
 				store.onRouteParamsChange(event);
@@ -75,8 +73,6 @@ export const useStoreWithUpdateResults = <
 		const event = {
 			keys: diffKeys,
 			popState: popState,
-			intersects: (keys: (keyof TRouteParams)[]) =>
-				_.intersectionBy(keys, diffKeys).length > 0,
 		};
 
 		// This is called when the page is first loaded.
