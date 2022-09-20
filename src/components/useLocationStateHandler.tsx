@@ -2,6 +2,7 @@ import qs from 'qs';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { LocationStateStore } from '../stores/LocationStateStore';
 import { StateChangeEvent } from '../stores/StateChangeEvent';
 import { useStateHandler } from './useStateHandler';
 
@@ -45,5 +46,36 @@ export const useLocationStateHandler = <TState,>(
 		onStateChange,
 		stateGetter,
 		serializer,
+	);
+};
+
+export const useLocationStateSetter = <TState,>(
+	store: LocationStateStore<TState>,
+): ((state: TState) => void) => {
+	return React.useCallback(
+		(state: TState) => {
+			store.locationState = state;
+		},
+		[store],
+	);
+};
+
+export const useLocationStateGetter = <TState,>(
+	store: LocationStateStore<TState>,
+): (() => TState) => {
+	return React.useCallback(() => store.locationState, [store]);
+};
+
+/** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
+export const useLocationStateStore = <TState,>(
+	store: LocationStateStore<TState>,
+): void => {
+	const stateSetter = useLocationStateSetter(store);
+	const stateGetter = useLocationStateGetter(store);
+	useLocationStateHandler(
+		store.validateLocationState,
+		stateSetter,
+		store.onLocationStateChange,
+		stateGetter,
 	);
 };
