@@ -1,4 +1,4 @@
-import qs from 'qs';
+import { ParsedQs, parse, stringify } from 'qs';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -6,14 +6,11 @@ import { LocationStateStore } from '../stores/LocationStateStore';
 import { StateChangeEvent } from '../stores/StateChangeEvent';
 import { useStateHandler } from './useStateHandler';
 
-export const useLocationStateDeserializer = (): (() => qs.ParsedQs) => {
+export const useLocationStateDeserializer = (): (() => ParsedQs) => {
 	const location = useLocation();
 
 	// Pass `location` as deps instead of `location.search`.
-	return React.useCallback(
-		() => qs.parse(location.search.slice(1)),
-		[location],
-	);
+	return React.useCallback(() => parse(location.search.slice(1)), [location]);
 };
 
 export const useLocationStateSerializer = <TState,>(): ((
@@ -23,7 +20,7 @@ export const useLocationStateSerializer = <TState,>(): ((
 
 	return React.useCallback(
 		(state: TState) => {
-			const newUrl = `?${qs.stringify(state)}`;
+			const newUrl = `?${stringify(state)}`;
 			navigate(newUrl);
 		},
 		[navigate],
