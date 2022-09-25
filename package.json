@@ -6,6 +6,7 @@
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^3.3.0",
 		"@types/lodash": "^4.14.182",
+		"@types/lodash-es": "^4.17.6",
 		"@types/qs": "^6.9.7",
 		"@types/react": "^17.0.0",
 		"@types/react-dom": "^17.0.0",
@@ -17,7 +18,7 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-config-react-app": "^7.0.1",
 		"eslint-plugin-prettier": "^4.2.1",
-		"lodash": "^4.17.21",
+		"lodash-es": "^4.17.21",
 		"mobx": "^6.3.7",
 		"prettier": "^2.7.1",
 		"qs": "^6.10.1",

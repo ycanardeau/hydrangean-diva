@@ -1,4 +1,4 @@
-import _, { PartialObject } from 'lodash';
+import { isEqual, omitBy } from 'lodash-es';
 import { reaction } from 'mobx';
 import React from 'react';
 
@@ -23,7 +23,7 @@ export const useRestoreState = <TState,>(
 	}, [deserializer, stateValidator, popStateRef, stateSetter]);
 };
 
-export const useHandleStateChange = <TState extends PartialObject<TState>>(
+export const useHandleStateChange = <TState extends Partial<TState>>(
 	popStateRef: React.MutableRefObject<boolean>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
 	stateGetter: () => TState,
@@ -34,14 +34,9 @@ export const useHandleStateChange = <TState extends PartialObject<TState>>(
 		// Returns the disposer.
 		return reaction(stateGetter, (state, previousState) => {
 			// Compare the current and previous values.
-			const diff = _.chain(state)
-				.omitBy((v, k) =>
-					_.isEqual(
-						previousState[k as keyof typeof previousState],
-						v,
-					),
-				)
-				.value();
+			const diff = omitBy(state, (v, k) =>
+				isEqual(previousState[k as keyof typeof previousState], v),
+			);
 
 			// Assuming that the current value is `{ filter: 'Miku', page: 3939, searchType: 'Artist' }`, and the previous one is `{ filter: 'Miku', page: 1 }`,
 			// then the diff will be `{ page: 3939, searchType: 'Artist' }`, which results in `['page', 'searchType']`.
