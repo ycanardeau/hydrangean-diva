@@ -3,8 +3,9 @@
 	"version": "2.0.0-rc.8",
 	"type": "module",
 	"scripts": {
+		"clean": "rimraf ./dist",
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "npm run clean && tsc && vite build",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
@@ -33,6 +34,7 @@
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-router-dom": "^6.4.3",
+		"rimraf": "^5.0.0",
 		"typescript": "^4.6.4",
 		"vite": "^3.2.3",
 		"vite-plugin-dts": "^1.7.1"
