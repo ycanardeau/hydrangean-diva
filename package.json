@@ -1,5 +1,5 @@
 {
-	"name": "@vocadb/route-sphere",
+	"name": "@aigamo/route-sphere",
 	"version": "2.0.0-rc.8",
 	"type": "module",
 	"scripts": {
@@ -61,7 +61,7 @@
 	"description": "Sync query parameters with a MobX store and React Router.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/VocaDB/route-sphere.git"
+		"url": "git+https://github.com/ycanardeau/route-sphere.git"
 	},
 	"keywords": [
 		"react",
@@ -71,7 +71,6 @@
 	"author": "Aigamo <51428094+ycanardeau@users.noreply.github.com>",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/VocaDB/route-sphere/issues"
-	},
-	"homepage": "https://vocadb.net/S/15620"
+		"url": "https://github.com/ycanardeau/route-sphere/issues"
+	}
 }
