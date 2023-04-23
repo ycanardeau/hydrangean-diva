@@ -9,7 +9,7 @@ import {
 	PlayerType,
 	useNostalgicDiva,
 } from '@aigamo/nostalgic-diva';
-import { EuiButton, EuiProvider } from '@elastic/eui';
+import { EuiBottomBar, EuiButton, EuiProvider, EuiRange } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
 import { reaction } from 'mobx';
@@ -29,6 +29,23 @@ const videoServiceIcons: Record<PlayerType, string | undefined> = {
 	SoundCloud: '',
 	Vimeo: '',
 	YouTube: 'https://www.youtube.com/favicon.ico',
+};
+
+const BottomBar = (): React.ReactElement => {
+	const [value, setValue] = React.useState('');
+
+	return (
+		<EuiBottomBar>
+			<EuiRange
+				min={0}
+				max={100}
+				value={value}
+				onChange={(e): void => setValue(e.currentTarget.value)}
+				fullWidth
+				showRange
+			/>
+		</EuiBottomBar>
+	);
 };
 
 const AppContainer = observer((): React.ReactElement => {
@@ -99,6 +116,8 @@ const AppContainer = observer((): React.ReactElement => {
 					</EuiButton>
 				)}
 			</div>
+
+			<BottomBar />
 		</>
 	);
 });
