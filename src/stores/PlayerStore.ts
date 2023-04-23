@@ -12,6 +12,7 @@ export class PlayerStore {
 	private readonly playQueueStore = new PlayQueueStore();
 	@observable playing = false;
 	@observable percent = 0;
+	@observable seeking = false;
 
 	constructor() {
 		makeObservable(this);
@@ -41,6 +42,14 @@ export class PlayerStore {
 		this.playing = value;
 	}
 
+	@action setPercent(value: number): void {
+		this.percent = value;
+	}
+
+	@action setSeeking(value: boolean): void {
+		this.seeking = value;
+	}
+
 	@action onPlay(): void {
 		this.playing = true;
 	}
@@ -55,7 +64,9 @@ export class PlayerStore {
 
 	@action onTimeUpdate({ percent }: TimeEvent): void {
 		if (percent !== undefined) {
-			this.percent = percent;
+			if (!this.seeking) {
+				this.percent = percent;
+			}
 		}
 
 		// TODO

@@ -11,6 +11,7 @@ import {
 } from '@aigamo/nostalgic-diva';
 import { EuiBottomBar, EuiButton, EuiProvider, EuiRange } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
+import { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
 import createCache from '@emotion/cache';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -33,6 +34,33 @@ const videoServiceIcons: Record<PlayerType, string | undefined> = {
 
 const SeekBar = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
+	const diva = useNostalgicDiva();
+
+	const handleChange = React.useCallback(
+		(e: _SingleRangeChangeEvent) => {
+			const percent = Number(e.currentTarget.value) / 100;
+			playerStore.setPercent(percent);
+		},
+		[playerStore],
+	);
+
+	const handleMouseDown = React.useCallback(() => {
+		playerStore.setSeeking(true);
+	}, [playerStore]);
+
+	const handleMouseUp = React.useCallback(
+		async (e: React.MouseEvent<HTMLInputElement>) => {
+			const percent = Number(e.currentTarget.value) / 100;
+
+			playerStore.setSeeking(false);
+
+			const duration = await diva.getDuration();
+			if (duration !== undefined) {
+				diva.setCurrentTime(duration * percent);
+			}
+		},
+		[playerStore, diva],
+	);
 
 	return (
 		<EuiRange
@@ -40,6 +68,9 @@ const SeekBar = observer((): React.ReactElement => {
 			max={100}
 			step={0.0000001}
 			value={playerStore.percent * 100}
+			onChange={handleChange}
+			onMouseDown={handleMouseDown}
+			onMouseUp={handleMouseUp}
 			fullWidth
 			showRange
 		/>
