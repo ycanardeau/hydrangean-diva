@@ -1,5 +1,5 @@
 import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
-import { PlayerType } from '@aigamo/nostalgic-diva';
+import { PlayerType, TimeEvent } from '@aigamo/nostalgic-diva';
 import { action, computed, makeObservable, observable } from 'mobx';
 
 export interface Video {
@@ -11,6 +11,7 @@ export interface Video {
 export class PlayerStore {
 	private readonly playQueueStore = new PlayQueueStore();
 	@observable playing = false;
+	@observable percent = 0;
 
 	constructor() {
 		makeObservable(this);
@@ -50,5 +51,13 @@ export class PlayerStore {
 
 	@action onEnded(): void {
 		this.playing = false;
+	}
+
+	@action onTimeUpdate({ percent }: TimeEvent): void {
+		if (percent !== undefined) {
+			this.percent = percent;
+		}
+
+		// TODO
 	}
 }

@@ -31,19 +31,25 @@ const videoServiceIcons: Record<PlayerType, string | undefined> = {
 	YouTube: 'https://www.youtube.com/favicon.ico',
 };
 
-const BottomBar = (): React.ReactElement => {
-	const [value, setValue] = React.useState('');
+const SeekBar = observer((): React.ReactElement => {
+	const playerStore = usePlayerStore();
 
 	return (
+		<EuiRange
+			min={0}
+			max={100}
+			step={0.0000001}
+			value={playerStore.percent * 100}
+			fullWidth
+			showRange
+		/>
+	);
+});
+
+const BottomBar = (): React.ReactElement => {
+	return (
 		<EuiBottomBar>
-			<EuiRange
-				min={0}
-				max={100}
-				value={value}
-				onChange={(e): void => setValue(e.currentTarget.value)}
-				fullWidth
-				showRange
-			/>
+			<SeekBar />
 		</EuiBottomBar>
 	);
 };
@@ -58,6 +64,7 @@ const AppContainer = observer((): React.ReactElement => {
 			onPlay: () => playerStore.onPlay(),
 			onPause: () => playerStore.onPause(),
 			onEnded: () => playerStore.onEnded(),
+			onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
 		}),
 		[playerStore],
 	);
