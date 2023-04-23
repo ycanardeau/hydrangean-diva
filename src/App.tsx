@@ -44,19 +44,26 @@ const SeekBar = observer((): React.ReactElement => {
 		[playerStore],
 	);
 
-	const handleMouseDown = React.useCallback(() => {
-		playerStore.setSeeking(true);
-	}, [playerStore]);
+	const handleMouseDown = React.useCallback(
+		(e: React.MouseEvent<HTMLInputElement>) => {
+			if (e.button === 0) {
+				playerStore.setSeeking(true);
+			}
+		},
+		[playerStore],
+	);
 
 	const handleMouseUp = React.useCallback(
 		async (e: React.MouseEvent<HTMLInputElement>) => {
-			const percent = Number(e.currentTarget.value) / 100;
+			if (e.button === 0) {
+				const percent = Number(e.currentTarget.value) / 100;
 
-			playerStore.setSeeking(false);
+				playerStore.setSeeking(false);
 
-			const duration = await diva.getDuration();
-			if (duration !== undefined) {
-				diva.setCurrentTime(duration * percent);
+				const duration = await diva.getDuration();
+				if (duration !== undefined) {
+					diva.setCurrentTime(duration * percent);
+				}
 			}
 		},
 		[playerStore, diva],
