@@ -22,6 +22,10 @@ export class PlayerStore {
 		return this.playQueueStore.items;
 	}
 
+	@computed get isEmpty(): boolean {
+		return this.playQueueStore.isEmpty;
+	}
+
 	@computed get currentItem(): PlayQueueItem | undefined {
 		return this.playQueueStore.currentItem;
 	}

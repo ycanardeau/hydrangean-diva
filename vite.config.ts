@@ -9,5 +9,10 @@ export default defineConfig({
 			'@': resolve(__dirname, './src'),
 		},
 	},
-	plugins: [react()],
+	plugins: [
+		react({
+			// https://dev.to/ajitsinghkamal/using-emotionjs-with-vite-2ndj#comment-1nif3
+			jsxImportSource: '@emotion/react',
+		}),
+	],
 });

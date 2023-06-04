@@ -32,6 +32,51 @@ const videoServiceIcons: Record<PlayerType, string | undefined> = {
 	YouTube: 'https://www.youtube.com/favicon.ico',
 };
 
+const miniPlayerWidth = 16 * 25;
+const miniPlayerHeight = 9 * 25;
+
+const bottomBarHeight = 72;
+
+const MiniPlayer = observer((): React.ReactElement => {
+	const playerStore = usePlayerStore();
+
+	const options = React.useMemo(
+		(): PlayerOptions => ({
+			onPlay: () => playerStore.onPlay(),
+			onPause: () => playerStore.onPause(),
+			onEnded: () => playerStore.onEnded(),
+			onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
+		}),
+		[playerStore],
+	);
+
+	return (
+		<div
+			css={{
+				position: 'fixed',
+				right: 0,
+				bottom: bottomBarHeight,
+				width: miniPlayerWidth,
+				height: miniPlayerHeight,
+				zIndex: 998,
+				backgroundColor: 'rgb(39, 39, 39)',
+				display: 'flex',
+				flexDirection: 'column',
+			}}
+		>
+			<div css={{ flexGrow: 1, backgroundColor: 'black' }}>
+				{playerStore.currentItem && (
+					<NostalgicDiva
+						type={playerStore.currentItem.type}
+						videoId={playerStore.currentItem.videoId}
+						options={options}
+					/>
+				)}
+			</div>
+		</div>
+	);
+});
+
 const SeekBar = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
 	const diva = useNostalgicDiva();
@@ -97,16 +142,6 @@ const AppContainer = observer((): React.ReactElement => {
 
 	const nostalgicDiva = useNostalgicDiva();
 
-	const options = React.useMemo(
-		(): PlayerOptions => ({
-			onPlay: () => playerStore.onPlay(),
-			onPause: () => playerStore.onPause(),
-			onEnded: () => playerStore.onEnded(),
-			onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
-		}),
-		[playerStore],
-	);
-
 	React.useEffect(() => {
 		return reaction(
 			() => playerStore.currentItem,
@@ -136,13 +171,7 @@ const AppContainer = observer((): React.ReactElement => {
 				</EuiButton>
 			</div>
 
-			{playerStore.currentItem && (
-				<NostalgicDiva
-					type={playerStore.currentItem.type}
-					videoId={playerStore.currentItem.videoId}
-					options={options}
-				/>
-			)}
+			{!playerStore.isEmpty && <MiniPlayer />}
 
 			<div>
 				{playerStore.playing ? (

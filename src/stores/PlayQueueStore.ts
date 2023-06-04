@@ -64,6 +64,10 @@ export class PlayQueueStore {
 		).map((dto) => PlayQueueItem.fromDto(dto));
 	}
 
+	@computed get isEmpty(): boolean {
+		return this.items.length === 0;
+	}
+
 	@computed get currentItem(): PlayQueueItem | undefined {
 		return this.items.find((item) => item.id === this.currentId);
 	}
