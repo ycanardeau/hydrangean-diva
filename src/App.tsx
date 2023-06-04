@@ -13,6 +13,7 @@ import {
 import { EuiButton, EuiProvider } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
+import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -52,6 +53,13 @@ const AppContainer = observer((): React.ReactElement => {
 		}),
 		[playerStore],
 	);
+
+	React.useEffect(() => {
+		return reaction(
+			() => playerStore.currentVideo,
+			() => playerStore.setPlaying(false),
+		);
+	}, [playerStore]);
 
 	return (
 		<>
