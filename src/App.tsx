@@ -80,12 +80,14 @@ const AppContainer = observer((): React.ReactElement => {
 				{playerStore.playing ? (
 					<EuiButton
 						onClick={(): Promise<void> => nostalgicDiva.pause()}
+						disabled={playerStore.selectedVideo === undefined}
 					>
 						Pause
 					</EuiButton>
 				) : (
 					<EuiButton
 						onClick={(): Promise<void> => nostalgicDiva.play()}
+						disabled={playerStore.selectedVideo === undefined}
 					>
 						Play
 					</EuiButton>
