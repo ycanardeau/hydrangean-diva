@@ -2,6 +2,7 @@ import {
 	NostalgicDiva,
 	NostalgicDivaProvider,
 	PlayerType,
+	useNostalgicDiva,
 } from '@aigamo/nostalgic-diva';
 import { EuiButton, EuiProvider } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
@@ -29,7 +30,7 @@ interface Video {
 	title: string;
 }
 
-const App = (): React.ReactElement => {
+const AppContainer = (): React.ReactElement => {
 	const [videos] = React.useState<Video[]>([
 		{ type: 'YouTube', videoId: 'bGdtvUQ9OAs', title: 'nostalgic diva' },
 		{ type: 'Niconico', videoId: 'sm26653696', title: 'nostalgic diva' },
@@ -40,28 +41,44 @@ const App = (): React.ReactElement => {
 
 	const [selectedVideo, setSelectedVideo] = React.useState<Video>();
 
+	const nostalgicDiva = useNostalgicDiva();
+
+	return (
+		<>
+			<div>
+				{videos.map((video, index) => (
+					<React.Fragment key={index}>
+						<EuiButton
+							iconType={videoServiceIcons[video.type]}
+							onClick={(): void => setSelectedVideo(video)}
+						>
+							{video.title}
+						</EuiButton>
+					</React.Fragment>
+				))}
+			</div>
+
+			{selectedVideo && (
+				<NostalgicDiva
+					type={selectedVideo.type}
+					videoId={selectedVideo.videoId}
+				/>
+			)}
+
+			<div>
+				<EuiButton onClick={(): Promise<void> => nostalgicDiva.play()}>
+					Play
+				</EuiButton>
+			</div>
+		</>
+	);
+};
+
+const App = (): React.ReactElement => {
 	return (
 		<EuiProvider colorMode="dark" cache={euiCache}>
 			<NostalgicDivaProvider>
-				<div>
-					{videos.map((video, index) => (
-						<React.Fragment key={index}>
-							<EuiButton
-								iconType={videoServiceIcons[video.type]}
-								onClick={(): void => setSelectedVideo(video)}
-							>
-								{video.title}
-							</EuiButton>
-						</React.Fragment>
-					))}
-				</div>
-
-				{selectedVideo && (
-					<NostalgicDiva
-						type={selectedVideo.type}
-						videoId={selectedVideo.videoId}
-					/>
-				)}
+				<AppContainer />
 			</NostalgicDivaProvider>
 		</EuiProvider>
 	);
