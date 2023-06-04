@@ -48,6 +48,7 @@ const AppContainer = observer((): React.ReactElement => {
 		(): PlayerOptions => ({
 			onPlay: () => playerStore.onPlay(),
 			onPause: () => playerStore.onPause(),
+			onEnded: () => playerStore.onEnded(),
 		}),
 		[playerStore],
 	);

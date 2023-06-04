@@ -31,4 +31,8 @@ export class PlayerStore {
 	@action onPause(): void {
 		this.playing = false;
 	}
+
+	@action onEnded(): void {
+		this.playing = false;
+	}
 }
