@@ -1,4 +1,9 @@
 import {
+	PlayerStoreProvider,
+	usePlayerStore,
+} from '@/components/PlayerStoreContext';
+import { Video } from '@/stores/PlayerStore';
+import {
 	NostalgicDiva,
 	NostalgicDivaProvider,
 	PlayerType,
@@ -7,6 +12,7 @@ import {
 import { EuiButton, EuiProvider } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 // https://elastic.github.io/eui/#/utilities/provider
@@ -24,22 +30,16 @@ const videoServiceIcons: Record<PlayerType, string | undefined> = {
 	YouTube: 'https://www.youtube.com/favicon.ico',
 };
 
-interface Video {
-	type: PlayerType;
-	videoId: string;
-	title: string;
-}
+const videos: Video[] = [
+	{ type: 'YouTube', videoId: 'bGdtvUQ9OAs', title: 'nostalgic diva' },
+	{ type: 'Niconico', videoId: 'sm26653696', title: 'nostalgic diva' },
+	{ type: 'Niconico', videoId: 'sm23384530', title: 'The Wind-Up Diva' },
+	{ type: 'YouTube', videoId: 'jUe7dDLGpv8', title: 'Hydrangean Diva' },
+	{ type: 'Niconico', videoId: 'sm24890523', title: 'Hydrangean Diva' },
+];
 
-const AppContainer = (): React.ReactElement => {
-	const [videos] = React.useState<Video[]>([
-		{ type: 'YouTube', videoId: 'bGdtvUQ9OAs', title: 'nostalgic diva' },
-		{ type: 'Niconico', videoId: 'sm26653696', title: 'nostalgic diva' },
-		{ type: 'Niconico', videoId: 'sm23384530', title: 'The Wind-Up Diva' },
-		{ type: 'YouTube', videoId: 'jUe7dDLGpv8', title: 'Hydrangean Diva' },
-		{ type: 'Niconico', videoId: 'sm24890523', title: 'Hydrangean Diva' },
-	]);
-
-	const [selectedVideo, setSelectedVideo] = React.useState<Video>();
+const AppContainer = observer((): React.ReactElement => {
+	const playerStore = usePlayerStore();
 
 	const nostalgicDiva = useNostalgicDiva();
 
@@ -50,7 +50,9 @@ const AppContainer = (): React.ReactElement => {
 					<React.Fragment key={index}>
 						<EuiButton
 							iconType={videoServiceIcons[video.type]}
-							onClick={(): void => setSelectedVideo(video)}
+							onClick={(): void =>
+								playerStore.setSelectedVideo(video)
+							}
 						>
 							{video.title}
 						</EuiButton>
@@ -58,28 +60,40 @@ const AppContainer = (): React.ReactElement => {
 				))}
 			</div>
 
-			{selectedVideo && (
+			{playerStore.selectedVideo && (
 				<NostalgicDiva
-					type={selectedVideo.type}
-					videoId={selectedVideo.videoId}
+					type={playerStore.selectedVideo.type}
+					videoId={playerStore.selectedVideo.videoId}
 				/>
 			)}
 
 			<div>
-				<EuiButton onClick={(): Promise<void> => nostalgicDiva.play()}>
-					Play
-				</EuiButton>
+				{playerStore.playing ? (
+					<EuiButton
+						onClick={(): Promise<void> => nostalgicDiva.pause()}
+					>
+						Pause
+					</EuiButton>
+				) : (
+					<EuiButton
+						onClick={(): Promise<void> => nostalgicDiva.play()}
+					>
+						Play
+					</EuiButton>
+				)}
 			</div>
 		</>
 	);
-};
+});
 
 const App = (): React.ReactElement => {
 	return (
 		<EuiProvider colorMode="dark" cache={euiCache}>
-			<NostalgicDivaProvider>
-				<AppContainer />
-			</NostalgicDivaProvider>
+			<PlayerStoreProvider>
+				<NostalgicDivaProvider>
+					<AppContainer />
+				</NostalgicDivaProvider>
+			</PlayerStoreProvider>
 		</EuiProvider>
 	);
 };
