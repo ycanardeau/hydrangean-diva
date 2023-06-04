@@ -19,6 +19,11 @@ export class PlayerStore {
 		this.currentVideo = value;
 	}
 
+	@action clearCurrentVideo(): void {
+		this.currentVideo = undefined;
+		this.playing = false;
+	}
+
 	@action onPlay(): void {
 		this.playing = true;
 	}

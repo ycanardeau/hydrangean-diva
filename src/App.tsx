@@ -6,6 +6,7 @@ import { Video } from '@/stores/PlayerStore';
 import {
 	NostalgicDiva,
 	NostalgicDivaProvider,
+	PlayerOptions,
 	PlayerType,
 	useNostalgicDiva,
 } from '@aigamo/nostalgic-diva';
@@ -44,7 +45,7 @@ const AppContainer = observer((): React.ReactElement => {
 	const nostalgicDiva = useNostalgicDiva();
 
 	const options = React.useMemo(
-		() => ({
+		(): PlayerOptions => ({
 			onPlay: () => playerStore.onPlay(),
 			onPause: () => playerStore.onPause(),
 		}),
@@ -66,6 +67,11 @@ const AppContainer = observer((): React.ReactElement => {
 						</EuiButton>
 					</React.Fragment>
 				))}
+				<EuiButton
+					onClick={(): void => playerStore.clearCurrentVideo()}
+				>
+					Clear{/* LOC */}
+				</EuiButton>
 			</div>
 
 			{playerStore.currentVideo && (
