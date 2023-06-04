@@ -2,7 +2,6 @@ import {
 	PlayerStoreProvider,
 	usePlayerStore,
 } from '@/components/PlayerStoreContext';
-import { Video } from '@/stores/PlayerStore';
 import {
 	NostalgicDiva,
 	NostalgicDivaProvider,
@@ -32,14 +31,6 @@ const videoServiceIcons: Record<PlayerType, string | undefined> = {
 	YouTube: 'https://www.youtube.com/favicon.ico',
 };
 
-const videos: Video[] = [
-	{ type: 'YouTube', videoId: 'bGdtvUQ9OAs', title: 'nostalgic diva' },
-	{ type: 'Niconico', videoId: 'sm26653696', title: 'nostalgic diva' },
-	{ type: 'Niconico', videoId: 'sm23384530', title: 'The Wind-Up Diva' },
-	{ type: 'YouTube', videoId: 'jUe7dDLGpv8', title: 'Hydrangean Diva' },
-	{ type: 'Niconico', videoId: 'sm24890523', title: 'Hydrangean Diva' },
-];
-
 const AppContainer = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
 
@@ -56,7 +47,7 @@ const AppContainer = observer((): React.ReactElement => {
 
 	React.useEffect(() => {
 		return reaction(
-			() => playerStore.currentVideo,
+			() => playerStore.currentItem,
 			() => playerStore.setPlaying(false),
 		);
 	}, [playerStore]);
@@ -64,29 +55,29 @@ const AppContainer = observer((): React.ReactElement => {
 	return (
 		<>
 			<div>
-				{videos.map((video, index) => (
+				{playerStore.items.map((item, index) => (
 					<React.Fragment key={index}>
 						<EuiButton
-							iconType={videoServiceIcons[video.type]}
+							iconType={videoServiceIcons[item.type]}
 							onClick={(): void =>
-								playerStore.setCurrentVideo(video)
+								playerStore.setCurrentItem(item)
 							}
 						>
-							{video.title}
+							{item.title}
 						</EuiButton>
 					</React.Fragment>
 				))}
 				<EuiButton
-					onClick={(): void => playerStore.clearCurrentVideo()}
+					onClick={(): void => playerStore.setCurrentItem(undefined)}
 				>
 					Clear{/* LOC */}
 				</EuiButton>
 			</div>
 
-			{playerStore.currentVideo && (
+			{playerStore.currentItem && (
 				<NostalgicDiva
-					type={playerStore.currentVideo.type}
-					videoId={playerStore.currentVideo.videoId}
+					type={playerStore.currentItem.type}
+					videoId={playerStore.currentItem.videoId}
 					options={options}
 				/>
 			)}
@@ -95,14 +86,14 @@ const AppContainer = observer((): React.ReactElement => {
 				{playerStore.playing ? (
 					<EuiButton
 						onClick={(): Promise<void> => nostalgicDiva.pause()}
-						disabled={playerStore.currentVideo === undefined}
+						disabled={!playerStore.canPause}
 					>
 						Pause
 					</EuiButton>
 				) : (
 					<EuiButton
 						onClick={(): Promise<void> => nostalgicDiva.play()}
-						disabled={playerStore.currentVideo === undefined}
+						disabled={!playerStore.canPlay}
 					>
 						Play
 					</EuiButton>

@@ -1,5 +1,6 @@
+import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 export interface Video {
 	type: PlayerType;
@@ -8,19 +9,31 @@ export interface Video {
 }
 
 export class PlayerStore {
-	@observable currentVideo?: Video;
+	private readonly playQueueStore = new PlayQueueStore();
 	@observable playing = false;
 
 	constructor() {
 		makeObservable(this);
 	}
 
-	@action setCurrentVideo(value: Video | undefined): void {
-		this.currentVideo = value;
+	@computed get items(): PlayQueueItem[] {
+		return this.playQueueStore.items;
 	}
 
-	@action clearCurrentVideo(): void {
-		this.currentVideo = undefined;
+	@computed get currentItem(): PlayQueueItem | undefined {
+		return this.playQueueStore.currentItem;
+	}
+
+	@computed get canPlay(): boolean {
+		return this.currentItem !== undefined;
+	}
+
+	@computed get canPause(): boolean {
+		return this.currentItem !== undefined;
+	}
+
+	@action setCurrentItem(item: PlayQueueItem | undefined): void {
+		this.playQueueStore.setCurrentItem(item);
 	}
 
 	@action setPlaying(value: boolean): void {
