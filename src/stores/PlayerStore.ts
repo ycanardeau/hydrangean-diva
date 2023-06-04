@@ -8,15 +8,15 @@ export interface Video {
 }
 
 export class PlayerStore {
-	@observable selectedVideo?: Video;
+	@observable currentVideo?: Video;
 	@observable playing = false;
 
 	constructor() {
 		makeObservable(this);
 	}
 
-	@action setSelectedVideo(value: Video | undefined): void {
-		this.selectedVideo = value;
+	@action setCurrentVideo(value: Video | undefined): void {
+		this.currentVideo = value;
 	}
 
 	@action onPlay(): void {

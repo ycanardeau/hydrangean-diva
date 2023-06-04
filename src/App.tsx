@@ -59,7 +59,7 @@ const AppContainer = observer((): React.ReactElement => {
 						<EuiButton
 							iconType={videoServiceIcons[video.type]}
 							onClick={(): void =>
-								playerStore.setSelectedVideo(video)
+								playerStore.setCurrentVideo(video)
 							}
 						>
 							{video.title}
@@ -68,10 +68,10 @@ const AppContainer = observer((): React.ReactElement => {
 				))}
 			</div>
 
-			{playerStore.selectedVideo && (
+			{playerStore.currentVideo && (
 				<NostalgicDiva
-					type={playerStore.selectedVideo.type}
-					videoId={playerStore.selectedVideo.videoId}
+					type={playerStore.currentVideo.type}
+					videoId={playerStore.currentVideo.videoId}
 					options={options}
 				/>
 			)}
@@ -80,14 +80,14 @@ const AppContainer = observer((): React.ReactElement => {
 				{playerStore.playing ? (
 					<EuiButton
 						onClick={(): Promise<void> => nostalgicDiva.pause()}
-						disabled={playerStore.selectedVideo === undefined}
+						disabled={playerStore.currentVideo === undefined}
 					>
 						Pause
 					</EuiButton>
 				) : (
 					<EuiButton
 						onClick={(): Promise<void> => nostalgicDiva.play()}
-						disabled={playerStore.selectedVideo === undefined}
+						disabled={playerStore.currentVideo === undefined}
 					>
 						Play
 					</EuiButton>
