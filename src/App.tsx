@@ -88,14 +88,14 @@ const AppContainer = observer((): React.ReactElement => {
 						onClick={(): Promise<void> => nostalgicDiva.pause()}
 						disabled={!playerStore.canPause}
 					>
-						Pause
+						Pause{/* LOC */}
 					</EuiButton>
 				) : (
 					<EuiButton
 						onClick={(): Promise<void> => nostalgicDiva.play()}
 						disabled={!playerStore.canPlay}
 					>
-						Play
+						Play{/* LOC */}
 					</EuiButton>
 				)}
 			</div>
