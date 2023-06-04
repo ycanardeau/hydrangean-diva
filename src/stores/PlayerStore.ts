@@ -18,4 +18,12 @@ export class PlayerStore {
 	@action setSelectedVideo(value: Video | undefined): void {
 		this.selectedVideo = value;
 	}
+
+	@action onPlay(): void {
+		this.playing = true;
+	}
+
+	@action onPause(): void {
+		this.playing = false;
+	}
 }

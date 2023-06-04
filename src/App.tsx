@@ -43,6 +43,14 @@ const AppContainer = observer((): React.ReactElement => {
 
 	const nostalgicDiva = useNostalgicDiva();
 
+	const options = React.useMemo(
+		() => ({
+			onPlay: () => playerStore.onPlay(),
+			onPause: () => playerStore.onPause(),
+		}),
+		[playerStore],
+	);
+
 	return (
 		<>
 			<div>
@@ -64,6 +72,7 @@ const AppContainer = observer((): React.ReactElement => {
 				<NostalgicDiva
 					type={playerStore.selectedVideo.type}
 					videoId={playerStore.selectedVideo.videoId}
+					options={options}
 				/>
 			)}
 
