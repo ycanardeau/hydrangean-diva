@@ -17,6 +17,7 @@ import {
 	ArrowShuffleFilled,
 	ArrowShuffleOffFilled,
 	NextFilled,
+	PauseFilled,
 	PlayFilled,
 	PreviousFilled,
 } from '@fluentui/react-icons';
@@ -83,6 +84,7 @@ const repeatIconTypes: Record<RepeatMode, IconType> = {
 
 export const BottomBar = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
+	const diva = useNostalgicDiva();
 
 	return (
 		<EuiBottomBar>
@@ -112,12 +114,23 @@ export const BottomBar = observer((): React.ReactElement => {
 							size="m"
 							iconSize="l"
 						/>
-						<EuiButtonIcon
-							iconType={PlayFilled}
-							size="m"
-							iconSize="l"
-							disabled={playerStore.isEmpty}
-						/>
+						{playerStore.playing ? (
+							<EuiButtonIcon
+								iconType={PauseFilled}
+								size="m"
+								iconSize="l"
+								onClick={(): Promise<void> => diva.pause()}
+								disabled={!playerStore.canPlay}
+							/>
+						) : (
+							<EuiButtonIcon
+								iconType={PlayFilled}
+								size="m"
+								iconSize="l"
+								onClick={(): Promise<void> => diva.play()}
+								disabled={!playerStore.canPlay}
+							/>
+						)}
 						<EuiButtonIcon
 							iconType={NextFilled}
 							size="m"
