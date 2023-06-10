@@ -1,4 +1,8 @@
-import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
+import {
+	PlayQueueItem,
+	PlayQueueStore,
+	RepeatMode,
+} from '@/stores/PlayQueueStore';
 import { PlayerType, TimeEvent } from '@aigamo/nostalgic-diva';
 import { action, computed, makeObservable, observable } from 'mobx';
 
@@ -30,6 +34,14 @@ export class PlayerStore {
 		return this.playQueueStore.currentItem;
 	}
 
+	@computed get repeat(): RepeatMode {
+		return this.playQueueStore.repeat;
+	}
+
+	@computed get shuffle(): boolean {
+		return this.playQueueStore.shuffle;
+	}
+
 	@computed get canPlay(): boolean {
 		return this.currentItem !== undefined;
 	}
@@ -40,6 +52,14 @@ export class PlayerStore {
 
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
 		this.playQueueStore.setCurrentItem(item);
+	}
+
+	@action toggleRepeat(): void {
+		this.playQueueStore.toggleRepeat();
+	}
+
+	@action toggleShuffle(): void {
+		this.playQueueStore.toggleShuffle();
 	}
 
 	@action setPlaying(value: boolean): void {

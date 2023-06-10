@@ -1,4 +1,5 @@
 import { usePlayerStore } from '@/components/PlayerStoreContext';
+import { RepeatMode } from '@/stores/PlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiBottomBar,
@@ -6,11 +7,15 @@ import {
 	EuiFlexGroup,
 	EuiFlexItem,
 	EuiRange,
+	IconType,
 } from '@elastic/eui';
 import { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
 import {
+	ArrowRepeat1Filled,
 	ArrowRepeatAllFilled,
+	ArrowRepeatAllOffFilled,
 	ArrowShuffleFilled,
+	ArrowShuffleOffFilled,
 	NextFilled,
 	PlayFilled,
 	PreviousFilled,
@@ -70,7 +75,15 @@ const SeekBar = observer((): React.ReactElement => {
 	);
 });
 
-export const BottomBar = (): React.ReactElement => {
+const repeatIconTypes: Record<RepeatMode, IconType> = {
+	[RepeatMode.Off]: ArrowRepeatAllOffFilled,
+	[RepeatMode.All]: ArrowRepeatAllFilled,
+	[RepeatMode.One]: ArrowRepeat1Filled,
+};
+
+export const BottomBar = observer((): React.ReactElement => {
+	const playerStore = usePlayerStore();
+
 	return (
 		<EuiBottomBar>
 			<EuiFlexGroup direction="column" gutterSize="none">
@@ -85,9 +98,14 @@ export const BottomBar = (): React.ReactElement => {
 						alignItems="center"
 					>
 						<EuiButtonIcon
-							iconType={ArrowShuffleFilled}
+							iconType={
+								playerStore.shuffle
+									? ArrowShuffleFilled
+									: ArrowShuffleOffFilled
+							}
 							size="m"
 							iconSize="l"
+							onClick={(): void => playerStore.toggleShuffle()}
 						/>
 						<EuiButtonIcon
 							iconType={PreviousFilled}
@@ -98,6 +116,7 @@ export const BottomBar = (): React.ReactElement => {
 							iconType={PlayFilled}
 							size="m"
 							iconSize="l"
+							disabled={playerStore.isEmpty}
 						/>
 						<EuiButtonIcon
 							iconType={NextFilled}
@@ -105,13 +124,14 @@ export const BottomBar = (): React.ReactElement => {
 							iconSize="l"
 						/>
 						<EuiButtonIcon
-							iconType={ArrowRepeatAllFilled}
+							iconType={repeatIconTypes[playerStore.repeat]}
 							size="m"
 							iconSize="l"
+							onClick={(): void => playerStore.toggleRepeat()}
 						/>
 					</EuiFlexGroup>
 				</EuiFlexItem>
 			</EuiFlexGroup>
 		</EuiBottomBar>
 	);
-};
+});

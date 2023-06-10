@@ -25,9 +25,17 @@ export class PlayQueueItem {
 	}
 }
 
+export enum RepeatMode {
+	Off = 'Off',
+	All = 'All',
+	One = 'One',
+}
+
 export class PlayQueueStore {
 	@observable items: PlayQueueItem[] = [];
 	@observable currentId?: number;
+	@observable repeat = RepeatMode.Off;
+	@observable shuffle = false;
 
 	constructor() {
 		makeObservable(this);
@@ -74,5 +82,23 @@ export class PlayQueueStore {
 
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
 		this.currentId = item?.id;
+	}
+
+	@action toggleRepeat(): void {
+		switch (this.repeat) {
+			case RepeatMode.Off:
+				this.repeat = RepeatMode.All;
+				break;
+			case RepeatMode.All:
+				this.repeat = RepeatMode.One;
+				break;
+			case RepeatMode.One:
+				this.repeat = RepeatMode.Off;
+				break;
+		}
+	}
+
+	@action toggleShuffle(): void {
+		this.shuffle = !this.shuffle;
 	}
 }
