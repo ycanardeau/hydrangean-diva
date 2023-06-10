@@ -7,10 +7,9 @@ import {
 	NostalgicDiva,
 	NostalgicDivaProvider,
 	PlayerOptions,
-	PlayerType,
 	useNostalgicDiva,
 } from '@aigamo/nostalgic-diva';
-import { EuiBottomBar, EuiButton, EuiProvider, EuiRange } from '@elastic/eui';
+import { EuiBottomBar, EuiProvider, EuiRange } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
 import { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
 import createCache from '@emotion/cache';
@@ -24,16 +23,6 @@ const euiCache = createCache({
 	container: document.querySelector('meta[name="eui-style-insert"]') as Node,
 });
 euiCache.compat = true;
-
-const videoServiceIcons: Record<PlayerType, string | undefined> = {
-	Audio: '',
-	Dailymotion: '',
-	Niconico: 'https://www.nicovideo.jp/favicon.ico',
-	SoundCloud: '',
-	Twitch: '',
-	Vimeo: '',
-	YouTube: 'https://www.youtube.com/favicon.ico',
-};
 
 const miniPlayerWidth = 16 * 25;
 const miniPlayerHeight = 9 * 25;
@@ -143,8 +132,6 @@ const BottomBar = (): React.ReactElement => {
 const AppContainer = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
 
-	const nostalgicDiva = useNostalgicDiva();
-
 	React.useEffect(() => {
 		return reaction(
 			() => playerStore.currentItem,
@@ -154,47 +141,9 @@ const AppContainer = observer((): React.ReactElement => {
 
 	return (
 		<>
-			<div>
-				{playerStore.items.map((item, index) => (
-					<React.Fragment key={index}>
-						<EuiButton
-							iconType={videoServiceIcons[item.type]}
-							onClick={(): void =>
-								playerStore.setCurrentItem(item)
-							}
-						>
-							{item.title}
-						</EuiButton>
-					</React.Fragment>
-				))}
-				<EuiButton
-					onClick={(): void => playerStore.setCurrentItem(undefined)}
-				>
-					Clear{/* LOC */}
-				</EuiButton>
-			</div>
-
 			<PlayQueueTable />
 
 			{!playerStore.isEmpty && <MiniPlayer />}
-
-			<div>
-				{playerStore.playing ? (
-					<EuiButton
-						onClick={(): Promise<void> => nostalgicDiva.pause()}
-						disabled={!playerStore.canPause}
-					>
-						Pause{/* LOC */}
-					</EuiButton>
-				) : (
-					<EuiButton
-						onClick={(): Promise<void> => nostalgicDiva.play()}
-						disabled={!playerStore.canPlay}
-					>
-						Play{/* LOC */}
-					</EuiButton>
-				)}
-			</div>
 
 			<BottomBar />
 		</>
