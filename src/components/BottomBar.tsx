@@ -113,6 +113,7 @@ export const BottomBar = observer((): React.ReactElement => {
 							iconType={PreviousFilled}
 							size="m"
 							iconSize="l"
+							disabled={!playerStore.hasPreviousItem}
 						/>
 						{playerStore.playing ? (
 							<EuiButtonIcon
@@ -135,6 +136,7 @@ export const BottomBar = observer((): React.ReactElement => {
 							iconType={NextFilled}
 							size="m"
 							iconSize="l"
+							disabled={!playerStore.hasNextItem}
 						/>
 						<EuiButtonIcon
 							iconType={repeatIconTypes[playerStore.repeat]}

@@ -50,6 +50,14 @@ export class PlayerStore {
 		return this.currentItem !== undefined;
 	}
 
+	@computed get hasPreviousItem(): boolean {
+		return this.playQueueStore.hasPreviousItem;
+	}
+
+	@computed get hasNextItem(): boolean {
+		return this.playQueueStore.hasNextItem;
+	}
+
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
 		this.playQueueStore.setCurrentItem(item);
 	}

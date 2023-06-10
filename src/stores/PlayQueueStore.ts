@@ -80,6 +80,36 @@ export class PlayQueueStore {
 		return this.items.find((item) => item.id === this.currentId);
 	}
 
+	@computed get hasMultipleItems(): boolean {
+		return this.items.length > 1;
+	}
+
+	@computed get currentIndex(): number | undefined {
+		return this.currentId !== undefined
+			? this.items.findIndex((item) => item.id === this.currentId)
+			: undefined;
+	}
+	set currentIndex(value: number | undefined) {
+		this.currentId =
+			value !== undefined ? this.items.at(value)?.id : undefined;
+	}
+
+	@computed get hasPreviousItem(): boolean {
+		return (
+			this.hasMultipleItems &&
+			this.currentIndex !== undefined &&
+			this.currentIndex > 0
+		);
+	}
+
+	@computed get hasNextItem(): boolean {
+		return (
+			this.hasMultipleItems &&
+			this.currentIndex !== undefined &&
+			this.currentIndex < this.items.length - 1
+		);
+	}
+
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
 		this.currentId = item?.id;
 	}
