@@ -1,7 +1,20 @@
 import { usePlayerStore } from '@/components/PlayerStoreContext';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
-import { EuiBottomBar, EuiRange } from '@elastic/eui';
+import {
+	EuiBottomBar,
+	EuiButtonIcon,
+	EuiFlexGroup,
+	EuiFlexItem,
+	EuiRange,
+} from '@elastic/eui';
 import { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
+import {
+	ArrowRepeatAllFilled,
+	ArrowShuffleFilled,
+	NextFilled,
+	PlayFilled,
+	PreviousFilled,
+} from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -60,7 +73,45 @@ const SeekBar = observer((): React.ReactElement => {
 export const BottomBar = (): React.ReactElement => {
 	return (
 		<EuiBottomBar>
-			<SeekBar />
+			<EuiFlexGroup direction="column" gutterSize="none">
+				<EuiFlexItem>
+					<SeekBar />
+				</EuiFlexItem>
+				<EuiFlexItem>
+					<EuiFlexGroup
+						responsive={false}
+						gutterSize="s"
+						justifyContent="center"
+						alignItems="center"
+					>
+						<EuiButtonIcon
+							iconType={ArrowShuffleFilled}
+							size="m"
+							iconSize="l"
+						/>
+						<EuiButtonIcon
+							iconType={PreviousFilled}
+							size="m"
+							iconSize="l"
+						/>
+						<EuiButtonIcon
+							iconType={PlayFilled}
+							size="m"
+							iconSize="l"
+						/>
+						<EuiButtonIcon
+							iconType={NextFilled}
+							size="m"
+							iconSize="l"
+						/>
+						<EuiButtonIcon
+							iconType={ArrowRepeatAllFilled}
+							size="m"
+							iconSize="l"
+						/>
+					</EuiFlexGroup>
+				</EuiFlexItem>
+			</EuiFlexGroup>
 		</EuiBottomBar>
 	);
 };

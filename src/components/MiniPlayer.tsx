@@ -6,7 +6,7 @@ import React from 'react';
 const miniPlayerWidth = 16 * 25;
 const miniPlayerHeight = 9 * 25;
 
-const bottomBarHeight = 72;
+const bottomBarHeight = 112;
 
 export const MiniPlayer = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
