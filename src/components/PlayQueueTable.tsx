@@ -1,7 +1,9 @@
 import { usePlayerStore } from '@/components/PlayerStoreContext';
 import {
+	EuiButtonIcon,
 	EuiCheckbox,
 	EuiLink,
+	EuiPopover,
 	EuiTable,
 	EuiTableBody,
 	EuiTableHeader,
@@ -11,6 +13,7 @@ import {
 	EuiTableRowCell,
 	EuiTableRowCellCheckbox,
 } from '@elastic/eui';
+import { MoreHorizontalFilled } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 
 const PlayQueueTableHeader = observer((): React.ReactElement => {
@@ -23,6 +26,7 @@ const PlayQueueTableHeader = observer((): React.ReactElement => {
 				/>
 			</EuiTableHeaderCellCheckbox>
 			<EuiTableHeaderCell>Title{/* LOC */}</EuiTableHeaderCell>
+			<EuiTableHeaderCell />
 		</EuiTableHeader>
 	);
 });
@@ -42,6 +46,17 @@ const PlayQueueTableBody = observer((): React.ReactElement => {
 					</EuiTableRowCellCheckbox>
 					<EuiTableRowCell>
 						<EuiLink href="#">{item.title}</EuiLink>
+					</EuiTableRowCell>
+					<EuiTableRowCell textOnly={false} hasActions align="right">
+						<EuiPopover
+							button={
+								<EuiButtonIcon
+									iconType={MoreHorizontalFilled}
+									size="s"
+									color="text"
+								/>
+							}
+						></EuiPopover>
 					</EuiTableRowCell>
 				</EuiTableRow>
 			))}
