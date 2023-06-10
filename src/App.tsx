@@ -26,8 +26,10 @@ euiCache.compat = true;
 
 const videoServiceIcons: Record<PlayerType, string | undefined> = {
 	Audio: '',
+	Dailymotion: '',
 	Niconico: 'https://www.nicovideo.jp/favicon.ico',
 	SoundCloud: '',
+	Twitch: '',
 	Vimeo: '',
 	YouTube: 'https://www.youtube.com/favicon.ico',
 };
