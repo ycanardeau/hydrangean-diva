@@ -3,6 +3,10 @@ import { PlayQueueItem } from '@/stores/PlayQueueStore';
 import {
 	EuiButtonIcon,
 	EuiCheckbox,
+	EuiContextMenuItem,
+	EuiContextMenuPanel,
+	EuiHorizontalRule,
+	EuiIcon,
 	EuiLink,
 	EuiPopover,
 	EuiTable,
@@ -14,7 +18,11 @@ import {
 	EuiTableRowCell,
 	EuiTableRowCellCheckbox,
 } from '@elastic/eui';
-import { MoreHorizontalFilled } from '@fluentui/react-icons';
+import {
+	AddRegular,
+	MoreHorizontalFilled,
+	PlayRegular,
+} from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -34,6 +42,11 @@ const PlayQueueTableHeader = observer((): React.ReactElement => {
 });
 
 const PlayQueueTableRowPopover = (): React.ReactElement => {
+	const [isOpen, setIsOpen] = React.useState(false);
+
+	const togglePopover = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
+	const closePopover = React.useCallback(() => setIsOpen(false), []);
+
 	return (
 		<EuiPopover
 			button={
@@ -41,9 +54,58 @@ const PlayQueueTableRowPopover = (): React.ReactElement => {
 					iconType={MoreHorizontalFilled}
 					size="s"
 					color="text"
+					onClick={togglePopover}
 				/>
 			}
-		></EuiPopover>
+			isOpen={isOpen}
+			closePopover={closePopover}
+			panelPaddingSize="none"
+			anchorPosition="leftCenter"
+		>
+			<EuiContextMenuPanel>
+				<EuiContextMenuItem
+					icon={<EuiIcon type={PlayRegular} />}
+					onClick={(): void => {
+						closePopover();
+					}}
+				>
+					Play first{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiContextMenuItem
+					icon={<EuiIcon type={PlayRegular} />}
+					onClick={(): void => {
+						closePopover();
+					}}
+				>
+					Play next{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiContextMenuItem
+					icon={<EuiIcon type={AddRegular} />}
+					onClick={(): void => {
+						closePopover();
+					}}
+				>
+					Add to play queue{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiHorizontalRule margin="none" />
+				<EuiContextMenuItem
+					icon={<EuiIcon type="" />}
+					onClick={(): void => {
+						closePopover();
+					}}
+				>
+					Remove to the top{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiContextMenuItem
+					icon={<EuiIcon type="" />}
+					onClick={(): void => {
+						closePopover();
+					}}
+				>
+					Remove others{/* LOC */}
+				</EuiContextMenuItem>
+			</EuiContextMenuPanel>
+		</EuiPopover>
 	);
 };
 
