@@ -33,6 +33,20 @@ const PlayQueueTableHeader = observer((): React.ReactElement => {
 	);
 });
 
+const PlayQueueTableRowPopover = (): React.ReactElement => {
+	return (
+		<EuiPopover
+			button={
+				<EuiButtonIcon
+					iconType={MoreHorizontalFilled}
+					size="s"
+					color="text"
+				/>
+			}
+		></EuiPopover>
+	);
+};
+
 interface PlayQueueTableRowProps {
 	item: PlayQueueItem;
 }
@@ -51,15 +65,7 @@ const PlayQueueTableRow = observer(
 					<EuiLink href="#">{item.title}</EuiLink>
 				</EuiTableRowCell>
 				<EuiTableRowCell textOnly={false} hasActions align="right">
-					<EuiPopover
-						button={
-							<EuiButtonIcon
-								iconType={MoreHorizontalFilled}
-								size="s"
-								color="text"
-							/>
-						}
-					></EuiPopover>
+					<PlayQueueTableRowPopover />
 				</EuiTableRowCell>
 			</EuiTableRow>
 		);
