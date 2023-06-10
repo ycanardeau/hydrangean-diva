@@ -1,4 +1,5 @@
 import { usePlayerStore } from '@/components/PlayerStoreContext';
+import { PlayQueueItem } from '@/stores/PlayQueueStore';
 import {
 	EuiButtonIcon,
 	EuiCheckbox,
@@ -15,6 +16,7 @@ import {
 } from '@elastic/eui';
 import { MoreHorizontalFilled } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
 
 const PlayQueueTableHeader = observer((): React.ReactElement => {
 	return (
@@ -31,34 +33,46 @@ const PlayQueueTableHeader = observer((): React.ReactElement => {
 	);
 });
 
+interface PlayQueueTableRowProps {
+	item: PlayQueueItem;
+}
+
+const PlayQueueTableRow = observer(
+	({ item }: PlayQueueTableRowProps): React.ReactElement => {
+		return (
+			<EuiTableRow key={item.id}>
+				<EuiTableRowCellCheckbox>
+					<EuiCheckbox
+						id="" // TODO
+						onChange={(): void => {}} // TODO
+					/>
+				</EuiTableRowCellCheckbox>
+				<EuiTableRowCell>
+					<EuiLink href="#">{item.title}</EuiLink>
+				</EuiTableRowCell>
+				<EuiTableRowCell textOnly={false} hasActions align="right">
+					<EuiPopover
+						button={
+							<EuiButtonIcon
+								iconType={MoreHorizontalFilled}
+								size="s"
+								color="text"
+							/>
+						}
+					></EuiPopover>
+				</EuiTableRowCell>
+			</EuiTableRow>
+		);
+	},
+);
+
 const PlayQueueTableBody = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
 
 	return (
 		<EuiTableBody>
 			{playerStore.items.map((item, index) => (
-				<EuiTableRow key={item.id}>
-					<EuiTableRowCellCheckbox>
-						<EuiCheckbox
-							id="" // TODO
-							onChange={(): void => {}} // TODO
-						/>
-					</EuiTableRowCellCheckbox>
-					<EuiTableRowCell>
-						<EuiLink href="#">{item.title}</EuiLink>
-					</EuiTableRowCell>
-					<EuiTableRowCell textOnly={false} hasActions align="right">
-						<EuiPopover
-							button={
-								<EuiButtonIcon
-									iconType={MoreHorizontalFilled}
-									size="s"
-									color="text"
-								/>
-							}
-						></EuiPopover>
-					</EuiTableRowCell>
-				</EuiTableRow>
+				<PlayQueueTableRow key={index} item={item} />
 			))}
 		</EuiTableBody>
 	);
