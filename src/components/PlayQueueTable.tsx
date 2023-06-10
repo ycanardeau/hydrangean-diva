@@ -20,6 +20,7 @@ import {
 } from '@elastic/eui';
 import {
 	AddRegular,
+	DismissRegular,
 	MoreHorizontalFilled,
 	PlayRegular,
 } from '@fluentui/react-icons';
@@ -41,11 +42,19 @@ const PlayQueueTableHeader = observer((): React.ReactElement => {
 	);
 });
 
-const PlayQueueTableRowPopover = (): React.ReactElement => {
+interface PlayQueueTableRowPopoverProps {
+	item: PlayQueueItem;
+}
+
+const PlayQueueTableRowPopover = ({
+	item,
+}: PlayQueueTableRowPopoverProps): React.ReactElement => {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const togglePopover = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
 	const closePopover = React.useCallback(() => setIsOpen(false), []);
+
+	const playerStore = usePlayerStore();
 
 	return (
 		<EuiPopover
@@ -66,13 +75,23 @@ const PlayQueueTableRowPopover = (): React.ReactElement => {
 				<EuiContextMenuItem
 					icon={<EuiIcon type={PlayRegular} />}
 					onClick={(): void => {
+						// TODO
+						playerStore.setCurrentItem(item);
+						closePopover();
+					}}
+				>
+					Play{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiContextMenuItem
+					icon={<EuiIcon type="" />}
+					onClick={(): void => {
 						closePopover();
 					}}
 				>
 					Play first{/* LOC */}
 				</EuiContextMenuItem>
 				<EuiContextMenuItem
-					icon={<EuiIcon type={PlayRegular} />}
+					icon={<EuiIcon type="" />}
 					onClick={(): void => {
 						closePopover();
 					}}
@@ -88,6 +107,14 @@ const PlayQueueTableRowPopover = (): React.ReactElement => {
 					Add to play queue{/* LOC */}
 				</EuiContextMenuItem>
 				<EuiHorizontalRule margin="none" />
+				<EuiContextMenuItem
+					icon={<EuiIcon type={DismissRegular} />}
+					onClick={(): void => {
+						closePopover();
+					}}
+				>
+					Remove{/* LOC */}
+				</EuiContextMenuItem>
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={(): void => {
@@ -127,7 +154,7 @@ const PlayQueueTableRow = observer(
 					<EuiLink href="#">{item.title}</EuiLink>
 				</EuiTableRowCell>
 				<EuiTableRowCell textOnly={false} hasActions align="right">
-					<PlayQueueTableRowPopover />
+					<PlayQueueTableRowPopover item={item} />
 				</EuiTableRowCell>
 			</EuiTableRow>
 		);
