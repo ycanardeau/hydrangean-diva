@@ -1,3 +1,4 @@
+import { PlayQueueTable } from '@/components/PlayQueueTable';
 import {
 	PlayerStoreProvider,
 	usePlayerStore,
@@ -172,6 +173,8 @@ const AppContainer = observer((): React.ReactElement => {
 					Clear{/* LOC */}
 				</EuiButton>
 			</div>
+
+			<PlayQueueTable />
 
 			{!playerStore.isEmpty && <MiniPlayer />}
 
