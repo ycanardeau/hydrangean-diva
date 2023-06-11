@@ -1,5 +1,5 @@
-import { usePlayerStore } from '@/components/PlayerStoreContext';
-import { RepeatMode } from '@/stores/PlayQueueStore';
+import { PlayQueueStore, RepeatMode } from '@/stores/PlayQueueStore';
+import { PlayerStore } from '@/stores/PlayerStore';
 import {
 	NostalgicDiva,
 	PlayerOptions,
@@ -13,77 +13,83 @@ const miniPlayerHeight = 9 * 25;
 
 const bottomBarHeight = 112;
 
-export const MiniPlayer = observer((): React.ReactElement => {
-	const playerStore = usePlayerStore();
-	const diva = useNostalgicDiva();
+interface MiniPlayerProps {
+	playerStore: PlayerStore;
+	playQueueStore: PlayQueueStore;
+}
 
-	const handleLoaded = React.useCallback(async (): Promise<void> => {
-		await diva.play();
-	}, [diva]);
+export const MiniPlayer = observer(
+	({ playerStore, playQueueStore }: MiniPlayerProps): React.ReactElement => {
+		const diva = useNostalgicDiva();
 
-	const handleEnded = React.useCallback(async (): Promise<void> => {
-		switch (playerStore.repeat) {
-			case RepeatMode.One:
-				await diva.setCurrentTime(0);
-				break;
+		const handleLoaded = React.useCallback(async (): Promise<void> => {
+			await diva.play();
+		}, [diva]);
 
-			case RepeatMode.Off:
-			case RepeatMode.All:
-				if (playerStore.isLastItem) {
-					switch (playerStore.repeat) {
-						case RepeatMode.Off:
-							playerStore.onEnded();
-							break;
+		const handleEnded = React.useCallback(async (): Promise<void> => {
+			switch (playQueueStore.repeat) {
+				case RepeatMode.One:
+					await diva.setCurrentTime(0);
+					break;
 
-						case RepeatMode.All:
-							if (playerStore.hasMultipleItems) {
-								await playerStore.goToFirst();
-							} else {
-								await diva.setCurrentTime(0);
-							}
-							break;
+				case RepeatMode.Off:
+				case RepeatMode.All:
+					if (playQueueStore.isLastItem) {
+						switch (playQueueStore.repeat) {
+							case RepeatMode.Off:
+								playerStore.onEnded();
+								break;
+
+							case RepeatMode.All:
+								if (playQueueStore.hasMultipleItems) {
+									await playQueueStore.goToFirst();
+								} else {
+									await diva.setCurrentTime(0);
+								}
+								break;
+						}
+					} else {
+						await playQueueStore.next();
 					}
-				} else {
-					await playerStore.next();
-				}
-				break;
-		}
-	}, [playerStore, diva]);
+					break;
+			}
+		}, [playQueueStore, playerStore, diva]);
 
-	const options = React.useMemo(
-		(): PlayerOptions => ({
-			onLoaded: handleLoaded,
-			onPlay: () => playerStore.onPlay(),
-			onPause: () => playerStore.onPause(),
-			onEnded: handleEnded,
-			onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
-		}),
-		[playerStore, handleLoaded, handleEnded],
-	);
+		const options = React.useMemo(
+			(): PlayerOptions => ({
+				onLoaded: handleLoaded,
+				onPlay: () => playerStore.onPlay(),
+				onPause: () => playerStore.onPause(),
+				onEnded: handleEnded,
+				onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
+			}),
+			[playerStore, handleLoaded, handleEnded],
+		);
 
-	return (
-		<div
-			css={{
-				position: 'fixed',
-				right: 0,
-				bottom: bottomBarHeight,
-				width: miniPlayerWidth,
-				height: miniPlayerHeight,
-				zIndex: 998,
-				backgroundColor: 'rgb(39, 39, 39)',
-				display: 'flex',
-				flexDirection: 'column',
-			}}
-		>
-			<div css={{ flexGrow: 1, backgroundColor: 'black' }}>
-				{playerStore.currentItem && (
-					<NostalgicDiva
-						type={playerStore.currentItem.type}
-						videoId={playerStore.currentItem.videoId}
-						options={options}
-					/>
-				)}
+		return (
+			<div
+				css={{
+					position: 'fixed',
+					right: 0,
+					bottom: bottomBarHeight,
+					width: miniPlayerWidth,
+					height: miniPlayerHeight,
+					zIndex: 998,
+					backgroundColor: 'rgb(39, 39, 39)',
+					display: 'flex',
+					flexDirection: 'column',
+				}}
+			>
+				<div css={{ flexGrow: 1, backgroundColor: 'black' }}>
+					{playQueueStore.currentItem && (
+						<NostalgicDiva
+							type={playQueueStore.currentItem.type}
+							videoId={playQueueStore.currentItem.videoId}
+							options={options}
+						/>
+					)}
+				</div>
 			</div>
-		</div>
-	);
-});
+		);
+	},
+);

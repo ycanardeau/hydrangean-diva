@@ -1,8 +1,4 @@
-import {
-	PlayQueueItem,
-	PlayQueueStore,
-	RepeatMode,
-} from '@/stores/PlayQueueStore';
+import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType, TimeEvent } from '@aigamo/nostalgic-diva';
 import { action, computed, makeObservable, observable } from 'mobx';
 
@@ -13,7 +9,7 @@ export interface Video {
 }
 
 export class PlayerStore {
-	private readonly playQueueStore = new PlayQueueStore();
+	readonly playQueueStore = new PlayQueueStore();
 	@observable playing = false;
 	@observable percent = 0;
 	@observable seeking = false;
@@ -22,72 +18,12 @@ export class PlayerStore {
 		makeObservable(this);
 	}
 
-	@computed get items(): PlayQueueItem[] {
-		return this.playQueueStore.items;
-	}
-
-	@computed get isEmpty(): boolean {
-		return this.playQueueStore.isEmpty;
-	}
-
-	@computed get currentItem(): PlayQueueItem | undefined {
-		return this.playQueueStore.currentItem;
-	}
-
-	@computed get repeat(): RepeatMode {
-		return this.playQueueStore.repeat;
-	}
-
-	@computed get shuffle(): boolean {
-		return this.playQueueStore.shuffle;
-	}
-
 	@computed get canPlay(): boolean {
-		return this.currentItem !== undefined;
+		return this.playQueueStore.canPlay;
 	}
 
 	@computed get canPause(): boolean {
-		return this.currentItem !== undefined;
-	}
-
-	@computed get hasMultipleItems(): boolean {
-		return this.playQueueStore.hasMultipleItems;
-	}
-
-	@computed get hasPreviousItem(): boolean {
-		return this.playQueueStore.hasPreviousItem;
-	}
-
-	@computed get hasNextItem(): boolean {
-		return this.playQueueStore.hasNextItem;
-	}
-
-	@computed get isLastItem(): boolean {
-		return this.playQueueStore.isLastItem;
-	}
-
-	@action setCurrentItem(item: PlayQueueItem | undefined): void {
-		this.playQueueStore.setCurrentItem(item);
-	}
-
-	@action toggleRepeat(): void {
-		this.playQueueStore.toggleRepeat();
-	}
-
-	@action toggleShuffle(): void {
-		this.playQueueStore.toggleShuffle();
-	}
-
-	@action previous(): Promise<void> {
-		return this.playQueueStore.previous();
-	}
-
-	@action next(): Promise<void> {
-		return this.playQueueStore.next();
-	}
-
-	@action goToFirst(): Promise<void> {
-		return this.playQueueStore.goToFirst();
+		return this.playQueueStore.canPause;
 	}
 
 	@action setPlaying(value: boolean): void {

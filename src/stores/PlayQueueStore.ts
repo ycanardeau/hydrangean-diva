@@ -80,6 +80,14 @@ export class PlayQueueStore {
 		return this.items.find((item) => item.id === this.currentId);
 	}
 
+	@computed get canPlay(): boolean {
+		return this.currentItem !== undefined;
+	}
+
+	@computed get canPause(): boolean {
+		return this.currentItem !== undefined;
+	}
+
 	@computed get hasMultipleItems(): boolean {
 		return this.items.length > 1;
 	}

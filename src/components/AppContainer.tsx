@@ -13,7 +13,7 @@ export const AppContainer = observer((): React.ReactElement => {
 
 	React.useEffect(() => {
 		return reaction(
-			() => playerStore.currentItem,
+			() => playerStore.playQueueStore.currentItem,
 			async (currentItem, previousItem) => {
 				if (currentItem === undefined || previousItem === undefined) {
 					return;
@@ -28,11 +28,19 @@ export const AppContainer = observer((): React.ReactElement => {
 
 	return (
 		<>
-			<PlayQueueTable />
+			<PlayQueueTable playQueueStore={playerStore.playQueueStore} />
 
-			{!playerStore.isEmpty && <MiniPlayer />}
+			{!playerStore.playQueueStore.isEmpty && (
+				<MiniPlayer
+					playerStore={playerStore}
+					playQueueStore={playerStore.playQueueStore}
+				/>
+			)}
 
-			<BottomBar />
+			<BottomBar
+				playerStore={playerStore}
+				playQueueStore={playerStore.playQueueStore}
+			/>
 		</>
 	);
 });

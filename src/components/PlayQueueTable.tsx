@@ -1,5 +1,4 @@
-import { usePlayerStore } from '@/components/PlayerStoreContext';
-import { PlayQueueItem } from '@/stores/PlayQueueStore';
+import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
 import {
 	EuiButtonIcon,
 	EuiCheckbox,
@@ -43,18 +42,18 @@ const PlayQueueTableHeader = observer((): React.ReactElement => {
 });
 
 interface PlayQueueTableRowPopoverProps {
+	playQueueStore: PlayQueueStore;
 	item: PlayQueueItem;
 }
 
 const PlayQueueTableRowPopover = ({
+	playQueueStore,
 	item,
 }: PlayQueueTableRowPopoverProps): React.ReactElement => {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const togglePopover = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
 	const closePopover = React.useCallback(() => setIsOpen(false), []);
-
-	const playerStore = usePlayerStore();
 
 	return (
 		<EuiPopover
@@ -76,7 +75,7 @@ const PlayQueueTableRowPopover = ({
 					icon={<EuiIcon type={PlayRegular} />}
 					onClick={(): void => {
 						// TODO
-						playerStore.setCurrentItem(item);
+						playQueueStore.setCurrentItem(item);
 						closePopover();
 					}}
 				>
@@ -137,11 +136,12 @@ const PlayQueueTableRowPopover = ({
 };
 
 interface PlayQueueTableRowProps {
+	playQueueStore: PlayQueueStore;
 	item: PlayQueueItem;
 }
 
 const PlayQueueTableRow = observer(
-	({ item }: PlayQueueTableRowProps): React.ReactElement => {
+	({ playQueueStore, item }: PlayQueueTableRowProps): React.ReactElement => {
 		return (
 			<EuiTableRow key={item.id}>
 				<EuiTableRowCellCheckbox>
@@ -154,30 +154,47 @@ const PlayQueueTableRow = observer(
 					<EuiLink href="#">{item.title}</EuiLink>
 				</EuiTableRowCell>
 				<EuiTableRowCell textOnly={false} hasActions align="right">
-					<PlayQueueTableRowPopover item={item} />
+					<PlayQueueTableRowPopover
+						playQueueStore={playQueueStore}
+						item={item}
+					/>
 				</EuiTableRowCell>
 			</EuiTableRow>
 		);
 	},
 );
 
-const PlayQueueTableBody = observer((): React.ReactElement => {
-	const playerStore = usePlayerStore();
+interface PlayQueueTableBodyProps {
+	playQueueStore: PlayQueueStore;
+}
 
-	return (
-		<EuiTableBody>
-			{playerStore.items.map((item, index) => (
-				<PlayQueueTableRow key={index} item={item} />
-			))}
-		</EuiTableBody>
-	);
-});
+const PlayQueueTableBody = observer(
+	({ playQueueStore }: PlayQueueTableBodyProps): React.ReactElement => {
+		return (
+			<EuiTableBody>
+				{playQueueStore.items.map((item, index) => (
+					<PlayQueueTableRow
+						key={index}
+						playQueueStore={playQueueStore}
+						item={item}
+					/>
+				))}
+			</EuiTableBody>
+		);
+	},
+);
 
-export const PlayQueueTable = observer((): React.ReactElement => {
-	return (
-		<EuiTable>
-			<PlayQueueTableHeader />
-			<PlayQueueTableBody />
-		</EuiTable>
-	);
-});
+interface PlayQueueTableProps {
+	playQueueStore: PlayQueueStore;
+}
+
+export const PlayQueueTable = observer(
+	({ playQueueStore }: PlayQueueTableProps): React.ReactElement => {
+		return (
+			<EuiTable>
+				<PlayQueueTableHeader />
+				<PlayQueueTableBody playQueueStore={playQueueStore} />
+			</EuiTable>
+		);
+	},
+);
