@@ -5,7 +5,11 @@ import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerStore } from '@/stores/PlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { EuiButton, EuiFlexGroup, EuiFlexItem, EuiSpacer } from '@elastic/eui';
-import { DeleteRegular } from '@fluentui/react-icons';
+import {
+	AddRegular,
+	DeleteRegular,
+	DismissRegular,
+} from '@fluentui/react-icons';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -43,6 +47,19 @@ export const HydrangeanDiva = observer(
 		return (
 			<>
 				<EuiFlexGroup alignItems="center" gutterSize="m">
+					<EuiFlexItem grow={false}>
+						<EuiButton>Play next{/* LOC */}</EuiButton>
+					</EuiFlexItem>
+					<EuiFlexItem grow={false}>
+						<EuiButton iconType={AddRegular}>
+							Add to play queue{/* LOC */}
+						</EuiButton>
+					</EuiFlexItem>
+					<EuiFlexItem grow={false}>
+						<EuiButton iconType={DismissRegular}>
+							Remove{/* LOC */}
+						</EuiButton>
+					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
 						<EuiButton
 							iconType={DeleteRegular}
