@@ -152,7 +152,10 @@ interface PlayQueueTableRowProps {
 const PlayQueueTableRow = observer(
 	({ playQueueStore, item }: PlayQueueTableRowProps): React.ReactElement => {
 		return (
-			<EuiTableRow key={item.id}>
+			<EuiTableRow
+				key={item.id}
+				isSelected={item === playQueueStore.currentItem}
+			>
 				<EuiTableRowCellCheckbox>
 					<EuiCheckbox
 						id={item.id.toString() /* TODO */}
