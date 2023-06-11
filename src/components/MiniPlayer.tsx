@@ -1,5 +1,9 @@
 import { usePlayerStore } from '@/components/PlayerStoreContext';
-import { NostalgicDiva, PlayerOptions } from '@aigamo/nostalgic-diva';
+import {
+	NostalgicDiva,
+	PlayerOptions,
+	useNostalgicDiva,
+} from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -10,15 +14,19 @@ const bottomBarHeight = 112;
 
 export const MiniPlayer = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
+	const diva = useNostalgicDiva();
 
 	const options = React.useMemo(
 		(): PlayerOptions => ({
+			onLoaded: async (): Promise<void> => {
+				await diva.play();
+			},
 			onPlay: () => playerStore.onPlay(),
 			onPause: () => playerStore.onPause(),
 			onEnded: () => playerStore.onEnded(),
 			onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
 		}),
-		[playerStore],
+		[playerStore, diva],
 	);
 
 	return (
