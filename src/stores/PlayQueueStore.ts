@@ -11,17 +11,24 @@ export class PlayQueueItem {
 	private static nextId = 1;
 
 	readonly id: number;
+	@observable isSelected = false;
 
 	constructor(
 		readonly type: PlayerType,
 		readonly videoId: string,
 		readonly title: string,
 	) {
+		makeObservable(this);
+
 		this.id = PlayQueueItem.nextId++;
 	}
 
 	static fromDto(dto: PlayQueueItemDto): PlayQueueItem {
 		return new PlayQueueItem(dto.type, dto.videoId, dto.title);
+	}
+
+	@action toggleSelected(): void {
+		this.isSelected = !this.isSelected;
 	}
 }
 
@@ -123,6 +130,19 @@ export class PlayQueueStore {
 			this.currentIndex !== undefined &&
 			this.currentIndex === this.items.length - 1
 		);
+	}
+
+	@computed get selectedItems(): PlayQueueItem[] {
+		return this.items.filter((item) => item.isSelected);
+	}
+
+	@computed get allItemsSelected(): boolean {
+		return this.selectedItems.length === this.items.length;
+	}
+	set allItemsSelected(value: boolean) {
+		for (const item of this.items) {
+			item.isSelected = value;
+		}
 	}
 
 	@action clear(): void {

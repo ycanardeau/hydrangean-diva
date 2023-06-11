@@ -26,20 +26,29 @@ import {
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-const PlayQueueTableHeader = observer((): React.ReactElement => {
-	return (
-		<EuiTableHeader>
-			<EuiTableHeaderCellCheckbox>
-				<EuiCheckbox
-					id="" // TODO
-					onChange={(): void => {}} // TODO
-				/>
-			</EuiTableHeaderCellCheckbox>
-			<EuiTableHeaderCell>Title{/* LOC */}</EuiTableHeaderCell>
-			<EuiTableHeaderCell />
-		</EuiTableHeader>
-	);
-});
+interface PlayQueueTableHeaderProps {
+	playQueueStore: PlayQueueStore;
+}
+
+const PlayQueueTableHeader = observer(
+	({ playQueueStore }: PlayQueueTableHeaderProps): React.ReactElement => {
+		return (
+			<EuiTableHeader>
+				<EuiTableHeaderCellCheckbox>
+					<EuiCheckbox
+						id="" // TODO
+						checked={playQueueStore.allItemsSelected}
+						onChange={(e): void => {
+							playQueueStore.allItemsSelected = e.target.checked;
+						}}
+					/>
+				</EuiTableHeaderCellCheckbox>
+				<EuiTableHeaderCell>Title{/* LOC */}</EuiTableHeaderCell>
+				<EuiTableHeaderCell />
+			</EuiTableHeader>
+		);
+	},
+);
 
 interface PlayQueueTableRowPopoverProps {
 	playQueueStore: PlayQueueStore;
@@ -146,8 +155,9 @@ const PlayQueueTableRow = observer(
 			<EuiTableRow key={item.id}>
 				<EuiTableRowCellCheckbox>
 					<EuiCheckbox
-						id="" // TODO
-						onChange={(): void => {}} // TODO
+						id={item.id.toString() /* TODO */}
+						checked={item.isSelected}
+						onChange={(): void => item.toggleSelected()}
 					/>
 				</EuiTableRowCellCheckbox>
 				<EuiTableRowCell>
@@ -192,7 +202,7 @@ export const PlayQueueTable = observer(
 	({ playQueueStore }: PlayQueueTableProps): React.ReactElement => {
 		return (
 			<EuiTable>
-				<PlayQueueTableHeader />
+				<PlayQueueTableHeader playQueueStore={playQueueStore} />
 				<PlayQueueTableBody playQueueStore={playQueueStore} />
 			</EuiTable>
 		);
