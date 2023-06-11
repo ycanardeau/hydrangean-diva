@@ -1,5 +1,7 @@
 import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
+import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
+	EuiButton,
 	EuiButtonIcon,
 	EuiCheckbox,
 	EuiContextMenuItem,
@@ -81,16 +83,6 @@ const PlayQueueTableRowPopover = ({
 		>
 			<EuiContextMenuPanel>
 				<EuiContextMenuItem
-					icon={<EuiIcon type={PlayRegular} />}
-					onClick={(): void => {
-						// TODO
-						playQueueStore.setCurrentItem(item);
-						closePopover();
-					}}
-				>
-					Play{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={(): void => {
 						closePopover();
@@ -115,15 +107,6 @@ const PlayQueueTableRowPopover = ({
 					Add to play queue{/* LOC */}
 				</EuiContextMenuItem>
 				<EuiHorizontalRule margin="none" />
-				<EuiContextMenuItem
-					icon={<EuiIcon type={DismissRegular} />}
-					onClick={(): void => {
-						playQueueStore.removeItems([item]);
-						closePopover();
-					}}
-				>
-					Remove{/* LOC */}
-				</EuiContextMenuItem>
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={(): void => {
@@ -154,6 +137,8 @@ interface PlayQueueTableRowProps {
 
 const PlayQueueTableRow = observer(
 	({ playQueueStore, item }: PlayQueueTableRowProps): React.ReactElement => {
+		const diva = useNostalgicDiva();
+
 		return (
 			<EuiTableRow
 				key={item.id}
@@ -169,7 +154,34 @@ const PlayQueueTableRow = observer(
 				<EuiTableRowCell>
 					<EuiLink href="#">{item.title}</EuiLink>
 				</EuiTableRowCell>
-				<EuiTableRowCell textOnly={false} hasActions align="right">
+				<EuiTableRowCell
+					showOnHover
+					textOnly={false}
+					hasActions
+					align="right"
+				>
+					<EuiButton
+						iconType={PlayRegular}
+						size="s"
+						onClick={async (): Promise<void> => {
+							if (playQueueStore.currentItem === item) {
+								await diva.setCurrentTime(0);
+							} else {
+								playQueueStore.setCurrentItem(item);
+							}
+						}}
+					>
+						Play{/* LOC */}
+					</EuiButton>
+					<EuiButton
+						iconType={DismissRegular}
+						size="s"
+						onClick={(): Promise<void> =>
+							playQueueStore.removeItems([item])
+						}
+					>
+						Remove{/* LOC */}
+					</EuiButton>
 					<PlayQueueTableRowPopover
 						playQueueStore={playQueueStore}
 						item={item}
