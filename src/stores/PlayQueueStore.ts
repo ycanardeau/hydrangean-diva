@@ -1,4 +1,5 @@
 import { PlayerType } from '@aigamo/nostalgic-diva';
+import { pull } from 'lodash-es';
 import { action, computed, makeObservable, observable } from 'mobx';
 
 interface PlayQueueItemDto {
@@ -27,8 +28,24 @@ export class PlayQueueItem {
 		return new PlayQueueItem(dto.type, dto.videoId, dto.title);
 	}
 
+	@action unselect(): void {
+		this.isSelected = false;
+	}
+
 	@action toggleSelected(): void {
 		this.isSelected = !this.isSelected;
+	}
+
+	toDto(): PlayQueueItemDto {
+		return {
+			type: this.type,
+			videoId: this.videoId,
+			title: this.title,
+		};
+	}
+
+	clone(): PlayQueueItem {
+		return PlayQueueItem.fromDto(this.toDto());
 	}
 }
 
@@ -145,13 +162,137 @@ export class PlayQueueStore {
 		}
 	}
 
+	@computed get selectedItemsOrAllItems(): PlayQueueItem[] {
+		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
+	}
+
 	@action clear(): void {
 		this.currentIndex = undefined;
 		this.items = [];
 	}
 
+	@action unselectAll(): void {
+		for (const item of this.items) {
+			item.unselect();
+		}
+	}
+
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
 		this.currentId = item?.id;
+	}
+
+	@action setNextItems(items: PlayQueueItem[]): void {
+		if (this.currentIndex === undefined) {
+			return;
+		}
+
+		this.items.splice(this.currentIndex + 1, 0, ...items);
+	}
+
+	@action clearAndSetItems(items: PlayQueueItem[]): void {
+		this.clear();
+
+		this.setCurrentItem(items[0]);
+
+		this.setNextItems(items);
+	}
+
+	@action async playNext(items: PlayQueueItem[]): Promise<void> {
+		if (this.isEmpty) {
+			this.clearAndSetItems(items);
+			return;
+		}
+
+		this.setNextItems(items);
+	}
+
+	@action async playSelectedItemsNext(): Promise<void> {
+		this.playNext(this.selectedItemsOrAllItems.map((item) => item.clone()));
+
+		this.unselectAll();
+	}
+
+	@action async addItems(items: PlayQueueItem[]): Promise<void> {
+		if (this.isEmpty) {
+			this.clearAndSetItems(items);
+			return;
+		}
+
+		this.items.push(...items);
+	}
+
+	@action async addSelectedItems(): Promise<void> {
+		await this.addItems(
+			this.selectedItemsOrAllItems.map((item) => item.clone()),
+		);
+
+		this.unselectAll();
+	}
+
+	@action async playFirst(items: PlayQueueItem[]): Promise<void> {
+		if (this.isEmpty) {
+			this.clearAndSetItems(items);
+			return;
+		}
+
+		const { currentIndex } = this;
+		if (currentIndex === undefined) {
+			return;
+		}
+
+		this.items.splice(currentIndex, 0, ...items);
+		this.currentIndex = currentIndex;
+	}
+
+	@action async removeItems(items: PlayQueueItem[]): Promise<void> {
+		// Note: We need to remove the current (if any) and other (previous and/or next) items separately,
+		// so that the current index can be set properly even if the current item was removed.
+
+		// Capture the current item.
+		const { currentItem } = this;
+
+		// First, remove items that are not equal to the current one.
+		pull(this.items, ...items.filter((item) => item !== currentItem));
+
+		// Capture the current index.
+		const { currentIndex, isLastItem } = this;
+
+		// Then, remove the current item if any.
+		pull(
+			this.items,
+			items.find((item) => item === currentItem),
+		);
+
+		// If the current item differs from the captured one, then it means that the current item was removed from the play queue.
+		if (this.currentItem !== currentItem) {
+			if (isLastItem) {
+				// Start over the playlist from the beginning.
+				this.goToFirst();
+			} else {
+				// Set the current index to the captured one.
+				this.currentIndex = currentIndex;
+			}
+		}
+	}
+
+	@action async removeSelectedItems(): Promise<void> {
+		this.removeItems(this.selectedItemsOrAllItems);
+
+		this.unselectAll();
+	}
+
+	@action async removeOtherItems(item: PlayQueueItem): Promise<void> {
+		const itemId = item.id;
+		return this.removeItems(
+			this.items.filter((item) => item.id !== itemId),
+		);
+	}
+
+	@action async removeItemsAbove(item: PlayQueueItem): Promise<void> {
+		const itemIndex = this.items.indexOf(item);
+		return this.removeItems(
+			this.items.filter((_, index) => index < itemIndex),
+		);
 	}
 
 	@action toggleRepeat(): void {

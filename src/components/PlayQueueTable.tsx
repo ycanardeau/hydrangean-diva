@@ -118,6 +118,7 @@ const PlayQueueTableRowPopover = ({
 				<EuiContextMenuItem
 					icon={<EuiIcon type={DismissRegular} />}
 					onClick={(): void => {
+						playQueueStore.removeItems([item]);
 						closePopover();
 					}}
 				>
@@ -126,6 +127,7 @@ const PlayQueueTableRowPopover = ({
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={(): void => {
+						playQueueStore.removeItemsAbove(item);
 						closePopover();
 					}}
 				>
@@ -134,6 +136,7 @@ const PlayQueueTableRowPopover = ({
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={(): void => {
+						playQueueStore.removeOtherItems(item);
 						closePopover();
 					}}
 				>

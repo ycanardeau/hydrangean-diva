@@ -48,15 +48,34 @@ export const HydrangeanDiva = observer(
 			<>
 				<EuiFlexGroup alignItems="center" gutterSize="m">
 					<EuiFlexItem grow={false}>
-						<EuiButton>Play next{/* LOC */}</EuiButton>
+						<EuiButton
+							disabled={playQueueStore.isEmpty}
+							onClick={(): Promise<void> =>
+								playQueueStore.playSelectedItemsNext()
+							}
+						>
+							Play next{/* LOC */}
+						</EuiButton>
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<EuiButton iconType={AddRegular}>
+						<EuiButton
+							iconType={AddRegular}
+							onClick={(): Promise<void> =>
+								playQueueStore.addSelectedItems()
+							}
+							disabled={playQueueStore.isEmpty}
+						>
 							Add to play queue{/* LOC */}
 						</EuiButton>
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<EuiButton iconType={DismissRegular}>
+						<EuiButton
+							iconType={DismissRegular}
+							onClick={(): Promise<void> =>
+								playQueueStore.removeSelectedItems()
+							}
+							disabled={playQueueStore.isEmpty}
+						>
 							Remove{/* LOC */}
 						</EuiButton>
 					</EuiFlexItem>
