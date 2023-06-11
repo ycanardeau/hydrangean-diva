@@ -131,4 +131,28 @@ export class PlayQueueStore {
 	@action toggleShuffle(): void {
 		this.shuffle = !this.shuffle;
 	}
+
+	@action async previous(): Promise<void> {
+		if (this.currentIndex === undefined) {
+			return;
+		}
+
+		if (!this.hasPreviousItem) {
+			return;
+		}
+
+		this.currentIndex--;
+	}
+
+	@action async next(): Promise<void> {
+		if (this.currentIndex === undefined) {
+			return;
+		}
+
+		if (!this.hasNextItem) {
+			return;
+		}
+
+		this.currentIndex++;
+	}
 }

@@ -16,17 +16,19 @@ export const MiniPlayer = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
 	const diva = useNostalgicDiva();
 
+	const handleLoaded = React.useCallback(async (): Promise<void> => {
+		await diva.play();
+	}, [diva]);
+
 	const options = React.useMemo(
 		(): PlayerOptions => ({
-			onLoaded: async (): Promise<void> => {
-				await diva.play();
-			},
+			onLoaded: handleLoaded,
 			onPlay: () => playerStore.onPlay(),
 			onPause: () => playerStore.onPause(),
 			onEnded: () => playerStore.onEnded(),
 			onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
 		}),
-		[playerStore, diva],
+		[playerStore, handleLoaded],
 	);
 
 	return (

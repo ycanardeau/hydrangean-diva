@@ -70,6 +70,14 @@ export class PlayerStore {
 		this.playQueueStore.toggleShuffle();
 	}
 
+	@action previous(): Promise<void> {
+		return this.playQueueStore.previous();
+	}
+
+	@action next(): Promise<void> {
+		return this.playQueueStore.next();
+	}
+
 	@action setPlaying(value: boolean): void {
 		this.playing = value;
 	}

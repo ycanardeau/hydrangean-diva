@@ -86,6 +86,19 @@ export const BottomBar = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();
 	const diva = useNostalgicDiva();
 
+	const handlePrevious = React.useCallback(async () => {
+		if (playerStore.hasPreviousItem) {
+			const currentTime = await diva.getCurrentTime();
+			if (currentTime === undefined || currentTime < 5) {
+				await playerStore.previous();
+			} else {
+				await diva.setCurrentTime(0);
+			}
+		} else {
+			await diva.setCurrentTime(0);
+		}
+	}, [playerStore, diva]);
+
 	return (
 		<EuiBottomBar>
 			<EuiFlexGroup direction="column" gutterSize="none">
@@ -113,7 +126,8 @@ export const BottomBar = observer((): React.ReactElement => {
 							iconType={PreviousFilled}
 							size="m"
 							iconSize="l"
-							disabled={!playerStore.hasPreviousItem}
+							onClick={handlePrevious}
+							disabled={playerStore.isEmpty}
 						/>
 						{playerStore.playing ? (
 							<EuiButtonIcon
@@ -136,6 +150,7 @@ export const BottomBar = observer((): React.ReactElement => {
 							iconType={NextFilled}
 							size="m"
 							iconSize="l"
+							onClick={(): Promise<void> => playerStore.next()}
 							disabled={!playerStore.hasNextItem}
 						/>
 						<EuiButtonIcon
