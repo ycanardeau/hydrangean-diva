@@ -110,6 +110,13 @@ export class PlayQueueStore {
 		);
 	}
 
+	@computed get isLastItem(): boolean {
+		return (
+			this.currentIndex !== undefined &&
+			this.currentIndex === this.items.length - 1
+		);
+	}
+
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
 		this.currentId = item?.id;
 	}
@@ -154,5 +161,13 @@ export class PlayQueueStore {
 		}
 
 		this.currentIndex++;
+	}
+
+	@action async goToFirst(): Promise<void> {
+		if (this.currentIndex === undefined) {
+			return;
+		}
+
+		this.currentIndex = 0;
 	}
 }

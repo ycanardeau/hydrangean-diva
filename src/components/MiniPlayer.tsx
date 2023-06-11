@@ -1,4 +1,5 @@
 import { usePlayerStore } from '@/components/PlayerStoreContext';
+import { RepeatMode } from '@/stores/PlayQueueStore';
 import {
 	NostalgicDiva,
 	PlayerOptions,
@@ -20,15 +21,44 @@ export const MiniPlayer = observer((): React.ReactElement => {
 		await diva.play();
 	}, [diva]);
 
+	const handleEnded = React.useCallback(async (): Promise<void> => {
+		switch (playerStore.repeat) {
+			case RepeatMode.One:
+				await diva.setCurrentTime(0);
+				break;
+
+			case RepeatMode.Off:
+			case RepeatMode.All:
+				if (playerStore.isLastItem) {
+					switch (playerStore.repeat) {
+						case RepeatMode.Off:
+							playerStore.onEnded();
+							break;
+
+						case RepeatMode.All:
+							if (playerStore.hasMultipleItems) {
+								await playerStore.goToFirst();
+							} else {
+								await diva.setCurrentTime(0);
+							}
+							break;
+					}
+				} else {
+					await playerStore.next();
+				}
+				break;
+		}
+	}, [playerStore, diva]);
+
 	const options = React.useMemo(
 		(): PlayerOptions => ({
 			onLoaded: handleLoaded,
 			onPlay: () => playerStore.onPlay(),
 			onPause: () => playerStore.onPause(),
-			onEnded: () => playerStore.onEnded(),
+			onEnded: handleEnded,
 			onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
 		}),
-		[playerStore, handleLoaded],
+		[playerStore, handleLoaded, handleEnded],
 	);
 
 	return (

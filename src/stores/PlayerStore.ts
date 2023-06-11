@@ -50,12 +50,20 @@ export class PlayerStore {
 		return this.currentItem !== undefined;
 	}
 
+	@computed get hasMultipleItems(): boolean {
+		return this.playQueueStore.hasMultipleItems;
+	}
+
 	@computed get hasPreviousItem(): boolean {
 		return this.playQueueStore.hasPreviousItem;
 	}
 
 	@computed get hasNextItem(): boolean {
 		return this.playQueueStore.hasNextItem;
+	}
+
+	@computed get isLastItem(): boolean {
+		return this.playQueueStore.isLastItem;
 	}
 
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
@@ -76,6 +84,10 @@ export class PlayerStore {
 
 	@action next(): Promise<void> {
 		return this.playQueueStore.next();
+	}
+
+	@action goToFirst(): Promise<void> {
+		return this.playQueueStore.goToFirst();
 	}
 
 	@action setPlaying(value: boolean): void {
