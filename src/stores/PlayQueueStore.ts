@@ -125,6 +125,11 @@ export class PlayQueueStore {
 		);
 	}
 
+	@action clear(): void {
+		this.currentIndex = undefined;
+		this.items = [];
+	}
+
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
 		this.currentId = item?.id;
 	}

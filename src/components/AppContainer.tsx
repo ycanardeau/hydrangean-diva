@@ -3,6 +3,7 @@ import { MiniPlayer } from '@/components/MiniPlayer';
 import { PlayQueueTable } from '@/components/PlayQueueTable';
 import { usePlayerStore } from '@/components/PlayerStoreContext';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
+import { EuiButton, EuiFlexGroup, EuiFlexItem, EuiSpacer } from '@elastic/eui';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -28,6 +29,18 @@ export const AppContainer = observer((): React.ReactElement => {
 
 	return (
 		<>
+			<EuiFlexGroup alignItems="center" gutterSize="m">
+				<EuiFlexItem grow={false}>
+					<EuiButton
+						onClick={(): void => playerStore.playQueueStore.clear()}
+					>
+						Clear{/* LOC */}
+					</EuiButton>
+				</EuiFlexItem>
+			</EuiFlexGroup>
+
+			<EuiSpacer size="l" />
+
 			<PlayQueueTable playQueueStore={playerStore.playQueueStore} />
 
 			{!playerStore.playQueueStore.isEmpty && (
