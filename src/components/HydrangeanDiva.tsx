@@ -5,6 +5,7 @@ import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerStore } from '@/stores/PlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { EuiButton, EuiFlexGroup, EuiFlexItem, EuiSpacer } from '@elastic/eui';
+import { DeleteRegular } from '@fluentui/react-icons';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -43,15 +44,22 @@ export const HydrangeanDiva = observer(
 			<>
 				<EuiFlexGroup alignItems="center" gutterSize="m">
 					<EuiFlexItem grow={false}>
-						<EuiButton onClick={(): void => playQueueStore.clear()}>
+						<EuiButton
+							iconType={DeleteRegular}
+							onClick={(): void => playQueueStore.clear()}
+							disabled={playQueueStore.isEmpty}
+						>
 							Clear{/* LOC */}
 						</EuiButton>
 					</EuiFlexItem>
 				</EuiFlexGroup>
 
-				<EuiSpacer size="l" />
-
-				<PlayQueueTable playQueueStore={playQueueStore} />
+				{!playQueueStore.isEmpty && (
+					<>
+						<EuiSpacer size="l" />
+						<PlayQueueTable playQueueStore={playQueueStore} />
+					</>
+				)}
 
 				{!playQueueStore.isEmpty && (
 					<MiniPlayer
