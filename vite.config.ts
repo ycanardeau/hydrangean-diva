@@ -15,4 +15,10 @@ export default defineConfig({
 			jsxImportSource: '@emotion/react',
 		}),
 	],
+	build: {
+		// https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
+		dynamicImportVarsOptions: {
+			exclude: [],
+		},
+	},
 });

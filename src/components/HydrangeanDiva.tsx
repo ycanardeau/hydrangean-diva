@@ -1,3 +1,4 @@
+import { AddVideoModal } from '@/components/AddVideoModal';
 import { BottomBar, bottomBarHeight } from '@/components/BottomBar';
 import { MiniPlayer } from '@/components/MiniPlayer';
 import { PlayQueueTable } from '@/components/PlayQueueTable';
@@ -50,6 +51,8 @@ export const HydrangeanDiva = observer(
 			);
 		}, [playQueueStore, diva]);
 
+		const [addVideoModalOpen, setAddVideoModalOpen] = React.useState(false);
+
 		return (
 			<>
 				<EuiPageTemplate
@@ -62,7 +65,11 @@ export const HydrangeanDiva = observer(
 					<EuiPageTemplate.Header
 						pageTitle="Play queue" /* LOC */
 						rightSideItems={[
-							<EuiButton>Add video{/* LOC */}</EuiButton>,
+							<EuiButton
+								onClick={(): void => setAddVideoModalOpen(true)}
+							>
+								Add video{/* LOC */}
+							</EuiButton>,
 						]}
 					/>
 
@@ -121,6 +128,13 @@ export const HydrangeanDiva = observer(
 						)}
 					</EuiPageTemplate.Section>
 				</EuiPageTemplate>
+
+				{addVideoModalOpen && (
+					<AddVideoModal
+						onCancel={(): void => setAddVideoModalOpen(false)}
+						onSave={(): void => setAddVideoModalOpen(false)}
+					/>
+				)}
 
 				{!playQueueStore.isEmpty && (
 					<MiniPlayer

@@ -1,5 +1,6 @@
 import { AppContainer } from '@/components/AppContainer';
 import { PlayerStoreProvider } from '@/components/PlayerStoreContext';
+import '@/icons';
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
