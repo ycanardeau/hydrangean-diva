@@ -1,3 +1,4 @@
+import { bottomBarHeight } from '@/components/BottomBar';
 import { PlayQueueStore, RepeatMode } from '@/stores/PlayQueueStore';
 import { PlayerStore } from '@/stores/PlayerStore';
 import {
@@ -10,8 +11,6 @@ import React from 'react';
 
 const miniPlayerWidth = 16 * 25;
 const miniPlayerHeight = 9 * 25;
-
-const bottomBarHeight = 112;
 
 interface MiniPlayerProps {
 	playerStore: PlayerStore;

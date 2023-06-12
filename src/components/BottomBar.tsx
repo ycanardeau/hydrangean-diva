@@ -24,6 +24,8 @@ import {
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
+export const bottomBarHeight = 112;
+
 interface SeekBarProps {
 	playerStore: PlayerStore;
 }
