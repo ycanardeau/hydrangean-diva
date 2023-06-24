@@ -38,19 +38,19 @@ export class PlayerStore {
 		this.seeking = value;
 	}
 
-	@action onPlay(): void {
+	@action.bound onPlay(): void {
 		this.playing = true;
 	}
 
-	@action onPause(): void {
+	@action.bound onPause(): void {
 		this.playing = false;
 	}
 
-	@action onEnded(): void {
+	@action.bound onEnded(): void {
 		this.playing = false;
 	}
 
-	@action onTimeUpdate({ percent }: TimeEvent): void {
+	@action.bound onTimeUpdate({ percent }: TimeEvent): void {
 		if (percent !== undefined) {
 			if (!this.seeking) {
 				this.percent = percent;

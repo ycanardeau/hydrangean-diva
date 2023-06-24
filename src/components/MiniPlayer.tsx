@@ -57,10 +57,10 @@ export const MiniPlayer = observer(
 		const options = React.useMemo(
 			(): PlayerOptions => ({
 				onLoaded: handleLoaded,
-				onPlay: () => playerStore.onPlay(),
-				onPause: () => playerStore.onPause(),
+				onPlay: playerStore.onPlay,
+				onPause: playerStore.onPause,
 				onEnded: handleEnded,
-				onTimeUpdate: (e) => playerStore.onTimeUpdate(e),
+				onTimeUpdate: playerStore.onTimeUpdate,
 			}),
 			[playerStore, handleLoaded, handleEnded],
 		);

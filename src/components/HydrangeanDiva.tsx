@@ -78,8 +78,8 @@ export const HydrangeanDiva = observer(
 							<EuiFlexItem grow={false}>
 								<EuiButton
 									disabled={playQueueStore.isEmpty}
-									onClick={(): Promise<void> =>
-										playQueueStore.playSelectedItemsNext()
+									onClick={
+										playQueueStore.playSelectedItemsNext
 									}
 								>
 									Play next{/* LOC */}
@@ -88,9 +88,7 @@ export const HydrangeanDiva = observer(
 							<EuiFlexItem grow={false}>
 								<EuiButton
 									iconType={AddRegular}
-									onClick={(): Promise<void> =>
-										playQueueStore.addSelectedItems()
-									}
+									onClick={playQueueStore.addSelectedItems}
 									disabled={playQueueStore.isEmpty}
 								>
 									Add to play queue{/* LOC */}
@@ -99,9 +97,7 @@ export const HydrangeanDiva = observer(
 							<EuiFlexItem grow={false}>
 								<EuiButton
 									iconType={DismissRegular}
-									onClick={(): Promise<void> =>
-										playQueueStore.removeSelectedItems()
-									}
+									onClick={playQueueStore.removeSelectedItems}
 									disabled={playQueueStore.isEmpty}
 								>
 									Remove{/* LOC */}
@@ -110,7 +106,7 @@ export const HydrangeanDiva = observer(
 							<EuiFlexItem grow={false}>
 								<EuiButton
 									iconType={DeleteRegular}
-									onClick={(): void => playQueueStore.clear()}
+									onClick={playQueueStore.clear}
 									disabled={playQueueStore.isEmpty}
 								>
 									Clear{/* LOC */}

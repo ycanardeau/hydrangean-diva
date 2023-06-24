@@ -32,7 +32,7 @@ export class PlayQueueItem {
 		this.isSelected = false;
 	}
 
-	@action toggleSelected(): void {
+	@action.bound toggleSelected(): void {
 		this.isSelected = !this.isSelected;
 	}
 
@@ -166,7 +166,7 @@ export class PlayQueueStore {
 		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
 	}
 
-	@action clear(): void {
+	@action.bound clear(): void {
 		this.currentIndex = undefined;
 		this.items = [];
 	}
@@ -206,7 +206,7 @@ export class PlayQueueStore {
 		this.setNextItems(items);
 	}
 
-	@action async playSelectedItemsNext(): Promise<void> {
+	@action.bound async playSelectedItemsNext(): Promise<void> {
 		this.playNext(this.selectedItemsOrAllItems.map((item) => item.clone()));
 
 		this.unselectAll();
@@ -221,7 +221,7 @@ export class PlayQueueStore {
 		this.items.push(...items);
 	}
 
-	@action async addSelectedItems(): Promise<void> {
+	@action.bound async addSelectedItems(): Promise<void> {
 		await this.addItems(
 			this.selectedItemsOrAllItems.map((item) => item.clone()),
 		);
@@ -275,7 +275,7 @@ export class PlayQueueStore {
 		}
 	}
 
-	@action async removeSelectedItems(): Promise<void> {
+	@action.bound async removeSelectedItems(): Promise<void> {
 		this.removeItems(this.selectedItemsOrAllItems);
 
 		this.unselectAll();
@@ -295,7 +295,7 @@ export class PlayQueueStore {
 		);
 	}
 
-	@action toggleRepeat(): void {
+	@action.bound toggleRepeat(): void {
 		switch (this.repeat) {
 			case RepeatMode.Off:
 				this.repeat = RepeatMode.All;
@@ -309,7 +309,7 @@ export class PlayQueueStore {
 		}
 	}
 
-	@action toggleShuffle(): void {
+	@action.bound toggleShuffle(): void {
 		this.shuffle = !this.shuffle;
 	}
 
@@ -325,7 +325,7 @@ export class PlayQueueStore {
 		this.currentIndex--;
 	}
 
-	@action async next(): Promise<void> {
+	@action.bound async next(): Promise<void> {
 		if (this.currentIndex === undefined) {
 			return;
 		}

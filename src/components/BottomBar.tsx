@@ -132,9 +132,7 @@ export const BottomBar = observer(
 								}
 								size="m"
 								iconSize="l"
-								onClick={(): void =>
-									playQueueStore.toggleShuffle()
-								}
+								onClick={playQueueStore.toggleShuffle}
 								disabled /* TODO: remove */
 							/>
 							<EuiButtonIcon
@@ -165,9 +163,7 @@ export const BottomBar = observer(
 								iconType={NextFilled}
 								size="m"
 								iconSize="l"
-								onClick={(): Promise<void> =>
-									playQueueStore.next()
-								}
+								onClick={playQueueStore.next}
 								disabled={!playQueueStore.hasNextItem}
 							/>
 							<EuiButtonIcon
@@ -176,9 +172,7 @@ export const BottomBar = observer(
 								}
 								size="m"
 								iconSize="l"
-								onClick={(): void =>
-									playQueueStore.toggleRepeat()
-								}
+								onClick={playQueueStore.toggleRepeat}
 							/>
 						</EuiFlexGroup>
 					</EuiFlexItem>

@@ -148,7 +148,7 @@ const PlayQueueTableRow = observer(
 					<EuiCheckbox
 						id={item.id.toString() /* TODO */}
 						checked={item.isSelected}
-						onChange={(): void => item.toggleSelected()}
+						onChange={item.toggleSelected}
 					/>
 				</EuiTableRowCellCheckbox>
 				<EuiTableRowCell>
