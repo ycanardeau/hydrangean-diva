@@ -9,8 +9,8 @@ import {
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-const miniPlayerWidth = 16 * 25;
-const miniPlayerHeight = 9 * 25;
+export const miniPlayerWidth = 16 * 25;
+export const miniPlayerHeight = 9 * 25;
 
 interface MiniPlayerProps {
 	playerStore: PlayerStore;
