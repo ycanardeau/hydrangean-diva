@@ -44,7 +44,10 @@ export const HydrangeanDiva = observer(
 						return;
 					}
 
-					if (currentItem.id === previousItem.id) {
+					if (
+						currentItem.type === previousItem.type &&
+						currentItem.videoId === previousItem.videoId
+					) {
 						await diva.setCurrentTime(0);
 					}
 				},
