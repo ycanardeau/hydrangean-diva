@@ -84,24 +84,27 @@ const PlayQueueTableRowPopover = ({
 			<EuiContextMenuPanel>
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
-					onClick={(): void => {
+					onClick={async (): Promise<void> => {
 						closePopover();
+						await playQueueStore.playFirst([item.clone()]);
 					}}
 				>
 					Play first{/* LOC */}
 				</EuiContextMenuItem>
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
-					onClick={(): void => {
+					onClick={async (): Promise<void> => {
 						closePopover();
+						await playQueueStore.playNext([item.clone()]);
 					}}
 				>
 					Play next{/* LOC */}
 				</EuiContextMenuItem>
 				<EuiContextMenuItem
 					icon={<EuiIcon type={AddRegular} />}
-					onClick={(): void => {
+					onClick={async (): Promise<void> => {
 						closePopover();
+						await playQueueStore.addItems([item.clone()]);
 					}}
 				>
 					Add to play queue{/* LOC */}
@@ -110,8 +113,8 @@ const PlayQueueTableRowPopover = ({
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={(): void => {
-						playQueueStore.removeItemsAbove(item);
 						closePopover();
+						playQueueStore.removeItemsAbove(item);
 					}}
 				>
 					Remove to the top{/* LOC */}
@@ -119,8 +122,8 @@ const PlayQueueTableRowPopover = ({
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={(): void => {
-						playQueueStore.removeOtherItems(item);
 						closePopover();
+						playQueueStore.removeOtherItems(item);
 					}}
 				>
 					Remove others{/* LOC */}
