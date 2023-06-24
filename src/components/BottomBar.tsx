@@ -135,6 +135,7 @@ export const BottomBar = observer(
 								onClick={(): void =>
 									playQueueStore.toggleShuffle()
 								}
+								disabled /* TODO: remove */
 							/>
 							<EuiButtonIcon
 								iconType={PreviousFilled}
