@@ -2,7 +2,8 @@ import { AddVideoModal } from '@/components/AddVideoModal';
 import { BottomBar, bottomBarHeight } from '@/components/BottomBar';
 import { MiniPlayer, miniPlayerHeight } from '@/components/MiniPlayer';
 import { PlayQueueTable } from '@/components/PlayQueueTable';
-import { PlayQueueStore } from '@/stores/PlayQueueStore';
+import { videoServices } from '@/services/VideoService';
+import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerStore } from '@/stores/PlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
@@ -134,7 +135,28 @@ export const HydrangeanDiva = observer(
 				{addVideoModalOpen && (
 					<AddVideoModal
 						onCancel={(): void => setAddVideoModalOpen(false)}
-						onSave={(): void => setAddVideoModalOpen(false)}
+						onSave={(e): void => {
+							const videoService = videoServices.find(
+								(videoService) => videoService.canPlay(e.url),
+							);
+							if (videoService !== undefined) {
+								const videoId = videoService.extractVideoId(
+									e.url,
+								);
+								if (videoId !== undefined) {
+									playQueueStore.addItems([
+										new PlayQueueItem(
+											e.url,
+											videoService.type,
+											videoId,
+											e.title || videoId,
+										),
+									]);
+								}
+							}
+
+							setAddVideoModalOpen(false);
+						}}
 					/>
 				)}
 
