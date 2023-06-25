@@ -1,6 +1,6 @@
 import { AddVideoModal } from '@/components/AddVideoModal';
 import { BottomBar, bottomBarHeight } from '@/components/BottomBar';
-import { MiniPlayer, miniPlayerHeight } from '@/components/MiniPlayer';
+import { MiniPlayer, miniPlayerSize } from '@/components/MiniPlayer';
 import { PlayQueueTable } from '@/components/PlayQueueTable';
 import { videoServices } from '@/services/VideoService';
 import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
@@ -140,7 +140,7 @@ export const HydrangeanDiva = observer(
 									playQueueStore={playQueueStore}
 								/>
 								<EuiSpacer
-									style={{ blockSize: miniPlayerHeight }}
+									style={{ blockSize: miniPlayerSize.height }}
 								/>
 							</>
 						)}

@@ -9,8 +9,10 @@ import {
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-export const miniPlayerWidth = 16 * 25;
-export const miniPlayerHeight = 9 * 25;
+export const miniPlayerSize = {
+	width: 16 * 25,
+	height: 9 * 25,
+} as const;
 
 interface MiniPlayerProps {
 	playerStore: PlayerStore;
@@ -75,8 +77,8 @@ export const MiniPlayer = observer(
 					position: 'fixed',
 					right: 0,
 					bottom: bottomBarHeight,
-					width: miniPlayerWidth,
-					height: miniPlayerHeight,
+					width: miniPlayerSize.width,
+					height: miniPlayerSize.height,
 					zIndex: 998,
 					backgroundColor: 'rgb(39, 39, 39)',
 					display: 'flex',
