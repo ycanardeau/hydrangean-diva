@@ -59,6 +59,7 @@ export const AddVideoModal = ({
 					type="submit"
 					onClick={(): void => onSave({ url, title })}
 					fill
+					disabled={url.trim().length === 0}
 				>
 					Save{/* LOC */}
 				</EuiButton>
