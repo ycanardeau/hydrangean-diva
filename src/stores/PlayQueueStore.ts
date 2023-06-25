@@ -225,6 +225,10 @@ export class PlayQueueStore
 		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
 	}
 
+	@action setItems(value: PlayQueueItem[]): void {
+		this.items = value;
+	}
+
 	@action private interact(): void {
 		this.interacted = true;
 	}

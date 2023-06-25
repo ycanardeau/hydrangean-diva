@@ -11,7 +11,6 @@ import {
 	EuiLink,
 	EuiPopover,
 	EuiTable,
-	EuiTableBody,
 	EuiTableHeader,
 	EuiTableHeaderCell,
 	EuiTableHeaderCellCheckbox,
@@ -27,6 +26,7 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { ReactSortable } from 'react-sortablejs';
 
 interface PlayQueueTableHeaderProps {
 	playQueueStore: PlayQueueStore;
@@ -235,7 +235,11 @@ interface PlayQueueTableBodyProps {
 const PlayQueueTableBody = observer(
 	({ playQueueStore }: PlayQueueTableBodyProps): React.ReactElement => {
 		return (
-			<EuiTableBody>
+			<ReactSortable
+				tag="tbody"
+				list={playQueueStore.items}
+				setList={(items): void => playQueueStore.setItems(items)}
+			>
 				{playQueueStore.items.map((item) => (
 					<PlayQueueTableRow
 						key={item.id}
@@ -243,7 +247,7 @@ const PlayQueueTableBody = observer(
 						item={item}
 					/>
 				))}
-			</EuiTableBody>
+			</ReactSortable>
 		);
 	},
 );
