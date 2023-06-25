@@ -81,7 +81,11 @@ export const HydrangeanDiva = observer(
 						<EuiFlexGroup alignItems="center" gutterSize="m">
 							<EuiFlexItem grow={false}>
 								<EuiButton
-									disabled={playQueueStore.isEmpty}
+									disabled={
+										playQueueStore.isEmpty ||
+										playQueueStore.selectedItems.length ===
+											0
+									}
 									onClick={
 										playQueueStore.playSelectedItemsNext
 									}
@@ -93,7 +97,11 @@ export const HydrangeanDiva = observer(
 								<EuiButton
 									iconType={AddRegular}
 									onClick={playQueueStore.addSelectedItems}
-									disabled={playQueueStore.isEmpty}
+									disabled={
+										playQueueStore.isEmpty ||
+										playQueueStore.selectedItems.length ===
+											0
+									}
 								>
 									Add to play queue{/* LOC */}
 								</EuiButton>
@@ -102,7 +110,11 @@ export const HydrangeanDiva = observer(
 								<EuiButton
 									iconType={DismissRegular}
 									onClick={playQueueStore.removeSelectedItems}
-									disabled={playQueueStore.isEmpty}
+									disabled={
+										playQueueStore.isEmpty ||
+										playQueueStore.selectedItems.length ===
+											0
+									}
 								>
 									Remove{/* LOC */}
 								</EuiButton>
