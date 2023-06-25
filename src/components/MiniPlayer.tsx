@@ -22,8 +22,12 @@ export const MiniPlayer = observer(
 		const diva = useNostalgicDiva();
 
 		const handleLoaded = React.useCallback(async (): Promise<void> => {
+			if (!playQueueStore.interacted) {
+				return;
+			}
+
 			await diva.play();
-		}, [diva]);
+		}, [playQueueStore, diva]);
 
 		const handleEnded = React.useCallback(async (): Promise<void> => {
 			switch (playQueueStore.repeat) {

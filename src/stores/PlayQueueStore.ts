@@ -123,6 +123,7 @@ const validatePlayQueueLocalStorageState = getOrAddSchema(
 export class PlayQueueStore
 	implements LocalStorageStateStore<PlayQueueLocalStorageState>
 {
+	@observable interacted = false;
 	@observable items: PlayQueueItem[] = [];
 	@observable currentId?: number;
 	@observable repeat = RepeatMode.Off;
@@ -224,7 +225,13 @@ export class PlayQueueStore
 		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
 	}
 
+	@action private interact(): void {
+		this.interacted = true;
+	}
+
 	@action.bound clear(): void {
+		this.interact();
+
 		this.currentIndex = undefined;
 		this.items = [];
 	}
@@ -236,6 +243,8 @@ export class PlayQueueStore
 	}
 
 	@action setCurrentItem(item: PlayQueueItem | undefined): void {
+		this.interact();
+
 		this.currentId = item?.id;
 	}
 
@@ -298,6 +307,8 @@ export class PlayQueueStore
 			return;
 		}
 
+		this.interact();
+
 		this.items.splice(currentIndex, 0, ...items);
 		this.currentIndex = currentIndex;
 	}
@@ -323,6 +334,8 @@ export class PlayQueueStore
 
 		// If the current item differs from the captured one, then it means that the current item was removed from the play queue.
 		if (this.currentItem !== currentItem) {
+			this.interact();
+
 			if (isLastItem) {
 				// Start over the playlist from the beginning.
 				this.goToFirst();
@@ -380,6 +393,8 @@ export class PlayQueueStore
 			return;
 		}
 
+		this.interact();
+
 		this.currentIndex--;
 	}
 
@@ -391,6 +406,8 @@ export class PlayQueueStore
 		if (!this.hasNextItem) {
 			return;
 		}
+
+		this.interact();
 
 		this.currentIndex++;
 	}
