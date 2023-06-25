@@ -57,81 +57,136 @@ interface PlayQueueTableRowPopoverProps {
 	item: PlayQueueItem;
 }
 
-const PlayQueueTableRowPopover = ({
-	playQueueStore,
-	item,
-}: PlayQueueTableRowPopoverProps): React.ReactElement => {
-	const [isOpen, setIsOpen] = React.useState(false);
+const PlayQueueTableRowPopover = React.memo(
+	({
+		playQueueStore,
+		item,
+	}: PlayQueueTableRowPopoverProps): React.ReactElement => {
+		const [isOpen, setIsOpen] = React.useState(false);
 
-	const togglePopover = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
-	const closePopover = React.useCallback(() => setIsOpen(false), []);
+		const togglePopover = React.useCallback(
+			() => setIsOpen(!isOpen),
+			[isOpen],
+		);
+		const closePopover = React.useCallback(() => setIsOpen(false), []);
 
-	return (
-		<EuiPopover
-			button={
-				<EuiButtonIcon
-					iconType={MoreHorizontalFilled}
+		return (
+			<EuiPopover
+				button={
+					<EuiButtonIcon
+						iconType={MoreHorizontalFilled}
+						size="s"
+						color="text"
+						onClick={togglePopover}
+					/>
+				}
+				isOpen={isOpen}
+				closePopover={closePopover}
+				panelPaddingSize="none"
+				anchorPosition="leftCenter"
+			>
+				<EuiContextMenuPanel>
+					<EuiContextMenuItem
+						icon={<EuiIcon type="" />}
+						onClick={async (): Promise<void> => {
+							closePopover();
+							await playQueueStore.playFirst([item.clone()]);
+						}}
+					>
+						Play first{/* LOC */}
+					</EuiContextMenuItem>
+					<EuiContextMenuItem
+						icon={<EuiIcon type="" />}
+						onClick={async (): Promise<void> => {
+							closePopover();
+							await playQueueStore.playNext([item.clone()]);
+						}}
+					>
+						Play next{/* LOC */}
+					</EuiContextMenuItem>
+					<EuiContextMenuItem
+						icon={<EuiIcon type={AddRegular} />}
+						onClick={async (): Promise<void> => {
+							closePopover();
+							await playQueueStore.addItems([item.clone()]);
+						}}
+					>
+						Add to play queue{/* LOC */}
+					</EuiContextMenuItem>
+					<EuiHorizontalRule margin="none" />
+					<EuiContextMenuItem
+						icon={<EuiIcon type="" />}
+						onClick={(): void => {
+							closePopover();
+							playQueueStore.removeItemsAbove(item);
+						}}
+					>
+						Remove to the top{/* LOC */}
+					</EuiContextMenuItem>
+					<EuiContextMenuItem
+						icon={<EuiIcon type="" />}
+						onClick={(): void => {
+							closePopover();
+							playQueueStore.removeOtherItems(item);
+						}}
+					>
+						Remove others{/* LOC */}
+					</EuiContextMenuItem>
+				</EuiContextMenuPanel>
+			</EuiPopover>
+		);
+	},
+);
+
+interface PlayQueueTableRowActionsCellProps {
+	playQueueStore: PlayQueueStore;
+	item: PlayQueueItem;
+}
+
+const PlayQueueTableRowActionsCell = observer(
+	({
+		playQueueStore,
+		item,
+	}: PlayQueueTableRowActionsCellProps): React.ReactElement => {
+		const diva = useNostalgicDiva();
+
+		return (
+			<EuiTableRowCell
+				showOnHover
+				textOnly={false}
+				hasActions
+				align="right"
+			>
+				<EuiButton
+					iconType={PlayRegular}
 					size="s"
-					color="text"
-					onClick={togglePopover}
+					onClick={async (): Promise<void> => {
+						if (playQueueStore.currentItem === item) {
+							await diva.setCurrentTime(0);
+						} else {
+							playQueueStore.setCurrentItem(item);
+						}
+					}}
+				>
+					Play{/* LOC */}
+				</EuiButton>
+				<EuiButton
+					iconType={DismissRegular}
+					size="s"
+					onClick={(): Promise<void> =>
+						playQueueStore.removeItems([item])
+					}
+				>
+					Remove{/* LOC */}
+				</EuiButton>
+				<PlayQueueTableRowPopover
+					playQueueStore={playQueueStore}
+					item={item}
 				/>
-			}
-			isOpen={isOpen}
-			closePopover={closePopover}
-			panelPaddingSize="none"
-			anchorPosition="leftCenter"
-		>
-			<EuiContextMenuPanel>
-				<EuiContextMenuItem
-					icon={<EuiIcon type="" />}
-					onClick={async (): Promise<void> => {
-						closePopover();
-						await playQueueStore.playFirst([item.clone()]);
-					}}
-				>
-					Play first{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiContextMenuItem
-					icon={<EuiIcon type="" />}
-					onClick={async (): Promise<void> => {
-						closePopover();
-						await playQueueStore.playNext([item.clone()]);
-					}}
-				>
-					Play next{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiContextMenuItem
-					icon={<EuiIcon type={AddRegular} />}
-					onClick={async (): Promise<void> => {
-						closePopover();
-						await playQueueStore.addItems([item.clone()]);
-					}}
-				>
-					Add to play queue{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiHorizontalRule margin="none" />
-				<EuiContextMenuItem
-					icon={<EuiIcon type="" />}
-					onClick={(): void => {
-						closePopover();
-						playQueueStore.removeItemsAbove(item);
-					}}
-				>
-					Remove to the top{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiContextMenuItem
-					icon={<EuiIcon type="" />}
-					onClick={(): void => {
-						closePopover();
-						playQueueStore.removeOtherItems(item);
-					}}
-				>
-					Remove others{/* LOC */}
-				</EuiContextMenuItem>
-			</EuiContextMenuPanel>
-		</EuiPopover>
-	);
-};
+			</EuiTableRowCell>
+		);
+	},
+);
 
 interface PlayQueueTableRowProps {
 	playQueueStore: PlayQueueStore;
@@ -140,8 +195,6 @@ interface PlayQueueTableRowProps {
 
 const PlayQueueTableRow = observer(
 	({ playQueueStore, item }: PlayQueueTableRowProps): React.ReactElement => {
-		const diva = useNostalgicDiva();
-
 		return (
 			<EuiTableRow
 				key={item.id}
@@ -157,39 +210,10 @@ const PlayQueueTableRow = observer(
 				<EuiTableRowCell>
 					<EuiLink href="#">{item.title}</EuiLink>
 				</EuiTableRowCell>
-				<EuiTableRowCell
-					showOnHover
-					textOnly={false}
-					hasActions
-					align="right"
-				>
-					<EuiButton
-						iconType={PlayRegular}
-						size="s"
-						onClick={async (): Promise<void> => {
-							if (playQueueStore.currentItem === item) {
-								await diva.setCurrentTime(0);
-							} else {
-								playQueueStore.setCurrentItem(item);
-							}
-						}}
-					>
-						Play{/* LOC */}
-					</EuiButton>
-					<EuiButton
-						iconType={DismissRegular}
-						size="s"
-						onClick={(): Promise<void> =>
-							playQueueStore.removeItems([item])
-						}
-					>
-						Remove{/* LOC */}
-					</EuiButton>
-					<PlayQueueTableRowPopover
-						playQueueStore={playQueueStore}
-						item={item}
-					/>
-				</EuiTableRowCell>
+				<PlayQueueTableRowActionsCell
+					playQueueStore={playQueueStore}
+					item={item}
+				/>
 			</EuiTableRow>
 		);
 	},
