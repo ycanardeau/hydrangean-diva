@@ -6,6 +6,7 @@ import { videoServices } from '@/services/VideoService';
 import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerStore } from '@/stores/PlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
+import { useLocalStorageStateStore } from '@aigamo/route-sphere';
 import {
 	EuiButton,
 	EuiFlexGroup,
@@ -33,6 +34,8 @@ export const HydrangeanDiva = observer(
 		playQueueStore,
 	}: HydrangeanDivaProps): React.ReactElement => {
 		const diva = useNostalgicDiva();
+
+		useLocalStorageStateStore('PlayQueueStore', playQueueStore);
 
 		React.useEffect(() => {
 			return reaction(

@@ -1,4 +1,7 @@
+import { getOrAddSchema } from '@/stores/getOrAddSchema';
 import { PlayerType } from '@aigamo/nostalgic-diva';
+import { LocalStorageStateStore } from '@aigamo/route-sphere';
+import { JSONSchemaType } from 'ajv';
 import { pull } from 'lodash-es';
 import { action, computed, makeObservable, observable } from 'mobx';
 
@@ -58,7 +61,68 @@ export enum RepeatMode {
 	One = 'One',
 }
 
-export class PlayQueueStore {
+export interface PlayQueueLocalStorageState {
+	version?: '1.0';
+	repeat?: RepeatMode;
+	shuffle?: boolean;
+	items?: PlayQueueItemDto[];
+	currentIndex?: number;
+}
+
+const PlayQueueLocalStorageStateSchema: JSONSchemaType<PlayQueueLocalStorageState> =
+	{
+		type: 'object',
+		properties: {
+			version: {
+				type: 'string',
+				nullable: true,
+			},
+			repeat: {
+				type: 'string',
+				enum: Object.values(RepeatMode),
+				nullable: true,
+			},
+			shuffle: {
+				type: 'boolean',
+				nullable: true,
+			},
+			items: {
+				type: 'array',
+				nullable: true,
+				items: {
+					type: 'object',
+					properties: {
+						url: {
+							type: 'string',
+						},
+						type: {
+							type: 'string',
+						},
+						videoId: {
+							type: 'string',
+						},
+						title: {
+							type: 'string',
+						},
+					},
+					required: ['url', 'type', 'videoId', 'title'],
+				},
+			},
+			currentIndex: {
+				type: 'integer',
+				nullable: true,
+			},
+		},
+	};
+
+const validatePlayQueueLocalStorageState = getOrAddSchema(
+	PlayQueueLocalStorageStateSchema,
+	'PlayQueueStore',
+);
+
+export class PlayQueueStore
+	implements LocalStorageStateStore<PlayQueueLocalStorageState>
+{
 	@observable items: PlayQueueItem[] = [];
 	@observable currentId?: number;
 	@observable repeat = RepeatMode.Off;
@@ -66,42 +130,28 @@ export class PlayQueueStore {
 
 	constructor() {
 		makeObservable(this);
+	}
 
-		// TODO: remove
-		this.items = (
-			[
-				{
-					url: 'https://www.youtube.com/watch?v=bGdtvUQ9OAs',
-					type: 'YouTube',
-					videoId: 'bGdtvUQ9OAs',
-					title: 'nostalgic diva',
-				},
-				{
-					url: 'https://www.nicovideo.jp/watch/sm26653696',
-					type: 'Niconico',
-					videoId: 'sm26653696',
-					title: 'nostalgic diva',
-				},
-				{
-					url: 'https://www.nicovideo.jp/watch/sm23384530',
-					type: 'Niconico',
-					videoId: 'sm23384530',
-					title: 'The Wind-Up Diva',
-				},
-				{
-					url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
-					type: 'YouTube',
-					videoId: 'jUe7dDLGpv8',
-					title: 'Hydrangean Diva',
-				},
-				{
-					url: 'https://www.nicovideo.jp/watch/sm24890523',
-					type: 'Niconico',
-					videoId: 'sm24890523',
-					title: 'Hydrangean Diva',
-				},
-			] as const
-		).map((dto) => PlayQueueItem.fromDto(dto));
+	@computed.struct get localStorageState(): PlayQueueLocalStorageState {
+		return {
+			version: '1.0',
+			repeat: this.repeat,
+			shuffle: this.shuffle,
+			items: this.items.map((item) => item.toDto()),
+			currentIndex: this.currentIndex,
+		};
+	}
+	set localStorageState(value: PlayQueueLocalStorageState) {
+		this.repeat = value.repeat ?? RepeatMode.Off;
+		this.shuffle = value.shuffle ?? false;
+		this.items = value.items?.map(PlayQueueItem.fromDto) ?? [];
+		this.currentIndex = value.currentIndex;
+	}
+
+	validateLocalStorageState(
+		localStorageState: any,
+	): localStorageState is PlayQueueLocalStorageState {
+		return validatePlayQueueLocalStorageState(localStorageState);
 	}
 
 	@computed get isEmpty(): boolean {
