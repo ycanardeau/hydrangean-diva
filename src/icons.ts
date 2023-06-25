@@ -1,6 +1,7 @@
 // https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
 import { ICON_TYPES } from '@elastic/eui';
 import { icon as cross } from '@elastic/eui/es/components/icon/assets/cross';
+import { icon as popout } from '@elastic/eui/es/components/icon/assets/popout';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
 import { ValuesType } from 'utility-types';
 
@@ -9,6 +10,7 @@ type IconComponentCacheType = Partial<Record<IconComponentNameType, unknown>>;
 
 const cachedIcons: IconComponentCacheType = {
 	cross,
+	popout,
 };
 
 appendIconComponentCache(cachedIcons);

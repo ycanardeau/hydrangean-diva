@@ -3,6 +3,7 @@ import { pull } from 'lodash-es';
 import { action, computed, makeObservable, observable } from 'mobx';
 
 interface PlayQueueItemDto {
+	readonly url: string;
 	readonly type: PlayerType;
 	readonly videoId: string;
 	readonly title: string;
@@ -15,6 +16,7 @@ export class PlayQueueItem {
 	@observable isSelected = false;
 
 	constructor(
+		readonly url: string,
 		readonly type: PlayerType,
 		readonly videoId: string,
 		readonly title: string,
@@ -25,7 +27,7 @@ export class PlayQueueItem {
 	}
 
 	static fromDto(dto: PlayQueueItemDto): PlayQueueItem {
-		return new PlayQueueItem(dto.type, dto.videoId, dto.title);
+		return new PlayQueueItem(dto.url, dto.type, dto.videoId, dto.title);
 	}
 
 	@action unselect(): void {
@@ -38,6 +40,7 @@ export class PlayQueueItem {
 
 	toDto(): PlayQueueItemDto {
 		return {
+			url: this.url,
 			type: this.type,
 			videoId: this.videoId,
 			title: this.title,
@@ -68,26 +71,31 @@ export class PlayQueueStore {
 		this.items = (
 			[
 				{
+					url: 'https://www.youtube.com/watch?v=bGdtvUQ9OAs',
 					type: 'YouTube',
 					videoId: 'bGdtvUQ9OAs',
 					title: 'nostalgic diva',
 				},
 				{
+					url: 'https://www.nicovideo.jp/watch/sm26653696',
 					type: 'Niconico',
 					videoId: 'sm26653696',
 					title: 'nostalgic diva',
 				},
 				{
+					url: 'https://www.nicovideo.jp/watch/sm23384530',
 					type: 'Niconico',
 					videoId: 'sm23384530',
 					title: 'The Wind-Up Diva',
 				},
 				{
+					url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 					type: 'YouTube',
 					videoId: 'jUe7dDLGpv8',
 					title: 'Hydrangean Diva',
 				},
 				{
+					url: 'https://www.nicovideo.jp/watch/sm24890523',
 					type: 'Niconico',
 					videoId: 'sm24890523',
 					title: 'Hydrangean Diva',
