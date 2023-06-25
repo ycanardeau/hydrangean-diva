@@ -236,9 +236,9 @@ const PlayQueueTableBody = observer(
 	({ playQueueStore }: PlayQueueTableBodyProps): React.ReactElement => {
 		return (
 			<EuiTableBody>
-				{playQueueStore.items.map((item, index) => (
+				{playQueueStore.items.map((item) => (
 					<PlayQueueTableRow
-						key={index}
+						key={item.id}
 						playQueueStore={playQueueStore}
 						item={item}
 					/>
