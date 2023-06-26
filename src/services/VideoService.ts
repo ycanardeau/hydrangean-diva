@@ -4,7 +4,7 @@ import { PlayerType } from '@aigamo/nostalgic-diva';
 export const MATCH_URL_YOUTUBE =
 	/(?:youtu\.be\/|youtube(?:-nocookie|education)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//;
 export const MATCH_URL_SOUNDCLOUD = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/;
-export const MATCH_URL_VIMEO = /vimeo\.com\/(?!progressive_redirect).+/;
+export const MATCH_URL_VIMEO = /vimeo\.com\/(\d+)$/;
 export const MATCH_URL_FACEBOOK =
 	/^https?:\/\/(www\.)?facebook\.com.*\/(video(s)?|watch|story)(\.php?|\/).+$/;
 export const MATCH_URL_FACEBOOK_WATCH = /^https?:\/\/fb\.watch\/.+$/;
@@ -121,7 +121,7 @@ class VimeoVideoService extends VideoService {
 	}
 
 	extractVideoId(url: string): string | undefined {
-		return url;
+		return MATCH_URL_VIMEO.exec(url)?.[1];
 	}
 }
 
