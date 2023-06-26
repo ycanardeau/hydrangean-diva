@@ -1,15 +1,15 @@
 import {
+	EuiButton,
+	EuiButtonEmpty,
 	EuiFieldText,
 	EuiForm,
 	EuiFormRow,
+	EuiModal,
+	EuiModalBody,
+	EuiModalFooter,
 	EuiModalHeader,
+	EuiModalHeaderTitle,
 } from '@elastic/eui';
-import { EuiModalFooter } from '@elastic/eui';
-import { EuiButton } from '@elastic/eui';
-import { EuiButtonEmpty } from '@elastic/eui';
-import { EuiModalBody } from '@elastic/eui';
-import { EuiModalHeaderTitle } from '@elastic/eui';
-import { EuiModal } from '@elastic/eui';
 import React from 'react';
 
 interface AddVideoModalProps {
