@@ -23,6 +23,10 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
+function isObject(value: any): value is object {
+	return value !== null && typeof value === 'object';
+}
+
 interface HydrangeanDivaProps {
 	playerStore: PlayerStore;
 	playQueueStore: PlayQueueStore;
@@ -150,7 +154,7 @@ export const HydrangeanDiva = observer(
 				{addVideoModalOpen && (
 					<AddVideoModal
 						onCancel={(): void => setAddVideoModalOpen(false)}
-						onSave={(e): void => {
+						onSave={async (e): Promise<void> => {
 							const videoService = videoServices.find(
 								(videoService) => videoService.canPlay(e.url),
 							);
@@ -159,12 +163,25 @@ export const HydrangeanDiva = observer(
 									e.url,
 								);
 								if (videoId !== undefined) {
+									const response = await fetch(
+										`https://noembed.com/embed?url=${encodeURIComponent(
+											e.url,
+										)}`,
+									);
+									const jsonData = await response.json();
+
 									playQueueStore.addItems([
 										new PlayQueueItem(
 											e.url,
 											videoService.type,
 											videoId,
-											e.title || videoId,
+											e.title ||
+												(isObject(jsonData) &&
+												'title' in jsonData &&
+												typeof jsonData.title ===
+													'string'
+													? jsonData.title
+													: videoId),
 										),
 									]);
 								}

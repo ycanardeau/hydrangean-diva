@@ -14,7 +14,7 @@ import React from 'react';
 
 interface AddVideoModalProps {
 	onCancel: () => void;
-	onSave: (e: { url: string; title: string }) => void;
+	onSave: (e: { url: string; title: string }) => Promise<void>;
 }
 
 export const AddVideoModal = ({
@@ -23,6 +23,7 @@ export const AddVideoModal = ({
 }: AddVideoModalProps): React.ReactElement => {
 	const [url, setUrl] = React.useState('');
 	const [title, setTitle] = React.useState('');
+	const [loading, setLoading] = React.useState(false);
 
 	return (
 		<EuiModal onClose={onCancel} initialFocus="[name=url]">
@@ -57,9 +58,18 @@ export const AddVideoModal = ({
 
 				<EuiButton
 					type="submit"
-					onClick={(): void => onSave({ url, title })}
+					onClick={async (): Promise<void> => {
+						try {
+							setLoading(true);
+
+							await onSave({ url, title });
+						} finally {
+							setLoading(false);
+						}
+					}}
 					fill
 					disabled={url.trim().length === 0}
+					isLoading={loading}
 				>
 					Save{/* LOC */}
 				</EuiButton>
