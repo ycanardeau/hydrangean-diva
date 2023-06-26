@@ -1,5 +1,5 @@
 import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
-import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
+import { PlayerType, useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiButtonIcon,
@@ -45,6 +45,7 @@ const PlayQueueTableHeader = observer(
 						}}
 					/>
 				</EuiTableHeaderCellCheckbox>
+				<EuiTableHeaderCell width={24} />
 				<EuiTableHeaderCell>Title{/* LOC */}</EuiTableHeaderCell>
 				<EuiTableHeaderCell />
 			</EuiTableHeader>
@@ -188,6 +189,16 @@ const PlayQueueTableRowActionsCell = observer(
 	},
 );
 
+const videoServiceIcons: Record<PlayerType, string> = {
+	Audio: '' /* TODO */,
+	Dailymotion: 'https://www.dailymotion.com/favicon.ico',
+	Niconico: 'https://www.nicovideo.jp/favicon.ico',
+	SoundCloud: 'https://soundcloud.com/favicon.ico',
+	Twitch: 'https://www.twitch.tv/favicon.ico',
+	Vimeo: 'https://vimeo.com/favicon.ico',
+	YouTube: 'https://www.youtube.com/favicon.ico',
+};
+
 interface PlayQueueTableRowProps {
 	playQueueStore: PlayQueueStore;
 	item: PlayQueueItem;
@@ -209,6 +220,13 @@ const PlayQueueTableRow = observer(
 						onChange={item.toggleSelected}
 					/>
 				</EuiTableRowCellCheckbox>
+				<EuiTableRowCell textOnly={false}>
+					<img
+						src={videoServiceIcons[item.type]}
+						width={16}
+						height={16}
+					/>
+				</EuiTableRowCell>
 				<EuiTableRowCell>
 					<EuiLink
 						href={item.url}
