@@ -225,6 +225,7 @@ const PlayQueueTableRow = observer(
 						src={videoServiceIcons[item.type]}
 						width={16}
 						height={16}
+						alt={item.type /* TODO */}
 					/>
 				</EuiTableRowCell>
 				<EuiTableRowCell>
