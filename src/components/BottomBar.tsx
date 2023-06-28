@@ -5,6 +5,7 @@ import {
 	EuiBottomBar,
 	EuiButtonIcon,
 	EuiContextMenu,
+	EuiContextMenuPanelDescriptor,
 	EuiFlexGroup,
 	EuiFlexItem,
 	EuiFormRow,
@@ -164,6 +165,61 @@ const MorePopover = ({
 	isOpen,
 	closePopover,
 }: MorePopoverProps): React.ReactElement => {
+	const panels = React.useMemo(
+		(): EuiContextMenuPanelDescriptor[] => [
+			{
+				id: 0,
+				items: [
+					{
+						name: 'Speed' /* LOC */,
+						icon: <EuiIcon type={TopSpeedRegular} size="m" />,
+						panel: 1,
+						disabled: true,
+					},
+					{
+						name: 'Skip back 10 seconds' /* LOC */,
+						icon: <EuiIcon type={SkipBack10Regular} size="m" />,
+					},
+					{
+						name: 'Skip forward 30 seconds' /* LOC */,
+						icon: <EuiIcon type={SkipForward30Regular} size="m" />,
+					},
+				],
+			},
+			{
+				id: 1,
+				title: 'Speed' /* LOC */,
+				items: [
+					{
+						name: '0.25',
+					},
+					{
+						name: '0.5',
+					},
+					{
+						name: '0.75',
+					},
+					{
+						name: '1',
+					},
+					{
+						name: '1.25',
+					},
+					{
+						name: '1.5',
+					},
+					{
+						name: '1.75',
+					},
+					{
+						name: '2',
+					},
+				],
+			},
+		],
+		[],
+	);
+
 	return (
 		<EuiPopover
 			button={button}
@@ -171,72 +227,7 @@ const MorePopover = ({
 			closePopover={closePopover}
 			panelPaddingSize="none"
 		>
-			<EuiContextMenu
-				initialPanelId={0}
-				panels={[
-					{
-						id: 0,
-						items: [
-							{
-								name: 'Speed' /* LOC */,
-								icon: (
-									<EuiIcon type={TopSpeedRegular} size="m" />
-								),
-								panel: 1,
-								disabled: true,
-							},
-							{
-								name: 'Skip back 10 seconds' /* LOC */,
-								icon: (
-									<EuiIcon
-										type={SkipBack10Regular}
-										size="m"
-									/>
-								),
-							},
-							{
-								name: 'Skip forward 30 seconds' /* LOC */,
-								icon: (
-									<EuiIcon
-										type={SkipForward30Regular}
-										size="m"
-									/>
-								),
-							},
-						],
-					},
-					{
-						id: 1,
-						title: 'Speed' /* LOC */,
-						items: [
-							{
-								name: '0.25',
-							},
-							{
-								name: '0.5',
-							},
-							{
-								name: '0.75',
-							},
-							{
-								name: '1',
-							},
-							{
-								name: '1.25',
-							},
-							{
-								name: '1.5',
-							},
-							{
-								name: '1.75',
-							},
-							{
-								name: '2',
-							},
-						],
-					},
-				]}
-			/>
+			<EuiContextMenu initialPanelId={0} panels={panels} />
 		</EuiPopover>
 	);
 };
