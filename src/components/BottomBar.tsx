@@ -102,13 +102,22 @@ const VolumePopover = ({
 
 	const diva = useNostalgicDiva();
 
-	React.useEffect(() => {
+	React.useLayoutEffect(() => {
 		diva.getVolume().then((volume) => {
 			if (volume !== undefined) {
 				setValue(Math.floor(volume * 100).toString());
 			}
 		});
 	}, [isOpen, diva]);
+
+	const handleChange = React.useCallback(
+		async (e): Promise<void> => {
+			setValue(e.currentTarget.value);
+
+			await diva.setVolume(Number(e.currentTarget.value) / 100);
+		},
+		[diva],
+	);
 
 	return (
 		<EuiPopover button={button} isOpen={isOpen} closePopover={closePopover}>
@@ -129,7 +138,7 @@ const VolumePopover = ({
 						max={100}
 						step={1}
 						value={value}
-						onChange={(e): void => setValue(e.currentTarget.value)}
+						onChange={handleChange}
 						css={{ blockSize: 32 }}
 					/>
 				</EuiFlexGroup>
