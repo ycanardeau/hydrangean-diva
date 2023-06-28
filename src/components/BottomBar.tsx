@@ -118,62 +118,74 @@ export const BottomBar = observer(
 						<SeekBar playerStore={playerStore} />
 					</EuiFlexItem>
 					<EuiFlexItem>
-						<EuiFlexGroup
-							responsive={false}
-							gutterSize="s"
-							justifyContent="center"
-							alignItems="center"
-						>
-							<EuiButtonIcon
-								iconType={
-									playQueueStore.shuffle
-										? ArrowShuffleFilled
-										: ArrowShuffleOffFilled
-								}
-								size="m"
-								iconSize="l"
-								onClick={playQueueStore.toggleShuffle}
-								disabled /* TODO: remove */
-							/>
-							<EuiButtonIcon
-								iconType={PreviousFilled}
-								size="m"
-								iconSize="l"
-								onClick={handlePrevious}
-								disabled={playQueueStore.isEmpty}
-							/>
-							{playerStore.playing ? (
-								<EuiButtonIcon
-									iconType={PauseFilled}
-									size="m"
-									iconSize="l"
-									onClick={(): Promise<void> => diva.pause()}
-									disabled={!playerStore.canPlay}
-								/>
-							) : (
-								<EuiButtonIcon
-									iconType={PlayFilled}
-									size="m"
-									iconSize="l"
-									onClick={(): Promise<void> => diva.play()}
-									disabled={!playerStore.canPlay}
-								/>
-							)}
-							<EuiButtonIcon
-								iconType={NextFilled}
-								size="m"
-								iconSize="l"
-								onClick={playQueueStore.next}
-								disabled={!playQueueStore.hasNextItem}
-							/>
-							<EuiButtonIcon
-								iconType={
-									repeatIconTypes[playQueueStore.repeat]
-								}
-								size="m"
-								iconSize="l"
-								onClick={playQueueStore.toggleRepeat}
-							/>
+						<EuiFlexGroup>
+							<EuiFlexItem css={{ width: 'calc(100% / 3)' }} />
+							<EuiFlexItem css={{ width: 'calc(100% / 3)' }}>
+								<EuiFlexGroup
+									responsive={false}
+									gutterSize="s"
+									justifyContent="center"
+									alignItems="center"
+								>
+									<EuiButtonIcon
+										iconType={
+											playQueueStore.shuffle
+												? ArrowShuffleFilled
+												: ArrowShuffleOffFilled
+										}
+										size="m"
+										iconSize="l"
+										onClick={playQueueStore.toggleShuffle}
+										disabled /* TODO: remove */
+									/>
+									<EuiButtonIcon
+										iconType={PreviousFilled}
+										size="m"
+										iconSize="l"
+										onClick={handlePrevious}
+										disabled={playQueueStore.isEmpty}
+									/>
+									{playerStore.playing ? (
+										<EuiButtonIcon
+											iconType={PauseFilled}
+											size="m"
+											iconSize="l"
+											onClick={(): Promise<void> =>
+												diva.pause()
+											}
+											disabled={!playerStore.canPlay}
+										/>
+									) : (
+										<EuiButtonIcon
+											iconType={PlayFilled}
+											size="m"
+											iconSize="l"
+											onClick={(): Promise<void> =>
+												diva.play()
+											}
+											disabled={!playerStore.canPlay}
+										/>
+									)}
+									<EuiButtonIcon
+										iconType={NextFilled}
+										size="m"
+										iconSize="l"
+										onClick={playQueueStore.next}
+										disabled={!playQueueStore.hasNextItem}
+									/>
+									<EuiButtonIcon
+										iconType={
+											repeatIconTypes[
+												playQueueStore.repeat
+											]
+										}
+										size="m"
+										iconSize="l"
+										onClick={playQueueStore.toggleRepeat}
+									/>
+								</EuiFlexGroup>
+							</EuiFlexItem>
+							<EuiFlexItem css={{ width: 'calc(100% / 3)' }} />
 						</EuiFlexGroup>
 					</EuiFlexItem>
 				</EuiFlexGroup>
