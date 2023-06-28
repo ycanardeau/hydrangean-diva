@@ -100,59 +100,65 @@ interface VolumePopoverProps {
 	closePopover: () => void;
 }
 
-const VolumePopover = ({
-	button,
-	isOpen,
-	closePopover,
-}: VolumePopoverProps): React.ReactElement => {
-	const [value, setValue] = React.useState('0');
+const VolumePopover = React.memo(
+	({
+		button,
+		isOpen,
+		closePopover,
+	}: VolumePopoverProps): React.ReactElement => {
+		const [value, setValue] = React.useState('0');
 
-	const diva = useNostalgicDiva();
+		const diva = useNostalgicDiva();
 
-	React.useLayoutEffect(() => {
-		diva.getVolume().then((volume) => {
-			if (volume !== undefined) {
-				setValue(Math.floor(volume * 100).toString());
-			}
-		});
-	}, [isOpen, diva]);
+		React.useLayoutEffect(() => {
+			diva.getVolume().then((volume) => {
+				if (volume !== undefined) {
+					setValue(Math.floor(volume * 100).toString());
+				}
+			});
+		}, [isOpen, diva]);
 
-	const handleChange = React.useCallback(
-		async (e): Promise<void> => {
-			setValue(e.currentTarget.value);
+		const handleChange = React.useCallback(
+			async (e): Promise<void> => {
+				setValue(e.currentTarget.value);
 
-			await diva.setVolume(Number(e.currentTarget.value) / 100);
-		},
-		[diva],
-	);
+				await diva.setVolume(Number(e.currentTarget.value) / 100);
+			},
+			[diva],
+		);
 
-	return (
-		<EuiPopover button={button} isOpen={isOpen} closePopover={closePopover}>
-			<EuiFormRow>
-				<EuiFlexGroup
-					responsive={false}
-					gutterSize="s"
-					justifyContent="center"
-					alignItems="center"
-				>
-					<EuiButtonIcon
-						iconType={Speaker2Regular}
-						size="s"
-						iconSize="l"
-					/>
-					<EuiRange
-						min={0}
-						max={100}
-						step={1}
-						value={value}
-						onChange={handleChange}
-						css={{ blockSize: 32 }}
-					/>
-				</EuiFlexGroup>
-			</EuiFormRow>
-		</EuiPopover>
-	);
-};
+		return (
+			<EuiPopover
+				button={button}
+				isOpen={isOpen}
+				closePopover={closePopover}
+			>
+				<EuiFormRow>
+					<EuiFlexGroup
+						responsive={false}
+						gutterSize="s"
+						justifyContent="center"
+						alignItems="center"
+					>
+						<EuiButtonIcon
+							iconType={Speaker2Regular}
+							size="s"
+							iconSize="l"
+						/>
+						<EuiRange
+							min={0}
+							max={100}
+							step={1}
+							value={value}
+							onChange={handleChange}
+							css={{ blockSize: 32 }}
+						/>
+					</EuiFlexGroup>
+				</EuiFormRow>
+			</EuiPopover>
+		);
+	},
+);
 
 interface MorePopoverProps {
 	button?: NonNullable<React.ReactNode>;
@@ -160,101 +166,105 @@ interface MorePopoverProps {
 	closePopover: () => void;
 }
 
-const MorePopover = ({
-	button,
-	isOpen,
-	closePopover,
-}: MorePopoverProps): React.ReactElement => {
-	const diva = useNostalgicDiva();
+const MorePopover = React.memo(
+	({
+		button,
+		isOpen,
+		closePopover,
+	}: MorePopoverProps): React.ReactElement => {
+		const diva = useNostalgicDiva();
 
-	const handleClickSkipBack10 = React.useCallback(async () => {
-		const currentTime = await diva.getCurrentTime();
+		const handleClickSkipBack10 = React.useCallback(async () => {
+			const currentTime = await diva.getCurrentTime();
 
-		if (currentTime !== undefined) {
-			await diva.setCurrentTime(currentTime - 10);
-		}
+			if (currentTime !== undefined) {
+				await diva.setCurrentTime(currentTime - 10);
+			}
 
-		closePopover();
-	}, [diva, closePopover]);
+			closePopover();
+		}, [diva, closePopover]);
 
-	const handleClickSkipForward30 = React.useCallback(async () => {
-		const currentTime = await diva.getCurrentTime();
+		const handleClickSkipForward30 = React.useCallback(async () => {
+			const currentTime = await diva.getCurrentTime();
 
-		if (currentTime !== undefined) {
-			await diva.setCurrentTime(currentTime + 30);
-		}
+			if (currentTime !== undefined) {
+				await diva.setCurrentTime(currentTime + 30);
+			}
 
-		closePopover();
-	}, [diva, closePopover]);
+			closePopover();
+		}, [diva, closePopover]);
 
-	const panels = React.useMemo(
-		(): EuiContextMenuPanelDescriptor[] => [
-			{
-				id: 0,
-				items: [
-					{
-						name: 'Speed' /* LOC */,
-						icon: <EuiIcon type={TopSpeedRegular} size="m" />,
-						panel: 1,
-						disabled: true,
-					},
-					{
-						name: 'Skip back 10 seconds' /* LOC */,
-						icon: <EuiIcon type={SkipBack10Regular} size="m" />,
-						onClick: handleClickSkipBack10,
-					},
-					{
-						name: 'Skip forward 30 seconds' /* LOC */,
-						icon: <EuiIcon type={SkipForward30Regular} size="m" />,
-						onClick: handleClickSkipForward30,
-					},
-				],
-			},
-			{
-				id: 1,
-				title: 'Speed' /* LOC */,
-				items: [
-					{
-						name: '0.25',
-					},
-					{
-						name: '0.5',
-					},
-					{
-						name: '0.75',
-					},
-					{
-						name: '1',
-					},
-					{
-						name: '1.25',
-					},
-					{
-						name: '1.5',
-					},
-					{
-						name: '1.75',
-					},
-					{
-						name: '2',
-					},
-				],
-			},
-		],
-		[handleClickSkipBack10, handleClickSkipForward30],
-	);
+		const panels = React.useMemo(
+			(): EuiContextMenuPanelDescriptor[] => [
+				{
+					id: 0,
+					items: [
+						{
+							name: 'Speed' /* LOC */,
+							icon: <EuiIcon type={TopSpeedRegular} size="m" />,
+							panel: 1,
+							disabled: true,
+						},
+						{
+							name: 'Skip back 10 seconds' /* LOC */,
+							icon: <EuiIcon type={SkipBack10Regular} size="m" />,
+							onClick: handleClickSkipBack10,
+						},
+						{
+							name: 'Skip forward 30 seconds' /* LOC */,
+							icon: (
+								<EuiIcon type={SkipForward30Regular} size="m" />
+							),
+							onClick: handleClickSkipForward30,
+						},
+					],
+				},
+				{
+					id: 1,
+					title: 'Speed' /* LOC */,
+					items: [
+						{
+							name: '0.25',
+						},
+						{
+							name: '0.5',
+						},
+						{
+							name: '0.75',
+						},
+						{
+							name: '1',
+						},
+						{
+							name: '1.25',
+						},
+						{
+							name: '1.5',
+						},
+						{
+							name: '1.75',
+						},
+						{
+							name: '2',
+						},
+					],
+				},
+			],
+			[handleClickSkipBack10, handleClickSkipForward30],
+		);
 
-	return (
-		<EuiPopover
-			button={button}
-			isOpen={isOpen}
-			closePopover={closePopover}
-			panelPaddingSize="none"
-		>
-			<EuiContextMenu initialPanelId={0} panels={panels} />
-		</EuiPopover>
-	);
-};
+		return (
+			<EuiPopover
+				button={button}
+				isOpen={isOpen}
+				closePopover={closePopover}
+				panelPaddingSize="none"
+			>
+				<EuiContextMenu initialPanelId={0} panels={panels} />
+			</EuiPopover>
+		);
+	},
+);
 
 const repeatIconTypes: Record<RepeatMode, IconType> = {
 	[RepeatMode.Off]: ArrowRepeatAllOffFilled,
@@ -262,13 +272,16 @@ const repeatIconTypes: Record<RepeatMode, IconType> = {
 	[RepeatMode.One]: ArrowRepeat1Filled,
 };
 
-interface BottomBarProps {
+interface BottomBarCenterControlsProps {
 	playerStore: PlayerStore;
 	playQueueStore: PlayQueueStore;
 }
 
-export const BottomBar = observer(
-	({ playerStore, playQueueStore }: BottomBarProps): React.ReactElement => {
+const BottomBarCenterControls = observer(
+	({
+		playerStore,
+		playQueueStore,
+	}: BottomBarCenterControlsProps): React.ReactElement => {
 		const diva = useNostalgicDiva();
 
 		const handlePrevious = React.useCallback(async () => {
@@ -284,17 +297,119 @@ export const BottomBar = observer(
 			}
 		}, [playQueueStore, diva]);
 
-		const [isVolumePopoverOpen, setIsVolumePopoverOpen] =
-			React.useState(false);
+		return (
+			<EuiFlexGroup
+				responsive={false}
+				gutterSize="s"
+				justifyContent="center"
+				alignItems="center"
+			>
+				<EuiButtonIcon
+					iconType={
+						playQueueStore.shuffle
+							? ArrowShuffleFilled
+							: ArrowShuffleOffFilled
+					}
+					size="s"
+					iconSize="l"
+					onClick={playQueueStore.toggleShuffle}
+					disabled /* TODO: remove */
+				/>
+				<EuiButtonIcon
+					iconType={PreviousFilled}
+					size="s"
+					iconSize="l"
+					onClick={handlePrevious}
+					disabled={playQueueStore.isEmpty}
+				/>
+				{playerStore.playing ? (
+					<EuiButtonIcon
+						iconType={PauseFilled}
+						size="s"
+						iconSize="l"
+						onClick={(): Promise<void> => diva.pause()}
+						disabled={!playerStore.canPlay}
+					/>
+				) : (
+					<EuiButtonIcon
+						iconType={PlayFilled}
+						size="s"
+						iconSize="l"
+						onClick={(): Promise<void> => diva.play()}
+						disabled={!playerStore.canPlay}
+					/>
+				)}
+				<EuiButtonIcon
+					iconType={NextFilled}
+					size="s"
+					iconSize="l"
+					onClick={playQueueStore.next}
+					disabled={!playQueueStore.hasNextItem}
+				/>
+				<EuiButtonIcon
+					iconType={repeatIconTypes[playQueueStore.repeat]}
+					size="s"
+					iconSize="l"
+					onClick={playQueueStore.toggleRepeat}
+				/>
+			</EuiFlexGroup>
+		);
+	},
+);
 
-		const toggleVolumePopover = (): void =>
-			setIsVolumePopoverOpen(!isVolumePopoverOpen);
+const BottomBarRightControls = React.memo((): React.ReactElement => {
+	const [isVolumePopoverOpen, setIsVolumePopoverOpen] = React.useState(false);
 
-		const [isMorePopoverOpen, setIsMorePopoverOpen] = React.useState(false);
+	const toggleVolumePopover = (): void =>
+		setIsVolumePopoverOpen(!isVolumePopoverOpen);
 
-		const toggleMorePopover = (): void =>
-			setIsMorePopoverOpen(!isMorePopoverOpen);
+	const [isMorePopoverOpen, setIsMorePopoverOpen] = React.useState(false);
 
+	const toggleMorePopover = (): void =>
+		setIsMorePopoverOpen(!isMorePopoverOpen);
+
+	return (
+		<EuiFlexGroup
+			responsive={false}
+			gutterSize="s"
+			justifyContent="flexEnd"
+			alignItems="center"
+		>
+			<VolumePopover
+				button={
+					<EuiButtonIcon
+						iconType={Speaker2Regular}
+						size="s"
+						iconSize="l"
+						onClick={toggleVolumePopover}
+					/>
+				}
+				isOpen={isVolumePopoverOpen}
+				closePopover={(): void => setIsVolumePopoverOpen(false)}
+			/>
+			<MorePopover
+				button={
+					<EuiButtonIcon
+						iconType={MoreHorizontalFilled}
+						size="s"
+						iconSize="l"
+						onClick={toggleMorePopover}
+					/>
+				}
+				isOpen={isMorePopoverOpen}
+				closePopover={(): void => setIsMorePopoverOpen(false)}
+			/>
+		</EuiFlexGroup>
+	);
+});
+
+interface BottomBarProps {
+	playerStore: PlayerStore;
+	playQueueStore: PlayQueueStore;
+}
+
+export const BottomBar = observer(
+	({ playerStore, playQueueStore }: BottomBarProps): React.ReactElement => {
 		return (
 			<EuiBottomBar paddingSize="s">
 				<EuiFlexGroup direction="column" gutterSize="none">
@@ -305,106 +420,13 @@ export const BottomBar = observer(
 						<EuiFlexGroup responsive={false}>
 							<EuiFlexItem css={{ width: 'calc(100% / 3)' }} />
 							<EuiFlexItem css={{ width: 'calc(100% / 3)' }}>
-								<EuiFlexGroup
-									responsive={false}
-									gutterSize="s"
-									justifyContent="center"
-									alignItems="center"
-								>
-									<EuiButtonIcon
-										iconType={
-											playQueueStore.shuffle
-												? ArrowShuffleFilled
-												: ArrowShuffleOffFilled
-										}
-										size="s"
-										iconSize="l"
-										onClick={playQueueStore.toggleShuffle}
-										disabled /* TODO: remove */
-									/>
-									<EuiButtonIcon
-										iconType={PreviousFilled}
-										size="s"
-										iconSize="l"
-										onClick={handlePrevious}
-										disabled={playQueueStore.isEmpty}
-									/>
-									{playerStore.playing ? (
-										<EuiButtonIcon
-											iconType={PauseFilled}
-											size="s"
-											iconSize="l"
-											onClick={(): Promise<void> =>
-												diva.pause()
-											}
-											disabled={!playerStore.canPlay}
-										/>
-									) : (
-										<EuiButtonIcon
-											iconType={PlayFilled}
-											size="s"
-											iconSize="l"
-											onClick={(): Promise<void> =>
-												diva.play()
-											}
-											disabled={!playerStore.canPlay}
-										/>
-									)}
-									<EuiButtonIcon
-										iconType={NextFilled}
-										size="s"
-										iconSize="l"
-										onClick={playQueueStore.next}
-										disabled={!playQueueStore.hasNextItem}
-									/>
-									<EuiButtonIcon
-										iconType={
-											repeatIconTypes[
-												playQueueStore.repeat
-											]
-										}
-										size="s"
-										iconSize="l"
-										onClick={playQueueStore.toggleRepeat}
-									/>
-								</EuiFlexGroup>
+								<BottomBarCenterControls
+									playerStore={playerStore}
+									playQueueStore={playQueueStore}
+								/>
 							</EuiFlexItem>
 							<EuiFlexItem css={{ width: 'calc(100% / 3)' }}>
-								<EuiFlexGroup
-									responsive={false}
-									gutterSize="s"
-									justifyContent="flexEnd"
-									alignItems="center"
-								>
-									<VolumePopover
-										button={
-											<EuiButtonIcon
-												iconType={Speaker2Regular}
-												size="s"
-												iconSize="l"
-												onClick={toggleVolumePopover}
-											/>
-										}
-										isOpen={isVolumePopoverOpen}
-										closePopover={(): void =>
-											setIsVolumePopoverOpen(false)
-										}
-									/>
-									<MorePopover
-										button={
-											<EuiButtonIcon
-												iconType={MoreHorizontalFilled}
-												size="s"
-												iconSize="l"
-												onClick={toggleMorePopover}
-											/>
-										}
-										isOpen={isMorePopoverOpen}
-										closePopover={(): void =>
-											setIsMorePopoverOpen(false)
-										}
-									/>
-								</EuiFlexGroup>
+								<BottomBarRightControls />
 							</EuiFlexItem>
 						</EuiFlexGroup>
 					</EuiFlexItem>
