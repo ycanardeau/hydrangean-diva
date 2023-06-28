@@ -8,6 +8,7 @@ import {
 	EuiFlexGroup,
 	EuiFlexItem,
 	EuiFormRow,
+	EuiIcon,
 	EuiPopover,
 	EuiRange,
 	IconType,
@@ -25,6 +26,7 @@ import {
 	PlayFilled,
 	PreviousFilled,
 	Speaker2Regular,
+	TopSpeedRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -175,6 +177,9 @@ const MorePopover = ({
 						items: [
 							{
 								name: 'Speed' /* LOC */,
+								icon: (
+									<EuiIcon type={TopSpeedRegular} size="l" />
+								),
 								panel: 1,
 							},
 						],
