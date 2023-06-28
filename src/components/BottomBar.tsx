@@ -165,6 +165,28 @@ const MorePopover = ({
 	isOpen,
 	closePopover,
 }: MorePopoverProps): React.ReactElement => {
+	const diva = useNostalgicDiva();
+
+	const handleClickSkipBack10 = React.useCallback(async () => {
+		const currentTime = await diva.getCurrentTime();
+
+		if (currentTime !== undefined) {
+			await diva.setCurrentTime(currentTime - 10);
+		}
+
+		closePopover();
+	}, [diva, closePopover]);
+
+	const handleClickSkipForward30 = React.useCallback(async () => {
+		const currentTime = await diva.getCurrentTime();
+
+		if (currentTime !== undefined) {
+			await diva.setCurrentTime(currentTime + 30);
+		}
+
+		closePopover();
+	}, [diva, closePopover]);
+
 	const panels = React.useMemo(
 		(): EuiContextMenuPanelDescriptor[] => [
 			{
@@ -179,10 +201,12 @@ const MorePopover = ({
 					{
 						name: 'Skip back 10 seconds' /* LOC */,
 						icon: <EuiIcon type={SkipBack10Regular} size="m" />,
+						onClick: handleClickSkipBack10,
 					},
 					{
 						name: 'Skip forward 30 seconds' /* LOC */,
 						icon: <EuiIcon type={SkipForward30Regular} size="m" />,
+						onClick: handleClickSkipForward30,
 					},
 				],
 			},
@@ -217,7 +241,7 @@ const MorePopover = ({
 				],
 			},
 		],
-		[],
+		[handleClickSkipBack10, handleClickSkipForward30],
 	);
 
 	return (
