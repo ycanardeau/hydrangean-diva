@@ -194,6 +194,15 @@ const MorePopover = React.memo(
 			closePopover();
 		}, [diva, closePopover]);
 
+		const handleClickPlaybackRate = React.useCallback(
+			async (playbackRate: number): Promise<void> => {
+				await diva.setPlaybackRate(playbackRate);
+
+				closePopover();
+			},
+			[diva, closePopover],
+		);
+
 		const panels = React.useMemo(
 			(): EuiContextMenuPanelDescriptor[] => [
 				{
@@ -203,7 +212,6 @@ const MorePopover = React.memo(
 							name: 'Speed' /* LOC */,
 							icon: <EuiIcon type={TopSpeedRegular} size="m" />,
 							panel: 1,
-							disabled: true,
 						},
 						{
 							name: 'Skip back 10 seconds' /* LOC */,
@@ -222,35 +230,20 @@ const MorePopover = React.memo(
 				{
 					id: 1,
 					title: 'Speed' /* LOC */,
-					items: [
-						{
-							name: '0.25',
-						},
-						{
-							name: '0.5',
-						},
-						{
-							name: '0.75',
-						},
-						{
-							name: '1',
-						},
-						{
-							name: '1.25',
-						},
-						{
-							name: '1.5',
-						},
-						{
-							name: '1.75',
-						},
-						{
-							name: '2',
-						},
-					],
+					items: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map(
+						(playbackRate) => ({
+							name: playbackRate.toString(),
+							onClick: (): Promise<void> =>
+								handleClickPlaybackRate(playbackRate),
+						}),
+					),
 				},
 			],
-			[handleClickSkipBack10, handleClickSkipForward30],
+			[
+				handleClickSkipBack10,
+				handleClickSkipForward30,
+				handleClickPlaybackRate,
+			],
 		);
 
 		return (
