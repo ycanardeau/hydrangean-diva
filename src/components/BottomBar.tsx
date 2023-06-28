@@ -6,6 +6,8 @@ import {
 	EuiButtonIcon,
 	EuiFlexGroup,
 	EuiFlexItem,
+	EuiFormRow,
+	EuiPopover,
 	EuiRange,
 	IconType,
 } from '@elastic/eui';
@@ -85,6 +87,47 @@ const SeekBar = observer(
 	},
 );
 
+interface VolumePopoverProps {
+	button?: NonNullable<React.ReactNode>;
+	isOpen: boolean;
+	closePopover: () => void;
+}
+
+const VolumePopover = ({
+	button,
+	isOpen,
+	closePopover,
+}: VolumePopoverProps): React.ReactElement => {
+	const [value, setValue] = React.useState('0');
+
+	return (
+		<EuiPopover button={button} isOpen={isOpen} closePopover={closePopover}>
+			<EuiFormRow>
+				<EuiFlexGroup
+					responsive={false}
+					gutterSize="s"
+					justifyContent="center"
+					alignItems="center"
+				>
+					<EuiButtonIcon
+						iconType={Speaker2Regular}
+						size="s"
+						iconSize="l"
+					/>
+					<EuiRange
+						min={0}
+						max={100}
+						step={1}
+						value={value}
+						onChange={(e): void => setValue(e.currentTarget.value)}
+						css={{ blockSize: 32 }}
+					/>
+				</EuiFlexGroup>
+			</EuiFormRow>
+		</EuiPopover>
+	);
+};
+
 const repeatIconTypes: Record<RepeatMode, IconType> = {
 	[RepeatMode.Off]: ArrowRepeatAllOffFilled,
 	[RepeatMode.All]: ArrowRepeatAllFilled,
@@ -112,6 +155,12 @@ export const BottomBar = observer(
 				await diva.setCurrentTime(0);
 			}
 		}, [playQueueStore, diva]);
+
+		const [isVolumePopoverOpen, setIsVolumePopoverOpen] =
+			React.useState(false);
+
+		const toggleVolumePopover = (): void =>
+			setIsVolumePopoverOpen(!isVolumePopoverOpen);
 
 		return (
 			<EuiBottomBar paddingSize="s">
@@ -194,11 +243,19 @@ export const BottomBar = observer(
 									justifyContent="flexEnd"
 									alignItems="center"
 								>
-									<EuiButtonIcon
-										iconType={Speaker2Regular}
-										size="s"
-										iconSize="l"
-										onClick={(): void => {}}
+									<VolumePopover
+										button={
+											<EuiButtonIcon
+												iconType={Speaker2Regular}
+												size="s"
+												iconSize="l"
+												onClick={toggleVolumePopover}
+											/>
+										}
+										isOpen={isVolumePopoverOpen}
+										closePopover={(): void =>
+											setIsVolumePopoverOpen(false)
+										}
 									/>
 								</EuiFlexGroup>
 							</EuiFlexItem>
