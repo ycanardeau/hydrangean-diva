@@ -4,6 +4,7 @@ import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiBottomBar,
 	EuiButtonIcon,
+	EuiContextMenu,
 	EuiFlexGroup,
 	EuiFlexItem,
 	EuiFormRow,
@@ -150,10 +151,68 @@ const VolumePopover = ({
 
 interface MorePopoverProps {
 	button?: NonNullable<React.ReactNode>;
+	isOpen: boolean;
+	closePopover: () => void;
 }
 
-const MorePopover = ({ button }: MorePopoverProps): React.ReactElement => {
-	return <EuiPopover button={button} />;
+const MorePopover = ({
+	button,
+	isOpen,
+	closePopover,
+}: MorePopoverProps): React.ReactElement => {
+	return (
+		<EuiPopover
+			button={button}
+			isOpen={isOpen}
+			closePopover={closePopover}
+			panelPaddingSize="none"
+		>
+			<EuiContextMenu
+				initialPanelId={0}
+				panels={[
+					{
+						id: 0,
+						items: [
+							{
+								name: 'Speed' /* LOC */,
+								panel: 1,
+							},
+						],
+					},
+					{
+						id: 1,
+						title: 'Speed' /* LOC */,
+						items: [
+							{
+								name: '0.25',
+							},
+							{
+								name: '0.5',
+							},
+							{
+								name: '0.75',
+							},
+							{
+								name: '1',
+							},
+							{
+								name: '1.25',
+							},
+							{
+								name: '1.5',
+							},
+							{
+								name: '1.75',
+							},
+							{
+								name: '2',
+							},
+						],
+					},
+				]}
+			/>
+		</EuiPopover>
+	);
 };
 
 const repeatIconTypes: Record<RepeatMode, IconType> = {
@@ -189,6 +248,11 @@ export const BottomBar = observer(
 
 		const toggleVolumePopover = (): void =>
 			setIsVolumePopoverOpen(!isVolumePopoverOpen);
+
+		const [isMorePopoverOpen, setIsMorePopoverOpen] = React.useState(false);
+
+		const toggleMorePopover = (): void =>
+			setIsMorePopoverOpen(!isMorePopoverOpen);
 
 		return (
 			<EuiBottomBar paddingSize="s">
@@ -291,7 +355,12 @@ export const BottomBar = observer(
 												iconType={MoreHorizontalFilled}
 												size="s"
 												iconSize="l"
+												onClick={toggleMorePopover}
 											/>
+										}
+										isOpen={isMorePopoverOpen}
+										closePopover={(): void =>
+											setIsMorePopoverOpen(false)
 										}
 									/>
 								</EuiFlexGroup>
