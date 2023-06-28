@@ -100,6 +100,16 @@ const VolumePopover = ({
 }: VolumePopoverProps): React.ReactElement => {
 	const [value, setValue] = React.useState('0');
 
+	const diva = useNostalgicDiva();
+
+	React.useEffect(() => {
+		diva.getVolume().then((volume) => {
+			if (volume !== undefined) {
+				setValue(Math.floor(volume * 100).toString());
+			}
+		});
+	}, [isOpen, diva]);
+
 	return (
 		<EuiPopover button={button} isOpen={isOpen} closePopover={closePopover}>
 			<EuiFormRow>
