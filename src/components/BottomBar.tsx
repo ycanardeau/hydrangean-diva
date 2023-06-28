@@ -25,6 +25,8 @@ import {
 	PauseFilled,
 	PlayFilled,
 	PreviousFilled,
+	SkipBack10Regular,
+	SkipForward30Regular,
 	Speaker2Regular,
 	TopSpeedRegular,
 } from '@fluentui/react-icons';
@@ -178,9 +180,28 @@ const MorePopover = ({
 							{
 								name: 'Speed' /* LOC */,
 								icon: (
-									<EuiIcon type={TopSpeedRegular} size="l" />
+									<EuiIcon type={TopSpeedRegular} size="m" />
 								),
 								panel: 1,
+								disabled: true,
+							},
+							{
+								name: 'Skip back 10 seconds' /* LOC */,
+								icon: (
+									<EuiIcon
+										type={SkipBack10Regular}
+										size="m"
+									/>
+								),
+							},
+							{
+								name: 'Skip forward 30 seconds' /* LOC */,
+								icon: (
+									<EuiIcon
+										type={SkipForward30Regular}
+										size="m"
+									/>
+								),
 							},
 						],
 					},
