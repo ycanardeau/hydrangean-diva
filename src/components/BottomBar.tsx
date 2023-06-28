@@ -20,11 +20,12 @@ import {
 	PauseFilled,
 	PlayFilled,
 	PreviousFilled,
+	Speaker2Regular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-export const bottomBarHeight = 112;
+export const bottomBarHeight = 80;
 
 interface SeekBarProps {
 	playerStore: PlayerStore;
@@ -78,6 +79,7 @@ const SeekBar = observer(
 				onMouseUp={handleMouseUp}
 				fullWidth
 				showRange
+				css={{ blockSize: 32 }}
 			/>
 		);
 	},
@@ -112,13 +114,13 @@ export const BottomBar = observer(
 		}, [playQueueStore, diva]);
 
 		return (
-			<EuiBottomBar>
+			<EuiBottomBar paddingSize="s">
 				<EuiFlexGroup direction="column" gutterSize="none">
 					<EuiFlexItem>
 						<SeekBar playerStore={playerStore} />
 					</EuiFlexItem>
 					<EuiFlexItem>
-						<EuiFlexGroup>
+						<EuiFlexGroup responsive={false}>
 							<EuiFlexItem css={{ width: 'calc(100% / 3)' }} />
 							<EuiFlexItem css={{ width: 'calc(100% / 3)' }}>
 								<EuiFlexGroup
@@ -133,14 +135,14 @@ export const BottomBar = observer(
 												? ArrowShuffleFilled
 												: ArrowShuffleOffFilled
 										}
-										size="m"
+										size="s"
 										iconSize="l"
 										onClick={playQueueStore.toggleShuffle}
 										disabled /* TODO: remove */
 									/>
 									<EuiButtonIcon
 										iconType={PreviousFilled}
-										size="m"
+										size="s"
 										iconSize="l"
 										onClick={handlePrevious}
 										disabled={playQueueStore.isEmpty}
@@ -148,7 +150,7 @@ export const BottomBar = observer(
 									{playerStore.playing ? (
 										<EuiButtonIcon
 											iconType={PauseFilled}
-											size="m"
+											size="s"
 											iconSize="l"
 											onClick={(): Promise<void> =>
 												diva.pause()
@@ -158,7 +160,7 @@ export const BottomBar = observer(
 									) : (
 										<EuiButtonIcon
 											iconType={PlayFilled}
-											size="m"
+											size="s"
 											iconSize="l"
 											onClick={(): Promise<void> =>
 												diva.play()
@@ -168,7 +170,7 @@ export const BottomBar = observer(
 									)}
 									<EuiButtonIcon
 										iconType={NextFilled}
-										size="m"
+										size="s"
 										iconSize="l"
 										onClick={playQueueStore.next}
 										disabled={!playQueueStore.hasNextItem}
@@ -179,13 +181,27 @@ export const BottomBar = observer(
 												playQueueStore.repeat
 											]
 										}
-										size="m"
+										size="s"
 										iconSize="l"
 										onClick={playQueueStore.toggleRepeat}
 									/>
 								</EuiFlexGroup>
 							</EuiFlexItem>
-							<EuiFlexItem css={{ width: 'calc(100% / 3)' }} />
+							<EuiFlexItem css={{ width: 'calc(100% / 3)' }}>
+								<EuiFlexGroup
+									responsive={false}
+									gutterSize="s"
+									justifyContent="flexEnd"
+									alignItems="center"
+								>
+									<EuiButtonIcon
+										iconType={Speaker2Regular}
+										size="s"
+										iconSize="l"
+										onClick={(): void => {}}
+									/>
+								</EuiFlexGroup>
+							</EuiFlexItem>
 						</EuiFlexGroup>
 					</EuiFlexItem>
 				</EuiFlexGroup>
