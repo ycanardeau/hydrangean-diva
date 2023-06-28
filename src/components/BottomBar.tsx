@@ -18,6 +18,7 @@ import {
 	ArrowRepeatAllOffFilled,
 	ArrowShuffleFilled,
 	ArrowShuffleOffFilled,
+	MoreHorizontalFilled,
 	NextFilled,
 	PauseFilled,
 	PlayFilled,
@@ -147,6 +148,14 @@ const VolumePopover = ({
 	);
 };
 
+interface MorePopoverProps {
+	button?: NonNullable<React.ReactNode>;
+}
+
+const MorePopover = ({ button }: MorePopoverProps): React.ReactElement => {
+	return <EuiPopover button={button} />;
+};
+
 const repeatIconTypes: Record<RepeatMode, IconType> = {
 	[RepeatMode.Off]: ArrowRepeatAllOffFilled,
 	[RepeatMode.All]: ArrowRepeatAllFilled,
@@ -274,6 +283,15 @@ export const BottomBar = observer(
 										isOpen={isVolumePopoverOpen}
 										closePopover={(): void =>
 											setIsVolumePopoverOpen(false)
+										}
+									/>
+									<MorePopover
+										button={
+											<EuiButtonIcon
+												iconType={MoreHorizontalFilled}
+												size="s"
+												iconSize="l"
+											/>
 										}
 									/>
 								</EuiFlexGroup>
