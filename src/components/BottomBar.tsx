@@ -144,6 +144,8 @@ const VolumePopover = React.memo(
 						alignItems="center"
 					>
 						<EuiButtonIcon
+							title="Mute" /* LOC */
+							aria-label="Mute" /* LOC */
 							iconType={Speaker2Regular}
 							size="s"
 							iconSize="l"
@@ -331,6 +333,16 @@ const BottomBarCenterControls = observer(
 				alignItems="center"
 			>
 				<EuiButtonIcon
+					title={
+						`Shuffle: ${
+							playQueueStore.shuffle ? 'On' : 'Off'
+						}` /* LOC */
+					}
+					aria-label={
+						`Shuffle: ${
+							playQueueStore.shuffle ? 'On' : 'Off'
+						}` /* LOC */
+					}
 					iconType={
 						playQueueStore.shuffle
 							? ArrowShuffleFilled
@@ -342,6 +354,8 @@ const BottomBarCenterControls = observer(
 					disabled /* TODO: remove */
 				/>
 				<EuiButtonIcon
+					title="Previous" /* LOC */
+					aria-label="Previous" /* LOC */
 					iconType={PreviousFilled}
 					size="s"
 					iconSize="l"
@@ -350,6 +364,8 @@ const BottomBarCenterControls = observer(
 				/>
 				{playerStore.playing ? (
 					<EuiButtonIcon
+						title="Pause" /* LOC */
+						aria-label="Pause" /* LOC */
 						iconType={PauseFilled}
 						size="s"
 						iconSize="l"
@@ -358,6 +374,8 @@ const BottomBarCenterControls = observer(
 					/>
 				) : (
 					<EuiButtonIcon
+						title="Play" /* LOC */
+						aria-label="Play" /* LOC */
 						iconType={PlayFilled}
 						size="s"
 						iconSize="l"
@@ -366,6 +384,8 @@ const BottomBarCenterControls = observer(
 					/>
 				)}
 				<EuiButtonIcon
+					title="Next" /* LOC */
+					aria-label="Next" /* LOC */
 					iconType={NextFilled}
 					size="s"
 					iconSize="l"
@@ -373,6 +393,24 @@ const BottomBarCenterControls = observer(
 					disabled={!playQueueStore.hasNextItem}
 				/>
 				<EuiButtonIcon
+					title={
+						`Repeat: ${
+							playQueueStore.repeat === RepeatMode.All
+								? 'All'
+								: playQueueStore.repeat === RepeatMode.One
+								? 'One'
+								: 'Off'
+						}` /* LOC */
+					}
+					aria-label={
+						`Repeat: ${
+							playQueueStore.repeat === RepeatMode.All
+								? 'All'
+								: playQueueStore.repeat === RepeatMode.One
+								? 'One'
+								: 'Off'
+						}` /* LOC */
+					}
 					iconType={repeatIconTypes[playQueueStore.repeat]}
 					size="s"
 					iconSize="l"
@@ -410,6 +448,8 @@ const BottomBarRightControls = React.memo(
 				<VolumePopover
 					button={
 						<EuiButtonIcon
+							title="Volume" /* LOC */
+							aria-label="Volume" /* LOC */
 							iconType={Speaker2Regular}
 							size="s"
 							iconSize="l"
@@ -423,6 +463,8 @@ const BottomBarRightControls = React.memo(
 					playQueueStore={playQueueStore}
 					button={
 						<EuiButtonIcon
+							title="More options" /* LOC */
+							aria-label="More options" /* LOC */
 							iconType={MoreHorizontalFilled}
 							size="s"
 							iconSize="l"

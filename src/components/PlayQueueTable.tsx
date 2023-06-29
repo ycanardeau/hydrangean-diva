@@ -75,6 +75,8 @@ const PlayQueueTableRowPopover = React.memo(
 			<EuiPopover
 				button={
 					<EuiButtonIcon
+						title="More options"
+						aria-label="More options"
 						iconType={MoreHorizontalFilled}
 						size="s"
 						color="text"
