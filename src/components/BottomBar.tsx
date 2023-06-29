@@ -161,6 +161,7 @@ const VolumePopover = React.memo(
 );
 
 interface MorePopoverProps {
+	playQueueStore: PlayQueueStore;
 	button?: NonNullable<React.ReactNode>;
 	isOpen: boolean;
 	closePopover: () => void;
@@ -168,6 +169,7 @@ interface MorePopoverProps {
 
 const MorePopover = React.memo(
 	({
+		playQueueStore,
 		button,
 		isOpen,
 		closePopover,
@@ -219,6 +221,7 @@ const MorePopover = React.memo(
 							name: 'Skip back 10 seconds' /* LOC */,
 							icon: <EuiIcon type={SkipBack10Regular} size="m" />,
 							onClick: handleClickSkipBack10,
+							disabled: playQueueStore.isEmpty,
 						},
 						{
 							name: 'Skip forward 30 seconds' /* LOC */,
@@ -226,6 +229,7 @@ const MorePopover = React.memo(
 								<EuiIcon type={SkipForward30Regular} size="m" />
 							),
 							onClick: handleClickSkipForward30,
+							disabled: playQueueStore.isEmpty,
 						},
 					],
 				},
@@ -243,6 +247,7 @@ const MorePopover = React.memo(
 				},
 			],
 			[
+				playQueueStore,
 				handleClickSkipBack10,
 				handleClickSkipForward30,
 				handleClickPlaybackRate,
@@ -354,51 +359,59 @@ const BottomBarCenterControls = observer(
 	},
 );
 
-const BottomBarRightControls = React.memo((): React.ReactElement => {
-	const [isVolumePopoverOpen, setIsVolumePopoverOpen] = React.useState(false);
+interface BottomBarRightControlsProps {
+	playQueueStore: PlayQueueStore;
+}
 
-	const toggleVolumePopover = (): void =>
-		setIsVolumePopoverOpen(!isVolumePopoverOpen);
+const BottomBarRightControls = React.memo(
+	({ playQueueStore }: BottomBarRightControlsProps): React.ReactElement => {
+		const [isVolumePopoverOpen, setIsVolumePopoverOpen] =
+			React.useState(false);
 
-	const [isMorePopoverOpen, setIsMorePopoverOpen] = React.useState(false);
+		const toggleVolumePopover = (): void =>
+			setIsVolumePopoverOpen(!isVolumePopoverOpen);
 
-	const toggleMorePopover = (): void =>
-		setIsMorePopoverOpen(!isMorePopoverOpen);
+		const [isMorePopoverOpen, setIsMorePopoverOpen] = React.useState(false);
 
-	return (
-		<EuiFlexGroup
-			responsive={false}
-			gutterSize="s"
-			justifyContent="flexEnd"
-			alignItems="center"
-		>
-			<VolumePopover
-				button={
-					<EuiButtonIcon
-						iconType={Speaker2Regular}
-						size="s"
-						iconSize="l"
-						onClick={toggleVolumePopover}
-					/>
-				}
-				isOpen={isVolumePopoverOpen}
-				closePopover={(): void => setIsVolumePopoverOpen(false)}
-			/>
-			<MorePopover
-				button={
-					<EuiButtonIcon
-						iconType={MoreHorizontalFilled}
-						size="s"
-						iconSize="l"
-						onClick={toggleMorePopover}
-					/>
-				}
-				isOpen={isMorePopoverOpen}
-				closePopover={(): void => setIsMorePopoverOpen(false)}
-			/>
-		</EuiFlexGroup>
-	);
-});
+		const toggleMorePopover = (): void =>
+			setIsMorePopoverOpen(!isMorePopoverOpen);
+
+		return (
+			<EuiFlexGroup
+				responsive={false}
+				gutterSize="s"
+				justifyContent="flexEnd"
+				alignItems="center"
+			>
+				<VolumePopover
+					button={
+						<EuiButtonIcon
+							iconType={Speaker2Regular}
+							size="s"
+							iconSize="l"
+							onClick={toggleVolumePopover}
+						/>
+					}
+					isOpen={isVolumePopoverOpen}
+					closePopover={(): void => setIsVolumePopoverOpen(false)}
+				/>
+				<MorePopover
+					playQueueStore={playQueueStore}
+					button={
+						<EuiButtonIcon
+							iconType={MoreHorizontalFilled}
+							size="s"
+							iconSize="l"
+							onClick={toggleMorePopover}
+						/>
+					}
+					isOpen={isMorePopoverOpen}
+					closePopover={(): void => setIsMorePopoverOpen(false)}
+				/>
+			</EuiFlexGroup>
+		);
+	},
+);
 
 interface BottomBarProps {
 	playerStore: PlayerStore;
@@ -423,7 +436,9 @@ export const BottomBar = observer(
 								/>
 							</EuiFlexItem>
 							<EuiFlexItem css={{ width: 'calc(100% / 3)' }}>
-								<BottomBarRightControls />
+								<BottomBarRightControls
+									playQueueStore={playQueueStore}
+								/>
 							</EuiFlexItem>
 						</EuiFlexGroup>
 					</EuiFlexItem>
