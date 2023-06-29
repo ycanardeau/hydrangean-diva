@@ -112,11 +112,13 @@ const VolumePopover = React.memo(
 		const diva = useNostalgicDiva();
 
 		React.useLayoutEffect(() => {
-			diva.getVolume().then((volume) => {
-				if (volume !== undefined) {
-					setValue(Math.floor(volume * 100).toString());
-				}
-			});
+			if (isOpen) {
+				diva.getVolume().then((volume) => {
+					if (volume !== undefined) {
+						setValue(Math.floor(volume * 100).toString());
+					}
+				});
+			}
 		}, [isOpen, diva]);
 
 		const handleChange = React.useCallback(
