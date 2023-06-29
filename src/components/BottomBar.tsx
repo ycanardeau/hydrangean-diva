@@ -203,6 +203,8 @@ const MorePopover = React.memo(
 			[diva, closePopover],
 		);
 
+		const [playbackRate] = React.useState<number>();
+
 		const panels = React.useMemo(
 			(): EuiContextMenuPanelDescriptor[] => [
 				{
@@ -231,10 +233,11 @@ const MorePopover = React.memo(
 					id: 1,
 					title: 'Speed' /* LOC */,
 					items: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map(
-						(playbackRate) => ({
-							name: playbackRate.toString(),
+						(value) => ({
+							name: value.toString(),
 							onClick: (): Promise<void> =>
-								handleClickPlaybackRate(playbackRate),
+								handleClickPlaybackRate(value),
+							icon: value === playbackRate ? 'check' : 'empty',
 						}),
 					),
 				},
@@ -243,6 +246,7 @@ const MorePopover = React.memo(
 				handleClickSkipBack10,
 				handleClickSkipForward30,
 				handleClickPlaybackRate,
+				playbackRate,
 			],
 		);
 
