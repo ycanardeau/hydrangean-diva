@@ -165,20 +165,20 @@ const VolumePopover = React.memo(
 	},
 );
 
-interface MorePopoverProps {
+interface MoreOptionsPopoverProps {
 	playQueueStore: PlayQueueStore;
 	button?: NonNullable<React.ReactNode>;
 	isOpen: boolean;
 	closePopover: () => void;
 }
 
-const MorePopover = React.memo(
+const MoreOptionsPopover = React.memo(
 	({
 		playQueueStore,
 		button,
 		isOpen,
 		closePopover,
-	}: MorePopoverProps): React.ReactElement => {
+	}: MoreOptionsPopoverProps): React.ReactElement => {
 		const diva = useNostalgicDiva();
 
 		const handleClickSkipBack10 = React.useCallback(async () => {
@@ -433,10 +433,11 @@ const BottomBarRightControls = React.memo(
 		const toggleVolumePopover = (): void =>
 			setIsVolumePopoverOpen(!isVolumePopoverOpen);
 
-		const [isMorePopoverOpen, setIsMorePopoverOpen] = React.useState(false);
+		const [isMoreOptionsPopoverOpen, setIsMoreOptionsPopoverOpen] =
+			React.useState(false);
 
-		const toggleMorePopover = (): void =>
-			setIsMorePopoverOpen(!isMorePopoverOpen);
+		const toggleMoreOptionsPopover = (): void =>
+			setIsMoreOptionsPopoverOpen(!isMoreOptionsPopoverOpen);
 
 		return (
 			<EuiFlexGroup
@@ -459,7 +460,7 @@ const BottomBarRightControls = React.memo(
 					isOpen={isVolumePopoverOpen}
 					closePopover={(): void => setIsVolumePopoverOpen(false)}
 				/>
-				<MorePopover
+				<MoreOptionsPopover
 					playQueueStore={playQueueStore}
 					button={
 						<EuiButtonIcon
@@ -468,11 +469,13 @@ const BottomBarRightControls = React.memo(
 							iconType={MoreHorizontalFilled}
 							size="s"
 							iconSize="l"
-							onClick={toggleMorePopover}
+							onClick={toggleMoreOptionsPopover}
 						/>
 					}
-					isOpen={isMorePopoverOpen}
-					closePopover={(): void => setIsMorePopoverOpen(false)}
+					isOpen={isMoreOptionsPopoverOpen}
+					closePopover={(): void =>
+						setIsMoreOptionsPopoverOpen(false)
+					}
 				/>
 			</EuiFlexGroup>
 		);
