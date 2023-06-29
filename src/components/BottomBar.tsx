@@ -21,6 +21,7 @@ import {
 	ArrowRepeatAllOffFilled,
 	ArrowShuffleFilled,
 	ArrowShuffleOffFilled,
+	DismissRegular,
 	MoreHorizontalFilled,
 	NextFilled,
 	PauseFilled,
@@ -205,6 +206,17 @@ const MorePopover = React.memo(
 			[diva, closePopover],
 		);
 
+		const handleClickRemoveFromPlayQueue =
+			React.useCallback(async (): Promise<void> => {
+				if (playQueueStore.currentItem !== undefined) {
+					await playQueueStore.removeItems([
+						playQueueStore.currentItem,
+					]);
+				}
+
+				closePopover();
+			}, [playQueueStore, closePopover]);
+
 		const [playbackRate] = React.useState<number>();
 
 		const panels = React.useMemo(
@@ -231,6 +243,15 @@ const MorePopover = React.memo(
 							onClick: handleClickSkipForward30,
 							disabled: playQueueStore.isEmpty,
 						},
+						{
+							isSeparator: true,
+						},
+						{
+							name: 'Remove from play queue' /* LOC */,
+							icon: <EuiIcon type={DismissRegular} size="m" />,
+							onClick: handleClickRemoveFromPlayQueue,
+							disabled: playQueueStore.isEmpty,
+						},
 					],
 				},
 				{
@@ -250,6 +271,7 @@ const MorePopover = React.memo(
 				playQueueStore,
 				handleClickSkipBack10,
 				handleClickSkipForward30,
+				handleClickRemoveFromPlayQueue,
 				handleClickPlaybackRate,
 				playbackRate,
 			],
