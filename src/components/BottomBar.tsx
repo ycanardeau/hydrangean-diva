@@ -135,6 +135,7 @@ const VolumePopover = React.memo(
 				button={button}
 				isOpen={isOpen}
 				closePopover={closePopover}
+				anchorPosition="upRight"
 			>
 				<EuiFormRow>
 					<EuiFlexGroup
@@ -287,6 +288,7 @@ const MoreOptionsPopover = React.memo(
 				isOpen={isOpen}
 				closePopover={closePopover}
 				panelPaddingSize="none"
+				anchorPosition="upRight"
 			>
 				<EuiContextMenu initialPanelId={0} panels={panels} />
 			</EuiPopover>
