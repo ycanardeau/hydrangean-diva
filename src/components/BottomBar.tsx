@@ -423,18 +423,36 @@ const BottomBarCenterControls = observer(
 	},
 );
 
-interface BottomBarRightControlsProps {
+const VolumeButton = React.memo((): React.ReactElement => {
+	const [isVolumePopoverOpen, setIsVolumePopoverOpen] = React.useState(false);
+
+	const toggleVolumePopover = (): void =>
+		setIsVolumePopoverOpen(!isVolumePopoverOpen);
+
+	return (
+		<VolumePopover
+			button={
+				<EuiButtonIcon
+					title="Volume" /* LOC */
+					aria-label="Volume" /* LOC */
+					iconType={Speaker2Regular}
+					size="s"
+					iconSize="l"
+					onClick={toggleVolumePopover}
+				/>
+			}
+			isOpen={isVolumePopoverOpen}
+			closePopover={(): void => setIsVolumePopoverOpen(false)}
+		/>
+	);
+});
+
+interface MoreOptionsButtonProps {
 	playQueueStore: PlayQueueStore;
 }
 
-const BottomBarRightControls = React.memo(
-	({ playQueueStore }: BottomBarRightControlsProps): React.ReactElement => {
-		const [isVolumePopoverOpen, setIsVolumePopoverOpen] =
-			React.useState(false);
-
-		const toggleVolumePopover = (): void =>
-			setIsVolumePopoverOpen(!isVolumePopoverOpen);
-
+const MoreOptionsButton = React.memo(
+	({ playQueueStore }: MoreOptionsButtonProps): React.ReactElement => {
 		const [isMoreOptionsPopoverOpen, setIsMoreOptionsPopoverOpen] =
 			React.useState(false);
 
@@ -442,43 +460,40 @@ const BottomBarRightControls = React.memo(
 			setIsMoreOptionsPopoverOpen(!isMoreOptionsPopoverOpen);
 
 		return (
+			<MoreOptionsPopover
+				playQueueStore={playQueueStore}
+				button={
+					<EuiButtonIcon
+						title="More options" /* LOC */
+						aria-label="More options" /* LOC */
+						iconType={MoreHorizontalFilled}
+						size="s"
+						iconSize="l"
+						onClick={toggleMoreOptionsPopover}
+					/>
+				}
+				isOpen={isMoreOptionsPopoverOpen}
+				closePopover={(): void => setIsMoreOptionsPopoverOpen(false)}
+			/>
+		);
+	},
+);
+
+interface BottomBarRightControlsProps {
+	playQueueStore: PlayQueueStore;
+}
+
+const BottomBarRightControls = React.memo(
+	({ playQueueStore }: BottomBarRightControlsProps): React.ReactElement => {
+		return (
 			<EuiFlexGroup
 				responsive={false}
 				gutterSize="s"
 				justifyContent="flexEnd"
 				alignItems="center"
 			>
-				<VolumePopover
-					button={
-						<EuiButtonIcon
-							title="Volume" /* LOC */
-							aria-label="Volume" /* LOC */
-							iconType={Speaker2Regular}
-							size="s"
-							iconSize="l"
-							onClick={toggleVolumePopover}
-						/>
-					}
-					isOpen={isVolumePopoverOpen}
-					closePopover={(): void => setIsVolumePopoverOpen(false)}
-				/>
-				<MoreOptionsPopover
-					playQueueStore={playQueueStore}
-					button={
-						<EuiButtonIcon
-							title="More options" /* LOC */
-							aria-label="More options" /* LOC */
-							iconType={MoreHorizontalFilled}
-							size="s"
-							iconSize="l"
-							onClick={toggleMoreOptionsPopover}
-						/>
-					}
-					isOpen={isMoreOptionsPopoverOpen}
-					closePopover={(): void =>
-						setIsMoreOptionsPopoverOpen(false)
-					}
-				/>
+				<VolumeButton />
+				<MoreOptionsButton playQueueStore={playQueueStore} />
 			</EuiFlexGroup>
 		);
 	},
