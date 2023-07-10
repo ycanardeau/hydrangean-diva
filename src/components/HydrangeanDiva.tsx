@@ -27,129 +27,19 @@ function isObject(value: any): value is object {
 	return value !== null && typeof value === 'object';
 }
 
-interface HydrangeanDivaProps {
-	playerStore: PlayerStore;
+interface AddVideoButtonProps {
 	playQueueStore: PlayQueueStore;
 }
 
-export const HydrangeanDiva = observer(
-	({
-		playerStore,
-		playQueueStore,
-	}: HydrangeanDivaProps): React.ReactElement => {
-		const diva = useNostalgicDiva();
-
-		useLocalStorageStateStore('PlayQueueStore', playQueueStore);
-
-		React.useEffect(() => {
-			return reaction(
-				() => playQueueStore.currentItem,
-				async (currentItem, previousItem) => {
-					if (
-						currentItem === undefined ||
-						previousItem === undefined
-					) {
-						return;
-					}
-
-					if (
-						currentItem.type === previousItem.type &&
-						currentItem.videoId === previousItem.videoId
-					) {
-						await diva.setCurrentTime(0);
-					}
-				},
-			);
-		}, [playQueueStore, diva]);
-
+const AddVideoButton = React.memo(
+	({ playQueueStore }: AddVideoButtonProps): React.ReactElement => {
 		const [addVideoModalOpen, setAddVideoModalOpen] = React.useState(false);
 
 		return (
 			<>
-				<EuiPageTemplate
-					panelled
-					style={{
-						minBlockSize: `max(460px, 100vh - ${bottomBarHeight}px)`,
-						paddingBlockStart: '0px',
-					}}
-				>
-					<EuiPageTemplate.Header
-						pageTitle="Play queue" /* LOC */
-						rightSideItems={[
-							<EuiButton
-								onClick={(): void => setAddVideoModalOpen(true)}
-							>
-								Add video{/* LOC */}
-							</EuiButton>,
-						]}
-					/>
-
-					<EuiPageTemplate.Section>
-						<EuiFlexGroup alignItems="center" gutterSize="m">
-							<EuiFlexItem grow={false}>
-								<EuiButton
-									disabled={
-										playQueueStore.isEmpty ||
-										playQueueStore.selectedItems.length ===
-											0
-									}
-									onClick={
-										playQueueStore.playSelectedItemsNext
-									}
-								>
-									Play next{/* LOC */}
-								</EuiButton>
-							</EuiFlexItem>
-							<EuiFlexItem grow={false}>
-								<EuiButton
-									iconType={AddRegular}
-									onClick={playQueueStore.addSelectedItems}
-									disabled={
-										playQueueStore.isEmpty ||
-										playQueueStore.selectedItems.length ===
-											0
-									}
-								>
-									Add to play queue{/* LOC */}
-								</EuiButton>
-							</EuiFlexItem>
-							<EuiFlexItem grow={false}>
-								<EuiButton
-									iconType={DismissRegular}
-									onClick={playQueueStore.removeSelectedItems}
-									disabled={
-										playQueueStore.isEmpty ||
-										playQueueStore.selectedItems.length ===
-											0
-									}
-								>
-									Remove{/* LOC */}
-								</EuiButton>
-							</EuiFlexItem>
-							<EuiFlexItem grow={false}>
-								<EuiButton
-									iconType={DeleteRegular}
-									onClick={playQueueStore.clear}
-									disabled={playQueueStore.isEmpty}
-								>
-									Clear{/* LOC */}
-								</EuiButton>
-							</EuiFlexItem>
-						</EuiFlexGroup>
-
-						{!playQueueStore.isEmpty && (
-							<>
-								<EuiSpacer size="l" />
-								<PlayQueueTable
-									playQueueStore={playQueueStore}
-								/>
-								<EuiSpacer
-									style={{ blockSize: miniPlayerSize.height }}
-								/>
-							</>
-						)}
-					</EuiPageTemplate.Section>
-				</EuiPageTemplate>
+				<EuiButton onClick={(): void => setAddVideoModalOpen(true)}>
+					Add video{/* LOC */}
+				</EuiButton>
 
 				{addVideoModalOpen && (
 					<AddVideoModal
@@ -191,13 +81,144 @@ export const HydrangeanDiva = observer(
 						}}
 					/>
 				)}
+			</>
+		);
+	},
+);
+
+interface PlayQueueProps {
+	playerStore: PlayerStore;
+	playQueueStore: PlayQueueStore;
+}
+
+const PlayQueue = observer(
+	({ playerStore, playQueueStore }: PlayQueueProps): React.ReactElement => {
+		return (
+			<>
+				<EuiFlexGroup alignItems="center" gutterSize="m">
+					<EuiFlexItem grow={false}>
+						<EuiButton
+							disabled={
+								playQueueStore.isEmpty ||
+								playQueueStore.selectedItems.length === 0
+							}
+							onClick={playQueueStore.playSelectedItemsNext}
+						>
+							Play next{/* LOC */}
+						</EuiButton>
+					</EuiFlexItem>
+					<EuiFlexItem grow={false}>
+						<EuiButton
+							iconType={AddRegular}
+							onClick={playQueueStore.addSelectedItems}
+							disabled={
+								playQueueStore.isEmpty ||
+								playQueueStore.selectedItems.length === 0
+							}
+						>
+							Add to play queue{/* LOC */}
+						</EuiButton>
+					</EuiFlexItem>
+					<EuiFlexItem grow={false}>
+						<EuiButton
+							iconType={DismissRegular}
+							onClick={playQueueStore.removeSelectedItems}
+							disabled={
+								playQueueStore.isEmpty ||
+								playQueueStore.selectedItems.length === 0
+							}
+						>
+							Remove{/* LOC */}
+						</EuiButton>
+					</EuiFlexItem>
+					<EuiFlexItem grow={false}>
+						<EuiButton
+							iconType={DeleteRegular}
+							onClick={playQueueStore.clear}
+							disabled={playQueueStore.isEmpty}
+						>
+							Clear{/* LOC */}
+						</EuiButton>
+					</EuiFlexItem>
+				</EuiFlexGroup>
 
 				{!playQueueStore.isEmpty && (
-					<MiniPlayer
-						playerStore={playerStore}
-						playQueueStore={playQueueStore}
-					/>
+					<>
+						<EuiSpacer size="l" />
+						<PlayQueueTable playQueueStore={playQueueStore} />
+						<EuiSpacer
+							style={{ blockSize: miniPlayerSize.height }}
+						/>
+
+						<MiniPlayer
+							playerStore={playerStore}
+							playQueueStore={playQueueStore}
+						/>
+					</>
 				)}
+			</>
+		);
+	},
+);
+
+interface HydrangeanDivaProps {
+	playerStore: PlayerStore;
+	playQueueStore: PlayQueueStore;
+}
+
+export const HydrangeanDiva = observer(
+	({
+		playerStore,
+		playQueueStore,
+	}: HydrangeanDivaProps): React.ReactElement => {
+		const diva = useNostalgicDiva();
+
+		useLocalStorageStateStore('PlayQueueStore', playQueueStore);
+
+		React.useEffect(() => {
+			return reaction(
+				() => playQueueStore.currentItem,
+				async (currentItem, previousItem) => {
+					if (
+						currentItem === undefined ||
+						previousItem === undefined
+					) {
+						return;
+					}
+
+					if (
+						currentItem.type === previousItem.type &&
+						currentItem.videoId === previousItem.videoId
+					) {
+						await diva.setCurrentTime(0);
+					}
+				},
+			);
+		}, [playQueueStore, diva]);
+
+		return (
+			<>
+				<EuiPageTemplate
+					panelled
+					style={{
+						minBlockSize: `max(460px, 100vh - ${bottomBarHeight}px)`,
+						paddingBlockStart: '0px',
+					}}
+				>
+					<EuiPageTemplate.Header
+						pageTitle="Play queue" /* LOC */
+						rightSideItems={[
+							<AddVideoButton playQueueStore={playQueueStore} />,
+						]}
+					/>
+
+					<EuiPageTemplate.Section>
+						<PlayQueue
+							playerStore={playerStore}
+							playQueueStore={playQueueStore}
+						/>
+					</EuiPageTemplate.Section>
+				</EuiPageTemplate>
 
 				<BottomBar
 					playerStore={playerStore}
