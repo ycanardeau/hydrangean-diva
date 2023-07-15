@@ -317,6 +317,11 @@ export class PlayQueueStore
 		this.currentIndex = currentIndex;
 	}
 
+	@action moveItem(item: PlayQueueItem, index: number): void {
+		const element = this.items.splice(this.items.indexOf(item), 1)[0];
+		this.items.splice(index, 0, element);
+	}
+
 	@action async removeItems(items: PlayQueueItem[]): Promise<void> {
 		// Note: We need to remove the current (if any) and other (previous and/or next) items separately,
 		// so that the current index can be set properly even if the current item was removed.

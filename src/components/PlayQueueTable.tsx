@@ -91,12 +91,16 @@ const PlayQueueTableRowContextMenuPanel = React.memo(
 		const handleClickMoveToTop =
 			React.useCallback(async (): Promise<void> => {
 				closePopover();
-			}, [closePopover]);
+
+				playQueueStore.moveItem(item, 0);
+			}, [closePopover, item, playQueueStore]);
 
 		const handleClickMoveToBottom =
 			React.useCallback(async (): Promise<void> => {
 				closePopover();
-			}, [closePopover]);
+
+				playQueueStore.moveItem(item, playQueueStore.items.length - 1);
+			}, [closePopover, item, playQueueStore]);
 
 		const handleClickRemoveToTop = React.useCallback((): void => {
 			closePopover();
