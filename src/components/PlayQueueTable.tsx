@@ -20,6 +20,8 @@ import {
 } from '@elastic/eui';
 import {
 	AddRegular,
+	ArrowDownloadRegular,
+	ArrowUploadRegular,
 	DismissRegular,
 	MoreHorizontalFilled,
 	PlayRegular,
@@ -92,6 +94,16 @@ const PlayQueueTableRowPopover = React.memo(
 				await playQueueStore.addItems([item.clone()]);
 			}, [closePopover, item, playQueueStore]);
 
+		const handleClickMoveToTop =
+			React.useCallback(async (): Promise<void> => {
+				closePopover();
+			}, [closePopover]);
+
+		const handleClickMoveToBottom =
+			React.useCallback(async (): Promise<void> => {
+				closePopover();
+			}, [closePopover]);
+
 		const handleClickRemoveToTop = React.useCallback((): void => {
 			closePopover();
 
@@ -139,6 +151,19 @@ const PlayQueueTableRowPopover = React.memo(
 						onClick={handleClickAddToPlayQueue}
 					>
 						Add to play queue{/* LOC */}
+					</EuiContextMenuItem>
+					<EuiHorizontalRule margin="none" />
+					<EuiContextMenuItem
+						icon={<EuiIcon type={ArrowUploadRegular} />}
+						onClick={handleClickMoveToTop}
+					>
+						Move to the top{/* LOC */}
+					</EuiContextMenuItem>
+					<EuiContextMenuItem
+						icon={<EuiIcon type={ArrowDownloadRegular} />}
+						onClick={handleClickMoveToBottom}
+					>
+						Move to the bottom{/* LOC */}
 					</EuiContextMenuItem>
 					<EuiHorizontalRule margin="none" />
 					<EuiContextMenuItem
