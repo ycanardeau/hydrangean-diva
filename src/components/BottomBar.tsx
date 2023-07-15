@@ -166,20 +166,16 @@ const VolumePopover = React.memo(
 	},
 );
 
-interface MoreOptionsPopoverProps {
+interface MoreOptionsContextMenuProps {
 	playQueueStore: PlayQueueStore;
-	button?: NonNullable<React.ReactNode>;
-	isOpen: boolean;
 	closePopover: () => void;
 }
 
-const MoreOptionsPopover = React.memo(
+const MoreOptionsContextMenu = React.memo(
 	({
 		playQueueStore,
-		button,
-		isOpen,
 		closePopover,
-	}: MoreOptionsPopoverProps): React.ReactElement => {
+	}: MoreOptionsContextMenuProps): React.ReactElement => {
 		const diva = useNostalgicDiva();
 
 		const handleClickSkipBack10 = React.useCallback(async () => {
@@ -282,6 +278,24 @@ const MoreOptionsPopover = React.memo(
 			],
 		);
 
+		return <EuiContextMenu initialPanelId={0} panels={panels} />;
+	},
+);
+
+interface MoreOptionsPopoverProps {
+	playQueueStore: PlayQueueStore;
+	button?: NonNullable<React.ReactNode>;
+	isOpen: boolean;
+	closePopover: () => void;
+}
+
+const MoreOptionsPopover = React.memo(
+	({
+		playQueueStore,
+		button,
+		isOpen,
+		closePopover,
+	}: MoreOptionsPopoverProps): React.ReactElement => {
 		return (
 			<EuiPopover
 				button={button}
@@ -290,7 +304,10 @@ const MoreOptionsPopover = React.memo(
 				panelPaddingSize="none"
 				anchorPosition="upRight"
 			>
-				<EuiContextMenu initialPanelId={0} panels={panels} />
+				<MoreOptionsContextMenu
+					playQueueStore={playQueueStore}
+					closePopover={closePopover}
+				/>
 			</EuiPopover>
 		);
 	},

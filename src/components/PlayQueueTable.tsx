@@ -55,24 +55,18 @@ const PlayQueueTableHeader = observer(
 	},
 );
 
-interface PlayQueueTableRowPopoverProps {
+interface PlayQueueTableRowContextMenuPanelProps {
 	playQueueStore: PlayQueueStore;
 	item: PlayQueueItem;
+	closePopover: () => void;
 }
 
-const PlayQueueTableRowPopover = React.memo(
+const PlayQueueTableRowContextMenuPanel = React.memo(
 	({
 		playQueueStore,
 		item,
-	}: PlayQueueTableRowPopoverProps): React.ReactElement => {
-		const [isOpen, setIsOpen] = React.useState(false);
-
-		const togglePopover = React.useCallback(
-			() => setIsOpen(!isOpen),
-			[isOpen],
-		);
-		const closePopover = React.useCallback(() => setIsOpen(false), []);
-
+		closePopover,
+	}: PlayQueueTableRowContextMenuPanelProps): React.ReactElement => {
 		const handleClickPlayFirst =
 			React.useCallback(async (): Promise<void> => {
 				closePopover();
@@ -117,6 +111,75 @@ const PlayQueueTableRowPopover = React.memo(
 		}, [closePopover, item, playQueueStore]);
 
 		return (
+			<EuiContextMenuPanel>
+				<EuiContextMenuItem
+					icon={<EuiIcon type="" />}
+					onClick={handleClickPlayFirst}
+				>
+					Play first{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiContextMenuItem
+					icon={<EuiIcon type="" />}
+					onClick={handleClickPlayNext}
+				>
+					Play next{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiContextMenuItem
+					icon={<EuiIcon type={AddRegular} />}
+					onClick={handleClickAddToPlayQueue}
+				>
+					Add to play queue{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiHorizontalRule margin="none" />
+				<EuiContextMenuItem
+					icon={<EuiIcon type={ArrowUploadRegular} />}
+					onClick={handleClickMoveToTop}
+				>
+					Move to the top{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiContextMenuItem
+					icon={<EuiIcon type={ArrowDownloadRegular} />}
+					onClick={handleClickMoveToBottom}
+				>
+					Move to the bottom{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiHorizontalRule margin="none" />
+				<EuiContextMenuItem
+					icon={<EuiIcon type="" />}
+					onClick={handleClickRemoveToTop}
+				>
+					Remove to the top{/* LOC */}
+				</EuiContextMenuItem>
+				<EuiContextMenuItem
+					icon={<EuiIcon type="" />}
+					onClick={handleClickRemoveOthers}
+				>
+					Remove others{/* LOC */}
+				</EuiContextMenuItem>
+			</EuiContextMenuPanel>
+		);
+	},
+);
+
+interface PlayQueueTableRowPopoverProps {
+	playQueueStore: PlayQueueStore;
+	item: PlayQueueItem;
+}
+
+const PlayQueueTableRowPopover = React.memo(
+	({
+		playQueueStore,
+		item,
+	}: PlayQueueTableRowPopoverProps): React.ReactElement => {
+		const [isOpen, setIsOpen] = React.useState(false);
+
+		const togglePopover = React.useCallback(
+			() => setIsOpen(!isOpen),
+			[isOpen],
+		);
+		const closePopover = React.useCallback(() => setIsOpen(false), []);
+
+		return (
 			<EuiPopover
 				button={
 					<EuiButtonIcon
@@ -133,52 +196,11 @@ const PlayQueueTableRowPopover = React.memo(
 				panelPaddingSize="none"
 				anchorPosition="leftCenter"
 			>
-				<EuiContextMenuPanel>
-					<EuiContextMenuItem
-						icon={<EuiIcon type="" />}
-						onClick={handleClickPlayFirst}
-					>
-						Play first{/* LOC */}
-					</EuiContextMenuItem>
-					<EuiContextMenuItem
-						icon={<EuiIcon type="" />}
-						onClick={handleClickPlayNext}
-					>
-						Play next{/* LOC */}
-					</EuiContextMenuItem>
-					<EuiContextMenuItem
-						icon={<EuiIcon type={AddRegular} />}
-						onClick={handleClickAddToPlayQueue}
-					>
-						Add to play queue{/* LOC */}
-					</EuiContextMenuItem>
-					<EuiHorizontalRule margin="none" />
-					<EuiContextMenuItem
-						icon={<EuiIcon type={ArrowUploadRegular} />}
-						onClick={handleClickMoveToTop}
-					>
-						Move to the top{/* LOC */}
-					</EuiContextMenuItem>
-					<EuiContextMenuItem
-						icon={<EuiIcon type={ArrowDownloadRegular} />}
-						onClick={handleClickMoveToBottom}
-					>
-						Move to the bottom{/* LOC */}
-					</EuiContextMenuItem>
-					<EuiHorizontalRule margin="none" />
-					<EuiContextMenuItem
-						icon={<EuiIcon type="" />}
-						onClick={handleClickRemoveToTop}
-					>
-						Remove to the top{/* LOC */}
-					</EuiContextMenuItem>
-					<EuiContextMenuItem
-						icon={<EuiIcon type="" />}
-						onClick={handleClickRemoveOthers}
-					>
-						Remove others{/* LOC */}
-					</EuiContextMenuItem>
-				</EuiContextMenuPanel>
+				<PlayQueueTableRowContextMenuPanel
+					playQueueStore={playQueueStore}
+					item={item}
+					closePopover={closePopover}
+				/>
 			</EuiPopover>
 		);
 	},
