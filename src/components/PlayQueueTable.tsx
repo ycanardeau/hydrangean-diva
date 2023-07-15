@@ -71,6 +71,39 @@ const PlayQueueTableRowPopover = React.memo(
 		);
 		const closePopover = React.useCallback(() => setIsOpen(false), []);
 
+		const handleClickPlayFirst =
+			React.useCallback(async (): Promise<void> => {
+				closePopover();
+
+				await playQueueStore.playFirst([item.clone()]);
+			}, [closePopover, item, playQueueStore]);
+
+		const handleClickPlayNext =
+			React.useCallback(async (): Promise<void> => {
+				closePopover();
+
+				await playQueueStore.playNext([item.clone()]);
+			}, [closePopover, item, playQueueStore]);
+
+		const handleClickAddToPlayQueue =
+			React.useCallback(async (): Promise<void> => {
+				closePopover();
+
+				await playQueueStore.addItems([item.clone()]);
+			}, [closePopover, item, playQueueStore]);
+
+		const handleClickRemoveToTop = React.useCallback((): void => {
+			closePopover();
+
+			playQueueStore.removeItemsAbove(item);
+		}, [closePopover, item, playQueueStore]);
+
+		const handleClickRemoveOthers = React.useCallback((): void => {
+			closePopover();
+
+			playQueueStore.removeOtherItems(item);
+		}, [closePopover, item, playQueueStore]);
+
 		return (
 			<EuiPopover
 				button={
@@ -91,47 +124,32 @@ const PlayQueueTableRowPopover = React.memo(
 				<EuiContextMenuPanel>
 					<EuiContextMenuItem
 						icon={<EuiIcon type="" />}
-						onClick={async (): Promise<void> => {
-							closePopover();
-							await playQueueStore.playFirst([item.clone()]);
-						}}
+						onClick={handleClickPlayFirst}
 					>
 						Play first{/* LOC */}
 					</EuiContextMenuItem>
 					<EuiContextMenuItem
 						icon={<EuiIcon type="" />}
-						onClick={async (): Promise<void> => {
-							closePopover();
-							await playQueueStore.playNext([item.clone()]);
-						}}
+						onClick={handleClickPlayNext}
 					>
 						Play next{/* LOC */}
 					</EuiContextMenuItem>
 					<EuiContextMenuItem
 						icon={<EuiIcon type={AddRegular} />}
-						onClick={async (): Promise<void> => {
-							closePopover();
-							await playQueueStore.addItems([item.clone()]);
-						}}
+						onClick={handleClickAddToPlayQueue}
 					>
 						Add to play queue{/* LOC */}
 					</EuiContextMenuItem>
 					<EuiHorizontalRule margin="none" />
 					<EuiContextMenuItem
 						icon={<EuiIcon type="" />}
-						onClick={(): void => {
-							closePopover();
-							playQueueStore.removeItemsAbove(item);
-						}}
+						onClick={handleClickRemoveToTop}
 					>
 						Remove to the top{/* LOC */}
 					</EuiContextMenuItem>
 					<EuiContextMenuItem
 						icon={<EuiIcon type="" />}
-						onClick={(): void => {
-							closePopover();
-							playQueueStore.removeOtherItems(item);
-						}}
+						onClick={handleClickRemoveOthers}
 					>
 						Remove others{/* LOC */}
 					</EuiContextMenuItem>
