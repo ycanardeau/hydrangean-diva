@@ -1,9 +1,7 @@
-import { AddVideoModal } from '@/components/AddVideoModal';
 import { BottomBar, bottomBarHeight } from '@/components/BottomBar';
 import { MiniPlayer, miniPlayerSize } from '@/components/MiniPlayer';
 import { PlayQueueTable } from '@/components/PlayQueueTable';
-import { videoServices } from '@/services/VideoService';
-import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
+import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerStore } from '@/stores/PlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { useLocalStorageStateStore } from '@aigamo/route-sphere';
@@ -23,68 +21,7 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-function isObject(value: any): value is object {
-	return value !== null && typeof value === 'object';
-}
-
-interface AddVideoButtonProps {
-	playQueueStore: PlayQueueStore;
-}
-
-const AddVideoButton = React.memo(
-	({ playQueueStore }: AddVideoButtonProps): React.ReactElement => {
-		const [addVideoModalOpen, setAddVideoModalOpen] = React.useState(false);
-
-		return (
-			<>
-				<EuiButton onClick={(): void => setAddVideoModalOpen(true)}>
-					Add video{/* LOC */}
-				</EuiButton>
-
-				{addVideoModalOpen && (
-					<AddVideoModal
-						onCancel={(): void => setAddVideoModalOpen(false)}
-						onSave={async (e): Promise<void> => {
-							const videoService = videoServices.find(
-								(videoService) => videoService.canPlay(e.url),
-							);
-							if (videoService !== undefined) {
-								const videoId = videoService.extractVideoId(
-									e.url,
-								);
-								if (videoId !== undefined) {
-									const response = await fetch(
-										`https://noembed.com/embed?url=${encodeURIComponent(
-											e.url,
-										)}`,
-									);
-									const jsonData = await response.json();
-
-									playQueueStore.addItems([
-										new PlayQueueItem(
-											e.url,
-											videoService.type,
-											videoId,
-											e.title ||
-												(isObject(jsonData) &&
-												'title' in jsonData &&
-												typeof jsonData.title ===
-													'string'
-													? jsonData.title
-													: videoId),
-										),
-									]);
-								}
-							}
-
-							setAddVideoModalOpen(false);
-						}}
-					/>
-				)}
-			</>
-		);
-	},
-);
+import { Header } from './Header';
 
 interface PlayQueueProps {
 	playerStore: PlayerStore;
@@ -198,18 +135,17 @@ export const HydrangeanDiva = observer(
 
 		return (
 			<>
+				<Header playQueueStore={playQueueStore} />
+
 				<EuiPageTemplate
 					panelled
 					style={{
 						minBlockSize: `max(460px, 100vh - ${bottomBarHeight}px)`,
-						paddingBlockStart: '0px',
 					}}
 				>
 					<EuiPageTemplate.Header
 						pageTitle="Play queue" /* LOC */
-						rightSideItems={[
-							<AddVideoButton playQueueStore={playQueueStore} />,
-						]}
+						rightSideItems={[]}
 					/>
 
 					<EuiPageTemplate.Section>
