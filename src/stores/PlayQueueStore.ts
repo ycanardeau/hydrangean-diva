@@ -125,7 +125,7 @@ export class PlayQueueStore
 {
 	@observable interacted = false;
 	@observable items: PlayQueueItem[] = [];
-	@observable currentId?: number;
+	@observable currentId: number | undefined;
 	@observable repeat = RepeatMode.Off;
 	@observable shuffle = false;
 

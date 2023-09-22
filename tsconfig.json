@@ -20,9 +20,9 @@
 			"@/*": ["src/*"]
 		},
 		"experimentalDecorators": true,
-		"jsxImportSource": "@emotion/react",
+		"jsxImportSource": "@emotion/react"
 	},
-	"include": ["src"],
+	"include": ["**/*"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"
