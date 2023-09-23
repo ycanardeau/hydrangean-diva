@@ -19,8 +19,17 @@ import React from 'react';
 
 import { AddVideoModal } from './AddVideoModal';
 
-function isObject(value: any): value is object {
-	return value !== null && typeof value === 'object';
+interface NoembedResult {
+	title: string;
+}
+
+function isNoembedResult(value: any): value is NoembedResult {
+	return (
+		value !== null &&
+		typeof value === 'object' &&
+		'title' in value &&
+		typeof value.title === 'string'
+	);
 }
 
 interface AddVideoButtonProps {
@@ -67,10 +76,7 @@ export const AddVideoButton = React.memo(
 											videoService.type,
 											videoId,
 											e.title ||
-												(isObject(jsonData) &&
-												'title' in jsonData &&
-												typeof jsonData.title ===
-													'string'
+												(isNoembedResult(jsonData)
 													? jsonData.title
 													: videoId),
 										),
