@@ -1,33 +1,30 @@
-import {
-	PlayQueueItem,
-	PlayQueueStore,
-	RepeatMode,
-} from '@/stores/PlayQueueStore';
+import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
+import { PlayQueueStore, RepeatMode } from '@/stores/PlayQueueStore';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let playQueueStore: PlayQueueStore;
 
-let item: PlayQueueItem;
-let item2: PlayQueueItem;
-let item3: PlayQueueItem;
+let item: PlayQueueItemStore;
+let item2: PlayQueueItemStore;
+let item3: PlayQueueItemStore;
 
 beforeEach(() => {
 	playQueueStore = new PlayQueueStore();
 
 	[item, item2, item3] = [
-		PlayQueueItem.fromDto({
+		PlayQueueItemStore.fromDto({
 			url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 			type: 'YouTube',
 			videoId: 'jUe7dDLGpv8',
 			title: '2nd Album「Hydrangean Diva」/Nejishiki【Trailer】 - YouTube',
 		}),
-		PlayQueueItem.fromDto({
+		PlayQueueItemStore.fromDto({
 			url: 'https://www.youtube.com/watch?v=bGdtvUQ9OAs',
 			type: 'YouTube',
 			videoId: 'bGdtvUQ9OAs',
 			title: '3rd Album「nostalgic diva」Nejishiki【Trailer】 /3rd Album「nostalgic diva」/ねじ式【クロスフェード】 - YouTube',
 		}),
-		PlayQueueItem.fromDto({
+		PlayQueueItemStore.fromDto({
 			url: 'https://www.nicovideo.jp/watch/sm23384530',
 			type: 'Niconico',
 			videoId: 'sm23384530',
@@ -52,7 +49,7 @@ describe('isEmpty', () => {
 	});
 
 	it('should return false when play queue is not empty', () => {
-		const item = PlayQueueItem.fromDto({
+		const item = PlayQueueItemStore.fromDto({
 			url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 			type: 'YouTube',
 			videoId: 'jUe7dDLGpv8',

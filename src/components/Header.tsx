@@ -1,5 +1,6 @@
 import { videoServices } from '@/services/VideoService';
-import { PlayQueueItem, PlayQueueStore } from '@/stores/PlayQueueStore';
+import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
+import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import {
 	EuiButton,
 	EuiCollapsibleNav,
@@ -61,7 +62,7 @@ export const AddVideoButton = React.memo(
 									const jsonData = await response.json();
 
 									playQueueStore.addItems([
-										new PlayQueueItem(
+										new PlayQueueItemStore(
 											e.url,
 											videoService.type,
 											videoId,
