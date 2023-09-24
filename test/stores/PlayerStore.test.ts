@@ -18,8 +18,6 @@ describe('constructor', () => {
 
 describe('setPlaying', () => {
 	it('should set playing', () => {
-		expect(playerStore.playing).toBe(false);
-
 		playerStore.setPlaying(true);
 
 		expect(playerStore.playing).toBe(true);
@@ -28,8 +26,6 @@ describe('setPlaying', () => {
 
 describe('setPercent', () => {
 	it('should set percent', () => {
-		expect(playerStore.percent).toBe(0);
-
 		playerStore.setPercent(100);
 
 		expect(playerStore.percent).toBe(100);
@@ -38,8 +34,6 @@ describe('setPercent', () => {
 
 describe('setSeeking', () => {
 	it('should set seeking', () => {
-		expect(playerStore.seeking).toBe(false);
-
 		playerStore.setSeeking(true);
 
 		expect(playerStore.seeking).toBe(true);
@@ -48,8 +42,6 @@ describe('setSeeking', () => {
 
 describe('onPlay', () => {
 	it('should set playing to true', () => {
-		expect(playerStore.playing).toBe(false);
-
 		playerStore.onPlay();
 
 		expect(playerStore.playing).toBe(true);
@@ -58,8 +50,6 @@ describe('onPlay', () => {
 
 describe('onPause', () => {
 	it('should set playing to false', () => {
-		expect(playerStore.playing).toBe(false);
-
 		playerStore.onPlay();
 
 		expect(playerStore.playing).toBe(true);
@@ -72,8 +62,6 @@ describe('onPause', () => {
 
 describe('onEnded', () => {
 	it('should set playing to false', () => {
-		expect(playerStore.playing).toBe(false);
-
 		playerStore.onPlay();
 
 		expect(playerStore.playing).toBe(true);
@@ -86,16 +74,12 @@ describe('onEnded', () => {
 
 describe('onTimeUpdate', () => {
 	it('should set percent when not seeking', () => {
-		expect(playerStore.seeking).toBe(false);
-
 		playerStore.onTimeUpdate({ duration: 100, percent: 100, seconds: 100 });
 
 		expect(playerStore.percent).toBe(100);
 	});
 
 	it('should not set percent when seeking', () => {
-		expect(playerStore.seeking).toBe(false);
-
 		playerStore.setSeeking(true);
 
 		expect(playerStore.seeking).toBe(true);
