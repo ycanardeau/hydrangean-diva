@@ -7,8 +7,10 @@ import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { useLocalStorageStateStore } from '@aigamo/route-sphere';
 import {
 	EuiButton,
+	EuiCodeBlock,
 	EuiFlexGroup,
 	EuiFlexItem,
+	EuiFlyout,
 	EuiPageTemplate,
 	EuiSpacer,
 } from '@elastic/eui';
@@ -16,12 +18,55 @@ import {
 	AddRegular,
 	DeleteRegular,
 	DismissRegular,
+	WindowDevToolsRegular,
 } from '@fluentui/react-icons';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { Header } from './Header';
+
+interface DeveloperToolsButtonProps {
+	playerStore: PlayerStore;
+}
+
+const DeveloperToolsButton = observer(
+	({ playerStore }: DeveloperToolsButtonProps): React.ReactElement => {
+		const [isFlyoutVisible, setIsFlyoutVisible] = React.useState(false);
+
+		return (
+			<>
+				{isFlyoutVisible && (
+					<EuiFlyout
+						type="push"
+						size="s"
+						onClose={(): void => setIsFlyoutVisible(false)}
+					>
+						<div style={{ blockSize: '100%' }}>
+							<EuiCodeBlock
+								language="json"
+								overflowHeight="100%"
+								isCopyable
+								isVirtualized
+							>
+								{JSON.stringify(playerStore, undefined, 2)}
+							</EuiCodeBlock>
+						</div>
+					</EuiFlyout>
+				)}
+
+				<EuiButton
+					onClick={(): void =>
+						setIsFlyoutVisible((visible) => !visible)
+					}
+					iconType={WindowDevToolsRegular}
+				>
+					Developer tools
+				</EuiButton>
+			</>
+		);
+	},
+);
 
 interface PlayQueueProps {
 	playerStore: PlayerStore;
@@ -76,6 +121,10 @@ const PlayQueue = observer(
 						>
 							Clear{/* LOC */}
 						</EuiButton>
+					</EuiFlexItem>
+					<EuiFlexItem grow={true} />
+					<EuiFlexItem grow={false}>
+						<DeveloperToolsButton playerStore={playerStore} />
 					</EuiFlexItem>
 				</EuiFlexGroup>
 

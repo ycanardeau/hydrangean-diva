@@ -4,8 +4,11 @@ import { icon as apps } from '@elastic/eui/es/components/icon/assets/apps';
 import { icon as arrowLeft } from '@elastic/eui/es/components/icon/assets/arrow_left';
 import { icon as arrowRight } from '@elastic/eui/es/components/icon/assets/arrow_right';
 import { icon as check } from '@elastic/eui/es/components/icon/assets/check';
+import { icon as copyClipboard } from '@elastic/eui/es/components/icon/assets/copy_clipboard';
 import { icon as cross } from '@elastic/eui/es/components/icon/assets/cross';
 import { icon as empty } from '@elastic/eui/es/components/icon/assets/empty';
+import { icon as fullScreenExit } from '@elastic/eui/es/components/icon/assets/fullScreenExit';
+import { icon as fullScreen } from '@elastic/eui/es/components/icon/assets/full_screen';
 import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
 import { icon as popout } from '@elastic/eui/es/components/icon/assets/popout';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
@@ -19,8 +22,11 @@ const cachedIcons: IconComponentCacheType = {
 	arrowLeft,
 	arrowRight,
 	check,
+	copyClipboard,
 	cross,
 	empty,
+	fullScreen,
+	fullScreenExit,
 	menu,
 	popout,
 };
