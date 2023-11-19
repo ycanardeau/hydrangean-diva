@@ -9,7 +9,7 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@trivago/prettier-plugin-sort-imports": "^3.4.0",
+		"@trivago/prettier-plugin-sort-imports": "^4.3.0",
 		"@types/lodash-es": "^4.17.6",
 		"@types/qs": "^6.9.7",
 		"@types/react": "^18.0.24",
