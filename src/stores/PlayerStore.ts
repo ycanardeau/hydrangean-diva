@@ -1,12 +1,6 @@
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
-import { PlayerType, TimeEvent } from '@aigamo/nostalgic-diva';
+import { TimeEvent } from '@aigamo/nostalgic-diva';
 import { action, computed, makeObservable, observable } from 'mobx';
-
-export interface Video {
-	type: PlayerType;
-	videoId: string;
-	title: string;
-}
 
 export class PlayerStore {
 	readonly playQueueStore = new PlayQueueStore();

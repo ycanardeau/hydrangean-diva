@@ -31,7 +31,7 @@ export const DASH_EXTENSIONS = /\.(mpd)($|\?)/i;
 export const FLV_EXTENSIONS = /\.(flv)($|\?)/i;
 
 abstract class VideoService {
-	protected constructor(readonly type: PlayerType) {}
+	protected constructor(readonly type: `${PlayerType}`) {}
 
 	abstract canPlay(url: string): boolean;
 
