@@ -1,4 +1,5 @@
 import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
+import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let playQueueItemStore: PlayQueueItemStore;
@@ -6,7 +7,7 @@ let playQueueItemStore: PlayQueueItemStore;
 beforeEach(() => {
 	playQueueItemStore = PlayQueueItemStore.fromDto({
 		url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
-		type: 'YouTube',
+		type: PlayerType.YouTube,
 		videoId: 'jUe7dDLGpv8',
 		title: '2nd Album「Hydrangean Diva」/Nejishiki【Trailer】 - YouTube',
 	});

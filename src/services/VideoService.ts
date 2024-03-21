@@ -31,7 +31,7 @@ export const DASH_EXTENSIONS = /\.(mpd)($|\?)/i;
 export const FLV_EXTENSIONS = /\.(flv)($|\?)/i;
 
 abstract class VideoService {
-	protected constructor(readonly type: `${PlayerType}`) {}
+	protected constructor(readonly type: PlayerType) {}
 
 	abstract canPlay(url: string): boolean;
 
@@ -40,7 +40,7 @@ abstract class VideoService {
 
 class AudioVideoService extends VideoService {
 	constructor() {
-		super('Audio');
+		super(PlayerType.Audio);
 	}
 
 	canPlay(url: string): boolean {
@@ -54,7 +54,7 @@ class AudioVideoService extends VideoService {
 
 class DailymotionVideoService extends VideoService {
 	constructor() {
-		super('Dailymotion');
+		super(PlayerType.Dailymotion);
 	}
 
 	canPlay(url: string): boolean {
@@ -69,7 +69,7 @@ class DailymotionVideoService extends VideoService {
 
 class NiconicoVideoService extends VideoService {
 	constructor() {
-		super('Niconico');
+		super(PlayerType.Niconico);
 	}
 
 	canPlay(url: string): boolean {
@@ -84,7 +84,7 @@ class NiconicoVideoService extends VideoService {
 
 class SoundCloudVideoService extends VideoService {
 	constructor() {
-		super('SoundCloud');
+		super(PlayerType.SoundCloud);
 	}
 
 	canPlay(url: string): boolean {
@@ -98,7 +98,7 @@ class SoundCloudVideoService extends VideoService {
 
 class TwitchVideoService extends VideoService {
 	constructor() {
-		super('Twitch');
+		super(PlayerType.Twitch);
 	}
 
 	canPlay(url: string): boolean {
@@ -113,7 +113,7 @@ class TwitchVideoService extends VideoService {
 
 class VimeoVideoService extends VideoService {
 	constructor() {
-		super('Vimeo');
+		super(PlayerType.Vimeo);
 	}
 
 	canPlay(url: string): boolean {
@@ -127,7 +127,7 @@ class VimeoVideoService extends VideoService {
 
 class YouTubeVideoService extends VideoService {
 	constructor() {
-		super('YouTube');
+		super(PlayerType.YouTube);
 	}
 
 	canPlay(url: string): boolean {

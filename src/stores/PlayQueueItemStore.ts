@@ -3,7 +3,7 @@ import { action, makeObservable, observable } from 'mobx';
 
 export interface PlayQueueItemDto {
 	readonly url: string;
-	readonly type: `${PlayerType}`;
+	readonly type: PlayerType;
 	readonly videoId: string;
 	readonly title: string;
 }
@@ -16,7 +16,7 @@ export class PlayQueueItemStore {
 
 	constructor(
 		readonly url: string,
-		readonly type: `${PlayerType}`,
+		readonly type: PlayerType,
 		readonly videoId: string,
 		readonly title: string,
 	) {

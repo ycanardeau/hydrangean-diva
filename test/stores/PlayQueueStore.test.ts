@@ -1,5 +1,6 @@
 import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
 import { PlayQueueStore, RepeatMode } from '@/stores/PlayQueueStore';
+import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let playQueueStore: PlayQueueStore;
@@ -14,19 +15,19 @@ beforeEach(() => {
 	[item, item2, item3] = [
 		PlayQueueItemStore.fromDto({
 			url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
-			type: 'YouTube',
+			type: PlayerType.YouTube,
 			videoId: 'jUe7dDLGpv8',
 			title: '2nd Album「Hydrangean Diva」/Nejishiki【Trailer】 - YouTube',
 		}),
 		PlayQueueItemStore.fromDto({
 			url: 'https://www.youtube.com/watch?v=bGdtvUQ9OAs',
-			type: 'YouTube',
+			type: PlayerType.YouTube,
 			videoId: 'bGdtvUQ9OAs',
 			title: '3rd Album「nostalgic diva」Nejishiki【Trailer】 /3rd Album「nostalgic diva」/ねじ式【クロスフェード】 - YouTube',
 		}),
 		PlayQueueItemStore.fromDto({
 			url: 'https://www.nicovideo.jp/watch/sm23384530',
-			type: 'Niconico',
+			type: PlayerType.Niconico,
 			videoId: 'sm23384530',
 			title: '1ｓｔAlbum「The Wind-Up Diva」/ねじ式【クロスフェード】 - ニコニコ動画',
 		}),
@@ -51,7 +52,7 @@ describe('isEmpty', () => {
 	it('should return false when play queue is not empty', () => {
 		const item = PlayQueueItemStore.fromDto({
 			url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
-			type: 'YouTube',
+			type: PlayerType.YouTube,
 			videoId: 'jUe7dDLGpv8',
 			title: '2nd Album「Hydrangean Diva」/Nejishiki【Trailer】 - YouTube',
 		});
