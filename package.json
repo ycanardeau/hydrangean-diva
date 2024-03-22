@@ -10,7 +10,7 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"@aigamo/nostalgic-diva": "^1.11.0",
+		"@aigamo/nostalgic-diva": "^1.13.0",
 		"@aigamo/route-sphere": "^2.0.0",
 		"@elastic/datemath": "^5.0.3",
 		"@elastic/eui": "^88.4.0",

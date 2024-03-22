@@ -88,8 +88,7 @@ export const MiniPlayer = observer(
 				<div css={{ flexGrow: 1, backgroundColor: 'black' }}>
 					{playQueueStore.currentItem && (
 						<NostalgicDiva
-							type={playQueueStore.currentItem.type}
-							videoId={playQueueStore.currentItem.videoId}
+							src={playQueueStore.currentItem.url}
 							options={options}
 						/>
 					)}

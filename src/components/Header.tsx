@@ -1,6 +1,6 @@
-import { videoServices } from '@/services/VideoService';
 import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
+import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiCollapsibleNav,
@@ -55,9 +55,7 @@ export const AddVideoButton = React.memo(
 					<AddVideoModal
 						onCancel={(): void => setAddVideoModalOpen(false)}
 						onSave={async (e): Promise<void> => {
-							const videoService = videoServices.find(
-								(videoService) => videoService.canPlay(e.url),
-							);
+							const videoService = findVideoService(e.url);
 							if (videoService !== undefined) {
 								const videoId = videoService.extractVideoId(
 									e.url,
