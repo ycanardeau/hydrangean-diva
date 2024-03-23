@@ -40,10 +40,10 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: yarn
+        run: npm ci
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
