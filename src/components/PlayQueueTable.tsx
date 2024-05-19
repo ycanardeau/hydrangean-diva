@@ -2,10 +2,12 @@ import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType, useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
+	CommonProps,
 	EuiButton,
 	EuiButtonIcon,
 	EuiCheckbox,
 	EuiContextMenuItem,
+	EuiContextMenuItemProps,
 	EuiContextMenuPanel,
 	EuiHorizontalRule,
 	EuiIcon,
@@ -66,103 +68,79 @@ const PlayQueueTableRowContextMenuPanel = React.memo(
 		item,
 		closePopover,
 	}: PlayQueueTableRowContextMenuPanelProps): React.ReactElement => {
-		const handleClickPlayFirst =
-			React.useCallback(async (): Promise<void> => {
-				closePopover();
+		const ContextMenuItem = React.memo(
+			({
+				onClick,
+				...props
+			}: CommonProps &
+				Omit<
+					React.ButtonHTMLAttributes<HTMLButtonElement>,
+					'onClick' | 'disabled' | 'type'
+				> &
+				EuiContextMenuItemProps): React.ReactElement => {
+				const handleClick = React.useCallback(
+					(e: React.MouseEvent) => {
+						closePopover();
 
-				await item.playFirst();
-			}, [closePopover, item]);
+						onClick?.(e);
+					},
+					[onClick],
+				);
 
-		const handleClickPlayNext =
-			React.useCallback(async (): Promise<void> => {
-				closePopover();
-
-				await item.playNext();
-			}, [closePopover, item]);
-
-		const handleClickAddToPlayQueue =
-			React.useCallback(async (): Promise<void> => {
-				closePopover();
-
-				await item.addToPlayQueue();
-			}, [closePopover, item]);
-
-		const handleClickMoveToTop =
-			React.useCallback(async (): Promise<void> => {
-				closePopover();
-
-				item.moveToTop();
-			}, [closePopover, item]);
-
-		const handleClickMoveToBottom =
-			React.useCallback(async (): Promise<void> => {
-				closePopover();
-
-				item.moveToBottom();
-			}, [closePopover, item]);
-
-		const handleClickRemoveToTop = React.useCallback((): void => {
-			closePopover();
-
-			item.removeToTop();
-		}, [closePopover, item]);
-
-		const handleClickRemoveOthers = React.useCallback((): void => {
-			closePopover();
-
-			item.removeOthers();
-		}, [closePopover, item]);
+				return <EuiContextMenuItem {...props} onClick={handleClick} />;
+			},
+		);
 
 		return (
 			<EuiContextMenuPanel>
-				<EuiContextMenuItem
+				<ContextMenuItem
 					icon={<EuiIcon type="" />}
-					onClick={handleClickPlayFirst}
+					onClick={item.playFirst}
 				>
 					Play first{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiContextMenuItem
+				</ContextMenuItem>
+				<ContextMenuItem
 					icon={<EuiIcon type="" />}
-					onClick={handleClickPlayNext}
+					onClick={item.playNext}
 				>
 					Play next{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiContextMenuItem
+				</ContextMenuItem>
+				<ContextMenuItem
 					icon={<EuiIcon type={AddRegular} />}
-					onClick={handleClickAddToPlayQueue}
+					onClick={item.addToPlayQueue}
 				>
 					Add to play queue{/* LOC */}
-				</EuiContextMenuItem>
+				</ContextMenuItem>
 				<EuiHorizontalRule margin="none" />
-				<EuiContextMenuItem
+				<ContextMenuItem
 					icon={<EuiIcon type={ArrowUploadRegular} />}
-					onClick={handleClickMoveToTop}
+					onClick={item.moveToTop}
 					disabled={!item.canMoveToTop}
 				>
 					Move to the top{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiContextMenuItem
+				</ContextMenuItem>
+				<ContextMenuItem
 					icon={<EuiIcon type={ArrowDownloadRegular} />}
-					onClick={handleClickMoveToBottom}
+					onClick={item.moveToBottom}
 					disabled={!item.canMoveToBottom}
 				>
 					Move to the bottom{/* LOC */}
-				</EuiContextMenuItem>
+				</ContextMenuItem>
 				<EuiHorizontalRule margin="none" />
-				<EuiContextMenuItem
+				<ContextMenuItem
 					icon={<EuiIcon type="" />}
-					onClick={handleClickRemoveToTop}
+					onClick={item.removeToTop}
 					disabled={!item.canRemoveToTop}
 				>
 					Remove to the top{/* LOC */}
-				</EuiContextMenuItem>
-				<EuiContextMenuItem
+				</ContextMenuItem>
+				<ContextMenuItem
 					icon={<EuiIcon type="" />}
-					onClick={handleClickRemoveOthers}
+					onClick={item.removeOthers}
 					disabled={!item.canRemoveOthers}
 				>
 					Remove others{/* LOC */}
-				</EuiContextMenuItem>
+				</ContextMenuItem>
 			</EuiContextMenuPanel>
 		);
 	},
