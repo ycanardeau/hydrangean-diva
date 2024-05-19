@@ -84,6 +84,37 @@ export class PlayQueueItemStore {
 		this.playQueueStore.removeItems([this]);
 	}
 
+	@action.bound async playFirst(): Promise<void> {
+		await this.playQueueStore.playFirst([this.clone()]);
+	}
+
+	@action.bound async playNext(): Promise<void> {
+		await this.playQueueStore.playNext([this.clone()]);
+	}
+
+	@action.bound async addToPlayQueue(): Promise<void> {
+		await this.playQueueStore.addItems([this.clone()]);
+	}
+
+	@action.bound moveToTop(): void {
+		this.playQueueStore.moveItem(this, 0);
+	}
+
+	@action.bound moveToBottom(): void {
+		this.playQueueStore.moveItem(
+			this,
+			this.playQueueStore.items.length - 1,
+		);
+	}
+
+	@action.bound removeToTop(): void {
+		this.playQueueStore.removeItemsAbove(this);
+	}
+
+	@action.bound removeOthers(): void {
+		this.playQueueStore.removeOtherItems(this);
+	}
+
 	toDto(): PlayQueueItemDto {
 		return {
 			url: this.url,

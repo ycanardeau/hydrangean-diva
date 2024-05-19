@@ -57,14 +57,12 @@ const PlayQueueTableHeader = observer(
 );
 
 interface PlayQueueTableRowContextMenuPanelProps {
-	playQueueStore: PlayQueueStore;
 	item: PlayQueueItemStore;
 	closePopover: () => void;
 }
 
 const PlayQueueTableRowContextMenuPanel = React.memo(
 	({
-		playQueueStore,
 		item,
 		closePopover,
 	}: PlayQueueTableRowContextMenuPanelProps): React.ReactElement => {
@@ -72,48 +70,48 @@ const PlayQueueTableRowContextMenuPanel = React.memo(
 			React.useCallback(async (): Promise<void> => {
 				closePopover();
 
-				await playQueueStore.playFirst([item.clone()]);
-			}, [closePopover, item, playQueueStore]);
+				await item.playFirst();
+			}, [closePopover, item]);
 
 		const handleClickPlayNext =
 			React.useCallback(async (): Promise<void> => {
 				closePopover();
 
-				await playQueueStore.playNext([item.clone()]);
-			}, [closePopover, item, playQueueStore]);
+				await item.playNext();
+			}, [closePopover, item]);
 
 		const handleClickAddToPlayQueue =
 			React.useCallback(async (): Promise<void> => {
 				closePopover();
 
-				await playQueueStore.addItems([item.clone()]);
-			}, [closePopover, item, playQueueStore]);
+				await item.addToPlayQueue();
+			}, [closePopover, item]);
 
 		const handleClickMoveToTop =
 			React.useCallback(async (): Promise<void> => {
 				closePopover();
 
-				playQueueStore.moveItem(item, 0);
-			}, [closePopover, item, playQueueStore]);
+				item.moveToTop();
+			}, [closePopover, item]);
 
 		const handleClickMoveToBottom =
 			React.useCallback(async (): Promise<void> => {
 				closePopover();
 
-				playQueueStore.moveItem(item, playQueueStore.items.length - 1);
-			}, [closePopover, item, playQueueStore]);
+				item.moveToBottom();
+			}, [closePopover, item]);
 
 		const handleClickRemoveToTop = React.useCallback((): void => {
 			closePopover();
 
-			playQueueStore.removeItemsAbove(item);
-		}, [closePopover, item, playQueueStore]);
+			item.removeToTop();
+		}, [closePopover, item]);
 
 		const handleClickRemoveOthers = React.useCallback((): void => {
 			closePopover();
 
-			playQueueStore.removeOtherItems(item);
-		}, [closePopover, item, playQueueStore]);
+			item.removeOthers();
+		}, [closePopover, item]);
 
 		return (
 			<EuiContextMenuPanel>
@@ -171,15 +169,11 @@ const PlayQueueTableRowContextMenuPanel = React.memo(
 );
 
 interface PlayQueueTableRowPopoverProps {
-	playQueueStore: PlayQueueStore;
 	item: PlayQueueItemStore;
 }
 
 const PlayQueueTableRowPopover = React.memo(
-	({
-		playQueueStore,
-		item,
-	}: PlayQueueTableRowPopoverProps): React.ReactElement => {
+	({ item }: PlayQueueTableRowPopoverProps): React.ReactElement => {
 		const [isOpen, setIsOpen] = React.useState(false);
 
 		const togglePopover = React.useCallback(
@@ -206,7 +200,6 @@ const PlayQueueTableRowPopover = React.memo(
 				anchorPosition="leftCenter"
 			>
 				<PlayQueueTableRowContextMenuPanel
-					playQueueStore={playQueueStore}
 					item={item}
 					closePopover={closePopover}
 				/>
@@ -254,10 +247,7 @@ const PlayQueueTableRowActionsCell = observer(
 				>
 					Remove{/* LOC */}
 				</EuiButton>
-				<PlayQueueTableRowPopover
-					playQueueStore={playQueueStore}
-					item={item}
-				/>
+				<PlayQueueTableRowPopover item={item} />
 			</EuiTableRowCell>
 		);
 	},
