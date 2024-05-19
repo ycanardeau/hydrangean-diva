@@ -13,7 +13,7 @@
 		"@aigamo/nostalgic-diva": "^1.14.1",
 		"@aigamo/route-sphere": "^2.0.0",
 		"@elastic/datemath": "^5.0.3",
-		"@elastic/eui": "^88.4.0",
+		"@elastic/eui": "^94.5.0",
 		"@emotion/css": "^11.11.0",
 		"@emotion/react": "^11.10.6",
 		"@fluentui/react-icons": "^2.0.216",
