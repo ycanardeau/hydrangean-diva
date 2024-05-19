@@ -241,7 +241,7 @@ const PlayQueueTableRowActionsCell = observer(
 						if (playQueueStore.currentItem === item) {
 							await diva.setCurrentTime(0);
 						} else {
-							playQueueStore.setCurrentItem(item);
+							item.play();
 						}
 					}}
 				>
@@ -250,9 +250,7 @@ const PlayQueueTableRowActionsCell = observer(
 				<EuiButton
 					iconType={DismissRegular}
 					size="s"
-					onClick={(): Promise<void> =>
-						playQueueStore.removeItems([item])
-					}
+					onClick={item.remove}
 				>
 					Remove{/* LOC */}
 				</EuiButton>

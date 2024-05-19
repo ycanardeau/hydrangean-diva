@@ -76,6 +76,14 @@ export class PlayQueueItemStore {
 		this.isSelected = !this.isSelected;
 	}
 
+	@action play(): void {
+		this.playQueueStore.setCurrentItem(this);
+	}
+
+	@action.bound remove(): void {
+		this.playQueueStore.removeItems([this]);
+	}
+
 	toDto(): PlayQueueItemDto {
 		return {
 			url: this.url,
