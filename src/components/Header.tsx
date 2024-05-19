@@ -12,6 +12,7 @@ import {
 	EuiIcon,
 	EuiListGroup,
 	EuiListGroupItemProps,
+	EuiToolTip,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
@@ -145,6 +146,17 @@ export const Header = ({ playQueueStore }: HeaderProps): React.ReactElement => {
 						<EuiHeaderLinks
 							popoverProps={{ repositionOnScroll: true }}
 						>
+							<EuiToolTip content="GitHub">
+								<EuiHeaderSectionItemButton
+									href="https://github.com/ycanardeau/hydrangean-diva"
+									target="_blank"
+								>
+									<EuiIcon
+										type="logoGithub"
+										aria-hidden="true"
+									/>
+								</EuiHeaderSectionItemButton>
+							</EuiToolTip>
 							<AddVideoButton playQueueStore={playQueueStore} />
 						</EuiHeaderLinks>,
 					],

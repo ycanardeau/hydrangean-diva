@@ -9,6 +9,7 @@ import { icon as cross } from '@elastic/eui/es/components/icon/assets/cross';
 import { icon as empty } from '@elastic/eui/es/components/icon/assets/empty';
 import { icon as fullScreenExit } from '@elastic/eui/es/components/icon/assets/fullScreenExit';
 import { icon as fullScreen } from '@elastic/eui/es/components/icon/assets/full_screen';
+import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
 import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
 import { icon as popout } from '@elastic/eui/es/components/icon/assets/popout';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
@@ -27,6 +28,7 @@ const cachedIcons: IconComponentCacheType = {
 	empty,
 	fullScreen,
 	fullScreenExit,
+	logoGithub,
 	menu,
 	popout,
 };
