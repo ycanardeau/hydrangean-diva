@@ -40,7 +40,14 @@ interface PlayQueueTableHeaderProps {
 const PlayQueueTableHeader = observer(
 	({ playQueueStore }: PlayQueueTableHeaderProps): React.ReactElement => {
 		return (
-			<EuiTableHeader>
+			<EuiTableHeader
+				style={{
+					position: 'sticky',
+					top: 48 + 40 + 24,
+					zIndex: 998,
+					background: '#1D1E24',
+				}}
+			>
 				<EuiTableHeaderCellCheckbox>
 					<EuiCheckbox
 						id="" // TODO

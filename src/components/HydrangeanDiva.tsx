@@ -82,7 +82,16 @@ const PlayQueue = observer(
 	({ playerStore, playQueueStore }: PlayQueueProps): React.ReactElement => {
 		return (
 			<>
-				<EuiFlexGroup alignItems="center" gutterSize="m">
+				<EuiFlexGroup
+					alignItems="center"
+					gutterSize="m"
+					style={{
+						position: 'sticky',
+						top: 48,
+						zIndex: 998,
+						background: '#1D1E24',
+					}}
+				>
 					<EuiFlexItem grow={false}>
 						<EuiButton
 							disabled={
@@ -135,8 +144,18 @@ const PlayQueue = observer(
 
 				{!playQueueStore.isEmpty && (
 					<>
-						<EuiSpacer size="l" />
+						<EuiSpacer
+							size="l"
+							style={{
+								position: 'sticky',
+								top: 48 + 40,
+								zIndex: 998,
+								background: '#1D1E24',
+							}}
+						/>
+
 						<PlayQueueTable playQueueStore={playQueueStore} />
+
 						<EuiSpacer
 							style={{ blockSize: miniPlayerSize.height }}
 						/>
