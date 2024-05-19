@@ -40,6 +40,10 @@ export class PlayQueueItemStore {
 		);
 	}
 
+	@computed get isCurrent(): boolean {
+		return this.playQueueStore.currentItem === this;
+	}
+
 	@computed get index(): number {
 		return this.playQueueStore.items.indexOf(this);
 	}
@@ -66,6 +70,19 @@ export class PlayQueueItemStore {
 
 	@computed get canRemoveOthers(): boolean {
 		return this.playQueueStore.hasMultipleItems;
+	}
+
+	toDto(): PlayQueueItemDto {
+		return {
+			url: this.url,
+			type: this.type,
+			videoId: this.videoId,
+			title: this.title,
+		};
+	}
+
+	clone(): PlayQueueItemStore {
+		return this.playQueueStore.createItem(this.toDto());
 	}
 
 	@action unselect(): void {
@@ -113,18 +130,5 @@ export class PlayQueueItemStore {
 
 	@action.bound removeOthers(): void {
 		this.playQueueStore.removeOtherItems(this);
-	}
-
-	toDto(): PlayQueueItemDto {
-		return {
-			url: this.url,
-			type: this.type,
-			videoId: this.videoId,
-			title: this.title,
-		};
-	}
-
-	clone(): PlayQueueItemStore {
-		return this.playQueueStore.createItem(this.toDto());
 	}
 }

@@ -209,15 +209,11 @@ const PlayQueueTableRowPopover = React.memo(
 );
 
 interface PlayQueueTableRowActionsCellProps {
-	playQueueStore: PlayQueueStore;
 	item: PlayQueueItemStore;
 }
 
 const PlayQueueTableRowActionsCell = observer(
-	({
-		playQueueStore,
-		item,
-	}: PlayQueueTableRowActionsCellProps): React.ReactElement => {
+	({ item }: PlayQueueTableRowActionsCellProps): React.ReactElement => {
 		const diva = useNostalgicDiva();
 
 		return (
@@ -231,7 +227,7 @@ const PlayQueueTableRowActionsCell = observer(
 					iconType={PlayRegular}
 					size="s"
 					onClick={async (): Promise<void> => {
-						if (playQueueStore.currentItem === item) {
+						if (item.isCurrent) {
 							await diva.setCurrentTime(0);
 						} else {
 							item.play();
@@ -264,19 +260,15 @@ const videoServiceIcons: Record<PlayerType, string> = {
 };
 
 interface PlayQueueTableRowProps {
-	playQueueStore: PlayQueueStore;
 	item: PlayQueueItemStore;
 }
 
 const PlayQueueTableRow = observer(
-	({ playQueueStore, item }: PlayQueueTableRowProps): React.ReactElement => {
+	({ item }: PlayQueueTableRowProps): React.ReactElement => {
 		const diva = useNostalgicDiva();
 
 		return (
-			<EuiTableRow
-				key={item.id}
-				isSelected={item === playQueueStore.currentItem}
-			>
+			<EuiTableRow key={item.id} isSelected={item.isCurrent}>
 				<EuiTableRowCellCheckbox>
 					<EuiCheckbox
 						id={item.id.toString() /* TODO */}
@@ -302,10 +294,7 @@ const PlayQueueTableRow = observer(
 						{item.title}
 					</EuiLink>
 				</EuiTableRowCell>
-				<PlayQueueTableRowActionsCell
-					playQueueStore={playQueueStore}
-					item={item}
-				/>
+				<PlayQueueTableRowActionsCell item={item} />
 			</EuiTableRow>
 		);
 	},
@@ -324,11 +313,7 @@ const PlayQueueTableBody = observer(
 				setList={(items): void => playQueueStore.setItems(items)}
 			>
 				{playQueueStore.items.map((item) => (
-					<PlayQueueTableRow
-						key={item.id}
-						playQueueStore={playQueueStore}
-						item={item}
-					/>
+					<PlayQueueTableRow key={item.id} item={item} />
 				))}
 			</ReactSortable>
 		);
