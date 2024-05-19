@@ -1,4 +1,3 @@
-import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
@@ -70,15 +69,16 @@ export const AddVideoButton = React.memo(
 									const jsonData = await response.json();
 
 									playQueueStore.addItems([
-										new PlayQueueItemStore(
-											e.url,
-											videoService.type,
-											videoId,
-											e.title ||
+										playQueueStore.createItem({
+											url: e.url,
+											type: videoService.type,
+											videoId: videoId,
+											title:
+												e.title ||
 												(isNoembedResult(jsonData)
 													? jsonData.title
 													: videoId),
-										),
+										}),
 									]);
 								}
 							}

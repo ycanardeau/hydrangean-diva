@@ -139,12 +139,14 @@ const PlayQueueTableRowContextMenuPanel = React.memo(
 				<EuiContextMenuItem
 					icon={<EuiIcon type={ArrowUploadRegular} />}
 					onClick={handleClickMoveToTop}
+					disabled={!item.canMoveToTop}
 				>
 					Move to the top{/* LOC */}
 				</EuiContextMenuItem>
 				<EuiContextMenuItem
 					icon={<EuiIcon type={ArrowDownloadRegular} />}
 					onClick={handleClickMoveToBottom}
+					disabled={!item.canMoveToBottom}
 				>
 					Move to the bottom{/* LOC */}
 				</EuiContextMenuItem>
@@ -152,12 +154,14 @@ const PlayQueueTableRowContextMenuPanel = React.memo(
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={handleClickRemoveToTop}
+					disabled={!item.canRemoveToTop}
 				>
 					Remove to the top{/* LOC */}
 				</EuiContextMenuItem>
 				<EuiContextMenuItem
 					icon={<EuiIcon type="" />}
 					onClick={handleClickRemoveOthers}
+					disabled={!item.canRemoveOthers}
 				>
 					Remove others{/* LOC */}
 				</EuiContextMenuItem>

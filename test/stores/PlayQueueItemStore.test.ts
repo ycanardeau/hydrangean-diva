@@ -1,11 +1,14 @@
 import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
+import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
+let playQueueStore: PlayQueueStore;
 let playQueueItemStore: PlayQueueItemStore;
 
 beforeEach(() => {
-	playQueueItemStore = PlayQueueItemStore.fromDto({
+	playQueueStore = new PlayQueueStore();
+	playQueueItemStore = playQueueStore.createItem({
 		url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 		type: PlayerType.YouTube,
 		videoId: 'jUe7dDLGpv8',

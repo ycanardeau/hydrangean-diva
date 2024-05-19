@@ -1,5 +1,6 @@
+import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 export interface PlayQueueItemDto {
 	readonly url: string;
@@ -15,6 +16,7 @@ export class PlayQueueItemStore {
 	@observable isSelected = false;
 
 	constructor(
+		readonly playQueueStore: PlayQueueStore,
 		readonly url: string,
 		readonly type: PlayerType,
 		readonly videoId: string,
@@ -25,13 +27,45 @@ export class PlayQueueItemStore {
 		this.id = PlayQueueItemStore.nextId++;
 	}
 
-	static fromDto(dto: PlayQueueItemDto): PlayQueueItemStore {
+	static fromDto(
+		playQueueStore: PlayQueueStore,
+		dto: PlayQueueItemDto,
+	): PlayQueueItemStore {
 		return new PlayQueueItemStore(
+			playQueueStore,
 			dto.url,
 			dto.type,
 			dto.videoId,
 			dto.title,
 		);
+	}
+
+	@computed get index(): number {
+		return this.playQueueStore.items.indexOf(this);
+	}
+
+	@computed get isFirst(): boolean {
+		return this.index === 0;
+	}
+
+	@computed get isLast(): boolean {
+		return this.index === this.playQueueStore.items.length - 1;
+	}
+
+	@computed get canMoveToTop(): boolean {
+		return !this.isFirst;
+	}
+
+	@computed get canMoveToBottom(): boolean {
+		return !this.isLast;
+	}
+
+	@computed get canRemoveToTop(): boolean {
+		return !this.isFirst;
+	}
+
+	@computed get canRemoveOthers(): boolean {
+		return this.playQueueStore.hasMultipleItems;
 	}
 
 	@action unselect(): void {
@@ -52,6 +86,6 @@ export class PlayQueueItemStore {
 	}
 
 	clone(): PlayQueueItemStore {
-		return PlayQueueItemStore.fromDto(this.toDto());
+		return this.playQueueStore.createItem(this.toDto());
 	}
 }
