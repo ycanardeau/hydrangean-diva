@@ -195,12 +195,7 @@ const PlayQueueTableRowActionsCell = observer(
 		const diva = useNostalgicDiva();
 
 		return (
-			<EuiTableRowCell
-				showOnHover
-				textOnly={false}
-				hasActions
-				align="right"
-			>
+			<EuiTableRowCell textOnly={false} hasActions align="right">
 				<EuiButton
 					iconType={PlayRegular}
 					size="s"
