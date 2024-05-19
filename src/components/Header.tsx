@@ -40,6 +40,39 @@ export const AddVideoButton = React.memo(
 	({ playQueueStore }: AddVideoButtonProps): React.ReactElement => {
 		const [addVideoModalOpen, setAddVideoModalOpen] = React.useState(false);
 
+		const handleSave = React.useCallback(
+			async (e): Promise<void> => {
+				const videoService = findVideoService(e.url);
+				if (videoService !== undefined) {
+					const videoId = videoService.extractVideoId(e.url);
+					if (videoId !== undefined) {
+						const response = await fetch(
+							`https://noembed.com/embed?url=${encodeURIComponent(
+								e.url,
+							)}`,
+						);
+						const jsonData = await response.json();
+
+						playQueueStore.addItems([
+							playQueueStore.createItem({
+								url: e.url,
+								type: videoService.type,
+								videoId: videoId,
+								title:
+									e.title ||
+									(isNoembedResult(jsonData)
+										? jsonData.title
+										: videoId),
+							}),
+						]);
+					}
+				}
+
+				setAddVideoModalOpen(false);
+			},
+			[playQueueStore],
+		);
+
 		return (
 			<>
 				<EuiButton
@@ -54,37 +87,7 @@ export const AddVideoButton = React.memo(
 				{addVideoModalOpen && (
 					<AddVideoModal
 						onCancel={(): void => setAddVideoModalOpen(false)}
-						onSave={async (e): Promise<void> => {
-							const videoService = findVideoService(e.url);
-							if (videoService !== undefined) {
-								const videoId = videoService.extractVideoId(
-									e.url,
-								);
-								if (videoId !== undefined) {
-									const response = await fetch(
-										`https://noembed.com/embed?url=${encodeURIComponent(
-											e.url,
-										)}`,
-									);
-									const jsonData = await response.json();
-
-									playQueueStore.addItems([
-										playQueueStore.createItem({
-											url: e.url,
-											type: videoService.type,
-											videoId: videoId,
-											title:
-												e.title ||
-												(isNoembedResult(jsonData)
-													? jsonData.title
-													: videoId),
-										}),
-									]);
-								}
-							}
-
-							setAddVideoModalOpen(false);
-						}}
+						onSave={handleSave}
 					/>
 				)}
 			</>
