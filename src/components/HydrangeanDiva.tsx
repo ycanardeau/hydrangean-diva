@@ -49,7 +49,12 @@ const DeveloperToolsButton = observer(
 								isCopyable
 								isVirtualized
 							>
-								{JSON.stringify(playerStore, undefined, 2)}
+								{JSON.stringify(
+									playerStore.playQueueStore
+										.localStorageState,
+									undefined,
+									2,
+								)}
 							</EuiCodeBlock>
 						</div>
 					</EuiFlyout>
