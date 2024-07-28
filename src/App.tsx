@@ -1,4 +1,5 @@
 import { AppContainer } from '@/components/AppContainer';
+import { PlayQueueStoreProvider } from '@/components/PlayQueueStoreContext';
 import { PlayerStoreProvider } from '@/components/PlayerStoreContext';
 import '@/icons';
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
@@ -18,9 +19,11 @@ const App = (): React.ReactElement => {
 	return (
 		<EuiProvider colorMode="dark" cache={euiCache}>
 			<PlayerStoreProvider>
-				<NostalgicDivaProvider>
-					<AppContainer />
-				</NostalgicDivaProvider>
+				<PlayQueueStoreProvider>
+					<NostalgicDivaProvider>
+						<AppContainer />
+					</NostalgicDivaProvider>
+				</PlayQueueStoreProvider>
 			</PlayerStoreProvider>
 		</EuiProvider>
 	);

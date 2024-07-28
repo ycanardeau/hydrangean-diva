@@ -1,23 +1,13 @@
-import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { TimeEvent } from '@aigamo/nostalgic-diva';
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 export class PlayerStore {
-	readonly playQueueStore = new PlayQueueStore();
 	@observable playing = false;
 	@observable percent = 0;
 	@observable seeking = false;
 
 	constructor() {
 		makeObservable(this);
-	}
-
-	@computed get canPlay(): boolean {
-		return this.playQueueStore.canPlay;
-	}
-
-	@computed get canPause(): boolean {
-		return this.playQueueStore.canPause;
 	}
 
 	@action setPlaying(value: boolean): void {

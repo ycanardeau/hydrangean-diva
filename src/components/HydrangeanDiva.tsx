@@ -27,11 +27,11 @@ import React from 'react';
 import { Header } from './Header';
 
 interface DeveloperToolsButtonProps {
-	playerStore: PlayerStore;
+	playQueueStore: PlayQueueStore;
 }
 
 const DeveloperToolsButton = observer(
-	({ playerStore }: DeveloperToolsButtonProps): React.ReactElement => {
+	({ playQueueStore }: DeveloperToolsButtonProps): React.ReactElement => {
 		const [isFlyoutVisible, setIsFlyoutVisible] = React.useState(false);
 
 		return (
@@ -50,8 +50,7 @@ const DeveloperToolsButton = observer(
 								isVirtualized
 							>
 								{JSON.stringify(
-									playerStore.playQueueStore
-										.localStorageState,
+									playQueueStore.localStorageState,
 									undefined,
 									2,
 								)}
@@ -138,7 +137,7 @@ const PlayQueue = observer(
 					</EuiFlexItem>
 					<EuiFlexItem grow={true} />
 					<EuiFlexItem grow={false}>
-						<DeveloperToolsButton playerStore={playerStore} />
+						<DeveloperToolsButton playQueueStore={playQueueStore} />
 					</EuiFlexItem>
 				</EuiFlexGroup>
 

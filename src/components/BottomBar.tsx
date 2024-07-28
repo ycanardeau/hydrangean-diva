@@ -389,7 +389,7 @@ const BottomBarCenterControls = observer(
 						size="s"
 						iconSize="l"
 						onClick={(): Promise<void> => diva.pause()}
-						disabled={!playerStore.canPlay}
+						disabled={!playQueueStore.canPlay}
 					/>
 				) : (
 					<EuiButtonIcon
@@ -399,7 +399,7 @@ const BottomBarCenterControls = observer(
 						size="s"
 						iconSize="l"
 						onClick={(): Promise<void> => diva.play()}
-						disabled={!playerStore.canPlay}
+						disabled={!playQueueStore.canPlay}
 					/>
 				)}
 				<EuiButtonIcon
