@@ -1,13 +1,21 @@
+import { PlayQueueItemStoreFactory } from '@/factories/PlayQueueItemStoreFactory';
+import { PlayQueueStoreFactory } from '@/factories/PlayQueueStoreFactory';
 import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
+let playQueueItemStoreFactory: PlayQueueItemStoreFactory;
+let playQueueStoreFactory: PlayQueueStoreFactory;
 let playQueueStore: PlayQueueStore;
 let playQueueItemStore: PlayQueueItemStore;
 
 beforeEach(() => {
-	playQueueStore = new PlayQueueStore();
+	playQueueItemStoreFactory = new PlayQueueItemStoreFactory();
+	playQueueStoreFactory = new PlayQueueStoreFactory(
+		playQueueItemStoreFactory,
+	);
+	playQueueStore = playQueueStoreFactory.create();
 	playQueueItemStore = playQueueStore.createItem({
 		url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 		type: PlayerType.YouTube,

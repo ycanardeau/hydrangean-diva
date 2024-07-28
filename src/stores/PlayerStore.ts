@@ -1,25 +1,9 @@
 import { TimeEvent } from '@aigamo/nostalgic-diva';
-import { action, makeObservable, observable } from 'mobx';
 
 export class PlayerStore {
 	playing = false;
 	percent = 0;
 	seeking = false;
-
-	constructor() {
-		makeObservable(this, {
-			playing: observable,
-			percent: observable,
-			seeking: observable,
-			setPlaying: action,
-			setPercent: action,
-			setSeeking: action,
-			onPlay: action.bound,
-			onPause: action.bound,
-			onEnded: action.bound,
-			onTimeUpdate: action.bound,
-		});
-	}
 
 	setPlaying(value: boolean): void {
 		this.playing = value;

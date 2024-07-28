@@ -1,6 +1,5 @@
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
-import { action, computed, makeObservable, observable } from 'mobx';
 
 export interface PlayQueueItemDto {
 	readonly url: string;
@@ -22,43 +21,7 @@ export class PlayQueueItemStore {
 		readonly videoId: string,
 		readonly title: string,
 	) {
-		makeObservable(this, {
-			isSelected: observable,
-			isCurrent: computed,
-			index: computed,
-			isFirst: computed,
-			isLast: computed,
-			canMoveToTop: computed,
-			canMoveToBottom: computed,
-			canRemoveToTop: computed,
-			canRemoveOthers: computed,
-			unselect: action,
-			toggleSelected: action.bound,
-			play: action,
-			remove: action.bound,
-			playFirst: action.bound,
-			playNext: action.bound,
-			addToPlayQueue: action.bound,
-			moveToTop: action.bound,
-			moveToBottom: action.bound,
-			removeToTop: action.bound,
-			removeOthers: action.bound,
-		});
-
 		this.id = PlayQueueItemStore.nextId++;
-	}
-
-	static fromDto(
-		playQueueStore: PlayQueueStore,
-		dto: PlayQueueItemDto,
-	): PlayQueueItemStore {
-		return new PlayQueueItemStore(
-			playQueueStore,
-			dto.url,
-			dto.type,
-			dto.videoId,
-			dto.title,
-		);
 	}
 
 	get isCurrent(): boolean {

@@ -1,8 +1,8 @@
+import { PlayQueueItemStoreFactory } from '@/factories/PlayQueueItemStoreFactory';
 import { getOrAddSchema } from '@/stores/getOrAddSchema';
 import { LocalStorageStateStore } from '@aigamo/route-sphere';
 import { JSONSchemaType } from 'ajv';
 import { pull } from 'lodash-es';
-import { action, computed, makeObservable, observable } from 'mobx';
 
 import { PlayQueueItemDto, PlayQueueItemStore } from './PlayQueueItemStore';
 
@@ -80,53 +80,18 @@ export class PlayQueueStore
 	repeat = RepeatMode.Off;
 	shuffle = false;
 
-	constructor() {
-		makeObservable(this, {
-			interacted: observable,
-			items: observable,
-			currentId: observable,
-			repeat: observable,
-			shuffle: observable,
-			localStorageState: computed.struct,
-			isEmpty: computed,
-			currentItem: computed,
-			canPlay: computed,
-			canPause: computed,
-			hasMultipleItems: computed,
-			currentIndex: computed,
-			hasPreviousItem: computed,
-			hasNextItem: computed,
-			isLastItem: computed,
-			selectedItems: computed,
-			allItemsSelected: computed,
-			selectedItemsOrAllItems: computed,
-			setItems: action,
-			interact: action,
-			clear: action.bound,
-			unselectAll: action,
-			setCurrentItem: action,
-			setNextItems: action,
-			clearAndSetItems: action,
-			playNext: action,
-			playSelectedItemsNext: action.bound,
-			addItems: action,
-			addSelectedItems: action.bound,
-			playFirst: action,
-			moveItem: action,
-			removeItems: action,
-			removeSelectedItems: action.bound,
-			removeOtherItems: action,
-			removeItemsAbove: action,
-			toggleRepeat: action.bound,
-			toggleShuffle: action.bound,
-			previous: action,
-			next: action.bound,
-			goToFirst: action,
-		});
-	}
+	constructor(
+		readonly playQueueItemStoreFactory: PlayQueueItemStoreFactory,
+	) {}
 
 	createItem(dto: PlayQueueItemDto): PlayQueueItemStore {
-		return PlayQueueItemStore.fromDto(this, dto);
+		return this.playQueueItemStoreFactory.create(
+			this,
+			dto.url,
+			dto.type,
+			dto.videoId,
+			dto.title,
+		);
 	}
 
 	get localStorageState(): PlayQueueLocalStorageState {
