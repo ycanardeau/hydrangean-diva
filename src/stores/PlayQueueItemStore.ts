@@ -10,7 +10,7 @@ export interface PlayQueueItemDto {
 }
 
 export class PlayQueueItemStore {
-	private static nextId = 1;
+	static nextId = 1;
 
 	readonly id: number;
 	@observable isSelected = false;
