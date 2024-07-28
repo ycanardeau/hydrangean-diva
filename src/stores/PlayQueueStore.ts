@@ -74,21 +74,62 @@ const validatePlayQueueLocalStorageState = getOrAddSchema(
 export class PlayQueueStore
 	implements LocalStorageStateStore<PlayQueueLocalStorageState>
 {
-	@observable interacted = false;
-	@observable items: PlayQueueItemStore[] = [];
-	@observable currentId: number | undefined;
-	@observable repeat = RepeatMode.Off;
-	@observable shuffle = false;
+	interacted = false;
+	items: PlayQueueItemStore[] = [];
+	currentId: number | undefined;
+	repeat = RepeatMode.Off;
+	shuffle = false;
 
 	constructor() {
-		makeObservable(this);
+		makeObservable(this, {
+			interacted: observable,
+			items: observable,
+			currentId: observable,
+			repeat: observable,
+			shuffle: observable,
+			localStorageState: computed.struct,
+			isEmpty: computed,
+			currentItem: computed,
+			canPlay: computed,
+			canPause: computed,
+			hasMultipleItems: computed,
+			currentIndex: computed,
+			hasPreviousItem: computed,
+			hasNextItem: computed,
+			isLastItem: computed,
+			selectedItems: computed,
+			allItemsSelected: computed,
+			selectedItemsOrAllItems: computed,
+			setItems: action,
+			interact: action,
+			clear: action.bound,
+			unselectAll: action,
+			setCurrentItem: action,
+			setNextItems: action,
+			clearAndSetItems: action,
+			playNext: action,
+			playSelectedItemsNext: action.bound,
+			addItems: action,
+			addSelectedItems: action.bound,
+			playFirst: action,
+			moveItem: action,
+			removeItems: action,
+			removeSelectedItems: action.bound,
+			removeOtherItems: action,
+			removeItemsAbove: action,
+			toggleRepeat: action.bound,
+			toggleShuffle: action.bound,
+			previous: action,
+			next: action.bound,
+			goToFirst: action,
+		});
 	}
 
 	createItem(dto: PlayQueueItemDto): PlayQueueItemStore {
 		return PlayQueueItemStore.fromDto(this, dto);
 	}
 
-	@computed.struct get localStorageState(): PlayQueueLocalStorageState {
+	get localStorageState(): PlayQueueLocalStorageState {
 		return {
 			version: '1.0',
 			repeat: this.repeat,
@@ -110,27 +151,27 @@ export class PlayQueueStore
 		return validatePlayQueueLocalStorageState(localStorageState);
 	}
 
-	@computed get isEmpty(): boolean {
+	get isEmpty(): boolean {
 		return this.items.length === 0;
 	}
 
-	@computed get currentItem(): PlayQueueItemStore | undefined {
+	get currentItem(): PlayQueueItemStore | undefined {
 		return this.items.find((item) => item.id === this.currentId);
 	}
 
-	@computed get canPlay(): boolean {
+	get canPlay(): boolean {
 		return this.currentItem !== undefined;
 	}
 
-	@computed get canPause(): boolean {
+	get canPause(): boolean {
 		return this.currentItem !== undefined;
 	}
 
-	@computed get hasMultipleItems(): boolean {
+	get hasMultipleItems(): boolean {
 		return this.items.length > 1;
 	}
 
-	@computed get currentIndex(): number | undefined {
+	get currentIndex(): number | undefined {
 		return this.currentId !== undefined
 			? this.items.findIndex((item) => item.id === this.currentId)
 			: undefined;
@@ -140,7 +181,7 @@ export class PlayQueueStore
 			value !== undefined ? this.items.at(value)?.id : undefined;
 	}
 
-	@computed get hasPreviousItem(): boolean {
+	get hasPreviousItem(): boolean {
 		return (
 			this.hasMultipleItems &&
 			this.currentIndex !== undefined &&
@@ -148,7 +189,7 @@ export class PlayQueueStore
 		);
 	}
 
-	@computed get hasNextItem(): boolean {
+	get hasNextItem(): boolean {
 		return (
 			this.hasMultipleItems &&
 			this.currentIndex !== undefined &&
@@ -156,18 +197,18 @@ export class PlayQueueStore
 		);
 	}
 
-	@computed get isLastItem(): boolean {
+	get isLastItem(): boolean {
 		return (
 			this.currentIndex !== undefined &&
 			this.currentIndex === this.items.length - 1
 		);
 	}
 
-	@computed get selectedItems(): PlayQueueItemStore[] {
+	get selectedItems(): PlayQueueItemStore[] {
 		return this.items.filter((item) => item.isSelected);
 	}
 
-	@computed get allItemsSelected(): boolean {
+	get allItemsSelected(): boolean {
 		return this.selectedItems.length === this.items.length;
 	}
 	set allItemsSelected(value: boolean) {
@@ -176,38 +217,38 @@ export class PlayQueueStore
 		}
 	}
 
-	@computed get selectedItemsOrAllItems(): PlayQueueItemStore[] {
+	get selectedItemsOrAllItems(): PlayQueueItemStore[] {
 		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
 	}
 
-	@action setItems(value: PlayQueueItemStore[]): void {
+	setItems(value: PlayQueueItemStore[]): void {
 		this.items = value;
 	}
 
-	@action private interact(): void {
+	interact(): void {
 		this.interacted = true;
 	}
 
-	@action.bound clear(): void {
+	clear(): void {
 		this.interact();
 
 		this.currentIndex = undefined;
 		this.items = [];
 	}
 
-	@action unselectAll(): void {
+	unselectAll(): void {
 		for (const item of this.items) {
 			item.unselect();
 		}
 	}
 
-	@action setCurrentItem(item: PlayQueueItemStore | undefined): void {
+	setCurrentItem(item: PlayQueueItemStore | undefined): void {
 		this.interact();
 
 		this.currentId = item?.id;
 	}
 
-	@action setNextItems(items: PlayQueueItemStore[]): void {
+	setNextItems(items: PlayQueueItemStore[]): void {
 		if (this.currentIndex === undefined) {
 			return;
 		}
@@ -215,7 +256,7 @@ export class PlayQueueStore
 		this.items.splice(this.currentIndex + 1, 0, ...items);
 	}
 
-	@action clearAndSetItems(items: PlayQueueItemStore[]): void {
+	clearAndSetItems(items: PlayQueueItemStore[]): void {
 		this.clear();
 
 		this.setCurrentItem(items[0]);
@@ -223,7 +264,7 @@ export class PlayQueueStore
 		this.setNextItems(items);
 	}
 
-	@action async playNext(items: PlayQueueItemStore[]): Promise<void> {
+	async playNext(items: PlayQueueItemStore[]): Promise<void> {
 		if (this.isEmpty) {
 			this.clearAndSetItems(items);
 			return;
@@ -232,13 +273,13 @@ export class PlayQueueStore
 		this.setNextItems(items);
 	}
 
-	@action.bound async playSelectedItemsNext(): Promise<void> {
+	async playSelectedItemsNext(): Promise<void> {
 		this.playNext(this.selectedItemsOrAllItems.map((item) => item.clone()));
 
 		this.unselectAll();
 	}
 
-	@action async addItems(items: PlayQueueItemStore[]): Promise<void> {
+	async addItems(items: PlayQueueItemStore[]): Promise<void> {
 		if (this.isEmpty) {
 			this.clearAndSetItems(items);
 			return;
@@ -247,7 +288,7 @@ export class PlayQueueStore
 		this.items.push(...items);
 	}
 
-	@action.bound async addSelectedItems(): Promise<void> {
+	async addSelectedItems(): Promise<void> {
 		await this.addItems(
 			this.selectedItemsOrAllItems.map((item) => item.clone()),
 		);
@@ -255,7 +296,7 @@ export class PlayQueueStore
 		this.unselectAll();
 	}
 
-	@action async playFirst(items: PlayQueueItemStore[]): Promise<void> {
+	async playFirst(items: PlayQueueItemStore[]): Promise<void> {
 		if (this.isEmpty) {
 			this.clearAndSetItems(items);
 			return;
@@ -272,12 +313,12 @@ export class PlayQueueStore
 		this.currentIndex = currentIndex;
 	}
 
-	@action moveItem(item: PlayQueueItemStore, index: number): void {
+	moveItem(item: PlayQueueItemStore, index: number): void {
 		const element = this.items.splice(this.items.indexOf(item), 1)[0];
 		this.items.splice(index, 0, element);
 	}
 
-	@action async removeItems(items: PlayQueueItemStore[]): Promise<void> {
+	async removeItems(items: PlayQueueItemStore[]): Promise<void> {
 		// Note: We need to remove the current (if any) and other (previous and/or next) items separately,
 		// so that the current index can be set properly even if the current item was removed.
 
@@ -310,27 +351,27 @@ export class PlayQueueStore
 		}
 	}
 
-	@action.bound async removeSelectedItems(): Promise<void> {
+	async removeSelectedItems(): Promise<void> {
 		this.removeItems(this.selectedItemsOrAllItems);
 
 		this.unselectAll();
 	}
 
-	@action async removeOtherItems(item: PlayQueueItemStore): Promise<void> {
+	async removeOtherItems(item: PlayQueueItemStore): Promise<void> {
 		const itemId = item.id;
 		return this.removeItems(
 			this.items.filter((item) => item.id !== itemId),
 		);
 	}
 
-	@action async removeItemsAbove(item: PlayQueueItemStore): Promise<void> {
+	async removeItemsAbove(item: PlayQueueItemStore): Promise<void> {
 		const itemIndex = this.items.indexOf(item);
 		return this.removeItems(
 			this.items.filter((_, index) => index < itemIndex),
 		);
 	}
 
-	@action.bound toggleRepeat(): void {
+	toggleRepeat(): void {
 		switch (this.repeat) {
 			case RepeatMode.Off:
 				this.repeat = RepeatMode.All;
@@ -344,11 +385,11 @@ export class PlayQueueStore
 		}
 	}
 
-	@action.bound toggleShuffle(): void {
+	toggleShuffle(): void {
 		this.shuffle = !this.shuffle;
 	}
 
-	@action async previous(): Promise<void> {
+	async previous(): Promise<void> {
 		if (this.currentIndex === undefined) {
 			return;
 		}
@@ -362,7 +403,7 @@ export class PlayQueueStore
 		this.currentIndex--;
 	}
 
-	@action.bound async next(): Promise<void> {
+	async next(): Promise<void> {
 		if (this.currentIndex === undefined) {
 			return;
 		}
@@ -376,7 +417,7 @@ export class PlayQueueStore
 		this.currentIndex++;
 	}
 
-	@action async goToFirst(): Promise<void> {
+	async goToFirst(): Promise<void> {
 		if (this.currentIndex === undefined) {
 			return;
 		}
