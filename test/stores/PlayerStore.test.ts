@@ -1,13 +1,10 @@
-import { PlayerStoreFactory } from '@/factories/PlayerStoreFactory';
 import { PlayerStore } from '@/stores/PlayerStore';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-let playerStoreFactory: PlayerStoreFactory;
 let playerStore: PlayerStore;
 
 beforeEach(() => {
-	playerStoreFactory = new PlayerStoreFactory();
-	playerStore = playerStoreFactory.create();
+	playerStore = new PlayerStore();
 });
 
 describe('constructor', () => {

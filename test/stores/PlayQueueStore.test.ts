@@ -1,10 +1,8 @@
-import { PlayQueueStoreFactory } from '@/factories/PlayQueueStoreFactory';
 import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
 import { PlayQueueStore, RepeatMode } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-let playQueueStoreFactory: PlayQueueStoreFactory;
 let playQueueStore: PlayQueueStore;
 
 let item: PlayQueueItemStore;
@@ -12,7 +10,7 @@ let item2: PlayQueueItemStore;
 let item3: PlayQueueItemStore;
 
 beforeEach(() => {
-	playQueueStore = playQueueStoreFactory.create();
+	playQueueStore = new PlayQueueStore();
 
 	[item, item2, item3] = [
 		playQueueStore.createItem({

@@ -1,4 +1,3 @@
-import { PlayerStoreFactory } from '@/factories/PlayerStoreFactory';
 import { PlayerStore } from '@/stores/PlayerStore';
 import React from 'react';
 
@@ -9,12 +8,10 @@ interface PlayerStoreProviderProps {
 	children?: React.ReactNode;
 }
 
-const playerStoreFactory = new PlayerStoreFactory();
-
 export const PlayerStoreProvider = ({
 	children,
 }: PlayerStoreProviderProps): React.ReactElement => {
-	const [playerStore] = React.useState(() => playerStoreFactory.create());
+	const [playerStore] = React.useState(() => new PlayerStore());
 
 	return (
 		<PlayerStoreContext.Provider value={playerStore}>
