@@ -1,10 +1,10 @@
-import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
+import { IPlayQueueItemStore } from '@/stores/IPlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let playQueueStore: PlayQueueStore;
-let playQueueItemStore: PlayQueueItemStore;
+let playQueueItemStore: IPlayQueueItemStore;
 
 beforeEach(() => {
 	playQueueStore = new PlayQueueStore();

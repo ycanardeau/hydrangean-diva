@@ -1,19 +1,19 @@
 import {
+	IPlayQueueItemStore,
 	PlayQueueItemDto,
-	PlayQueueItemStore,
-} from '@/stores/PlayQueueItemStore';
+} from '@/stores/IPlayQueueItemStore';
 
 export interface IPlayQueueStore {
-	items: PlayQueueItemStore[];
-	createItem(dto: PlayQueueItemDto): PlayQueueItemStore;
-	readonly currentItem: PlayQueueItemStore | undefined;
+	items: IPlayQueueItemStore[];
+	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore;
+	readonly currentItem: IPlayQueueItemStore | undefined;
 	readonly hasMultipleItems: boolean;
-	setCurrentItem(item: PlayQueueItemStore | undefined): void;
-	playNext(items: PlayQueueItemStore[]): Promise<void>;
-	addItems(items: PlayQueueItemStore[]): Promise<void>;
-	playFirst(items: PlayQueueItemStore[]): Promise<void>;
-	moveItem(item: PlayQueueItemStore, index: number): void;
-	removeItems(items: PlayQueueItemStore[]): Promise<void>;
-	removeItemsAbove(item: PlayQueueItemStore): Promise<void>;
-	removeOtherItems(item: PlayQueueItemStore): Promise<void>;
+	setCurrentItem(item: IPlayQueueItemStore | undefined): void;
+	playNext(items: IPlayQueueItemStore[]): Promise<void>;
+	addItems(items: IPlayQueueItemStore[]): Promise<void>;
+	playFirst(items: IPlayQueueItemStore[]): Promise<void>;
+	moveItem(item: IPlayQueueItemStore, index: number): void;
+	removeItems(items: IPlayQueueItemStore[]): Promise<void>;
+	removeItemsAbove(item: IPlayQueueItemStore): Promise<void>;
+	removeOtherItems(item: IPlayQueueItemStore): Promise<void>;
 }

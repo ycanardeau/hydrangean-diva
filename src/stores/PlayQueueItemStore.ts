@@ -1,16 +1,13 @@
 import { IPlayQueueStore } from '@/stores/IIPlayQueueStore';
+import {
+	IPlayQueueItemStore,
+	PlayQueueItemDto,
+} from '@/stores/IPlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, makeObservable, observable } from 'mobx';
 
-export interface PlayQueueItemDto {
-	readonly url: string;
-	readonly type: PlayerType;
-	readonly videoId: string;
-	readonly title: string;
-}
-
-export class PlayQueueItemStore {
+export class PlayQueueItemStore implements IPlayQueueItemStore {
 	static nextId = 1;
 
 	readonly id: number;
@@ -49,7 +46,7 @@ export class PlayQueueItemStore {
 	static fromDto(
 		playQueueStore: PlayQueueStore,
 		dto: PlayQueueItemDto,
-	): PlayQueueItemStore {
+	): IPlayQueueItemStore {
 		return new PlayQueueItemStore(playQueueStore, dto);
 	}
 
@@ -101,7 +98,7 @@ export class PlayQueueItemStore {
 		return this.playQueueStore.hasMultipleItems;
 	}
 
-	clone(): PlayQueueItemStore {
+	clone(): IPlayQueueItemStore {
 		return this.playQueueStore.createItem(this.dto);
 	}
 

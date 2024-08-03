@@ -1,4 +1,4 @@
-import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
+import { IPlayQueueItemStore } from '@/stores/IPlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType, useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
@@ -66,7 +66,7 @@ const PlayQueueTableHeader = observer(
 );
 
 interface PlayQueueTableRowContextMenuPanelProps {
-	item: PlayQueueItemStore;
+	item: IPlayQueueItemStore;
 	closePopover: () => void;
 }
 
@@ -154,7 +154,7 @@ const PlayQueueTableRowContextMenuPanel = React.memo(
 );
 
 interface PlayQueueTableRowPopoverProps {
-	item: PlayQueueItemStore;
+	item: IPlayQueueItemStore;
 }
 
 const PlayQueueTableRowPopover = React.memo(
@@ -194,7 +194,7 @@ const PlayQueueTableRowPopover = React.memo(
 );
 
 interface PlayQueueTableRowActionsCellProps {
-	item: PlayQueueItemStore;
+	item: IPlayQueueItemStore;
 }
 
 const PlayQueueTableRowActionsCell = observer(
@@ -240,7 +240,7 @@ const videoServiceIcons: Record<PlayerType, string> = {
 };
 
 interface PlayQueueTableRowProps {
-	item: PlayQueueItemStore;
+	item: IPlayQueueItemStore;
 }
 
 const PlayQueueTableRow = observer(

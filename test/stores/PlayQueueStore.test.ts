@@ -1,13 +1,13 @@
-import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
+import { IPlayQueueItemStore } from '@/stores/IPlayQueueItemStore';
 import { PlayQueueStore, RepeatMode } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let playQueueStore: PlayQueueStore;
 
-let item: PlayQueueItemStore;
-let item2: PlayQueueItemStore;
-let item3: PlayQueueItemStore;
+let item: IPlayQueueItemStore;
+let item2: IPlayQueueItemStore;
+let item3: IPlayQueueItemStore;
 
 beforeEach(() => {
 	playQueueStore = new PlayQueueStore();

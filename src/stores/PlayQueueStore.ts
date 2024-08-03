@@ -1,11 +1,15 @@
 import { IPlayQueueStore } from '@/stores/IIPlayQueueStore';
+import {
+	IPlayQueueItemStore,
+	PlayQueueItemDto,
+} from '@/stores/IPlayQueueItemStore';
 import { getOrAddSchema } from '@/stores/getOrAddSchema';
 import { LocalStorageStateStore } from '@aigamo/route-sphere';
 import { JSONSchemaType } from 'ajv';
 import { pull } from 'lodash-es';
 import { action, computed, makeObservable, observable } from 'mobx';
 
-import { PlayQueueItemDto, PlayQueueItemStore } from './PlayQueueItemStore';
+import { PlayQueueItemStore } from './PlayQueueItemStore';
 
 export enum RepeatMode {
 	Off = 'Off',
@@ -78,7 +82,7 @@ export class PlayQueueStore
 		LocalStorageStateStore<PlayQueueLocalStorageState>
 {
 	interacted = false;
-	items: PlayQueueItemStore[] = [];
+	items: IPlayQueueItemStore[] = [];
 	currentId: number | undefined;
 	repeat = RepeatMode.Off;
 	shuffle = false;
@@ -128,7 +132,7 @@ export class PlayQueueStore
 		});
 	}
 
-	createItem(dto: PlayQueueItemDto): PlayQueueItemStore {
+	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore {
 		return PlayQueueItemStore.fromDto(this, dto);
 	}
 
@@ -158,7 +162,7 @@ export class PlayQueueStore
 		return this.items.length === 0;
 	}
 
-	get currentItem(): PlayQueueItemStore | undefined {
+	get currentItem(): IPlayQueueItemStore | undefined {
 		return this.items.find((item) => item.id === this.currentId);
 	}
 
@@ -207,7 +211,7 @@ export class PlayQueueStore
 		);
 	}
 
-	get selectedItems(): PlayQueueItemStore[] {
+	get selectedItems(): IPlayQueueItemStore[] {
 		return this.items.filter((item) => item.isSelected);
 	}
 
@@ -220,11 +224,11 @@ export class PlayQueueStore
 		}
 	}
 
-	get selectedItemsOrAllItems(): PlayQueueItemStore[] {
+	get selectedItemsOrAllItems(): IPlayQueueItemStore[] {
 		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
 	}
 
-	setItems(value: PlayQueueItemStore[]): void {
+	setItems(value: IPlayQueueItemStore[]): void {
 		this.items = value;
 	}
 
@@ -245,13 +249,13 @@ export class PlayQueueStore
 		}
 	}
 
-	setCurrentItem(item: PlayQueueItemStore | undefined): void {
+	setCurrentItem(item: IPlayQueueItemStore | undefined): void {
 		this.interact();
 
 		this.currentId = item?.id;
 	}
 
-	setNextItems(items: PlayQueueItemStore[]): void {
+	setNextItems(items: IPlayQueueItemStore[]): void {
 		if (this.currentIndex === undefined) {
 			return;
 		}
@@ -259,7 +263,7 @@ export class PlayQueueStore
 		this.items.splice(this.currentIndex + 1, 0, ...items);
 	}
 
-	clearAndSetItems(items: PlayQueueItemStore[]): void {
+	clearAndSetItems(items: IPlayQueueItemStore[]): void {
 		this.clear();
 
 		this.setCurrentItem(items[0]);
@@ -267,7 +271,7 @@ export class PlayQueueStore
 		this.setNextItems(items);
 	}
 
-	async playNext(items: PlayQueueItemStore[]): Promise<void> {
+	async playNext(items: IPlayQueueItemStore[]): Promise<void> {
 		if (this.isEmpty) {
 			this.clearAndSetItems(items);
 			return;
@@ -282,7 +286,7 @@ export class PlayQueueStore
 		this.unselectAll();
 	}
 
-	async addItems(items: PlayQueueItemStore[]): Promise<void> {
+	async addItems(items: IPlayQueueItemStore[]): Promise<void> {
 		if (this.isEmpty) {
 			this.clearAndSetItems(items);
 			return;
@@ -299,7 +303,7 @@ export class PlayQueueStore
 		this.unselectAll();
 	}
 
-	async playFirst(items: PlayQueueItemStore[]): Promise<void> {
+	async playFirst(items: IPlayQueueItemStore[]): Promise<void> {
 		if (this.isEmpty) {
 			this.clearAndSetItems(items);
 			return;
@@ -316,12 +320,12 @@ export class PlayQueueStore
 		this.currentIndex = currentIndex;
 	}
 
-	moveItem(item: PlayQueueItemStore, index: number): void {
+	moveItem(item: IPlayQueueItemStore, index: number): void {
 		const element = this.items.splice(this.items.indexOf(item), 1)[0];
 		this.items.splice(index, 0, element);
 	}
 
-	async removeItems(items: PlayQueueItemStore[]): Promise<void> {
+	async removeItems(items: IPlayQueueItemStore[]): Promise<void> {
 		// Note: We need to remove the current (if any) and other (previous and/or next) items separately,
 		// so that the current index can be set properly even if the current item was removed.
 
@@ -360,14 +364,14 @@ export class PlayQueueStore
 		this.unselectAll();
 	}
 
-	async removeOtherItems(item: PlayQueueItemStore): Promise<void> {
+	async removeOtherItems(item: IPlayQueueItemStore): Promise<void> {
 		const itemId = item.id;
 		return this.removeItems(
 			this.items.filter((item) => item.id !== itemId),
 		);
 	}
 
-	async removeItemsAbove(item: PlayQueueItemStore): Promise<void> {
+	async removeItemsAbove(item: IPlayQueueItemStore): Promise<void> {
 		const itemIndex = this.items.indexOf(item);
 		return this.removeItems(
 			this.items.filter((_, index) => index < itemIndex),
