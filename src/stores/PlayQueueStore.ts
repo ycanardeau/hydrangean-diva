@@ -134,7 +134,7 @@ export class PlayQueueStore
 			version: '1.0',
 			repeat: this.repeat,
 			shuffle: this.shuffle,
-			items: this.items.map((item) => item.toDto()),
+			items: this.items.map((item) => item.dto),
 			currentIndex: this.currentIndex,
 		};
 	}

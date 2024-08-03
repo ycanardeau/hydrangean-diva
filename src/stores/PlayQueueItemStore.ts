@@ -17,10 +17,7 @@ export class PlayQueueItemStore {
 
 	constructor(
 		readonly playQueueStore: PlayQueueStore,
-		readonly url: string,
-		readonly type: PlayerType,
-		readonly videoId: string,
-		readonly title: string,
+		readonly dto: PlayQueueItemDto,
 	) {
 		makeObservable(this, {
 			isSelected: observable,
@@ -52,13 +49,23 @@ export class PlayQueueItemStore {
 		playQueueStore: PlayQueueStore,
 		dto: PlayQueueItemDto,
 	): PlayQueueItemStore {
-		return new PlayQueueItemStore(
-			playQueueStore,
-			dto.url,
-			dto.type,
-			dto.videoId,
-			dto.title,
-		);
+		return new PlayQueueItemStore(playQueueStore, dto);
+	}
+
+	get url(): string {
+		return this.dto.url;
+	}
+
+	get type(): PlayerType {
+		return this.dto.type;
+	}
+
+	get videoId(): string {
+		return this.dto.videoId;
+	}
+
+	get title(): string {
+		return this.dto.title;
 	}
 
 	get isCurrent(): boolean {
@@ -93,17 +100,8 @@ export class PlayQueueItemStore {
 		return this.playQueueStore.hasMultipleItems;
 	}
 
-	toDto(): PlayQueueItemDto {
-		return {
-			url: this.url,
-			type: this.type,
-			videoId: this.videoId,
-			title: this.title,
-		};
-	}
-
 	clone(): PlayQueueItemStore {
-		return this.playQueueStore.createItem(this.toDto());
+		return this.playQueueStore.createItem(this.dto);
 	}
 
 	unselect(): void {
