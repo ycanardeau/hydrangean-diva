@@ -1,11 +1,12 @@
 import { IPlayQueueStore } from '@/stores/IIPlayQueueStore';
+import { IObservableStateProvider } from '@/stores/IObservableStateProvider';
 import {
 	IPlayQueueItemStore,
 	PlayQueueItemDto,
 } from '@/stores/IPlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 
 export class PlayQueueItemStore implements IPlayQueueItemStore {
 	static nextId = 1;
@@ -14,10 +15,13 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 	isSelected = false;
 
 	constructor(
+		readonly observableStateProvider: IObservableStateProvider,
 		readonly playQueueStore: IPlayQueueStore,
 		readonly dto: PlayQueueItemDto,
 	) {
-		makeObservable(this, {
+		this.id = PlayQueueItemStore.nextId++;
+
+		observableStateProvider.makeObservable(this, {
 			isSelected: observable,
 			isCurrent: computed,
 			index: computed,
@@ -39,15 +43,18 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 			removeToTop: action.bound,
 			removeOthers: action.bound,
 		});
-
-		this.id = PlayQueueItemStore.nextId++;
 	}
 
 	static fromDto(
+		observableStateProvider: IObservableStateProvider,
 		playQueueStore: PlayQueueStore,
 		dto: PlayQueueItemDto,
 	): IPlayQueueItemStore {
-		return new PlayQueueItemStore(playQueueStore, dto);
+		return new PlayQueueItemStore(
+			observableStateProvider,
+			playQueueStore,
+			dto,
+		);
 	}
 
 	get url(): string {

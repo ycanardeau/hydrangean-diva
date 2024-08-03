@@ -1,4 +1,5 @@
 import { IPlayQueueItemStore } from '@/stores/IPlayQueueItemStore';
+import { ObservableStateProvider } from '@/stores/ObservableStateProvider';
 import { PlayQueueStore, RepeatMode } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -10,7 +11,7 @@ let item2: IPlayQueueItemStore;
 let item3: IPlayQueueItemStore;
 
 beforeEach(() => {
-	playQueueStore = new PlayQueueStore();
+	playQueueStore = new PlayQueueStore(new ObservableStateProvider());
 
 	[item, item2, item3] = [
 		playQueueStore.createItem({

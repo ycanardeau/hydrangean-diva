@@ -1,3 +1,4 @@
+import { MobXObservableStateProvider } from '@/stores/MobXObservableStateProvider';
 import { PlayerStore } from '@/stores/PlayerStore';
 import React from 'react';
 
@@ -11,7 +12,9 @@ interface PlayerStoreProviderProps {
 export const PlayerStoreProvider = ({
 	children,
 }: PlayerStoreProviderProps): React.ReactElement => {
-	const [playerStore] = React.useState(() => new PlayerStore());
+	const [playerStore] = React.useState(
+		() => new PlayerStore(new MobXObservableStateProvider()),
+	);
 
 	return (
 		<PlayerStoreContext.Provider value={playerStore}>

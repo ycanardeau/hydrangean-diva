@@ -1,10 +1,11 @@
+import { ObservableStateProvider } from '@/stores/ObservableStateProvider';
 import { PlayerStore } from '@/stores/PlayerStore';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let playerStore: PlayerStore;
 
 beforeEach(() => {
-	playerStore = new PlayerStore();
+	playerStore = new PlayerStore(new ObservableStateProvider());
 });
 
 describe('constructor', () => {

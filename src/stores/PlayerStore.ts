@@ -1,13 +1,14 @@
+import { IObservableStateProvider } from '@/stores/IObservableStateProvider';
 import { TimeEvent } from '@aigamo/nostalgic-diva';
-import { action, makeObservable, observable } from 'mobx';
+import { action, observable } from 'mobx';
 
 export class PlayerStore {
 	playing = false;
 	percent = 0;
 	seeking = false;
 
-	constructor() {
-		makeObservable(this, {
+	constructor(observableStateProvider: IObservableStateProvider) {
+		observableStateProvider.makeObservable(this, {
 			playing: observable,
 			percent: observable,
 			seeking: observable,

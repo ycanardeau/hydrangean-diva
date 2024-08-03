@@ -1,3 +1,4 @@
+import { MobXObservableStateProvider } from '@/stores/MobXObservableStateProvider';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import React from 'react';
 
@@ -11,7 +12,9 @@ interface PlayQueueStoreProviderProps {
 export const PlayQueueStoreProvider = ({
 	children,
 }: PlayQueueStoreProviderProps): React.ReactElement => {
-	const [playQueueStore] = React.useState(() => new PlayQueueStore());
+	const [playQueueStore] = React.useState(
+		() => new PlayQueueStore(new MobXObservableStateProvider()),
+	);
 
 	return (
 		<PlayQueueStoreContext.Provider value={playQueueStore}>

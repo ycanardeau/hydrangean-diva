@@ -1,4 +1,5 @@
 import { IPlayQueueStore } from '@/stores/IIPlayQueueStore';
+import { IObservableStateProvider } from '@/stores/IObservableStateProvider';
 import {
 	IPlayQueueItemStore,
 	PlayQueueItemDto,
@@ -7,7 +8,7 @@ import { getOrAddSchema } from '@/stores/getOrAddSchema';
 import { LocalStorageStateStore } from '@aigamo/route-sphere';
 import { JSONSchemaType } from 'ajv';
 import { pull } from 'lodash-es';
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 
 import { PlayQueueItemStore } from './PlayQueueItemStore';
 
@@ -87,8 +88,8 @@ export class PlayQueueStore
 	repeat = RepeatMode.Off;
 	shuffle = false;
 
-	constructor() {
-		makeObservable(this, {
+	constructor(readonly observableStateProvider: IObservableStateProvider) {
+		observableStateProvider.makeObservable(this, {
 			interacted: observable,
 			items: observable,
 			currentId: observable,
@@ -133,7 +134,11 @@ export class PlayQueueStore
 	}
 
 	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore {
-		return PlayQueueItemStore.fromDto(this, dto);
+		return PlayQueueItemStore.fromDto(
+			this.observableStateProvider,
+			this,
+			dto,
+		);
 	}
 
 	get localStorageState(): PlayQueueLocalStorageState {
