@@ -1,3 +1,4 @@
+import { IPlayQueueStore } from '@/stores/IIPlayQueueStore';
 import { getOrAddSchema } from '@/stores/getOrAddSchema';
 import { LocalStorageStateStore } from '@aigamo/route-sphere';
 import { JSONSchemaType } from 'ajv';
@@ -72,7 +73,9 @@ const validatePlayQueueLocalStorageState = getOrAddSchema(
 );
 
 export class PlayQueueStore
-	implements LocalStorageStateStore<PlayQueueLocalStorageState>
+	implements
+		IPlayQueueStore,
+		LocalStorageStateStore<PlayQueueLocalStorageState>
 {
 	interacted = false;
 	items: PlayQueueItemStore[] = [];

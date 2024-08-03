@@ -1,3 +1,4 @@
+import { IPlayQueueStore } from '@/stores/IIPlayQueueStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, makeObservable, observable } from 'mobx';
@@ -16,7 +17,7 @@ export class PlayQueueItemStore {
 	isSelected = false;
 
 	constructor(
-		readonly playQueueStore: PlayQueueStore,
+		readonly playQueueStore: IPlayQueueStore,
 		readonly dto: PlayQueueItemDto,
 	) {
 		makeObservable(this, {
