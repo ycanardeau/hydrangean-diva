@@ -1,9 +1,9 @@
-import { IPlayQueueStore } from '@/stores/IIPlayQueueStore';
 import { IObservableStateProvider } from '@/stores/IObservableStateProvider';
 import {
 	IPlayQueueItemStore,
 	PlayQueueItemDto,
 } from '@/stores/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/stores/IPlayQueueStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, observable } from 'mobx';

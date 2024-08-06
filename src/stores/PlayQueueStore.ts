@@ -1,9 +1,9 @@
-import { IPlayQueueStore } from '@/stores/IIPlayQueueStore';
 import { IObservableStateProvider } from '@/stores/IObservableStateProvider';
 import {
 	IPlayQueueItemStore,
 	PlayQueueItemDto,
 } from '@/stores/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/stores/IPlayQueueStore';
 import { getOrAddSchema } from '@/stores/getOrAddSchema';
 import { LocalStorageStateStore } from '@aigamo/route-sphere';
 import { JSONSchemaType } from 'ajv';
