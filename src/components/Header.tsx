@@ -1,6 +1,7 @@
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
+	EuiBadge,
 	EuiButton,
 	EuiCollapsibleNav,
 	EuiCollapsibleNavGroup,
@@ -99,6 +100,11 @@ interface HeaderProps {
 	playQueueStore: PlayQueueStore;
 }
 
+const commitHash =
+	typeof import.meta.env.VITE_COMMIT_HASH === 'string'
+		? import.meta.env.VITE_COMMIT_HASH
+		: undefined;
+
 export const Header = ({ playQueueStore }: HeaderProps): React.ReactElement => {
 	const [navIsOpen, setNavIsOpen] = React.useState(false);
 
@@ -137,7 +143,17 @@ export const Header = ({ playQueueStore }: HeaderProps): React.ReactElement => {
 		</EuiCollapsibleNav>
 	);
 
-	const leftSectionItems: React.ReactNode[] = [collapsibleNav];
+	const leftSectionItems: React.ReactNode[] = [
+		collapsibleNav,
+		commitHash && (
+			<EuiBadge
+				href={`https://github.com/ycanardeau/hydrangean-diva/tree/${commitHash}`}
+				target="_blank"
+			>
+				{commitHash.slice(0, 7)}
+			</EuiBadge>
+		),
+	];
 
 	return (
 		<EuiHeader
