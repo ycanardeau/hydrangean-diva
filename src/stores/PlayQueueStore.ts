@@ -286,7 +286,9 @@ export class PlayQueueStore
 	}
 
 	async playSelectedItemsNext(): Promise<void> {
-		this.playNext(this.selectedItemsOrAllItems.map((item) => item.clone()));
+		await this.playNext(
+			this.selectedItemsOrAllItems.map((item) => item.clone()),
+		);
 
 		this.unselectAll();
 	}
@@ -355,7 +357,7 @@ export class PlayQueueStore
 
 			if (isLastItem) {
 				// Start over the playlist from the beginning.
-				this.goToFirst();
+				await this.goToFirst();
 			} else {
 				// Set the current index to the captured one.
 				this.currentIndex = currentIndex;
@@ -364,7 +366,7 @@ export class PlayQueueStore
 	}
 
 	async removeSelectedItems(): Promise<void> {
-		this.removeItems(this.selectedItemsOrAllItems);
+		await this.removeItems(this.selectedItemsOrAllItems);
 
 		this.unselectAll();
 	}

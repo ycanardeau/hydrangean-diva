@@ -121,8 +121,8 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 		this.playQueueStore.setCurrentItem(this);
 	}
 
-	remove(): void {
-		this.playQueueStore.removeItems([this]);
+	remove(): Promise<void> {
+		return this.playQueueStore.removeItems([this]);
 	}
 
 	async playFirst(): Promise<void> {
@@ -148,11 +148,11 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 		);
 	}
 
-	removeToTop(): void {
-		this.playQueueStore.removeItemsAbove(this);
+	removeToTop(): Promise<void> {
+		return this.playQueueStore.removeItemsAbove(this);
 	}
 
-	removeOthers(): void {
-		this.playQueueStore.removeOtherItems(this);
+	removeOthers(): Promise<void> {
+		return this.playQueueStore.removeOtherItems(this);
 	}
 }

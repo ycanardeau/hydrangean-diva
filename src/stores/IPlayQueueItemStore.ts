@@ -24,12 +24,12 @@ export interface IPlayQueueItemStore {
 	unselect(): void;
 	toggleSelected(): void;
 	play(): void;
-	remove(): void;
+	remove(): Promise<void>;
 	playFirst(): Promise<void>;
 	playNext(): Promise<void>;
 	addToPlayQueue(): Promise<void>;
 	moveToTop(): void;
 	moveToBottom(): void;
-	removeToTop(): void;
-	removeOthers(): void;
+	removeToTop(): Promise<void>;
+	removeOthers(): Promise<void>;
 }
