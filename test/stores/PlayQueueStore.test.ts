@@ -463,17 +463,17 @@ describe('clearAndSetItems', () => {
 });
 
 describe('playNext', () => {
-	it('should set items if play queue is empty', () => {
+	it('should set items if play queue is empty', async () => {
 		expect(playQueueStore.isEmpty).toBe(true);
 
-		playQueueStore.playNext([item, item2]);
+		await playQueueStore.playNext([item, item2]);
 
 		expect(playQueueStore.items.length).toBe(2);
 		expect(playQueueStore.items).toStrictEqual([item, item2]);
 		expect(playQueueStore.currentIndex).toBe(0);
 	});
 
-	it('should play next if play queue is not empty', () => {
+	it('should play next if play queue is not empty', async () => {
 		expect(playQueueStore.isEmpty).toBe(true);
 
 		playQueueStore.setItems([item, item2]);
@@ -483,7 +483,7 @@ describe('playNext', () => {
 		expect(playQueueStore.items).toStrictEqual([item, item2]);
 		expect(playQueueStore.currentIndex).toBe(0);
 
-		playQueueStore.playNext([item, item2]);
+		await playQueueStore.playNext([item, item2]);
 
 		expect(playQueueStore.items.length).toBe(4);
 		expect(playQueueStore.items).toStrictEqual([item, item, item2, item2]);
@@ -494,17 +494,17 @@ describe('playNext', () => {
 // TODO: playSelectedItemsNext
 
 describe('addItems', () => {
-	it('should set items if play queue is empty', () => {
+	it('should set items if play queue is empty', async () => {
 		expect(playQueueStore.isEmpty).toBe(true);
 
-		playQueueStore.addItems([item, item2]);
+		await playQueueStore.addItems([item, item2]);
 
 		expect(playQueueStore.items.length).toBe(2);
 		expect(playQueueStore.items).toStrictEqual([item, item2]);
 		expect(playQueueStore.currentIndex).toBe(0);
 	});
 
-	it('should add items if play queue is not empty', () => {
+	it('should add items if play queue is not empty', async () => {
 		expect(playQueueStore.isEmpty).toBe(true);
 
 		playQueueStore.setItems([item, item2]);
@@ -514,7 +514,7 @@ describe('addItems', () => {
 		expect(playQueueStore.items).toStrictEqual([item, item2]);
 		expect(playQueueStore.currentIndex).toBe(0);
 
-		playQueueStore.addItems([item, item2]);
+		await playQueueStore.addItems([item, item2]);
 
 		expect(playQueueStore.items.length).toBe(4);
 		expect(playQueueStore.items).toStrictEqual([item, item2, item, item2]);
@@ -525,17 +525,17 @@ describe('addItems', () => {
 // TODO: addSelectedItems
 
 describe('playFirst', () => {
-	it('should set items if play queue is empty', () => {
+	it('should set items if play queue is empty', async () => {
 		expect(playQueueStore.isEmpty).toBe(true);
 
-		playQueueStore.playFirst([item, item2]);
+		await playQueueStore.playFirst([item, item2]);
 
 		expect(playQueueStore.items.length).toBe(2);
 		expect(playQueueStore.items).toStrictEqual([item, item2]);
 		expect(playQueueStore.currentIndex).toBe(0);
 	});
 
-	it('should play first if play queue is not empty', () => {
+	it('should play first if play queue is not empty', async () => {
 		expect(playQueueStore.isEmpty).toBe(true);
 
 		playQueueStore.setItems([item, item2]);
@@ -545,7 +545,7 @@ describe('playFirst', () => {
 		expect(playQueueStore.items).toStrictEqual([item, item2]);
 		expect(playQueueStore.currentIndex).toBe(0);
 
-		playQueueStore.playFirst([item3]);
+		await playQueueStore.playFirst([item3]);
 
 		expect(playQueueStore.items.length).toBe(3);
 		expect(playQueueStore.items).toStrictEqual([item3, item, item2]);
@@ -569,7 +569,7 @@ describe('moveItem', () => {
 });
 
 describe('removeItems', () => {
-	it('should remove items', () => {
+	it('should remove items', async () => {
 		playQueueStore.setItems([item, item2, item3]);
 		playQueueStore.setCurrentItem(item);
 
@@ -578,7 +578,7 @@ describe('removeItems', () => {
 		expect(playQueueStore.currentIndex).toBe(0);
 		expect(playQueueStore.currentItem).toBe(item);
 
-		playQueueStore.removeItems([item, item2]);
+		await playQueueStore.removeItems([item, item2]);
 
 		expect(playQueueStore.items.length).toBe(1);
 		expect(playQueueStore.items).toStrictEqual([item3]);
@@ -588,7 +588,7 @@ describe('removeItems', () => {
 });
 
 describe('removeSelectedItems', () => {
-	it('should remove selected items', () => {
+	it('should remove selected items', async () => {
 		playQueueStore.setItems([item, item2, item3]);
 		playQueueStore.setCurrentItem(item);
 
@@ -600,7 +600,7 @@ describe('removeSelectedItems', () => {
 		playQueueStore.items[0].toggleSelected();
 		playQueueStore.items[1].toggleSelected();
 
-		playQueueStore.removeSelectedItems();
+		await playQueueStore.removeSelectedItems();
 
 		expect(playQueueStore.items.length).toBe(1);
 		expect(playQueueStore.items).toStrictEqual([item3]);
@@ -610,13 +610,13 @@ describe('removeSelectedItems', () => {
 });
 
 describe('removeOtherItems', () => {
-	it('should remove other items', () => {
+	it('should remove other items', async () => {
 		playQueueStore.setItems([item, item2, item3]);
 
 		expect(playQueueStore.items.length).toBe(3);
 		expect(playQueueStore.items).toStrictEqual([item, item2, item3]);
 
-		playQueueStore.removeOtherItems(item2);
+		await playQueueStore.removeOtherItems(item2);
 
 		expect(playQueueStore.items.length).toBe(1);
 		expect(playQueueStore.items).toStrictEqual([item2]);
@@ -624,13 +624,13 @@ describe('removeOtherItems', () => {
 });
 
 describe('removeItemsAbove', () => {
-	it('should remove items above', () => {
+	it('should remove items above', async () => {
 		playQueueStore.setItems([item, item2, item3]);
 
 		expect(playQueueStore.items.length).toBe(3);
 		expect(playQueueStore.items).toStrictEqual([item, item2, item3]);
 
-		playQueueStore.removeItemsAbove(item3);
+		await playQueueStore.removeItemsAbove(item3);
 
 		expect(playQueueStore.items.length).toBe(1);
 		expect(playQueueStore.items).toStrictEqual([item3]);

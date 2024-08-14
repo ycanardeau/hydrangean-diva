@@ -71,7 +71,7 @@ const SeekBar = observer(
 
 					const duration = await diva.getDuration();
 					if (duration !== undefined) {
-						diva.setCurrentTime(duration * percent);
+						await diva.setCurrentTime(duration * percent);
 					}
 				}
 			},
@@ -113,7 +113,7 @@ const VolumePopover = React.memo(
 
 		React.useLayoutEffect(() => {
 			if (isOpen) {
-				diva.getVolume().then((volume) => {
+				void diva.getVolume().then((volume) => {
 					if (volume !== undefined) {
 						setValue(Math.floor(volume * 100).toString());
 					}

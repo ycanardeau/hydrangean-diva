@@ -54,7 +54,7 @@ export const AddVideoButton = React.memo(
 						);
 						const jsonData = await response.json();
 
-						playQueueStore.addItems([
+						await playQueueStore.addItems([
 							playQueueStore.createItem({
 								url: e.url,
 								type: videoService.type,
