@@ -4,78 +4,15 @@ import {
 	PlayQueueItemDto,
 } from '@/stores/IPlayQueueItemStore';
 import { IPlayQueueStore } from '@/stores/IPlayQueueStore';
-import { getOrAddSchema } from '@/stores/getOrAddSchema';
+import { PlayQueueItemStore } from '@/stores/PlayQueueItemStore';
+import {
+	PlayQueueLocalStorageState,
+	validatePlayQueueLocalStorageState,
+} from '@/stores/PlayQueueLocalStorageState';
+import { RepeatMode } from '@/stores/RepeatMode';
 import { LocalStorageStateStore } from '@aigamo/route-sphere';
-import { JSONSchemaType } from 'ajv';
 import { pull } from 'lodash-es';
 import { action, computed, observable } from 'mobx';
-
-import { PlayQueueItemStore } from './PlayQueueItemStore';
-
-export enum RepeatMode {
-	Off = 'Off',
-	All = 'All',
-	One = 'One',
-}
-
-export interface PlayQueueLocalStorageState {
-	version?: '1.0';
-	repeat?: RepeatMode;
-	shuffle?: boolean;
-	items?: PlayQueueItemDto[];
-	currentIndex?: number;
-}
-
-const PlayQueueLocalStorageStateSchema: JSONSchemaType<PlayQueueLocalStorageState> =
-	{
-		type: 'object',
-		properties: {
-			version: {
-				type: 'string',
-				nullable: true,
-			},
-			repeat: {
-				type: 'string',
-				enum: Object.values(RepeatMode),
-				nullable: true,
-			},
-			shuffle: {
-				type: 'boolean',
-				nullable: true,
-			},
-			items: {
-				type: 'array',
-				nullable: true,
-				items: {
-					type: 'object',
-					properties: {
-						url: {
-							type: 'string',
-						},
-						type: {
-							type: 'string',
-						},
-						videoId: {
-							type: 'string',
-						},
-						title: {
-							type: 'string',
-						},
-					},
-					required: ['url', 'type', 'videoId', 'title'],
-				},
-			},
-			currentIndex: {
-				type: 'integer',
-				nullable: true,
-			},
-		},
-	};
-
-const validatePlayQueueLocalStorageState = getOrAddSchema(
-	PlayQueueLocalStorageStateSchema,
-	'PlayQueueStore',
-);
 
 export class PlayQueueStore
 	implements

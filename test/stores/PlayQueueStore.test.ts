@@ -1,6 +1,7 @@
 import { IPlayQueueItemStore } from '@/stores/IPlayQueueItemStore';
 import { ObservableStateProvider } from '@/stores/ObservableStateProvider';
-import { PlayQueueStore, RepeatMode } from '@/stores/PlayQueueStore';
+import { PlayQueueStore } from '@/stores/PlayQueueStore';
+import { RepeatMode } from '@/stores/RepeatMode';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
