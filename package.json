@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@aigamo/nostalgic-diva": "^1.14.1",
-		"@aigamo/route-sphere": "^2.0.0",
+		"@aigamo/route-sphere": "^2.0.2",
 		"@elastic/datemath": "^5.0.3",
 		"@elastic/eui": "^97.3.1",
 		"@emotion/css": "^11.13.4",
