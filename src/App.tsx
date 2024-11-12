@@ -4,7 +4,6 @@ import { PlayerStoreProvider } from '@/components/PlayerStoreContext';
 import '@/icons';
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
-import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
 import React from 'react';
 

@@ -22,7 +22,7 @@
 		"experimentalDecorators": true,
 		"jsxImportSource": "@emotion/react"
 	},
-	"include": ["**/*"],
+	"include": ["src"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"
