@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -51,6 +51,12 @@ export default defineConfig({
 		dynamicImportVarsOptions: {
 			exclude: [],
 		},
+	},
+	server: {
+		port:
+			process.env.PORT !== undefined
+				? parseInt(process.env.PORT)
+				: undefined,
 	},
 	// https://www.asobou.co.jp/blog/web/github-pages
 	base: process.env.NODE_ENV === 'production' ? '/hydrangean-diva/' : './',
