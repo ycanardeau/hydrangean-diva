@@ -16,4 +16,8 @@
     <PackageReference Include="Aspire.Hosting.NodeJs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HydrangeanDiva.Silo\HydrangeanDiva.Silo.csproj" />
+  </ItemGroup>
+
 </Project>

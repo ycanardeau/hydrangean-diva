@@ -4,4 +4,6 @@ builder.AddNpmApp(name: "frontend", workingDirectory: "../../frontend/hydrangean
 	.WithHttpEndpoint(env: "PORT")
 	.WithExternalHttpEndpoints();
 
+builder.AddProject<Projects.HydrangeanDiva_Silo>("hydrangeandiva-silo");
+
 builder.Build().Run();

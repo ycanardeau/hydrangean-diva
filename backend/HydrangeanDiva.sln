@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrangeanDiva.Abstractions
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrangeanDiva.Grains", "HydrangeanDiva.Grains\HydrangeanDiva.Grains.csproj", "{70CDB321-B99A-4C16-B5BE-F3BF1B1183F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrangeanDiva.Silo", "HydrangeanDiva.Silo\HydrangeanDiva.Silo.csproj", "{BD8BD8E6-5C92-42F1-9936-05F0756778D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{70CDB321-B99A-4C16-B5BE-F3BF1B1183F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70CDB321-B99A-4C16-B5BE-F3BF1B1183F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70CDB321-B99A-4C16-B5BE-F3BF1B1183F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD8BD8E6-5C92-42F1-9936-05F0756778D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD8BD8E6-5C92-42F1-9936-05F0756778D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD8BD8E6-5C92-42F1-9936-05F0756778D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD8BD8E6-5C92-42F1-9936-05F0756778D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
