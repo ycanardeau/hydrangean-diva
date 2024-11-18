@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HydrangeanDiva.Abstractions\HydrangeanDiva.Abstractions.csproj" />
+    <ProjectReference Include="..\HydrangeanDiva.Grains\HydrangeanDiva.Grains.csproj" />
     <ProjectReference Include="..\HydrangeanDiva.ServiceDefaults\HydrangeanDiva.ServiceDefaults.csproj" />
   </ItemGroup>
 
