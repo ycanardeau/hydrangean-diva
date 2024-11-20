@@ -42,7 +42,7 @@ export const AddVideoButton = React.memo(
 		const [addVideoModalOpen, setAddVideoModalOpen] = React.useState(false);
 
 		const handleSave = React.useCallback(
-			async (e): Promise<void> => {
+			async (e: { url: string; title: string }): Promise<void> => {
 				const videoService = findVideoService(e.url);
 				if (videoService !== undefined) {
 					const videoId = videoService.extractVideoId(e.url);

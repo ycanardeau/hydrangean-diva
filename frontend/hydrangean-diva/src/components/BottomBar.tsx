@@ -123,7 +123,7 @@ const VolumePopover = React.memo(
 		}, [isOpen, diva]);
 
 		const handleChange = React.useCallback(
-			async (e): Promise<void> => {
+			async (e: _SingleRangeChangeEvent): Promise<void> => {
 				setValue(e.currentTarget.value);
 
 				await diva.setVolume(Number(e.currentTarget.value) / 100);
@@ -418,8 +418,8 @@ const BottomBarCenterControls = observer(
 							playQueueStore.repeat === RepeatMode.All
 								? 'All'
 								: playQueueStore.repeat === RepeatMode.One
-								? 'One'
-								: 'Off'
+									? 'One'
+									: 'Off'
 						}` /* LOC */
 					}
 					aria-label={
@@ -427,8 +427,8 @@ const BottomBarCenterControls = observer(
 							playQueueStore.repeat === RepeatMode.All
 								? 'All'
 								: playQueueStore.repeat === RepeatMode.One
-								? 'One'
-								: 'Off'
+									? 'One'
+									: 'Off'
 						}` /* LOC */
 					}
 					iconType={repeatIconTypes[playQueueStore.repeat]}
