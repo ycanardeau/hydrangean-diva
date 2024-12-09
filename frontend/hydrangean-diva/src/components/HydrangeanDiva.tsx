@@ -25,6 +25,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { Header } from './Header';
+import { AddVideoButton } from '@/components/AddVideoButton';
 
 interface DeveloperToolsButtonProps {
 	playQueueStore: PlayQueueStore;
@@ -59,14 +60,7 @@ const DeveloperToolsButton = observer(
 					</EuiFlyout>
 				)}
 
-				<EuiButton
-					onClick={(): void =>
-						setIsFlyoutVisible((visible) => !visible)
-					}
-					iconType={WindowDevToolsRegular}
-				>
-					Developer tools
-				</EuiButton>
+				<AddVideoButton playQueueStore={playQueueStore} />
 			</>
 		);
 	},

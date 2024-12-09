@@ -140,7 +140,6 @@ export const AddVideoButton = React.memo(
 				<EuiButton
 					onClick={(): void => setAddVideoModalOpen(true)}
 					iconType={AddRegular}
-					size="s"
 					color="primary"
 				>
 					Add video{/* LOC */}

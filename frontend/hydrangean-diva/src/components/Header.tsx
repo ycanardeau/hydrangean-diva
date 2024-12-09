@@ -1,4 +1,3 @@
-import { AddVideoButton } from '@/components/AddVideoButton';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
 import {
 	EuiBadge,
@@ -96,7 +95,6 @@ export const Header = ({ playQueueStore }: HeaderProps): React.ReactElement => {
 									/>
 								</EuiHeaderSectionItemButton>
 							</EuiToolTip>
-							<AddVideoButton playQueueStore={playQueueStore} />
 						</EuiHeaderLinks>,
 					],
 				},
