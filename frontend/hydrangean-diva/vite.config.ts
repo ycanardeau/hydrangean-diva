@@ -36,6 +36,8 @@ export default defineConfig({
 
 			injectManifest: {
 				globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+				// https://vite-pwa-org.netlify.app/guide/faq.html#missing-assets-from-sw-precache-manifest
+				maximumFileSizeToCacheInBytes: 3000000,
 			},
 
 			devOptions: {
