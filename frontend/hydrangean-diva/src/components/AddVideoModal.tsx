@@ -28,6 +28,8 @@ function isNoembedResult(value: any): value is NoembedResult {
 }
 
 interface AddVideoModalProps {
+	url?: string;
+	title?: string;
 	onCancel: () => void;
 	onSave: (e: PlayQueueItemDto) => Promise<void>;
 }
@@ -35,9 +37,10 @@ interface AddVideoModalProps {
 export const AddVideoModal = ({
 	onCancel,
 	onSave,
+	...props
 }: AddVideoModalProps): React.ReactElement => {
-	const [url, setUrl] = React.useState('');
-	const [title, setTitle] = React.useState('');
+	const [url, setUrl] = React.useState(props.url ?? '');
+	const [title, setTitle] = React.useState(props.title ?? '');
 	const [loading, setLoading] = React.useState(false);
 
 	return (
