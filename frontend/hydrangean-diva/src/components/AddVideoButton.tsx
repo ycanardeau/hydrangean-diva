@@ -1,22 +1,9 @@
 import { AddVideoModal } from '@/components/AddVideoModal';
+import { PlayQueueItemDto } from '@/stores/IPlayQueueItemStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
-import { findVideoService } from '@aigamo/nostalgic-diva';
 import { EuiButton } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
 import React from 'react';
-
-interface NoembedResult {
-	title: string;
-}
-
-function isNoembedResult(value: any): value is NoembedResult {
-	return (
-		value !== null &&
-		typeof value === 'object' &&
-		'title' in value &&
-		typeof value.title === 'string'
-	);
-}
 
 interface AddVideoButtonProps {
 	playQueueStore: PlayQueueStore;
@@ -27,32 +14,8 @@ export const AddVideoButton = React.memo(
 		const [addVideoModalOpen, setAddVideoModalOpen] = React.useState(false);
 
 		const handleSave = React.useCallback(
-			async (e: { url: string; title: string }): Promise<void> => {
-				const videoService = findVideoService(e.url);
-				if (videoService !== undefined) {
-					const videoId = videoService.extractVideoId(e.url);
-					if (videoId !== undefined) {
-						const response = await fetch(
-							`https://noembed.com/embed?url=${encodeURIComponent(
-								e.url,
-							)}`,
-						);
-						const jsonData = await response.json();
-
-						await playQueueStore.addItems([
-							playQueueStore.createItem({
-								url: e.url,
-								type: videoService.type,
-								videoId: videoId,
-								title:
-									e.title ||
-									(isNoembedResult(jsonData)
-										? jsonData.title
-										: videoId),
-							}),
-						]);
-					}
-				}
+			async (e: PlayQueueItemDto): Promise<void> => {
+				await playQueueStore.addItems([playQueueStore.createItem(e)]);
 
 				setAddVideoModalOpen(false);
 			},

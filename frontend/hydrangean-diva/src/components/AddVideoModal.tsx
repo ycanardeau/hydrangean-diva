@@ -1,3 +1,5 @@
+import { PlayQueueItemDto } from '@/stores/IPlayQueueItemStore';
+import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -12,9 +14,22 @@ import {
 } from '@elastic/eui';
 import React from 'react';
 
+interface NoembedResult {
+	title: string;
+}
+
+function isNoembedResult(value: any): value is NoembedResult {
+	return (
+		value !== null &&
+		typeof value === 'object' &&
+		'title' in value &&
+		typeof value.title === 'string'
+	);
+}
+
 interface AddVideoModalProps {
 	onCancel: () => void;
-	onSave: (e: { url: string; title: string }) => Promise<void>;
+	onSave: (e: PlayQueueItemDto) => Promise<void>;
 }
 
 export const AddVideoModal = ({
@@ -62,7 +77,30 @@ export const AddVideoModal = ({
 						try {
 							setLoading(true);
 
-							await onSave({ url, title });
+							const videoService = findVideoService(url);
+							if (videoService !== undefined) {
+								const videoId =
+									videoService.extractVideoId(url);
+								if (videoId !== undefined) {
+									const response = await fetch(
+										`https://noembed.com/embed?url=${encodeURIComponent(
+											url,
+										)}`,
+									);
+									const jsonData = await response.json();
+
+									await onSave({
+										url: url,
+										type: videoService.type,
+										videoId: videoId,
+										title:
+											title ||
+											(isNoembedResult(jsonData)
+												? jsonData.title
+												: videoId),
+									});
+								}
+							}
 						} finally {
 							setLoading(false);
 						}
