@@ -12,7 +12,7 @@ export const ShareTarget = ({
 }: ShareTargetProps): ReactElement => {
 	const { search } = useLocation();
 	const searchParams = new URLSearchParams(search.slice(1));
-	const url = searchParams.get('url') ?? '';
+	const url = searchParams.get('url') ?? searchParams.get('text') ?? '';
 	const title = searchParams.get('title') ?? '';
 
 	const navigate = useNavigate();
