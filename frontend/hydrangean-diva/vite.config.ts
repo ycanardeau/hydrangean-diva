@@ -33,9 +33,9 @@ export default defineConfig({
 				description: '',
 				theme_color: '#ffffff',
 				// https://stackoverflow.com/a/78560070
-				scope: '/hydrangean-diva',
+				scope: '/',
 				share_target: {
-					action: '/#/share-target',
+					action: '/hydrangean-diva/#/share-target',
 					method: 'GET',
 					enctype: 'application/x-www-form-urlencoded',
 					params: {
