@@ -33,7 +33,7 @@ export default defineConfig({
 				description: '',
 				theme_color: '#ffffff',
 				// https://stackoverflow.com/a/78560070
-				scope: '/',
+				scope: '/hydrangean-diva',
 				share_target: {
 					action: '/#/share-target',
 					method: 'GET',
