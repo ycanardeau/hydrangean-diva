@@ -33,8 +33,7 @@ export default defineConfig({
 				description: '',
 				theme_color: '#ffffff',
 				share_target: {
-					// https://stackoverflow.com/a/73266778
-					action: 'share-target',
+					action: '/share-target',
 					method: 'GET',
 					params: {
 						title: 'title',
