@@ -32,6 +32,15 @@ export default defineConfig({
 				short_name: 'Hydrangean Diva',
 				description: '',
 				theme_color: '#ffffff',
+				share_target: {
+					action: '/share-target',
+					method: 'GET',
+					params: {
+						title: 'title',
+						text: 'text',
+						url: 'url',
+					},
+				},
 			},
 
 			injectManifest: {
