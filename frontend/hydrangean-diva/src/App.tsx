@@ -6,6 +6,7 @@ import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 // https://elastic.github.io/eui/#/utilities/provider
 const euiCache = createCache({
@@ -16,15 +17,17 @@ euiCache.compat = true;
 
 const App = (): React.ReactElement => {
 	return (
-		<EuiProvider colorMode="dark" cache={euiCache}>
-			<PlayerStoreProvider>
-				<PlayQueueStoreProvider>
-					<NostalgicDivaProvider>
-						<AppContainer />
-					</NostalgicDivaProvider>
-				</PlayQueueStoreProvider>
-			</PlayerStoreProvider>
-		</EuiProvider>
+		<BrowserRouter>
+			<EuiProvider colorMode="dark" cache={euiCache}>
+				<PlayerStoreProvider>
+					<PlayQueueStoreProvider>
+						<NostalgicDivaProvider>
+							<AppContainer />
+						</NostalgicDivaProvider>
+					</PlayQueueStoreProvider>
+				</PlayerStoreProvider>
+			</EuiProvider>
+		</BrowserRouter>
 	);
 };
 
