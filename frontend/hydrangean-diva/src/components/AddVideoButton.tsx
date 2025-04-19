@@ -1,5 +1,5 @@
-import { addItemToPlayQueueStore } from '@/helpers/addItemToPlayQueueStore';
 import { PlayQueueStore } from '@/stores/PlayQueueStore';
+import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -81,6 +81,19 @@ const AddVideoModal = ({
 	);
 };
 
+interface NoembedResult {
+	title: string;
+}
+
+function isNoembedResult(value: any): value is NoembedResult {
+	return (
+		value !== null &&
+		typeof value === 'object' &&
+		'title' in value &&
+		typeof value.title === 'string'
+	);
+}
+
 interface AddVideoButtonProps {
 	playQueueStore: PlayQueueStore;
 }
@@ -91,7 +104,31 @@ export const AddVideoButton = React.memo(
 
 		const handleSave = React.useCallback(
 			async (e: { url: string; title: string }): Promise<void> => {
-				await addItemToPlayQueueStore(playQueueStore, e);
+				const videoService = findVideoService(e.url);
+				if (videoService !== undefined) {
+					const videoId = videoService.extractVideoId(e.url);
+					if (videoId !== undefined) {
+						const response = await fetch(
+							`https://noembed.com/embed?url=${encodeURIComponent(
+								e.url,
+							)}`,
+						);
+						const jsonData = await response.json();
+
+						await playQueueStore.addItems([
+							playQueueStore.createItem({
+								url: e.url,
+								type: videoService.type,
+								videoId: videoId,
+								title:
+									e.title ||
+									(isNoembedResult(jsonData)
+										? jsonData.title
+										: videoId),
+							}),
+						]);
+					}
+				}
 
 				setAddVideoModalOpen(false);
 			},

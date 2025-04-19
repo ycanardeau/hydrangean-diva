@@ -32,18 +32,6 @@ export default defineConfig({
 				short_name: 'Hydrangean Diva',
 				description: '',
 				theme_color: '#ffffff',
-				// https://stackoverflow.com/a/78560070
-				scope: '/',
-				share_target: {
-					action: '/hydrangean-diva/#/share-target',
-					method: 'GET',
-					enctype: 'application/x-www-form-urlencoded',
-					params: {
-						title: 'title',
-						text: 'text',
-						url: 'url',
-					},
-				},
 			},
 
 			injectManifest: {
