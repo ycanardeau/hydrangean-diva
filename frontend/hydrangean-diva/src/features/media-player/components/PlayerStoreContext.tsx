@@ -1,5 +1,5 @@
-import { MobXObservableStateProvider } from '@/stores/MobXObservableStateProvider';
-import { PlayerStore } from '@/stores/PlayerStore';
+import { MobXObservableStateProvider } from '@/features/media-player/stores/MobXObservableStateProvider';
+import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
 import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

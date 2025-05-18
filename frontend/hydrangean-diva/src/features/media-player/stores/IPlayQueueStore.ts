@@ -1,7 +1,7 @@
 import {
 	IPlayQueueItemStore,
 	PlayQueueItemDto,
-} from '@/stores/IPlayQueueItemStore';
+} from '@/features/media-player/stores/IPlayQueueItemStore';
 
 export interface IPlayQueueStore {
 	items: IPlayQueueItemStore[];

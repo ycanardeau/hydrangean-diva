@@ -1,4 +1,4 @@
-import { IObservableStateProvider } from '@/stores/IObservableStateProvider';
+import { IObservableStateProvider } from '@/features/media-player/stores/IObservableStateProvider';
 import { TimeEvent } from '@aigamo/nostalgic-diva';
 import { action, observable } from 'mobx';
 

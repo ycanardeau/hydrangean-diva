@@ -1,6 +1,6 @@
-import { HydrangeanDiva } from '@/components/HydrangeanDiva';
-import { usePlayQueueStore } from '@/components/PlayQueueStoreContext';
-import { usePlayerStore } from '@/components/PlayerStoreContext';
+import { HydrangeanDiva } from '@/features/media-player/components/HydrangeanDiva';
+import { usePlayQueueStore } from '@/features/media-player/components/PlayQueueStoreContext';
+import { usePlayerStore } from '@/features/media-player/components/PlayerStoreContext';
 import React from 'react';
 
 export const AppContainer = (): React.ReactElement => {

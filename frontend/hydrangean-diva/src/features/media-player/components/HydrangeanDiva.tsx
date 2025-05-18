@@ -1,8 +1,14 @@
-import { BottomBar, bottomBarHeight } from '@/components/BottomBar';
-import { MiniPlayer, miniPlayerSize } from '@/components/MiniPlayer';
-import { PlayQueueTable } from '@/components/PlayQueueTable';
-import { PlayQueueStore } from '@/stores/PlayQueueStore';
-import { PlayerStore } from '@/stores/PlayerStore';
+import {
+	BottomBar,
+	bottomBarHeight,
+} from '@/features/media-player/components/BottomBar';
+import {
+	MiniPlayer,
+	miniPlayerSize,
+} from '@/features/media-player/components/MiniPlayer';
+import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { useLocalStorageStateStore } from '@aigamo/route-sphere';
 import {
@@ -25,7 +31,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { Header } from './Header';
-import { AddVideoButton } from '@/components/AddVideoButton';
+import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
 
 interface DeveloperToolsButtonProps {
 	playQueueStore: PlayQueueStore;

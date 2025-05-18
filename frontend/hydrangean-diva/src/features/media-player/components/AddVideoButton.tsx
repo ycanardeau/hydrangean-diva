@@ -1,4 +1,4 @@
-import { PlayQueueStore } from '@/stores/PlayQueueStore';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,

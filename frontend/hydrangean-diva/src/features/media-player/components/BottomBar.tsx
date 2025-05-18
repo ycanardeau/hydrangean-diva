@@ -1,6 +1,6 @@
-import { PlayQueueStore } from '@/stores/PlayQueueStore';
-import { PlayerStore } from '@/stores/PlayerStore';
-import { RepeatMode } from '@/stores/RepeatMode';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
+import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiBottomBar,

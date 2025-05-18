@@ -1,7 +1,7 @@
-import { bottomBarHeight } from '@/components/BottomBar';
-import { PlayQueueStore } from '@/stores/PlayQueueStore';
-import { PlayerStore } from '@/stores/PlayerStore';
-import { RepeatMode } from '@/stores/RepeatMode';
+import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
+import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 import {
 	NostalgicDiva,
 	PlayerOptions,

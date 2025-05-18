@@ -1,6 +1,6 @@
-import { AppContainer } from '@/components/AppContainer';
-import { PlayQueueStoreProvider } from '@/components/PlayQueueStoreContext';
-import { PlayerStoreProvider } from '@/components/PlayerStoreContext';
+import { AppContainer } from '@/features/media-player/components/AppContainer';
+import { PlayQueueStoreProvider } from '@/features/media-player/components/PlayQueueStoreContext';
+import { PlayerStoreProvider } from '@/features/media-player/components/PlayerStoreContext';
 import '@/icons';
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';

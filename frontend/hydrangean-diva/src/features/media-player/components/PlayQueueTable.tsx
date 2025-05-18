@@ -1,5 +1,5 @@
-import { IPlayQueueItemStore } from '@/stores/IPlayQueueItemStore';
-import { PlayQueueStore } from '@/stores/PlayQueueStore';
+import { IPlayQueueItemStore } from '@/features/media-player/stores/IPlayQueueItemStore';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 import { PlayerType, useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	CommonProps,
