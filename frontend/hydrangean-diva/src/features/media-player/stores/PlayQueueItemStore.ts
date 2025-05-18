@@ -1,3 +1,6 @@
+import { PlayerType } from '@aigamo/nostalgic-diva';
+import { action, computed, observable } from 'mobx';
+
 import { IObservableStateProvider } from '@/features/media-player/stores/IObservableStateProvider';
 import {
 	IPlayQueueItemStore,
@@ -5,8 +8,6 @@ import {
 } from '@/features/media-player/stores/IPlayQueueItemStore';
 import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
-import { PlayerType } from '@aigamo/nostalgic-diva';
-import { action, computed, observable } from 'mobx';
 
 export class PlayQueueItemStore implements IPlayQueueItemStore {
 	static nextId = 1;

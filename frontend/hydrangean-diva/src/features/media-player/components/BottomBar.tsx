@@ -1,6 +1,3 @@
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
-import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
-import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiBottomBar,
@@ -35,6 +32,10 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+
+import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 
 export const bottomBarHeight = 80;
 

@@ -1,7 +1,8 @@
+import { JSONSchemaType } from 'ajv';
+
+import { getOrAddSchema } from '@/features/media-player/stores/getOrAddSchema';
 import { PlayQueueItemDto } from '@/features/media-player/stores/IPlayQueueItemStore';
 import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
-import { getOrAddSchema } from '@/features/media-player/stores/getOrAddSchema';
-import { JSONSchemaType } from 'ajv';
 
 export interface PlayQueueLocalStorageState {
 	version?: '1.0';

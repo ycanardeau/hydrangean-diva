@@ -1,12 +1,14 @@
-import { AppRoutes } from '@/AppRoutes';
-import { Compose } from '@/common/components/Compose';
-import { PlayQueueStoreProvider } from '@/features/media-player/components/PlayQueueStoreContext';
-import { PlayerStoreProvider } from '@/features/media-player/components/PlayerStoreContext';
 import '@/icons';
+
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
 import { ReactElement, ReactNode } from 'react';
+
+import { AppRoutes } from '@/AppRoutes';
+import { Compose } from '@/common/components/Compose';
+import { PlayerStoreProvider } from '@/features/media-player/components/PlayerStoreContext';
+import { PlayQueueStoreProvider } from '@/features/media-player/components/PlayQueueStoreContext';
 
 // https://elastic.github.io/eui/#/utilities/provider
 const euiCache = createCache({

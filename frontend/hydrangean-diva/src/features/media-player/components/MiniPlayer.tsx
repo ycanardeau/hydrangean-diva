@@ -1,7 +1,3 @@
-import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
-import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
-import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 import {
 	NostalgicDiva,
 	PlayerOptions,
@@ -9,6 +5,11 @@ import {
 } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+
+import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
+import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 
 export const miniPlayerSize = {
 	width: 16 * 25,

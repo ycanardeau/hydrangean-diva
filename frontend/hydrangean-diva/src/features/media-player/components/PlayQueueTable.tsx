@@ -1,5 +1,3 @@
-import { IPlayQueueItemStore } from '@/features/media-player/stores/IPlayQueueItemStore';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 import { PlayerType, useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	CommonProps,
@@ -32,6 +30,9 @@ import {
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ReactSortable } from 'react-sortablejs';
+
+import { IPlayQueueItemStore } from '@/features/media-player/stores/IPlayQueueItemStore';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 
 interface PlayQueueTableHeaderProps {
 	playQueueStore: PlayQueueStore;

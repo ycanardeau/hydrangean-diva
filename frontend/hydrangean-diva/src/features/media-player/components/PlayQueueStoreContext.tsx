@@ -1,6 +1,7 @@
+import React from 'react';
+
 import { MobXObservableStateProvider } from '@/features/media-player/stores/MobXObservableStateProvider';
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
-import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const PlayQueueStoreContext = React.createContext<PlayQueueStore>(undefined!);

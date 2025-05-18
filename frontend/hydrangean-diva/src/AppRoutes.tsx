@@ -1,3 +1,7 @@
+import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
 import {
 	BottomBar,
 	bottomBarHeight,
@@ -7,12 +11,9 @@ import {
 	MiniPlayer,
 	miniPlayerSize,
 } from '@/features/media-player/components/MiniPlayer';
-import { usePlayQueueStore } from '@/features/media-player/components/PlayQueueStoreContext';
 import { usePlayerStore } from '@/features/media-player/components/PlayerStoreContext';
+import { usePlayQueueStore } from '@/features/media-player/components/PlayQueueStoreContext';
 import { PlayQueuePage } from '@/features/media-player/pages/PlayQueuePage';
-import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
-import { observer } from 'mobx-react-lite';
-import React from 'react';
 
 export const AppRoutes = observer((): React.ReactElement => {
 	const playerStore = usePlayerStore();

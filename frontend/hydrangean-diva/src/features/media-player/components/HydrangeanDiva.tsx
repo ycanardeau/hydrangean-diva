@@ -1,6 +1,3 @@
-import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
-import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { useLocalStorageStateStore } from '@aigamo/route-sphere';
 import {
@@ -22,6 +19,9 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
+import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
+import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 
 interface DeveloperToolsButtonProps {
 	playQueueStore: PlayQueueStore;

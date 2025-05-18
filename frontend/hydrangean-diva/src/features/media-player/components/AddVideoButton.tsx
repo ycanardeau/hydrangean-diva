@@ -1,4 +1,3 @@
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
@@ -14,6 +13,8 @@ import {
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
 import React from 'react';
+
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 
 interface AddVideoModalProps {
 	onCancel: () => void;
