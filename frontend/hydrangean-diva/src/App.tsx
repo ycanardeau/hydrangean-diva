@@ -1,5 +1,5 @@
+import { AppRoutes } from '@/AppRoutes';
 import { Compose } from '@/common/components/Compose';
-import { AppContainer } from '@/features/media-player/components/AppContainer';
 import { PlayQueueStoreProvider } from '@/features/media-player/components/PlayQueueStoreContext';
 import { PlayerStoreProvider } from '@/features/media-player/components/PlayerStoreContext';
 import '@/icons';
@@ -37,7 +37,7 @@ const App = (): ReactElement => {
 				NostalgicDivaProvider,
 			]}
 		>
-			<AppContainer />
+			<AppRoutes />
 		</Compose>
 	);
 };

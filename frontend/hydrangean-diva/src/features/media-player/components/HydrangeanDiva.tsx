@@ -1,11 +1,3 @@
-import {
-	BottomBar,
-	bottomBarHeight,
-} from '@/features/media-player/components/BottomBar';
-import {
-	MiniPlayer,
-	miniPlayerSize,
-} from '@/features/media-player/components/MiniPlayer';
 import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
@@ -24,13 +16,11 @@ import {
 	AddRegular,
 	DeleteRegular,
 	DismissRegular,
-	WindowDevToolsRegular,
 } from '@fluentui/react-icons';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import { Header } from './Header';
 import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
 
 interface DeveloperToolsButtonProps {
@@ -154,15 +144,6 @@ const PlayQueue = observer(
 						/>
 
 						<PlayQueueTable playQueueStore={playQueueStore} />
-
-						<EuiSpacer
-							style={{ blockSize: miniPlayerSize.height }}
-						/>
-
-						<MiniPlayer
-							playerStore={playerStore}
-							playQueueStore={playQueueStore}
-						/>
 					</>
 				)}
 			</>
@@ -207,31 +188,17 @@ export const HydrangeanDiva = observer(
 
 		return (
 			<>
-				<Header playQueueStore={playQueueStore} />
-
-				<EuiPageTemplate
-					panelled
-					style={{
-						minBlockSize: `max(460px, 100vh - ${bottomBarHeight}px)`,
-					}}
-				>
-					<EuiPageTemplate.Header
-						pageTitle="Play queue" /* LOC */
-						rightSideItems={[]}
-					/>
-
-					<EuiPageTemplate.Section>
-						<PlayQueue
-							playerStore={playerStore}
-							playQueueStore={playQueueStore}
-						/>
-					</EuiPageTemplate.Section>
-				</EuiPageTemplate>
-
-				<BottomBar
-					playerStore={playerStore}
-					playQueueStore={playQueueStore}
+				<EuiPageTemplate.Header
+					pageTitle="Play queue" /* LOC */
+					rightSideItems={[]}
 				/>
+
+				<EuiPageTemplate.Section>
+					<PlayQueue
+						playerStore={playerStore}
+						playQueueStore={playQueueStore}
+					/>
+				</EuiPageTemplate.Section>
 			</>
 		);
 	},

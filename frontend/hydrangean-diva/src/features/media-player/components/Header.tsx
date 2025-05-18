@@ -1,4 +1,3 @@
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 import {
 	EuiBadge,
 	EuiCollapsibleNav,
@@ -15,16 +14,12 @@ import {
 } from '@elastic/eui';
 import React from 'react';
 
-interface HeaderProps {
-	playQueueStore: PlayQueueStore;
-}
-
 const commitHash =
 	typeof import.meta.env.VITE_COMMIT_HASH === 'string'
 		? import.meta.env.VITE_COMMIT_HASH
 		: undefined;
 
-export const Header = ({ playQueueStore }: HeaderProps): React.ReactElement => {
+export const Header = (): React.ReactElement => {
 	const [navIsOpen, setNavIsOpen] = React.useState(false);
 
 	const collapsibleNavId = useGeneratedHtmlId({ prefix: 'collapsibleNav' });
