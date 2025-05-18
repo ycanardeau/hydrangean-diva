@@ -1,3 +1,4 @@
+import { Compose } from '@/common/components/Compose';
 import { AppContainer } from '@/features/media-player/components/AppContainer';
 import { PlayQueueStoreProvider } from '@/features/media-player/components/PlayQueueStoreContext';
 import { PlayerStoreProvider } from '@/features/media-player/components/PlayerStoreContext';
@@ -5,7 +6,7 @@ import '@/icons';
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
-import React from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 // https://elastic.github.io/eui/#/utilities/provider
 const euiCache = createCache({
@@ -14,17 +15,30 @@ const euiCache = createCache({
 });
 euiCache.compat = true;
 
-const App = (): React.ReactElement => {
+interface AppProviderProps {
+	children?: ReactNode;
+}
+
+const AppProvider = ({ children }: AppProviderProps): ReactElement => {
 	return (
 		<EuiProvider colorMode="dark" cache={euiCache}>
-			<PlayerStoreProvider>
-				<PlayQueueStoreProvider>
-					<NostalgicDivaProvider>
-						<AppContainer />
-					</NostalgicDivaProvider>
-				</PlayQueueStoreProvider>
-			</PlayerStoreProvider>
+			{children}
 		</EuiProvider>
+	);
+};
+
+const App = (): ReactElement => {
+	return (
+		<Compose
+			components={[
+				AppProvider,
+				PlayerStoreProvider,
+				PlayQueueStoreProvider,
+				NostalgicDivaProvider,
+			]}
+		>
+			<AppContainer />
+		</Compose>
 	);
 };
 
