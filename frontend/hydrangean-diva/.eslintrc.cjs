@@ -4,8 +4,13 @@ module.exports = {
 		project: 'tsconfig.json',
 		sourceType: 'module',
 		tsconfigRootDir: __dirname,
+		ecmaVersion: 'latest',
 	},
-	plugins: ['@typescript-eslint/eslint-plugin'],
+	plugins: [
+		'@typescript-eslint/eslint-plugin',
+		'simple-import-sort',
+		'import',
+	],
 	extends: [
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
@@ -24,5 +29,10 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
 		'@typescript-eslint/no-floating-promises': 'error',
+		'simple-import-sort/imports': 'error',
+		'simple-import-sort/exports': 'error',
+		'import/first': 'error',
+		'import/newline-after-import': 'error',
+		'import/no-duplicates': 'error',
 	},
 };
