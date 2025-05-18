@@ -4,7 +4,7 @@ import {
 	useNostalgicDiva,
 } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import { ReactElement, useCallback, useMemo } from 'react';
 
 import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
 import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
@@ -22,10 +22,10 @@ interface MiniPlayerProps {
 }
 
 export const MiniPlayer = observer(
-	({ playerStore, playQueueStore }: MiniPlayerProps): React.ReactElement => {
+	({ playerStore, playQueueStore }: MiniPlayerProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
-		const handleLoaded = React.useCallback(async (): Promise<void> => {
+		const handleLoaded = useCallback(async (): Promise<void> => {
 			if (!playQueueStore.interacted) {
 				return;
 			}
@@ -33,7 +33,7 @@ export const MiniPlayer = observer(
 			await diva.play();
 		}, [playQueueStore, diva]);
 
-		const handleEnded = React.useCallback(async (): Promise<void> => {
+		const handleEnded = useCallback(async (): Promise<void> => {
 			switch (playQueueStore.repeat) {
 				case RepeatMode.One:
 					await diva.setCurrentTime(0);
@@ -62,7 +62,7 @@ export const MiniPlayer = observer(
 			}
 		}, [playQueueStore, playerStore, diva]);
 
-		const options = React.useMemo(
+		const options = useMemo(
 			(): PlayerOptions => ({
 				onLoaded: handleLoaded,
 				onPlay: playerStore.onPlay,

@@ -12,19 +12,19 @@ import {
 	EuiToolTip,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
-import React from 'react';
+import { ReactElement, ReactNode, useMemo, useState } from 'react';
 
 const commitHash =
 	typeof import.meta.env.VITE_COMMIT_HASH === 'string'
 		? import.meta.env.VITE_COMMIT_HASH
 		: undefined;
 
-export const Header = (): React.ReactElement => {
-	const [navIsOpen, setNavIsOpen] = React.useState(false);
+export const Header = (): ReactElement => {
+	const [navIsOpen, setNavIsOpen] = useState(false);
 
 	const collapsibleNavId = useGeneratedHtmlId({ prefix: 'collapsibleNav' });
 
-	const listItems: EuiListGroupItemProps[] = React.useMemo(() => [], []);
+	const listItems: EuiListGroupItemProps[] = useMemo(() => [], []);
 
 	const collapsibleNav = (
 		<EuiCollapsibleNav
@@ -57,7 +57,7 @@ export const Header = (): React.ReactElement => {
 		</EuiCollapsibleNav>
 	);
 
-	const leftSectionItems: React.ReactNode[] = [
+	const leftSectionItems: ReactNode[] = [
 		collapsibleNav,
 		commitHash && (
 			<EuiBadge

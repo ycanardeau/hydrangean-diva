@@ -1,19 +1,25 @@
-import React from 'react';
+import {
+	createContext,
+	ReactElement,
+	ReactNode,
+	useContext,
+	useState,
+} from 'react';
 
 import { MobXObservableStateProvider } from '@/features/media-player/stores/MobXObservableStateProvider';
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const PlayQueueStoreContext = React.createContext<PlayQueueStore>(undefined!);
+const PlayQueueStoreContext = createContext<PlayQueueStore>(undefined!);
 
 interface PlayQueueStoreProviderProps {
-	children?: React.ReactNode;
+	children?: ReactNode;
 }
 
 export const PlayQueueStoreProvider = ({
 	children,
-}: PlayQueueStoreProviderProps): React.ReactElement => {
-	const [playQueueStore] = React.useState(
+}: PlayQueueStoreProviderProps): ReactElement => {
+	const [playQueueStore] = useState(
 		() => new PlayQueueStore(new MobXObservableStateProvider()),
 	);
 
@@ -25,5 +31,5 @@ export const PlayQueueStoreProvider = ({
 };
 
 export const usePlayQueueStore = (): PlayQueueStore => {
-	return React.useContext(PlayQueueStoreContext);
+	return useContext(PlayQueueStoreContext);
 };

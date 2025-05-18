@@ -28,7 +28,13 @@ import {
 	PlayRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, {
+	ButtonHTMLAttributes,
+	memo,
+	ReactElement,
+	useCallback,
+	useState,
+} from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
 import { IPlayQueueItemStore } from '@/features/media-player/stores/IPlayQueueItemStore';
@@ -39,7 +45,7 @@ interface PlayQueueTableHeaderProps {
 }
 
 const PlayQueueTableHeader = observer(
-	({ playQueueStore }: PlayQueueTableHeaderProps): React.ReactElement => {
+	({ playQueueStore }: PlayQueueTableHeaderProps): ReactElement => {
 		return (
 			<EuiTableHeader
 				style={{
@@ -71,22 +77,22 @@ interface PlayQueueTableRowContextMenuPanelProps {
 	closePopover: () => void;
 }
 
-const PlayQueueTableRowContextMenuPanel = React.memo(
+const PlayQueueTableRowContextMenuPanel = memo(
 	({
 		item,
 		closePopover,
-	}: PlayQueueTableRowContextMenuPanelProps): React.ReactElement => {
-		const ContextMenuItem = React.memo(
+	}: PlayQueueTableRowContextMenuPanelProps): ReactElement => {
+		const ContextMenuItem = memo(
 			({
 				onClick,
 				...props
 			}: CommonProps &
 				Omit<
-					React.ButtonHTMLAttributes<HTMLButtonElement>,
+					ButtonHTMLAttributes<HTMLButtonElement>,
 					'onClick' | 'disabled' | 'type'
 				> &
-				EuiContextMenuItemProps): React.ReactElement => {
-				const handleClick = React.useCallback(
+				EuiContextMenuItemProps): ReactElement => {
+				const handleClick = useCallback(
 					(e: React.MouseEvent) => {
 						closePopover();
 
@@ -158,15 +164,12 @@ interface PlayQueueTableRowPopoverProps {
 	item: IPlayQueueItemStore;
 }
 
-const PlayQueueTableRowPopover = React.memo(
-	({ item }: PlayQueueTableRowPopoverProps): React.ReactElement => {
-		const [isOpen, setIsOpen] = React.useState(false);
+const PlayQueueTableRowPopover = memo(
+	({ item }: PlayQueueTableRowPopoverProps): ReactElement => {
+		const [isOpen, setIsOpen] = useState(false);
 
-		const togglePopover = React.useCallback(
-			() => setIsOpen(!isOpen),
-			[isOpen],
-		);
-		const closePopover = React.useCallback(() => setIsOpen(false), []);
+		const togglePopover = useCallback(() => setIsOpen(!isOpen), [isOpen]);
+		const closePopover = useCallback(() => setIsOpen(false), []);
 
 		return (
 			<EuiPopover
@@ -199,7 +202,7 @@ interface PlayQueueTableRowActionsCellProps {
 }
 
 const PlayQueueTableRowActionsCell = observer(
-	({ item }: PlayQueueTableRowActionsCellProps): React.ReactElement => {
+	({ item }: PlayQueueTableRowActionsCellProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		return (
@@ -245,7 +248,7 @@ interface PlayQueueTableRowProps {
 }
 
 const PlayQueueTableRow = observer(
-	({ item }: PlayQueueTableRowProps): React.ReactElement => {
+	({ item }: PlayQueueTableRowProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		return (
@@ -286,7 +289,7 @@ interface PlayQueueTableBodyProps {
 }
 
 const PlayQueueTableBody = observer(
-	({ playQueueStore }: PlayQueueTableBodyProps): React.ReactElement => {
+	({ playQueueStore }: PlayQueueTableBodyProps): ReactElement => {
 		return (
 			<ReactSortable
 				tag="tbody"
@@ -306,7 +309,7 @@ interface PlayQueueTableProps {
 }
 
 export const PlayQueueTable = observer(
-	({ playQueueStore }: PlayQueueTableProps): React.ReactElement => {
+	({ playQueueStore }: PlayQueueTableProps): ReactElement => {
 		return (
 			<EuiTable>
 				<PlayQueueTableHeader playQueueStore={playQueueStore} />

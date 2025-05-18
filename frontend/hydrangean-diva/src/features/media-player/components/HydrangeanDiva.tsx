@@ -16,7 +16,7 @@ import {
 } from '@fluentui/react-icons';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
 import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
@@ -28,8 +28,8 @@ interface DeveloperToolsButtonProps {
 }
 
 const DeveloperToolsButton = observer(
-	({ playQueueStore }: DeveloperToolsButtonProps): React.ReactElement => {
-		const [isFlyoutVisible, setIsFlyoutVisible] = React.useState(false);
+	({ playQueueStore }: DeveloperToolsButtonProps): ReactElement => {
+		const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
 
 		return (
 			<>
@@ -68,7 +68,7 @@ interface PlayQueueProps {
 }
 
 const PlayQueue = observer(
-	({ playerStore, playQueueStore }: PlayQueueProps): React.ReactElement => {
+	({ playerStore, playQueueStore }: PlayQueueProps): ReactElement => {
 		return (
 			<>
 				<EuiFlexGroup
@@ -157,15 +157,12 @@ interface HydrangeanDivaProps {
 }
 
 export const HydrangeanDiva = observer(
-	({
-		playerStore,
-		playQueueStore,
-	}: HydrangeanDivaProps): React.ReactElement => {
+	({ playerStore, playQueueStore }: HydrangeanDivaProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		useLocalStorageStateStore('PlayQueueStore', playQueueStore);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			return reaction(
 				() => playQueueStore.currentItem,
 				async (currentItem, previousItem) => {

@@ -12,7 +12,7 @@ import {
 	EuiModalHeaderTitle,
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
-import React from 'react';
+import { memo, ReactElement, useCallback, useState } from 'react';
 
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 
@@ -24,10 +24,10 @@ interface AddVideoModalProps {
 const AddVideoModal = ({
 	onCancel,
 	onSave,
-}: AddVideoModalProps): React.ReactElement => {
-	const [url, setUrl] = React.useState('');
-	const [title, setTitle] = React.useState('');
-	const [loading, setLoading] = React.useState(false);
+}: AddVideoModalProps): ReactElement => {
+	const [url, setUrl] = useState('');
+	const [title, setTitle] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	return (
 		<EuiModal onClose={onCancel} initialFocus="[name=url]">
@@ -99,11 +99,11 @@ interface AddVideoButtonProps {
 	playQueueStore: PlayQueueStore;
 }
 
-export const AddVideoButton = React.memo(
-	({ playQueueStore }: AddVideoButtonProps): React.ReactElement => {
-		const [addVideoModalOpen, setAddVideoModalOpen] = React.useState(false);
+export const AddVideoButton = memo(
+	({ playQueueStore }: AddVideoButtonProps): ReactElement => {
+		const [addVideoModalOpen, setAddVideoModalOpen] = useState(false);
 
-		const handleSave = React.useCallback(
+		const handleSave = useCallback(
 			async (e: { url: string; title: string }): Promise<void> => {
 				const videoService = findVideoService(e.url);
 				if (videoService !== undefined) {

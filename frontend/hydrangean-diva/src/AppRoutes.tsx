@@ -1,6 +1,6 @@
 import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import { ReactElement } from 'react';
 
 import {
 	BottomBar,
@@ -15,7 +15,7 @@ import { usePlayerStore } from '@/features/media-player/components/PlayerStoreCo
 import { usePlayQueueStore } from '@/features/media-player/components/PlayQueueStoreContext';
 import { PlayQueuePage } from '@/features/media-player/pages/PlayQueuePage';
 
-export const AppRoutes = observer((): React.ReactElement => {
+export const AppRoutes = observer((): ReactElement => {
 	const playerStore = usePlayerStore();
 	const playQueueStore = usePlayQueueStore();
 
