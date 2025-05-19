@@ -1,8 +1,11 @@
+import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
+import { reaction } from 'mobx';
 import {
 	createContext,
 	ReactElement,
 	ReactNode,
 	useContext,
+	useEffect,
 	useState,
 } from 'react';
 
@@ -22,6 +25,26 @@ export const PlayQueueStoreProvider = ({
 	const [playQueueStore] = useState(
 		() => new PlayQueueStore(new MobXObservableStateProvider()),
 	);
+
+	const diva = useNostalgicDiva();
+
+	useEffect(() => {
+		return reaction(
+			() => playQueueStore.currentItem,
+			async (currentItem, previousItem) => {
+				if (currentItem === undefined || previousItem === undefined) {
+					return;
+				}
+
+				if (
+					currentItem.type === previousItem.type &&
+					currentItem.videoId === previousItem.videoId
+				) {
+					await diva.setCurrentTime(0);
+				}
+			},
+		);
+	}, [playQueueStore, diva]);
 
 	return (
 		<PlayQueueStoreContext.Provider value={playQueueStore}>

@@ -1,5 +1,3 @@
-import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
-import { useLocalStorageStateStore } from '@aigamo/route-sphere';
 import {
 	EuiButton,
 	EuiCodeBlock,
@@ -14,9 +12,8 @@ import {
 	DeleteRegular,
 	DismissRegular,
 } from '@fluentui/react-icons';
-import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
 import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
@@ -158,31 +155,6 @@ interface HydrangeanDivaProps {
 
 export const HydrangeanDiva = observer(
 	({ playerStore, playQueueStore }: HydrangeanDivaProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
-		useLocalStorageStateStore('PlayQueueStore', playQueueStore);
-
-		useEffect(() => {
-			return reaction(
-				() => playQueueStore.currentItem,
-				async (currentItem, previousItem) => {
-					if (
-						currentItem === undefined ||
-						previousItem === undefined
-					) {
-						return;
-					}
-
-					if (
-						currentItem.type === previousItem.type &&
-						currentItem.videoId === previousItem.videoId
-					) {
-						await diva.setCurrentTime(0);
-					}
-				},
-			);
-		}, [playQueueStore, diva]);
-
 		return (
 			<>
 				<EuiPageTemplate.Header

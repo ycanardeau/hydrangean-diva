@@ -1,3 +1,4 @@
+import { useLocalStorageStateStore } from '@aigamo/route-sphere';
 import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { ReactElement } from 'react';
@@ -18,6 +19,8 @@ import { PlayQueuePage } from '@/features/media-player/pages/PlayQueuePage';
 export const AppRoutes = observer((): ReactElement => {
 	const playerStore = usePlayerStore();
 	const playQueueStore = usePlayQueueStore();
+
+	useLocalStorageStateStore('PlayQueueStore', playQueueStore);
 
 	return (
 		<>
