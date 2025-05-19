@@ -18,6 +18,7 @@ import {
 	EuiTableRow,
 	EuiTableRowCell,
 	EuiTableRowCellCheckbox,
+	useEuiTheme,
 } from '@elastic/eui';
 import {
 	AddRegular,
@@ -46,13 +47,15 @@ interface PlayQueueTableHeaderProps {
 
 const PlayQueueTableHeader = observer(
 	({ playQueueStore }: PlayQueueTableHeaderProps): ReactElement => {
+		const { euiTheme } = useEuiTheme();
+
 		return (
 			<EuiTableHeader
 				style={{
 					position: 'sticky',
 					top: 48 + 40 + 24,
 					zIndex: 998,
-					background: '#1D1E24',
+					background: euiTheme.colors.backgroundBasePlain,
 				}}
 			>
 				<EuiTableHeaderCellCheckbox>

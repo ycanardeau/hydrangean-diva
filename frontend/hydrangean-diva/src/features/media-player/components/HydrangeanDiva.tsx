@@ -6,6 +6,7 @@ import {
 	EuiFlyout,
 	EuiPageTemplate,
 	EuiSpacer,
+	useEuiTheme,
 } from '@elastic/eui';
 import {
 	AddRegular,
@@ -66,6 +67,8 @@ interface PlayQueueProps {
 
 const PlayQueue = observer(
 	({ playerStore, playQueueStore }: PlayQueueProps): ReactElement => {
+		const { euiTheme } = useEuiTheme();
+
 		return (
 			<>
 				<EuiFlexGroup
@@ -75,7 +78,7 @@ const PlayQueue = observer(
 						position: 'sticky',
 						top: 48,
 						zIndex: 998,
-						background: '#1D1E24',
+						background: euiTheme.colors.backgroundBasePlain,
 					}}
 				>
 					<EuiFlexItem grow={false}>
@@ -136,7 +139,7 @@ const PlayQueue = observer(
 								position: 'sticky',
 								top: 48 + 40,
 								zIndex: 998,
-								background: '#1D1E24',
+								background: euiTheme.colors.backgroundBasePlain,
 							}}
 						/>
 
