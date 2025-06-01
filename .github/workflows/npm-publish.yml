@@ -7,6 +7,10 @@ on:
   release:
     types: [created]
 
+defaults:
+  run:
+    working-directory: "./frontend/hydrangean-diva"
+
 jobs:
   build:
     runs-on: ubuntu-latest
