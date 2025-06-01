@@ -19,7 +19,6 @@
 		"paths": {
 			"@/*": ["src/*"]
 		},
-		"experimentalDecorators": true,
 		"jsxImportSource": "@emotion/react"
 	},
 	"include": ["src"],
