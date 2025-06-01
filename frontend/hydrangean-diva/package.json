@@ -85,5 +85,26 @@
 				"default": "./dist/index.cjs.js"
 			}
 		}
+	},
+	"description": "An open-source online media player that can be deployed to and hosted on GitHub pages.",
+	"license": "",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ycanardeau/hydrangean-diva.git"
+	},
+	"keywords": [
+		"react",
+		"player",
+		"audio",
+		"dailymotion",
+		"niconico",
+		"soundcloud",
+		"twitch",
+		"vimeo",
+		"youtube"
+	],
+	"author": "Aigamo <51428094+ycanardeau@users.noreply.github.com>",
+	"bugs": {
+		"url": "https://github.com/ycanardeau/hydrangean-diva/issues"
 	}
 }
