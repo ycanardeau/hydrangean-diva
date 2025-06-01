@@ -1,11 +1,12 @@
 {
-	"name": "hydrangean-diva",
+	"name": "@aigamo/hydrangean-diva",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
+		"build:lib": "tsc && vite build --config vite.config.lib.ts",
 		"preview": "vite preview",
 		"test": "vitest --environment=jsdom"
 	},
@@ -56,10 +57,33 @@
 		"prettier": "^3.4.2",
 		"typescript": "^5.7.2",
 		"vite": "^5.4.19",
+		"vite-plugin-dts": "^4.5.4",
 		"vite-plugin-pwa": "^0.20.5",
 		"vitest": "^2.1.9",
 		"workbox-core": "^7.3.0",
 		"workbox-precaching": "^7.3.0",
 		"workbox-routing": "^7.3.0"
+	},
+	"peerDependencies": {
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
+		}
 	}
 }
