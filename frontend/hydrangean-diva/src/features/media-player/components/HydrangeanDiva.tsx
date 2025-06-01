@@ -14,7 +14,7 @@ import {
 	DismissRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
 import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';

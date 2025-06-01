@@ -1,6 +1,6 @@
 import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
 import { miniPlayerSize } from '@/features/media-player/components/MiniPlayer';

@@ -4,7 +4,7 @@ import {
 	useNostalgicDiva,
 } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, useCallback, useMemo } from 'react';
+import React, { ReactElement, useCallback, useMemo } from 'react';
 
 import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
 import { PlayerStore } from '@/features/media-player/stores/PlayerStore';

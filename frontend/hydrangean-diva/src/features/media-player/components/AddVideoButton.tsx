@@ -12,7 +12,7 @@ import {
 	EuiModalHeaderTitle,
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
-import { memo, ReactElement, useCallback, useState } from 'react';
+import React, { memo, ReactElement, useCallback, useState } from 'react';
 
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 

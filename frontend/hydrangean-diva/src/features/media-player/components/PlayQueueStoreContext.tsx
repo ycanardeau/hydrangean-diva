@@ -1,6 +1,6 @@
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { reaction } from 'mobx';
-import {
+import React, {
 	createContext,
 	ReactElement,
 	ReactNode,
