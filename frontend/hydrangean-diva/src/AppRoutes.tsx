@@ -1,17 +1,11 @@
 import { useLocalStorageStateStore } from '@aigamo/route-sphere';
-import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { ReactElement } from 'react';
 
-import {
-	BottomBar,
-	bottomBarHeight,
-} from '@/features/media-player/components/BottomBar';
+import { BottomBar } from '@/features/media-player/components/BottomBar';
 import { Header } from '@/features/media-player/components/Header';
-import {
-	MiniPlayer,
-	miniPlayerSize,
-} from '@/features/media-player/components/MiniPlayer';
+import { MediaPlayerLayout } from '@/features/media-player/components/MediaPlayerLayout';
+import { MiniPlayer } from '@/features/media-player/components/MiniPlayer';
 import { usePlayerStore } from '@/features/media-player/components/PlayerStoreContext';
 import { usePlayQueueStore } from '@/features/media-player/components/PlayQueueStoreContext';
 import { PlayQueuePage } from '@/features/media-player/pages/PlayQueuePage';
@@ -26,18 +20,9 @@ export const AppRoutes = observer((): ReactElement => {
 		<>
 			<Header />
 
-			<EuiPageTemplate
-				panelled
-				style={{
-					minBlockSize: `max(460px, 100vh - ${bottomBarHeight}px)`,
-				}}
-			>
+			<MediaPlayerLayout>
 				<PlayQueuePage />
-
-				{!playQueueStore.isEmpty && (
-					<EuiSpacer style={{ blockSize: miniPlayerSize.height }} />
-				)}
-			</EuiPageTemplate>
+			</MediaPlayerLayout>
 
 			{!playQueueStore.isEmpty && (
 				<MiniPlayer
