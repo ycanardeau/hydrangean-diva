@@ -16,7 +16,8 @@ export default defineConfig({
 			insertTypesEntry: true,
 		}),
 		react({
-			jsxRuntime: 'classic',
+			// https://stackoverflow.com/a/71950081
+			jsxRuntime: 'automatic',
 			// https://dev.to/ajitsinghkamal/using-emotionjs-with-vite-2ndj#comment-1nif3
 			jsxImportSource: '@emotion/react',
 		}),
