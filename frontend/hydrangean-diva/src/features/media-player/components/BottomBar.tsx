@@ -49,59 +49,63 @@ export const bottomBarHeight = 80;
 
 interface SeekBarProps {
 	playerStore: PlayerStore;
+	playQueueStore: PlayQueueStore;
 }
 
-const SeekBar = observer(({ playerStore }: SeekBarProps): ReactElement => {
-	const diva = useNostalgicDiva();
+const SeekBar = observer(
+	({ playerStore, playQueueStore }: SeekBarProps): ReactElement => {
+		const diva = useNostalgicDiva();
 
-	const handleChange = useCallback(
-		(e: _SingleRangeChangeEvent) => {
-			const percent = Number(e.currentTarget.value) / 100;
-			playerStore.setPercent(percent);
-		},
-		[playerStore],
-	);
-
-	const handleMouseDown = useCallback(
-		(e: React.MouseEvent<HTMLInputElement>) => {
-			if (e.button === 0) {
-				playerStore.setSeeking(true);
-			}
-		},
-		[playerStore],
-	);
-
-	const handleMouseUp = useCallback(
-		async (e: React.MouseEvent<HTMLInputElement>) => {
-			if (e.button === 0) {
+		const handleChange = useCallback(
+			(e: _SingleRangeChangeEvent) => {
 				const percent = Number(e.currentTarget.value) / 100;
+				playerStore.setPercent(percent);
+			},
+			[playerStore],
+		);
 
-				playerStore.setSeeking(false);
-
-				const duration = await diva.getDuration();
-				if (duration !== undefined) {
-					await diva.setCurrentTime(duration * percent);
+		const handleMouseDown = useCallback(
+			(e: React.MouseEvent<HTMLInputElement>) => {
+				if (e.button === 0) {
+					playerStore.setSeeking(true);
 				}
-			}
-		},
-		[playerStore, diva],
-	);
+			},
+			[playerStore],
+		);
 
-	return (
-		<EuiRange
-			min={0}
-			max={100}
-			step={0.0000001}
-			value={playerStore.percent * 100}
-			onChange={handleChange}
-			onMouseDown={handleMouseDown}
-			onMouseUp={handleMouseUp}
-			fullWidth
-			showRange
-			css={{ blockSize: 32 }}
-		/>
-	);
-});
+		const handleMouseUp = useCallback(
+			async (e: React.MouseEvent<HTMLInputElement>) => {
+				if (e.button === 0) {
+					const percent = Number(e.currentTarget.value) / 100;
+
+					playerStore.setSeeking(false);
+
+					const duration = await diva.getDuration();
+					if (duration !== undefined) {
+						await diva.setCurrentTime(duration * percent);
+					}
+				}
+			},
+			[playerStore, diva],
+		);
+
+		return (
+			<EuiRange
+				min={0}
+				max={100}
+				step={0.0000001}
+				value={playerStore.percent * 100}
+				onChange={handleChange}
+				onMouseDown={handleMouseDown}
+				onMouseUp={handleMouseUp}
+				fullWidth
+				showRange
+				css={{ blockSize: 32 }}
+				disabled={playQueueStore.isEmpty}
+			/>
+		);
+	},
+);
 
 interface VolumePopoverProps {
 	button?: NonNullable<ReactNode>;
@@ -531,7 +535,10 @@ export const BottomBar = observer(
 			<EuiBottomBar paddingSize="s">
 				<EuiFlexGroup direction="column" gutterSize="none">
 					<EuiFlexItem>
-						<SeekBar playerStore={playerStore} />
+						<SeekBar
+							playerStore={playerStore}
+							playQueueStore={playQueueStore}
+						/>
 					</EuiFlexItem>
 					<EuiFlexItem>
 						<EuiFlexGroup responsive={false}>
