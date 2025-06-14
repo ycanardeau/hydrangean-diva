@@ -1,6 +1,7 @@
 import {
 	EuiButton,
 	EuiCodeBlock,
+	EuiEmptyPrompt,
 	EuiFlexGroup,
 	EuiFlexItem,
 	EuiFlyout,
@@ -131,20 +132,31 @@ const PlayQueue = observer(
 					</EuiFlexItem>
 				</EuiFlexGroup>
 
-				{!playQueueStore.isEmpty && (
-					<>
-						<EuiSpacer
-							size="l"
-							style={{
-								position: 'sticky',
-								top: 48 + 40,
-								zIndex: 998,
-								background: euiTheme.colors.backgroundBasePlain,
-							}}
-						/>
+				<EuiSpacer
+					size="l"
+					style={{
+						position: 'sticky',
+						top: 48 + 40,
+						zIndex: 998,
+						background: euiTheme.colors.backgroundBasePlain,
+					}}
+				/>
 
-						<PlayQueueTable playQueueStore={playQueueStore} />
-					</>
+				{playQueueStore.isEmpty ? (
+					<EuiEmptyPrompt
+						title={<h2>We couldn't find any videos</h2>}
+						body={
+							<p>
+								Your video library doesn't contain any video
+								content.
+							</p>
+						}
+						actions={
+							<AddVideoButton playQueueStore={playQueueStore} />
+						}
+					/>
+				) : (
+					<PlayQueueTable playQueueStore={playQueueStore} />
 				)}
 			</>
 		);
