@@ -34,9 +34,9 @@ const App = (): ReactElement => {
 		<Compose
 			components={[
 				AppProvider,
+				NostalgicDivaProvider,
 				PlayerStoreProvider,
 				PlayQueueStoreProvider,
-				NostalgicDivaProvider,
 			]}
 		>
 			<AppRoutes />
