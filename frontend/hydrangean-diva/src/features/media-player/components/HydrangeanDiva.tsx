@@ -13,13 +13,15 @@ import {
 	AddRegular,
 	DeleteRegular,
 	DismissRegular,
+	WindowDevToolsRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useState } from 'react';
 
 import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
 import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
-import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
+import { IPlayerStore } from '@/features/media-player/stores/IPlayerStore';
+import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 
 interface DeveloperToolsButtonProps {
@@ -55,15 +57,22 @@ const DeveloperToolsButton = observer(
 					</EuiFlyout>
 				)}
 
-				<AddVideoButton playQueueStore={playQueueStore} />
+				<EuiButton
+					onClick={(): void =>
+						setIsFlyoutVisible((visible) => !visible)
+					}
+					iconType={WindowDevToolsRegular}
+				>
+					Developer tools
+				</EuiButton>
 			</>
 		);
 	},
 );
 
 interface PlayQueueProps {
-	playerStore: PlayerStore;
-	playQueueStore: PlayQueueStore;
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 const PlayQueue = observer(
@@ -128,7 +137,15 @@ const PlayQueue = observer(
 					</EuiFlexItem>
 					<EuiFlexItem grow={true} />
 					<EuiFlexItem grow={false}>
-						<DeveloperToolsButton playQueueStore={playQueueStore} />
+						{false && (
+							<DeveloperToolsButton
+								playQueueStore={
+									playQueueStore as PlayQueueStore
+								}
+							/>
+						)}
+
+						<AddVideoButton playQueueStore={playQueueStore} />
 					</EuiFlexItem>
 				</EuiFlexGroup>
 
@@ -164,8 +181,8 @@ const PlayQueue = observer(
 );
 
 interface HydrangeanDivaProps {
-	playerStore: PlayerStore;
-	playQueueStore: PlayQueueStore;
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 export const HydrangeanDiva = observer(

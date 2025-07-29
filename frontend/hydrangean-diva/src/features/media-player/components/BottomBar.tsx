@@ -41,15 +41,15 @@ import React, {
 	useState,
 } from 'react';
 
-import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { IPlayerStore } from '@/features/media-player/stores/IPlayerStore';
+import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
 import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 
 export const bottomBarHeight = 80;
 
 interface SeekBarProps {
-	playerStore: PlayerStore;
-	playQueueStore: PlayQueueStore;
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 const SeekBar = observer(
@@ -175,7 +175,7 @@ const VolumePopover = memo(
 );
 
 interface MoreOptionsContextMenuProps {
-	playQueueStore: PlayQueueStore;
+	playQueueStore: IPlayQueueStore;
 	closePopover: () => void;
 }
 
@@ -291,7 +291,7 @@ const MoreOptionsContextMenu = memo(
 );
 
 interface MoreOptionsPopoverProps {
-	playQueueStore: PlayQueueStore;
+	playQueueStore: IPlayQueueStore;
 	button?: NonNullable<ReactNode>;
 	isOpen: boolean;
 	closePopover: () => void;
@@ -328,8 +328,8 @@ const repeatIconTypes: Record<RepeatMode, IconType> = {
 };
 
 interface BottomBarCenterControlsProps {
-	playerStore: PlayerStore;
-	playQueueStore: PlayQueueStore;
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 const BottomBarCenterControls = observer(
@@ -473,7 +473,7 @@ const VolumeButton = memo((): ReactElement => {
 });
 
 interface MoreOptionsButtonProps {
-	playQueueStore: PlayQueueStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 const MoreOptionsButton = memo(
@@ -505,7 +505,7 @@ const MoreOptionsButton = memo(
 );
 
 interface BottomBarRightControlsProps {
-	playQueueStore: PlayQueueStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 const BottomBarRightControls = memo(
@@ -525,8 +525,8 @@ const BottomBarRightControls = memo(
 );
 
 interface BottomBarProps {
-	playerStore: PlayerStore;
-	playQueueStore: PlayQueueStore;
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 export const BottomBar = observer(

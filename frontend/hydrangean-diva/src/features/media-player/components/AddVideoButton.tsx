@@ -14,7 +14,7 @@ import {
 import { AddRegular } from '@fluentui/react-icons';
 import React, { memo, ReactElement, useCallback, useState } from 'react';
 
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
 
 interface AddVideoModalProps {
 	onCancel: () => void;
@@ -96,7 +96,7 @@ function isNoembedResult(value: any): value is NoembedResult {
 }
 
 interface AddVideoButtonProps {
-	playQueueStore: PlayQueueStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 export const AddVideoButton = memo(

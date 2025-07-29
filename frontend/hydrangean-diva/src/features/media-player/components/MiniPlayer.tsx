@@ -7,8 +7,8 @@ import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useMemo } from 'react';
 
 import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
-import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { IPlayerStore } from '@/features/media-player/stores/IPlayerStore';
+import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
 import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 
 export const miniPlayerSize = {
@@ -17,8 +17,8 @@ export const miniPlayerSize = {
 } as const;
 
 interface MiniPlayerProps {
-	playerStore: PlayerStore;
-	playQueueStore: PlayQueueStore;
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 export const MiniPlayer = observer(

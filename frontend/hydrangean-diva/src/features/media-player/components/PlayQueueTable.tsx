@@ -39,10 +39,10 @@ import React, {
 import { ReactSortable } from 'react-sortablejs';
 
 import { IPlayQueueItemStore } from '@/features/media-player/stores/IPlayQueueItemStore';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
 
 interface PlayQueueTableHeaderProps {
-	playQueueStore: PlayQueueStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 const PlayQueueTableHeader = observer(
@@ -288,7 +288,7 @@ const PlayQueueTableRow = observer(
 );
 
 interface PlayQueueTableBodyProps {
-	playQueueStore: PlayQueueStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 const PlayQueueTableBody = observer(
@@ -308,7 +308,7 @@ const PlayQueueTableBody = observer(
 );
 
 interface PlayQueueTableProps {
-	playQueueStore: PlayQueueStore;
+	playQueueStore: IPlayQueueStore;
 }
 
 export const PlayQueueTable = observer(

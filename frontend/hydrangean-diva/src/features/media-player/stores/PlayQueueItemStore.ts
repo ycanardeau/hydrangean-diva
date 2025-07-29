@@ -7,7 +7,6 @@ import {
 	PlayQueueItemDto,
 } from '@/features/media-player/stores/IPlayQueueItemStore';
 import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 
 export class PlayQueueItemStore implements IPlayQueueItemStore {
 	static nextId = 1;
@@ -48,7 +47,7 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 
 	static fromDto(
 		observableStateProvider: IObservableStateProvider,
-		playQueueStore: PlayQueueStore,
+		playQueueStore: IPlayQueueStore,
 		dto: PlayQueueItemDto,
 	): IPlayQueueItemStore {
 		return new PlayQueueItemStore(
