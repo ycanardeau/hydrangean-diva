@@ -10,11 +10,13 @@ module.exports = {
 		'@typescript-eslint/eslint-plugin',
 		'simple-import-sort',
 		'import',
+		'boundaries',
 	],
 	extends: [
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
 		'react-app',
+		'plugin:boundaries/recommended',
 	],
 	root: true,
 	env: {
@@ -22,6 +24,14 @@ module.exports = {
 		jest: true,
 	},
 	ignorePatterns: ['.eslintrc.cjs'],
+	settings: {
+		'import/resolver': {
+			typescript: {
+				alwaysTryTypes: true,
+			},
+		},
+		'boundaries/elements': [],
+	},
 	rules: {
 		'@typescript-eslint/interface-name-prefix': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'error',
@@ -34,5 +44,12 @@ module.exports = {
 		'import/first': 'error',
 		'import/newline-after-import': 'error',
 		'import/no-duplicates': 'error',
+		'boundaries/element-types': [
+			2,
+			{
+				default: 'disallow',
+				rules: [],
+			},
+		],
 	},
 };
