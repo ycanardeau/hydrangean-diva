@@ -1,6 +1,5 @@
 import { JSONSchemaType } from 'ajv';
 
-import { getOrAddSchema } from '@/features/media-player/stores/getOrAddSchema';
 import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
 
@@ -12,7 +11,7 @@ export interface PlayQueueLocalStorageState {
 	currentIndex?: number;
 }
 
-const PlayQueueLocalStorageStateSchema: JSONSchemaType<PlayQueueLocalStorageState> =
+export const PlayQueueLocalStorageStateSchema: JSONSchemaType<PlayQueueLocalStorageState> =
 	{
 		type: 'object',
 		properties: {
@@ -57,8 +56,3 @@ const PlayQueueLocalStorageStateSchema: JSONSchemaType<PlayQueueLocalStorageStat
 			},
 		},
 	};
-
-export const validatePlayQueueLocalStorageState = getOrAddSchema(
-	PlayQueueLocalStorageStateSchema,
-	'PlayQueueStore',
-);

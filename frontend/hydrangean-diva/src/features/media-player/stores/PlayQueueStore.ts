@@ -8,10 +8,11 @@ import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueSt
 import { PlayQueueItemStore } from '@/features/media-player/stores/PlayQueueItemStore';
 import {
 	PlayQueueLocalStorageState,
-	validatePlayQueueLocalStorageState,
+	PlayQueueLocalStorageStateSchema,
 } from '@/features/media-player/stores/PlayQueueLocalStorageState';
 import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
+import { getOrAddSchema } from '@/features/media-player/stores/getOrAddSchema';
 
 export class PlayQueueStore
 	implements
@@ -96,7 +97,10 @@ export class PlayQueueStore
 	validateLocalStorageState(
 		localStorageState: any,
 	): localStorageState is PlayQueueLocalStorageState {
-		return validatePlayQueueLocalStorageState(localStorageState);
+		return getOrAddSchema(
+			PlayQueueLocalStorageStateSchema,
+			'PlayQueueLocalStorageState',
+		)(localStorageState);
 	}
 
 	get isEmpty(): boolean {
