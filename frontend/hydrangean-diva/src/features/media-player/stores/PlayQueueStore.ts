@@ -7,17 +7,15 @@ import { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQue
 import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
 import { PlayQueueItemStore } from '@/features/media-player/stores/PlayQueueItemStore';
 import {
-	PlayQueueLocalStorageState,
-	PlayQueueLocalStorageStateSchema,
-} from '@/features/media-player/stores/PlayQueueLocalStorageState';
+	PlayQueueDto,
+	PlayQueueDtoSchema,
+} from '@/features/media-player/stores/PlayQueueDto';
 import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
 import { getOrAddSchema } from '@/features/media-player/stores/getOrAddSchema';
 
 export class PlayQueueStore
-	implements
-		IPlayQueueStore,
-		LocalStorageStateStore<PlayQueueLocalStorageState>
+	implements IPlayQueueStore, LocalStorageStateStore<PlayQueueDto>
 {
 	interacted = false;
 	items: IPlayQueueItemStore[] = [];
@@ -78,7 +76,7 @@ export class PlayQueueStore
 		);
 	}
 
-	get localStorageState(): PlayQueueLocalStorageState {
+	get localStorageState(): PlayQueueDto {
 		return {
 			version: '1.0',
 			repeat: this.repeat,
@@ -87,7 +85,7 @@ export class PlayQueueStore
 			currentIndex: this.currentIndex,
 		};
 	}
-	set localStorageState(value: PlayQueueLocalStorageState) {
+	set localStorageState(value: PlayQueueDto) {
 		this.repeat = value.repeat ?? RepeatMode.Off;
 		this.shuffle = value.shuffle ?? false;
 		this.items = value.items?.map((item) => this.createItem(item)) ?? [];
@@ -96,10 +94,10 @@ export class PlayQueueStore
 
 	validateLocalStorageState(
 		localStorageState: any,
-	): localStorageState is PlayQueueLocalStorageState {
+	): localStorageState is PlayQueueDto {
 		return getOrAddSchema(
-			PlayQueueLocalStorageStateSchema,
-			'PlayQueueLocalStorageState',
+			PlayQueueDtoSchema,
+			'PlayQueueDto',
 		)(localStorageState);
 	}
 
