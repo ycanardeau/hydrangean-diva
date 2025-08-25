@@ -1,7 +1,10 @@
 import { JSONSchemaType } from 'ajv';
 
 import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
-import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
+import {
+	PlayQueueItemDto,
+	PlayQueueItemDtoSchema,
+} from '@/features/media-player/interfaces/PlayQueueItemDto';
 
 export interface PlayQueueDto {
 	version?: '1.0';
@@ -30,24 +33,7 @@ export const PlayQueueDtoSchema: JSONSchemaType<PlayQueueDto> = {
 		items: {
 			type: 'array',
 			nullable: true,
-			items: {
-				type: 'object',
-				properties: {
-					url: {
-						type: 'string',
-					},
-					type: {
-						type: 'string',
-					},
-					videoId: {
-						type: 'string',
-					},
-					title: {
-						type: 'string',
-					},
-				},
-				required: ['url', 'type', 'videoId', 'title'],
-			},
+			items: PlayQueueItemDtoSchema,
 		},
 		currentIndex: {
 			type: 'integer',
