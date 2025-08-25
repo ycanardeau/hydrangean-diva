@@ -2,11 +2,9 @@ import { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, observable } from 'mobx';
 
 import { IObservableStateProvider } from '@/features/media-player/interfaces/IObservableStateProvider';
-import {
-	IPlayQueueItemStore,
-	PlayQueueItemDto,
-} from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
 import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
+import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
 
 export class PlayQueueItemStore implements IPlayQueueItemStore {
 	static nextId = 1;

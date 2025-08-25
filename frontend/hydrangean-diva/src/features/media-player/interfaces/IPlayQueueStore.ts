@@ -1,7 +1,5 @@
-import {
-	IPlayQueueItemStore,
-	PlayQueueItemDto,
-} from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
 import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 
 export interface IPlayQueueStore {
