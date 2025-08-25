@@ -7,11 +7,11 @@ import {
 } from '@/features/media-player/interfaces/PlayQueueItemDto';
 
 export interface PlayQueueDto {
-	version?: '1.0';
-	repeat?: RepeatMode;
-	shuffle?: boolean;
-	items?: PlayQueueItemDto[];
-	currentIndex?: number;
+	readonly version?: '1.0';
+	readonly repeat?: RepeatMode;
+	readonly shuffle?: boolean;
+	readonly items?: PlayQueueItemDto[];
+	readonly currentIndex?: number;
 }
 
 export const PlayQueueDtoSchema: JSONSchemaType<PlayQueueDto> = {
