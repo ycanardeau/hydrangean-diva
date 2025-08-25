@@ -9,7 +9,7 @@ import { PlayQueueItemStore } from '@/features/media-player/stores/PlayQueueItem
 import {
 	PlayQueueDto,
 	PlayQueueDtoSchema,
-} from '@/features/media-player/stores/PlayQueueDto';
+} from '@/features/media-player/interfaces/PlayQueueDto';
 import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
 import { getOrAddSchema } from '@/features/media-player/stores/getOrAddSchema';
