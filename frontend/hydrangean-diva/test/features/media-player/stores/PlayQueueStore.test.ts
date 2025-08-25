@@ -1,7 +1,7 @@
-import { IPlayQueueItemStore } from '@/features/media-player/stores/IPlayQueueItemStore';
+import { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 import { ObservableStateProvider } from '@/features/media-player/stores/ObservableStateProvider';
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
-import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
