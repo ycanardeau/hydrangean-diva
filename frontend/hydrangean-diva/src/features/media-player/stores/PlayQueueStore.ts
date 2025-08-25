@@ -2,18 +2,18 @@ import { LocalStorageStateStore } from '@aigamo/route-sphere';
 import { pull } from 'lodash-es';
 import { action, computed, observable } from 'mobx';
 
-import { IObservableStateProvider } from '@/features/media-player/stores/IObservableStateProvider';
+import { IObservableStateProvider } from '@/features/media-player/interfaces/IObservableStateProvider';
 import {
 	IPlayQueueItemStore,
 	PlayQueueItemDto,
-} from '@/features/media-player/stores/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
+} from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
 import { PlayQueueItemStore } from '@/features/media-player/stores/PlayQueueItemStore';
 import {
 	PlayQueueLocalStorageState,
 	validatePlayQueueLocalStorageState,
 } from '@/features/media-player/stores/PlayQueueLocalStorageState';
-import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
+import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 
 export class PlayQueueStore
 	implements

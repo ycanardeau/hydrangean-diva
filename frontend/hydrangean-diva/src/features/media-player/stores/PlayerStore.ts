@@ -1,8 +1,8 @@
 import { TimeEvent } from '@aigamo/nostalgic-diva';
 import { action, observable } from 'mobx';
 
-import { IObservableStateProvider } from '@/features/media-player/stores/IObservableStateProvider';
-import { IPlayerStore } from '@/features/media-player/stores/IPlayerStore';
+import { IObservableStateProvider } from '@/features/media-player/interfaces/IObservableStateProvider';
+import { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
 
 export class PlayerStore implements IPlayerStore {
 	playing = false;

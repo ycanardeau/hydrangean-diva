@@ -6,7 +6,7 @@ import React, {
 	useState,
 } from 'react';
 
-import { IPlayerStore } from '@/features/media-player/stores/IPlayerStore';
+import { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
 import { MobXObservableStateProvider } from '@/features/media-player/stores/MobXObservableStateProvider';
 import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
 

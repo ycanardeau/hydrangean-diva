@@ -7,9 +7,9 @@ import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useMemo } from 'react';
 
 import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
-import { IPlayerStore } from '@/features/media-player/stores/IPlayerStore';
-import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
-import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
+import { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
+import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
+import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 
 export const miniPlayerSize = {
 	width: 16 * 25,

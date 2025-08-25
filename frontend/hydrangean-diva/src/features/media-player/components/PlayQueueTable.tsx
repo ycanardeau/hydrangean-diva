@@ -38,8 +38,8 @@ import React, {
 } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
-import { IPlayQueueItemStore } from '@/features/media-player/stores/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
+import { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
 
 interface PlayQueueTableHeaderProps {
 	playQueueStore: IPlayQueueStore;

@@ -1,8 +1,8 @@
 import {
 	IPlayQueueItemStore,
 	PlayQueueItemDto,
-} from '@/features/media-player/stores/IPlayQueueItemStore';
-import { RepeatMode } from '@/features/media-player/stores/RepeatMode';
+} from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 
 export interface IPlayQueueStore {
 	readonly interacted: boolean;

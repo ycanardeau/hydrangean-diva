@@ -20,8 +20,8 @@ import React, { ReactElement, useState } from 'react';
 
 import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
 import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
-import { IPlayerStore } from '@/features/media-player/stores/IPlayerStore';
-import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
+import { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
+import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 
 interface DeveloperToolsButtonProps {

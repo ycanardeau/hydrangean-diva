@@ -14,7 +14,7 @@ import {
 import { AddRegular } from '@fluentui/react-icons';
 import React, { memo, ReactElement, useCallback, useState } from 'react';
 
-import { IPlayQueueStore } from '@/features/media-player/stores/IPlayQueueStore';
+import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
 
 interface AddVideoModalProps {
 	onCancel: () => void;
