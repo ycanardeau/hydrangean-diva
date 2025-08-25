@@ -2,17 +2,17 @@ import { LocalStorageStateStore } from '@aigamo/route-sphere';
 import { pull } from 'lodash-es';
 import { action, computed, observable } from 'mobx';
 
-import { IObservableStateProvider } from '@/features/media-player/interfaces/IObservableStateProvider';
-import { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
-import { PlayQueueItemStore } from '@/features/media-player/stores/PlayQueueItemStore';
+import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import { getOrAddSchema } from '@/features/common/stores/getOrAddSchema';
+import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 import {
 	PlayQueueDto,
 	PlayQueueDtoSchema,
-} from '@/features/media-player/interfaces/PlayQueueDto';
-import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
-import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
-import { getOrAddSchema } from '@/features/media-player/stores/getOrAddSchema';
+} from '@/features/media-player.play-queue/interfaces/PlayQueueDto';
+import { PlayQueueItemDto } from '@/features/media-player.play-queue/interfaces/PlayQueueItemDto';
+import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
+import { PlayQueueItemStore } from '@/features/media-player.play-queue/stores/PlayQueueItemStore';
 
 export class PlayQueueStore
 	implements IPlayQueueStore, LocalStorageStateStore<PlayQueueDto>

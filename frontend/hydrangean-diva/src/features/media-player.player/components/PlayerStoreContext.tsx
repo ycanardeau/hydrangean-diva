@@ -6,9 +6,9 @@ import React, {
 	useState,
 } from 'react';
 
-import { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
-import { MobXObservableStateProvider } from '@/features/media-player/stores/MobXObservableStateProvider';
-import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
+import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
+import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const PlayerStoreContext = createContext<IPlayerStore>(undefined!);

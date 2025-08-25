@@ -1,5 +1,5 @@
-import { ObservableStateProvider } from '@/features/media-player/stores/ObservableStateProvider';
-import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
+import { ObservableStateProvider } from '@/features/common/stores/ObservableStateProvider';
+import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let playerStore: PlayerStore;

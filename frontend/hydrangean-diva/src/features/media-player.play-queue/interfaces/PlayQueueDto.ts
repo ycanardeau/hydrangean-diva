@@ -1,10 +1,10 @@
 import { JSONSchemaType } from 'ajv';
 
-import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 import {
 	PlayQueueItemDto,
 	PlayQueueItemDtoSchema,
-} from '@/features/media-player/interfaces/PlayQueueItemDto';
+} from '@/features/media-player.play-queue/interfaces/PlayQueueItemDto';
+import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
 
 export interface PlayQueueDto {
 	readonly version?: '1.0';

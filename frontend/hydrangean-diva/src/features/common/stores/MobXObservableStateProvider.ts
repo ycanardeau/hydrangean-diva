@@ -1,6 +1,6 @@
 import { AnnotationsMap, makeObservable } from 'mobx';
 
-import { IObservableStateProvider } from '@/features/media-player/interfaces/IObservableStateProvider';
+import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 
 export class MobXObservableStateProvider implements IObservableStateProvider {
 	makeObservable<

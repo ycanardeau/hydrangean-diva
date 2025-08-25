@@ -41,9 +41,9 @@ import React, {
 	useState,
 } from 'react';
 
-import { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
-import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
-import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
+import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
 export const bottomBarHeight = 80;
 

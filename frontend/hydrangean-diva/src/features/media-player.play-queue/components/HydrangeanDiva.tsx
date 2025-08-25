@@ -18,11 +18,10 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useState } from 'react';
 
-import { AddVideoButton } from '@/features/media-player/components/AddVideoButton';
-import { PlayQueueTable } from '@/features/media-player/components/PlayQueueTable';
-import { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
-import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
+import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 
 interface DeveloperToolsButtonProps {
 	playQueueStore: PlayQueueStore;
@@ -71,12 +70,11 @@ const DeveloperToolsButton = observer(
 );
 
 interface PlayQueueProps {
-	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
 }
 
 const PlayQueue = observer(
-	({ playerStore, playQueueStore }: PlayQueueProps): ReactElement => {
+	({ playQueueStore }: PlayQueueProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
 
 		return (
@@ -181,12 +179,11 @@ const PlayQueue = observer(
 );
 
 interface HydrangeanDivaProps {
-	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
 }
 
 export const HydrangeanDiva = observer(
-	({ playerStore, playQueueStore }: HydrangeanDivaProps): ReactElement => {
+	({ playQueueStore }: HydrangeanDivaProps): ReactElement => {
 		return (
 			<>
 				<EuiPageTemplate.Header
@@ -195,10 +192,7 @@ export const HydrangeanDiva = observer(
 				/>
 
 				<EuiPageTemplate.Section>
-					<PlayQueue
-						playerStore={playerStore}
-						playQueueStore={playQueueStore}
-					/>
+					<PlayQueue playQueueStore={playQueueStore} />
 				</EuiPageTemplate.Section>
 			</>
 		);

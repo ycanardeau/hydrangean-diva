@@ -6,10 +6,10 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useMemo } from 'react';
 
-import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
-import { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
-import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
-import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
+import { bottomBarHeight } from '@/features/media-player.player/components/BottomBar';
+import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
 export const miniPlayerSize = {
 	width: 16 * 25,

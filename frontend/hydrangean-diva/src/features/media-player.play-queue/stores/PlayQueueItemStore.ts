@@ -1,10 +1,10 @@
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, observable } from 'mobx';
 
-import { IObservableStateProvider } from '@/features/media-player/interfaces/IObservableStateProvider';
-import { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
-import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
+import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { PlayQueueItemDto } from '@/features/media-player.play-queue/interfaces/PlayQueueItemDto';
 
 export class PlayQueueItemStore implements IPlayQueueItemStore {
 	static nextId = 1;

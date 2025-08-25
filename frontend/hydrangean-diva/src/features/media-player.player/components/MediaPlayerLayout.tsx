@@ -2,9 +2,9 @@ import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, ReactNode } from 'react';
 
-import { bottomBarHeight } from '@/features/media-player/components/BottomBar';
-import { miniPlayerSize } from '@/features/media-player/components/MiniPlayer';
-import { usePlayQueueStore } from '@/features/media-player/components/PlayQueueStoreContext';
+import { usePlayQueueStore } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
+import { bottomBarHeight } from '@/features/media-player.player/components/BottomBar';
+import { miniPlayerSize } from '@/features/media-player.player/components/MiniPlayer';
 
 interface MediaPlayerLayoutProps {
 	children?: ReactNode;

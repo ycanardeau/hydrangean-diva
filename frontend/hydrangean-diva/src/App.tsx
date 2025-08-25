@@ -7,8 +7,8 @@ import { ReactElement, ReactNode } from 'react';
 
 import { AppRoutes } from '@/AppRoutes';
 import { Compose } from '@/common/components/Compose';
-import { PlayerStoreProvider } from '@/features/media-player/components/PlayerStoreContext';
-import { PlayQueueStoreProvider } from '@/features/media-player/components/PlayQueueStoreContext';
+import { PlayQueueStoreProvider } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
+import { PlayerStoreProvider } from '@/features/media-player.player/components/PlayerStoreContext';
 
 // https://elastic.github.io/eui/#/utilities/provider
 const euiCache = createCache({

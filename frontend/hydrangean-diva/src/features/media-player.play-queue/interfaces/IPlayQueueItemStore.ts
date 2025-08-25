@@ -1,5 +1,6 @@
-import { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
 import { PlayerType } from '@aigamo/nostalgic-diva';
+
+import { PlayQueueItemDto } from '@/features/media-player.play-queue/interfaces/PlayQueueItemDto';
 
 export interface IPlayQueueItemStore {
 	readonly id: number;

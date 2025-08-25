@@ -9,8 +9,8 @@ import React, {
 	useState,
 } from 'react';
 
-import { MobXObservableStateProvider } from '@/features/media-player/stores/MobXObservableStateProvider';
-import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
+import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const PlayQueueStoreContext = createContext<PlayQueueStore>(undefined!);
