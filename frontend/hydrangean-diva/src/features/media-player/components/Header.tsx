@@ -5,6 +5,7 @@ import {
 	EuiFlexItem,
 	EuiHeader,
 	EuiHeaderLinks,
+	EuiHeaderLogo,
 	EuiHeaderSectionItemButton,
 	EuiIcon,
 	EuiListGroup,
@@ -64,6 +65,13 @@ export const Header = (): ReactElement => {
 	);
 
 	const leftSectionItems: ReactNode[] = [
+		<EuiHeaderLogo
+			iconType="/favicon.ico"
+			href="/"
+			onClick={(e): void => {
+				e.preventDefault();
+			}}
+		/>,
 		collapsibleNav,
 		commitHash && (
 			<EuiBadge
