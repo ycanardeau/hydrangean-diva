@@ -83,7 +83,7 @@ module.exports = {
 					},
 					{
 						from: '@aigamo.hydrangean-diva/media-player',
-						allow: [],
+						allow: ['@aigamo.hydrangean-diva/media-player.player'],
 					},
 				],
 			},

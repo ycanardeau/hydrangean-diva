@@ -14,6 +14,8 @@ import {
 } from '@elastic/eui';
 import { ReactElement, ReactNode, useMemo, useState } from 'react';
 
+import { bottomBarHeight } from '@/features/media-player.player/components/BottomBar';
+
 const commitHash =
 	typeof import.meta.env.VITE_COMMIT_HASH === 'string'
 		? import.meta.env.VITE_COMMIT_HASH
@@ -30,6 +32,10 @@ export const Header = (): ReactElement => {
 		<EuiCollapsibleNav
 			id={collapsibleNavId}
 			isOpen={navIsOpen}
+			isDocked={true}
+			css={{
+				insetBlockEnd: bottomBarHeight,
+			}}
 			button={
 				<EuiHeaderSectionItemButton
 					onClick={(): void => setNavIsOpen(!navIsOpen)}
