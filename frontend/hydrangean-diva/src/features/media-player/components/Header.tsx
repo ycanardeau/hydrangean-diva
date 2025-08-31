@@ -66,7 +66,11 @@ export const Header = (): ReactElement => {
 
 	const leftSectionItems: ReactNode[] = [
 		<EuiHeaderLogo
-			iconType="/favicon.ico"
+			iconType={
+				process.env.NODE_ENV === 'production'
+					? '/hydrangean-diva/favicon.ico'
+					: '/favicon.ico'
+			}
 			href="/"
 			onClick={(e): void => {
 				e.preventDefault();
