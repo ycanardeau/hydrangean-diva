@@ -45,7 +45,7 @@ import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/I
 import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
-export const bottomBarHeight = 80;
+export const bottomBarHeight = 80 + 1;
 
 interface SeekBarProps {
 	playerStore: IPlayerStore;
