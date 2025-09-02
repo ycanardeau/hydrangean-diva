@@ -21,6 +21,7 @@ import {
 	ArrowShuffleOffFilled,
 	DismissRegular,
 	MoreHorizontalFilled,
+	NavigationPlayRegular,
 	NextFilled,
 	PauseFilled,
 	PlayFilled,
@@ -33,6 +34,7 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, {
 	memo,
+	MouseEventHandler,
 	ReactElement,
 	ReactNode,
 	useCallback,
@@ -472,6 +474,25 @@ const VolumeButton = memo((): ReactElement => {
 	);
 });
 
+interface PlayQueueButtonProps {
+	onClickPlayQueueButton: MouseEventHandler<HTMLButtonElement>;
+}
+
+const PlayQueueButton = ({
+	onClickPlayQueueButton,
+}: PlayQueueButtonProps): ReactElement => {
+	return (
+		<EuiButtonIcon
+			title="Play queue" /* LOC */
+			aria-label="Play queue" /* LOC */
+			iconType={NavigationPlayRegular}
+			size="s"
+			iconSize="l"
+			onClick={onClickPlayQueueButton}
+		/>
+	);
+};
+
 interface MoreOptionsButtonProps {
 	playQueueStore: IPlayQueueStore;
 }
@@ -506,10 +527,14 @@ const MoreOptionsButton = memo(
 
 interface BottomBarRightControlsProps {
 	playQueueStore: IPlayQueueStore;
+	onClickPlayQueueButton?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const BottomBarRightControls = memo(
-	({ playQueueStore }: BottomBarRightControlsProps): ReactElement => {
+	({
+		playQueueStore,
+		onClickPlayQueueButton,
+	}: BottomBarRightControlsProps): ReactElement => {
 		return (
 			<EuiFlexGroup
 				responsive={false}
@@ -518,6 +543,11 @@ const BottomBarRightControls = memo(
 				alignItems="center"
 			>
 				<VolumeButton />
+				{onClickPlayQueueButton && (
+					<PlayQueueButton
+						onClickPlayQueueButton={onClickPlayQueueButton}
+					/>
+				)}
 				<MoreOptionsButton playQueueStore={playQueueStore} />
 			</EuiFlexGroup>
 		);
@@ -527,10 +557,15 @@ const BottomBarRightControls = memo(
 interface BottomBarProps {
 	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
+	onClickPlayQueueButton?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const BottomBar = observer(
-	({ playerStore, playQueueStore }: BottomBarProps): ReactElement => {
+	({
+		playerStore,
+		playQueueStore,
+		onClickPlayQueueButton,
+	}: BottomBarProps): ReactElement => {
 		return (
 			<EuiBottomBar paddingSize="s">
 				<EuiFlexGroup direction="column" gutterSize="none">
@@ -552,6 +587,9 @@ export const BottomBar = observer(
 							<EuiFlexItem css={{ width: 'calc(100% / 3)' }}>
 								<BottomBarRightControls
 									playQueueStore={playQueueStore}
+									onClickPlayQueueButton={
+										onClickPlayQueueButton
+									}
 								/>
 							</EuiFlexItem>
 						</EuiFlexGroup>
