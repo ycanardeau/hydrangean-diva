@@ -40,7 +40,7 @@
 		"@types/react-dom": "^18.3.2",
 		"@typescript-eslint/eslint-plugin": "^5.62.0",
 		"@typescript-eslint/parser": "^5.62.0",
-		"@vite-pwa/assets-generator": "^0.2.6",
+		"@vite-pwa/assets-generator": "^1.0.1",
 		"@vitejs/plugin-react": "^4.3.4",
 		"eslint": "^8.57.1",
 		"eslint-config-prettier": "^9.1.0",
