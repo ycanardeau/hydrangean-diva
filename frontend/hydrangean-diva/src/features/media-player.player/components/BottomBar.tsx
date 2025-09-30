@@ -21,7 +21,14 @@ export const BottomBar = observer(
 		onClickPlayQueueButton,
 	}: BottomBarProps): ReactElement => {
 		return (
-			<EuiBottomBar paddingSize="s">
+			<EuiBottomBar
+				style={{
+					paddingLeft: 'calc(env(safe-area-inset-left) + 8px)',
+					paddingRight: 'calc(env(safe-area-inset-right) + 8px)',
+					paddingBottom: 'calc(env(safe-area-inset-bottom) + 8px)',
+				}}
+				paddingSize="s"
+			>
 				<EuiFlexGroup direction="column" gutterSize="none">
 					<EuiFlexItem>
 						<SeekBar

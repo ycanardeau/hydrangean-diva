@@ -164,6 +164,12 @@ export const Header = (): ReactElement => {
 
 	return (
 		<EuiHeader
+			style={{
+				paddingTop: 'env(safe-area-inset-top)',
+				paddingLeft: 'calc(env(safe-area-inset-left) + 8px)',
+				paddingRight: 'calc(env(safe-area-inset-right) + 8px)',
+				height: 'var(--euiFixedHeadersOffset)',
+			}}
 			position="fixed"
 			sections={[
 				{ items: leftSectionItems },
