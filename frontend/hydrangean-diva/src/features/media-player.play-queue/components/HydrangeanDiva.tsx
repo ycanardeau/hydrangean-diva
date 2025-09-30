@@ -187,11 +187,20 @@ export const HydrangeanDiva = observer(
 		return (
 			<>
 				<EuiPageTemplate.Header
+					style={{
+						paddingLeft: 'calc(env(safe-area-inset-left) + 24px)',
+						paddingRight: 'calc(env(safe-area-inset-right) + 24px)',
+					}}
 					pageTitle="Play queue" /* LOC */
 					rightSideItems={[]}
 				/>
 
-				<EuiPageTemplate.Section>
+				<EuiPageTemplate.Section
+					style={{
+						paddingLeft: 'calc(env(safe-area-inset-left) + 24px)',
+						paddingRight: 'calc(env(safe-area-inset-right) + 24px)',
+					}}
+				>
 					<PlayQueue playQueueStore={playQueueStore} />
 				</EuiPageTemplate.Section>
 			</>
