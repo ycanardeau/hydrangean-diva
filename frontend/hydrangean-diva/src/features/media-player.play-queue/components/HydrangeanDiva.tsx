@@ -184,12 +184,14 @@ interface HydrangeanDivaProps {
 
 export const HydrangeanDiva = observer(
 	({ playQueueStore }: HydrangeanDivaProps): ReactElement => {
+		const { euiTheme } = useEuiTheme();
+
 		return (
 			<>
 				<EuiPageTemplate.Header
 					style={{
-						paddingLeft: 'calc(env(safe-area-inset-left) + 24px)',
-						paddingRight: 'calc(env(safe-area-inset-right) + 24px)',
+						paddingLeft: `calc(env(safe-area-inset-left) + ${euiTheme.size.l}px)`,
+						paddingRight: `calc(env(safe-area-inset-right) + ${euiTheme.size.l}px)`,
 					}}
 					pageTitle="Play queue" /* LOC */
 					rightSideItems={[]}
@@ -197,8 +199,8 @@ export const HydrangeanDiva = observer(
 
 				<EuiPageTemplate.Section
 					style={{
-						paddingLeft: 'calc(env(safe-area-inset-left) + 24px)',
-						paddingRight: 'calc(env(safe-area-inset-right) + 24px)',
+						paddingLeft: `calc(env(safe-area-inset-left) + ${euiTheme.size.l}px)`,
+						paddingRight: `calc(env(safe-area-inset-right) + ${euiTheme.size.l}px)`,
 					}}
 				>
 					<PlayQueue playQueueStore={playQueueStore} />
