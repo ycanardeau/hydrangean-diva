@@ -14,6 +14,7 @@ import {
 	EuiListGroupItemProps,
 	EuiToolTip,
 	IconType,
+	useEuiTheme,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { Cd16Regular, NavigationPlayRegular } from '@fluentui/react-icons';
@@ -162,12 +163,14 @@ export const Header = (): ReactElement => {
 		),
 	];
 
+	const { euiTheme } = useEuiTheme();
+
 	return (
 		<EuiHeader
 			style={{
 				paddingTop: 'env(safe-area-inset-top)',
-				paddingLeft: 'calc(env(safe-area-inset-left) + 8px)',
-				paddingRight: 'calc(env(safe-area-inset-right) + 8px)',
+				paddingLeft: `calc(env(safe-area-inset-left) + ${euiTheme.size.s}px)`,
+				paddingRight: `calc(env(safe-area-inset-right) + ${euiTheme.size.s}px)`,
 				height: 'var(--euiFixedHeadersOffset)',
 			}}
 			position="fixed"

@@ -4,7 +4,7 @@ import { BottomBarLeftControls } from '@/features/media-player.player/components
 import { BottomBarRightControls } from '@/features/media-player.player/components/BottomBarRightControls';
 import { SeekBar } from '@/features/media-player.player/components/SeekBar';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
-import { EuiBottomBar, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
+import { EuiBottomBar, EuiFlexGroup, EuiFlexItem, useEuiTheme } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEventHandler, ReactElement } from 'react';
 
@@ -20,12 +20,14 @@ export const BottomBar = observer(
 		playQueueStore,
 		onClickPlayQueueButton,
 	}: BottomBarProps): ReactElement => {
+		const { euiTheme } = useEuiTheme();
+
 		return (
 			<EuiBottomBar
 				style={{
-					paddingLeft: 'calc(env(safe-area-inset-left) + 8px)',
-					paddingRight: 'calc(env(safe-area-inset-right) + 8px)',
-					paddingBottom: 'calc(env(safe-area-inset-bottom) + 8px)',
+					paddingLeft: `calc(env(safe-area-inset-left) + ${euiTheme.size.s}px)`,
+					paddingRight: `calc(env(safe-area-inset-right) + ${euiTheme.size.s}px)`,
+					paddingBottom: `calc(env(safe-area-inset-bottom) + ${euiTheme.size.s}px)`,
 				}}
 				paddingSize="s"
 			>
