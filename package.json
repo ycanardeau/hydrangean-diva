@@ -57,7 +57,8 @@
 	"exports": {
 		".": {
 			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"require": "./dist/index.cjs.js",
+			"types": "./dist/index.d.ts"
 		}
 	},
 	"description": "Sync query parameters with a MobX store and React Router.",
