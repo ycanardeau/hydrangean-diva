@@ -11,6 +11,7 @@ import {
 	EuiPopover,
 	EuiRange,
 	IconType,
+	useEuiTheme,
 } from '@elastic/eui';
 import { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
 import {
@@ -566,8 +567,17 @@ export const BottomBar = observer(
 		playQueueStore,
 		onClickPlayQueueButton,
 	}: BottomBarProps): ReactElement => {
+		const { euiTheme } = useEuiTheme();
+
 		return (
-			<EuiBottomBar paddingSize="s">
+			<EuiBottomBar
+				style={{
+					paddingLeft: `calc(env(safe-area-inset-left) + ${euiTheme.size.s}px)`,
+					paddingRight: `calc(env(safe-area-inset-right) + ${euiTheme.size.s}px)`,
+					paddingBottom: `calc(env(safe-area-inset-bottom) + ${euiTheme.size.s}px)`,
+				}}
+				paddingSize="s"
+			>
 				<EuiFlexGroup direction="column" gutterSize="none">
 					<EuiFlexItem>
 						<SeekBar

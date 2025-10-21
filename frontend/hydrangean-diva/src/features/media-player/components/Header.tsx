@@ -11,6 +11,7 @@ import {
 	EuiListGroup,
 	EuiListGroupItemProps,
 	EuiToolTip,
+	useEuiTheme,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { ReactElement, ReactNode, useMemo, useState } from 'react';
@@ -87,8 +88,16 @@ export const Header = (): ReactElement => {
 		),
 	];
 
+	const { euiTheme } = useEuiTheme();
+
 	return (
 		<EuiHeader
+			style={{
+				paddingTop: 'env(safe-area-inset-top)',
+				paddingLeft: `calc(env(safe-area-inset-left) + ${euiTheme.size.s}px)`,
+				paddingRight: `calc(env(safe-area-inset-right) + ${euiTheme.size.s}px)`,
+				height: 'var(--euiFixedHeadersOffset)',
+			}}
 			position="fixed"
 			sections={[
 				{ items: leftSectionItems },
