@@ -64,7 +64,7 @@ const CreatePlaylistModal = ({
 					disabled={name.trim().length === 0}
 					isLoading={loading}
 				>
-					Save{/* LOC */}
+					Create playlist{/* LOC */}
 				</EuiButton>
 			</EuiModalFooter>
 		</EuiModal>

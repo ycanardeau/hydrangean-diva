@@ -1,7 +1,16 @@
 import {
 	EuiButton,
+	EuiButtonEmpty,
+	EuiFieldText,
 	EuiFlexGroup,
 	EuiFlexItem,
+	EuiForm,
+	EuiFormRow,
+	EuiModal,
+	EuiModalBody,
+	EuiModalFooter,
+	EuiModalHeader,
+	EuiModalHeaderTitle,
 	EuiPageTemplate,
 	useEuiTheme,
 } from '@elastic/eui';
@@ -11,7 +20,7 @@ import {
 	PlayRegular,
 	RenameRegular,
 } from '@fluentui/react-icons';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 
 const PlayAllButton = (): ReactElement => {
 	return <EuiButton iconType={PlayRegular}>Play all{/* LOC */}</EuiButton>;
@@ -21,8 +30,85 @@ const AddToButton = (): ReactElement => {
 	return <EuiButton iconType={AddRegular}>Add to{/* LOC */}</EuiButton>;
 };
 
+interface RenamePlaylistModalProps {
+	onCancel: () => void;
+	onSave: (e: { name: string }) => Promise<void>;
+}
+
+const RenamePlaylistModal = ({
+	onCancel,
+	onSave,
+}: RenamePlaylistModalProps): ReactElement => {
+	const [name, setName] = useState('');
+	const [loading, setLoading] = useState(false);
+
+	return (
+		<EuiModal onClose={onCancel} initialFocus="[name=name]">
+			<EuiModalHeader>
+				<EuiModalHeaderTitle>
+					Rename playlist{/* LOC */}
+				</EuiModalHeaderTitle>
+			</EuiModalHeader>
+
+			<EuiModalBody>
+				<EuiForm component="form">
+					<EuiFormRow label="Name">
+						<EuiFieldText
+							name="name"
+							value={name}
+							onChange={(e): void => setName(e.target.value)}
+						/>
+					</EuiFormRow>
+				</EuiForm>
+			</EuiModalBody>
+
+			<EuiModalFooter>
+				<EuiButtonEmpty onClick={onCancel}>
+					Cancel{/* LOC */}
+				</EuiButtonEmpty>
+
+				<EuiButton
+					type="submit"
+					onClick={async (): Promise<void> => {
+						try {
+							setLoading(true);
+
+							await onSave({ name });
+						} finally {
+							setLoading(false);
+						}
+					}}
+					fill
+					disabled={name.trim().length === 0}
+					isLoading={loading}
+				>
+					Rename{/* LOC */}
+				</EuiButton>
+			</EuiModalFooter>
+		</EuiModal>
+	);
+};
+
 const RenameButton = (): ReactElement => {
-	return <EuiButton iconType={RenameRegular}>Rename{/* LOC */}</EuiButton>;
+	const [isModalOpen, setModalOpen] = useState(false);
+
+	return (
+		<>
+			<EuiButton
+				iconType={RenameRegular}
+				onClick={(): void => setModalOpen(true)}
+			>
+				Rename{/* LOC */}
+			</EuiButton>
+
+			{isModalOpen && (
+				<RenamePlaylistModal
+					onCancel={(): void => setModalOpen(false)}
+					onSave={async (): Promise<void> => {}}
+				/>
+			)}
+		</>
+	);
 };
 
 const DeleteButton = (): ReactElement => {

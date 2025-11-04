@@ -72,7 +72,7 @@ const AddVideoModal = ({
 					disabled={url.trim().length === 0}
 					isLoading={loading}
 				>
-					Save{/* LOC */}
+					Add video{/* LOC */}
 				</EuiButton>
 			</EuiModalFooter>
 		</EuiModal>
