@@ -1,4 +1,3 @@
-import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -13,9 +12,6 @@ import {
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
 import React, { memo, ReactElement, useCallback, useState } from 'react';
-
-import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 
 interface AddVideoModalProps {
 	onCancel: () => void;
@@ -84,59 +80,35 @@ const AddVideoModal = ({
 };
 
 interface AddVideoButtonProps {
-	playQueueStore: IPlayQueueStore;
+	onSave: (e: { url: string; title: string }) => Promise<void>;
 }
 
 export const AddVideoButton = memo(
-	({ playQueueStore }: AddVideoButtonProps): ReactElement => {
-		const [addVideoModalOpen, setAddVideoModalOpen] = useState(false);
+	({ onSave }: AddVideoButtonProps): ReactElement => {
+		const [isModalOpen, setModalOpen] = useState(false);
 
 		const handleSave = useCallback(
 			async (e: { url: string; title: string }): Promise<void> => {
-				const videoService = findVideoService(e.url);
-				if (videoService !== undefined) {
-					const videoId = videoService.extractVideoId(e.url);
-					if (videoId !== undefined) {
-						const response = await fetch(
-							`https://noembed.com/embed?url=${encodeURIComponent(
-								e.url,
-							)}`,
-						);
-						const jsonData = await response.json();
+				await onSave(e);
 
-						await playQueueStore.addItems([
-							playQueueStore.createItem({
-								url: e.url,
-								type: videoService.type,
-								videoId: videoId,
-								title:
-									e.title ||
-									(isNoembedResult(jsonData)
-										? jsonData.title
-										: videoId),
-							}),
-						]);
-					}
-				}
-
-				setAddVideoModalOpen(false);
+				setModalOpen(false);
 			},
-			[playQueueStore],
+			[onSave],
 		);
 
 		return (
 			<>
 				<EuiButton
-					onClick={(): void => setAddVideoModalOpen(true)}
+					onClick={(): void => setModalOpen(true)}
 					iconType={AddRegular}
 					color="primary"
 				>
 					Add video{/* LOC */}
 				</EuiButton>
 
-				{addVideoModalOpen && (
+				{isModalOpen && (
 					<AddVideoModal
-						onCancel={(): void => setAddVideoModalOpen(false)}
+						onCancel={(): void => setModalOpen(false)}
 						onSave={handleSave}
 					/>
 				)}

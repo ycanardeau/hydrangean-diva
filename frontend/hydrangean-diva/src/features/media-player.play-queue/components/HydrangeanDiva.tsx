@@ -1,3 +1,4 @@
+import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiCodeBlock,
@@ -16,10 +17,11 @@ import {
 	WindowDevToolsRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
 import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
+import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 
@@ -76,6 +78,37 @@ interface PlayQueueProps {
 const PlayQueue = observer(
 	({ playQueueStore }: PlayQueueProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
+
+		const handleAddVideo = useCallback(
+			async (e: { url: string; title: string }): Promise<void> => {
+				const videoService = findVideoService(e.url);
+				if (videoService !== undefined) {
+					const videoId = videoService.extractVideoId(e.url);
+					if (videoId !== undefined) {
+						const response = await fetch(
+							`https://noembed.com/embed?url=${encodeURIComponent(
+								e.url,
+							)}`,
+						);
+						const jsonData = await response.json();
+
+						await playQueueStore.addItems([
+							playQueueStore.createItem({
+								url: e.url,
+								type: videoService.type,
+								videoId: videoId,
+								title:
+									e.title ||
+									(isNoembedResult(jsonData)
+										? jsonData.title
+										: videoId),
+							}),
+						]);
+					}
+				}
+			},
+			[playQueueStore],
+		);
 
 		return (
 			<>
@@ -143,7 +176,7 @@ const PlayQueue = observer(
 							/>
 						)}
 
-						<AddVideoButton playQueueStore={playQueueStore} />
+						<AddVideoButton onSave={handleAddVideo} />
 					</EuiFlexItem>
 				</EuiFlexGroup>
 
@@ -166,9 +199,7 @@ const PlayQueue = observer(
 								content.
 							</p>
 						}
-						actions={
-							<AddVideoButton playQueueStore={playQueueStore} />
-						}
+						actions={<AddVideoButton onSave={handleAddVideo} />}
 					/>
 				) : (
 					<PlayQueueTable playQueueStore={playQueueStore} />
