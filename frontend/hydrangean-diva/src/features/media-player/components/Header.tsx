@@ -51,6 +51,7 @@ export const Header = (): ReactElement => {
 			label,
 			iconType,
 			linkProps,
+			isDisabled,
 		}: {
 			label: string;
 			iconType: IconType;
@@ -62,6 +63,7 @@ export const Header = (): ReactElement => {
 				TMaskFrom,
 				TMaskTo
 			>;
+			isDisabled?: boolean;
 		}): EuiListGroupItemProps => {
 			return {
 				label: label,
@@ -78,6 +80,7 @@ export const Header = (): ReactElement => {
 					...(linkProps as any) /* FIXME */,
 					fuzzy: true,
 				}),
+				isDisabled: isDisabled,
 			};
 		},
 		[router, matchRoute],
@@ -97,6 +100,7 @@ export const Header = (): ReactElement => {
 			linkProps: {
 				to: '/playlists',
 			},
+			isDisabled: true,
 		}),
 	];
 
