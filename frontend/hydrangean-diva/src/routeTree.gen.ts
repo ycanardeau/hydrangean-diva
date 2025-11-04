@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedPlayQueueRouteImport } from './routes/_authenticated/play-queue'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -21,24 +22,36 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedPlayQueueRoute = AuthenticatedPlayQueueRouteImport.update({
+  id: '/play-queue',
+  path: '/play-queue',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/play-queue': typeof AuthenticatedPlayQueueRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
+  '/play-queue': typeof AuthenticatedPlayQueueRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/play-queue': typeof AuthenticatedPlayQueueRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/play-queue' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/_authenticated' | '/_authenticated/'
+  to: '/play-queue' | '/'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/_authenticated/play-queue'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -61,14 +74,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/play-queue': {
+      id: '/_authenticated/play-queue'
+      path: '/play-queue'
+      fullPath: '/play-queue'
+      preLoaderRoute: typeof AuthenticatedPlayQueueRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedPlayQueueRoute: typeof AuthenticatedPlayQueueRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedPlayQueueRoute: AuthenticatedPlayQueueRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 

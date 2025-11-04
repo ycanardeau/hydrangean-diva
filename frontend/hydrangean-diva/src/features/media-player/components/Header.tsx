@@ -11,9 +11,18 @@ import {
 	EuiListGroup,
 	EuiListGroupItemProps,
 	EuiToolTip,
+	IconType,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
-import { ReactElement, ReactNode, useMemo, useState } from 'react';
+import { NavigationPlayRegular } from '@fluentui/react-icons';
+import {
+	AnyRouter,
+	LinkProps,
+	RegisteredRouter,
+	useMatchRoute,
+	useRouter,
+} from '@tanstack/react-router';
+import { ReactElement, ReactNode, useCallback, useState } from 'react';
 
 import { bottomBarHeight } from '@/features/media-player.player/components/BottomBar';
 
@@ -27,7 +36,62 @@ export const Header = (): ReactElement => {
 
 	const collapsibleNavId = useGeneratedHtmlId({ prefix: 'collapsibleNav' });
 
-	const listItems: EuiListGroupItemProps[] = useMemo(() => [], []);
+	const router = useRouter();
+	const matchRoute = useMatchRoute();
+
+	const createItem = useCallback(
+		<
+			TComp = 'a',
+			TRouter extends AnyRouter = RegisteredRouter,
+			TFrom extends string = string,
+			TTo extends string | undefined = '.',
+			TMaskFrom extends string = TFrom,
+			TMaskTo extends string = '.',
+		>({
+			label,
+			iconType,
+			linkProps,
+		}: {
+			label: string;
+			iconType: IconType;
+			linkProps: LinkProps<
+				TComp,
+				TRouter,
+				TFrom,
+				TTo,
+				TMaskFrom,
+				TMaskTo
+			>;
+		}): EuiListGroupItemProps => {
+			return {
+				label: label,
+				iconType: iconType,
+				href: router.buildLocation(linkProps as any /* FIXME */).href,
+				onClick: async (e): Promise<void> => {
+					e.preventDefault();
+
+					setNavIsOpen(false);
+
+					await router.navigate(linkProps);
+				},
+				isActive: !!matchRoute({
+					...(linkProps as any) /* FIXME */,
+					fuzzy: true,
+				}),
+			};
+		},
+		[router, matchRoute],
+	);
+
+	const listItems: EuiListGroupItemProps[] = [
+		createItem({
+			label: 'Play queue' /* LOC */,
+			iconType: NavigationPlayRegular,
+			linkProps: {
+				to: '/play-queue',
+			},
+		}),
+	];
 
 	const collapsibleNav = (
 		<EuiCollapsibleNav

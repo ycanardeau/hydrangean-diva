@@ -3,7 +3,11 @@ import '@/icons';
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
-import { createRouter, RouterProvider } from '@tanstack/react-router';
+import {
+	createHashHistory,
+	createRouter,
+	RouterProvider,
+} from '@tanstack/react-router';
 import { ReactElement, ReactNode } from 'react';
 
 import { Compose } from '@/common/components/Compose';
@@ -18,11 +22,14 @@ const euiCache = createCache({
 });
 euiCache.compat = true;
 
+const hashHistory = createHashHistory();
+
 const router = createRouter({
 	routeTree,
 	defaultPreload: 'intent',
 	scrollRestoration: true,
 	basepath: process.env.NODE_ENV === 'production' ? '/hydrangean-diva' : '/',
+	history: hashHistory,
 });
 
 // Register the router instance for type safety
