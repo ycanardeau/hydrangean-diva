@@ -28,7 +28,6 @@ const router = createRouter({
 	routeTree,
 	defaultPreload: 'intent',
 	scrollRestoration: true,
-	basepath: process.env.NODE_ENV === 'production' ? '/hydrangean-diva' : '/',
 	history: hashHistory,
 });
 
