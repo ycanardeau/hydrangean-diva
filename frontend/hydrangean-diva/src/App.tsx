@@ -3,12 +3,13 @@ import '@/icons';
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
+import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { ReactElement, ReactNode } from 'react';
 
-import { AppRoutes } from '@/AppRoutes';
 import { Compose } from '@/common/components/Compose';
 import { PlayQueueStoreProvider } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
 import { PlayerStoreProvider } from '@/features/media-player.player/components/PlayerStoreContext';
+import { routeTree } from '@/routeTree.gen';
 
 // https://elastic.github.io/eui/#/utilities/provider
 const euiCache = createCache({
@@ -16,6 +17,19 @@ const euiCache = createCache({
 	container: document.querySelector('meta[name="eui-style-insert"]') as Node,
 });
 euiCache.compat = true;
+
+const router = createRouter({
+	routeTree,
+	defaultPreload: 'intent',
+	scrollRestoration: true,
+});
+
+// Register the router instance for type safety
+declare module '@tanstack/react-router' {
+	interface Register {
+		router: typeof router;
+	}
+}
 
 interface AppProviderProps {
 	children?: ReactNode;
@@ -39,7 +53,7 @@ const App = (): ReactElement => {
 				PlayQueueStoreProvider,
 			]}
 		>
-			<AppRoutes />
+			<RouterProvider router={router} />
 		</Compose>
 	);
 };

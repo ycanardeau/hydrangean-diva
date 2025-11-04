@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,6 +12,11 @@ export default defineConfig({
 		},
 	},
 	plugins: [
+		// Please make sure that '@tanstack/router-plugin' is passed before '@vitejs/plugin-react'
+		tanstackRouter({
+			target: 'react',
+			autoCodeSplitting: true,
+		}),
 		react({
 			// https://dev.to/ajitsinghkamal/using-emotionjs-with-vite-2ndj#comment-1nif3
 			jsxImportSource: '@emotion/react',
