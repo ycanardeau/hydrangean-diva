@@ -7,6 +7,6 @@ const RouteComponent = (): ReactElement => {
 	return <PlaylistsEmptyPrompt />;
 };
 
-export const Route = createFileRoute('/_authenticated/playlists')({
+export const Route = createFileRoute('/_authenticated/playlists/')({
 	component: RouteComponent,
 });

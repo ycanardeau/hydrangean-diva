@@ -11,8 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AuthenticatedPlaylistsRouteImport } from './routes/_authenticated/playlists'
 import { Route as AuthenticatedPlayQueueRouteImport } from './routes/_authenticated/play-queue'
+import { Route as AuthenticatedPlaylistsIndexRouteImport } from './routes/_authenticated/playlists/index'
+import { Route as AuthenticatedPlaylistsPlaylistIdIndexRouteImport } from './routes/_authenticated/playlists/$playlistId.index'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -23,45 +24,56 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedPlaylistsRoute = AuthenticatedPlaylistsRouteImport.update({
-  id: '/playlists',
-  path: '/playlists',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
 const AuthenticatedPlayQueueRoute = AuthenticatedPlayQueueRouteImport.update({
   id: '/play-queue',
   path: '/play-queue',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedPlaylistsIndexRoute =
+  AuthenticatedPlaylistsIndexRouteImport.update({
+    id: '/playlists/',
+    path: '/playlists/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedPlaylistsPlaylistIdIndexRoute =
+  AuthenticatedPlaylistsPlaylistIdIndexRouteImport.update({
+    id: '/playlists/$playlistId/',
+    path: '/playlists/$playlistId/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/play-queue': typeof AuthenticatedPlayQueueRoute
-  '/playlists': typeof AuthenticatedPlaylistsRoute
   '/': typeof AuthenticatedIndexRoute
+  '/playlists': typeof AuthenticatedPlaylistsIndexRoute
+  '/playlists/$playlistId': typeof AuthenticatedPlaylistsPlaylistIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/play-queue': typeof AuthenticatedPlayQueueRoute
-  '/playlists': typeof AuthenticatedPlaylistsRoute
   '/': typeof AuthenticatedIndexRoute
+  '/playlists': typeof AuthenticatedPlaylistsIndexRoute
+  '/playlists/$playlistId': typeof AuthenticatedPlaylistsPlaylistIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_authenticated/play-queue': typeof AuthenticatedPlayQueueRoute
-  '/_authenticated/playlists': typeof AuthenticatedPlaylistsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/playlists/': typeof AuthenticatedPlaylistsIndexRoute
+  '/_authenticated/playlists/$playlistId/': typeof AuthenticatedPlaylistsPlaylistIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/play-queue' | '/playlists' | '/'
+  fullPaths: '/play-queue' | '/' | '/playlists' | '/playlists/$playlistId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/play-queue' | '/playlists' | '/'
+  to: '/play-queue' | '/' | '/playlists' | '/playlists/$playlistId'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_authenticated/play-queue'
-    | '/_authenticated/playlists'
     | '/_authenticated/'
+    | '/_authenticated/playlists/'
+    | '/_authenticated/playlists/$playlistId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -84,13 +96,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/playlists': {
-      id: '/_authenticated/playlists'
-      path: '/playlists'
-      fullPath: '/playlists'
-      preLoaderRoute: typeof AuthenticatedPlaylistsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/play-queue': {
       id: '/_authenticated/play-queue'
       path: '/play-queue'
@@ -98,19 +103,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlayQueueRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/playlists/': {
+      id: '/_authenticated/playlists/'
+      path: '/playlists'
+      fullPath: '/playlists'
+      preLoaderRoute: typeof AuthenticatedPlaylistsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/playlists/$playlistId/': {
+      id: '/_authenticated/playlists/$playlistId/'
+      path: '/playlists/$playlistId'
+      fullPath: '/playlists/$playlistId'
+      preLoaderRoute: typeof AuthenticatedPlaylistsPlaylistIdIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
   AuthenticatedPlayQueueRoute: typeof AuthenticatedPlayQueueRoute
-  AuthenticatedPlaylistsRoute: typeof AuthenticatedPlaylistsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedPlaylistsIndexRoute: typeof AuthenticatedPlaylistsIndexRoute
+  AuthenticatedPlaylistsPlaylistIdIndexRoute: typeof AuthenticatedPlaylistsPlaylistIdIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedPlayQueueRoute: AuthenticatedPlayQueueRoute,
-  AuthenticatedPlaylistsRoute: AuthenticatedPlaylistsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedPlaylistsIndexRoute: AuthenticatedPlaylistsIndexRoute,
+  AuthenticatedPlaylistsPlaylistIdIndexRoute:
+    AuthenticatedPlaylistsPlaylistIdIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
