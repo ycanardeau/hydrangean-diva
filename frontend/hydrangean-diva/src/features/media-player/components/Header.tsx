@@ -14,7 +14,7 @@ import {
 	IconType,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
-import { NavigationPlayRegular } from '@fluentui/react-icons';
+import { Cd16Regular, NavigationPlayRegular } from '@fluentui/react-icons';
 import {
 	AnyRouter,
 	LinkProps,
@@ -89,6 +89,13 @@ export const Header = (): ReactElement => {
 			iconType: NavigationPlayRegular,
 			linkProps: {
 				to: '/play-queue',
+			},
+		}),
+		createItem({
+			label: 'Playlists' /* LOC */,
+			iconType: Cd16Regular,
+			linkProps: {
+				to: '/playlists',
 			},
 		}),
 	];

@@ -44,6 +44,10 @@ module.exports = {
 				pattern: 'src/features/media-player.player/**',
 			},
 			{
+				type: '@aigamo.hydrangean-diva/media-player.playlists',
+				pattern: 'src/features/media-player.playlists/**',
+			},
+			{
 				type: '@aigamo.hydrangean-diva/media-player',
 				pattern: 'src/features/media-player/**',
 			},
@@ -80,6 +84,10 @@ module.exports = {
 							'@aigamo.hydrangean-diva/common',
 							'@aigamo.hydrangean-diva/media-player.play-queue',
 						],
+					},
+					{
+						from: '@aigamo.hydrangean-diva/media-player.playlists',
+						allow: [],
 					},
 					{
 						from: '@aigamo.hydrangean-diva/media-player',

@@ -30,8 +30,8 @@ importers:
         specifier: ^11.14.0
         version: 11.14.0(@types/react@18.3.23)(react@18.3.1)
       '@fluentui/react-icons':
-        specifier: ^2.0.302
-        version: 2.0.302(react@18.3.1)
+        specifier: ^2.0.313
+        version: 2.0.313(react@18.3.1)
       '@tanstack/react-router':
         specifier: ^1.134.9
         version: 1.134.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1290,10 +1290,10 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@fluentui/react-icons@2.0.302':
-    resolution: {integrity: sha512-NK8w51dvucc6bu9oNoFZTWhXVelZ93JKnQbUH4Po344NJiBnzblv5ey4Vxz2SJj7T2t3oYBE+kb/ixTxwbxlaQ==}
+  '@fluentui/react-icons@2.0.313':
+    resolution: {integrity: sha512-mSBEAR0E+v98bdNReT+JWjFJBgH66gY5eIQz9DUT+HASEB8EAGhwF6rmvhrK/lv8L8XFzHVIS50Z+j3ONSI1YQ==}
     peerDependencies:
-      react: '>=16.8.0 <19.0.0'
+      react: '>=16.8.0 <20.0.0'
 
   '@griffel/core@1.19.2':
     resolution: {integrity: sha512-WkB/QQkjy9dE4vrNYGhQvRRUHFkYVOuaznVOMNTDT4pS9aTJ9XPrMTXXlkpcwaf0D3vNKoerj4zAwnU2lBzbOg==}
@@ -6761,7 +6761,7 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@fluentui/react-icons@2.0.302(react@18.3.1)':
+  '@fluentui/react-icons@2.0.313(react@18.3.1)':
     dependencies:
       '@griffel/react': 1.5.30(react@18.3.1)
       react: 18.3.1
@@ -9893,7 +9893,7 @@ snapshots:
 
   rtl-css-js@1.16.1:
     dependencies:
-      '@babel/runtime': 7.27.4
+      '@babel/runtime': 7.28.4
 
   run-parallel@1.2.0:
     dependencies:
