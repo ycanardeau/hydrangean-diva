@@ -14,6 +14,7 @@ import {
 import { AddRegular } from '@fluentui/react-icons';
 import React, { memo, ReactElement, useCallback, useState } from 'react';
 
+import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 
 interface AddVideoModalProps {
@@ -81,19 +82,6 @@ const AddVideoModal = ({
 		</EuiModal>
 	);
 };
-
-interface NoembedResult {
-	title: string;
-}
-
-function isNoembedResult(value: any): value is NoembedResult {
-	return (
-		value !== null &&
-		typeof value === 'object' &&
-		'title' in value &&
-		typeof value.title === 'string'
-	);
-}
 
 interface AddVideoButtonProps {
 	playQueueStore: IPlayQueueStore;
