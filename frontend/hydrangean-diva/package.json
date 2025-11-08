@@ -10,7 +10,7 @@
 		"test": "vitest --environment=jsdom"
 	},
 	"dependencies": {
-		"@aigamo/nostalgic-diva": "^1.14.2",
+		"@aigamo/nostalgic-diva": "^1.14.6",
 		"@aigamo/route-sphere": "^2.0.2",
 		"@elastic/datemath": "^5.0.3",
 		"@elastic/eui": "^102.3.0",
@@ -68,7 +68,6 @@
 		"workbox-routing": "^7.3.0"
 	},
 	"peerDependencies": {
-		"@aigamo/nostalgic-diva": "^1.14.2",
 		"@aigamo/route-sphere": "^2.0.2",
 		"@elastic/datemath": "^5.0.3",
 		"@elastic/eui": "^102.3.0",
