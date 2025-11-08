@@ -9,6 +9,7 @@ import {
 	EuiModalFooter,
 	EuiModalHeader,
 	EuiModalHeaderTitle,
+	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
 import React, { memo, ReactElement, useCallback, useState } from 'react';
@@ -27,6 +28,8 @@ const AddVideoModal = ({
 	onCancel,
 	onSave,
 }: AddVideoModalProps): ReactElement => {
+	const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
+
 	const [url, setUrl] = useState('');
 	const [title, setTitle] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -38,7 +41,21 @@ const AddVideoModal = ({
 			</EuiModalHeader>
 
 			<EuiModalBody>
-				<EuiForm component="form">
+				<EuiForm
+					id={modalFormId}
+					component="form"
+					onSubmit={async (e): Promise<void> => {
+						e.preventDefault();
+
+						try {
+							setLoading(true);
+
+							await onSave({ url, title });
+						} finally {
+							setLoading(false);
+						}
+					}}
+				>
 					<EuiFormRow label="URL" /* LOC */>
 						<EuiFieldText
 							name="url"
@@ -64,15 +81,7 @@ const AddVideoModal = ({
 
 				<EuiButton
 					type="submit"
-					onClick={async (): Promise<void> => {
-						try {
-							setLoading(true);
-
-							await onSave({ url, title });
-						} finally {
-							setLoading(false);
-						}
-					}}
+					form={modalFormId}
 					fill
 					disabled={url.trim().length === 0}
 					isLoading={loading}

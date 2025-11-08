@@ -13,6 +13,7 @@ import {
 	EuiModalHeaderTitle,
 	EuiPageTemplate,
 	useEuiTheme,
+	useGeneratedHtmlId,
 } from '@elastic/eui';
 import {
 	AddRegular,
@@ -43,6 +44,8 @@ const RenamePlaylistModal = ({
 	onCancel,
 	onSave,
 }: RenamePlaylistModalProps): ReactElement => {
+	const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
+
 	const [name, setName] = useState('');
 	const [loading, setLoading] = useState(false);
 
@@ -55,7 +58,21 @@ const RenamePlaylistModal = ({
 			</EuiModalHeader>
 
 			<EuiModalBody>
-				<EuiForm component="form">
+				<EuiForm
+					id={modalFormId}
+					component="form"
+					onSubmit={async (e): Promise<void> => {
+						e.preventDefault();
+
+						try {
+							setLoading(true);
+
+							await onSave({ name });
+						} finally {
+							setLoading(false);
+						}
+					}}
+				>
 					<EuiFormRow label="Name">
 						<EuiFieldText
 							name="name"
@@ -73,15 +90,7 @@ const RenamePlaylistModal = ({
 
 				<EuiButton
 					type="submit"
-					onClick={async (): Promise<void> => {
-						try {
-							setLoading(true);
-
-							await onSave({ name });
-						} finally {
-							setLoading(false);
-						}
-					}}
+					form={modalFormId}
 					fill
 					disabled={name.trim().length === 0}
 					isLoading={loading}

@@ -9,6 +9,7 @@ import {
 	EuiModalFooter,
 	EuiModalHeader,
 	EuiModalHeaderTitle,
+	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { ReactElement, useCallback, useState } from 'react';
 
@@ -25,6 +26,8 @@ const CreatePlaylistModal = ({
 	onCancel,
 	onSave,
 }: CreatePlaylistModalProps): ReactElement => {
+	const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
+
 	const [name, setName] = useState('');
 	const [loading, setLoading] = useState(false);
 
@@ -37,7 +40,21 @@ const CreatePlaylistModal = ({
 			</EuiModalHeader>
 
 			<EuiModalBody>
-				<EuiForm component="form">
+				<EuiForm
+					id={modalFormId}
+					component="form"
+					onSubmit={async (e): Promise<void> => {
+						e.preventDefault();
+
+						try {
+							setLoading(true);
+
+							await onSave({ name });
+						} finally {
+							setLoading(false);
+						}
+					}}
+				>
 					<EuiFormRow label="Name">
 						<EuiFieldText
 							name="name"
@@ -55,15 +72,7 @@ const CreatePlaylistModal = ({
 
 				<EuiButton
 					type="submit"
-					onClick={async (): Promise<void> => {
-						try {
-							setLoading(true);
-
-							await onSave({ name });
-						} finally {
-							setLoading(false);
-						}
-					}}
+					form={modalFormId}
 					fill
 					disabled={name.trim().length === 0}
 					isLoading={loading}
