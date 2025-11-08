@@ -11,6 +11,7 @@ import {
 	EuiModalHeaderTitle,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
+import { AddRegular } from '@fluentui/react-icons';
 import { ReactElement, useCallback, useState } from 'react';
 
 interface CreatePlaylistFormSubmitEvent {
@@ -93,7 +94,10 @@ export const CreatePlaylistButton = (): ReactElement => {
 
 	return (
 		<>
-			<EuiButton onClick={(): void => setModalOpen(true)}>
+			<EuiButton
+				onClick={(): void => setModalOpen(true)}
+				iconType={AddRegular}
+			>
 				Create playlist{/* LOC */}
 			</EuiButton>
 

@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ReactElement } from 'react';
 
-import { PlaylistsEmptyPrompt } from '@/features/media-player.playlists/components/PlaylistsEmptyPrompt';
+import { PlaylistListPage } from '@/features/media-player.playlists/pages/PlaylistListPage';
 
 const RouteComponent = (): ReactElement => {
-	return <PlaylistsEmptyPrompt />;
+	return <PlaylistListPage />;
 };
 
 export const Route = createFileRoute('/_authenticated/playlists/')({

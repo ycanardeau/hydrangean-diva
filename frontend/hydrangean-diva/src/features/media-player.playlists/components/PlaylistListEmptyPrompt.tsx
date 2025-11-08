@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 
 import { CreatePlaylistButton } from '@/features/media-player.playlists/components/CreatePlaylistButton';
 
-export const PlaylistsEmptyPrompt = (): ReactElement => {
+export const PlaylistListEmptyPrompt = (): ReactElement => {
 	return (
 		<EuiEmptyPrompt
 			iconType={Cd16Regular}
