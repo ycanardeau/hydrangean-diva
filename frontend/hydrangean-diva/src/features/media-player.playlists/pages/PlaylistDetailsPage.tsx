@@ -1,6 +1,7 @@
 import {
 	EuiButton,
 	EuiButtonEmpty,
+	EuiConfirmModal,
 	EuiFieldText,
 	EuiFlexGroup,
 	EuiFlexItem,
@@ -108,8 +109,8 @@ const RenameButton = (): ReactElement => {
 	return (
 		<>
 			<EuiButton
-				iconType={RenameRegular}
 				onClick={(): void => setModalOpen(true)}
+				iconType={RenameRegular}
 			>
 				Rename{/* LOC */}
 			</EuiButton>
@@ -124,8 +125,48 @@ const RenameButton = (): ReactElement => {
 	);
 };
 
+interface DeletePlaylistConfirmModalProps {
+	onCancel: () => void;
+}
+
+const DeletePlaylistConfirmModal = ({
+	onCancel,
+}: DeletePlaylistConfirmModalProps): ReactElement => {
+	return (
+		<EuiConfirmModal
+			title="Delete playlist permanently?" /* LOC */
+			onCancel={onCancel}
+			cancelButtonText="Cancel" /* LOC */
+			confirmButtonText="Delete" /* LOC */
+			buttonColor="danger"
+		>
+			<p>
+				Are you sure you want to delete this playlist? If you delete '',
+				you won't be able to recover it.{/* LOC */}
+			</p>
+		</EuiConfirmModal>
+	);
+};
+
 const DeleteButton = (): ReactElement => {
-	return <EuiButton iconType={DeleteRegular}>Delete{/* LOC */}</EuiButton>;
+	const [isModalOpen, setModalOpen] = useState(false);
+
+	return (
+		<>
+			<EuiButton
+				onClick={(): void => setModalOpen(true)}
+				iconType={DeleteRegular}
+			>
+				Delete{/* LOC */}
+			</EuiButton>
+
+			{isModalOpen && (
+				<DeletePlaylistConfirmModal
+					onCancel={(): void => setModalOpen(false)}
+				/>
+			)}
+		</>
+	);
 };
 
 export const PlaylistDetailsPage = (): ReactElement => {
