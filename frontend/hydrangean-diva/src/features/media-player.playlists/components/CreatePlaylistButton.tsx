@@ -12,9 +12,13 @@ import {
 } from '@elastic/eui';
 import { ReactElement, useCallback, useState } from 'react';
 
+interface CreatePlaylistFormSubmitEvent {
+	name: string;
+}
+
 interface CreatePlaylistModalProps {
 	onCancel: () => void;
-	onSave: (e: { name: string }) => Promise<void>;
+	onSave: (e: CreatePlaylistFormSubmitEvent) => Promise<void>;
 }
 
 const CreatePlaylistModal = ({

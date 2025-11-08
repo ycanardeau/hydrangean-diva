@@ -19,7 +19,10 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useState } from 'react';
 
-import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
+import {
+	AddVideoButton,
+	AddVideoFormSubmitEvent,
+} from '@/features/media-player.play-queue/components/AddVideoButton';
 import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
 import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
@@ -80,7 +83,7 @@ const PlayQueue = observer(
 		const { euiTheme } = useEuiTheme();
 
 		const handleAddVideo = useCallback(
-			async (e: { url: string; title: string }): Promise<void> => {
+			async (e: AddVideoFormSubmitEvent): Promise<void> => {
 				const videoService = findVideoService(e.url);
 				if (videoService !== undefined) {
 					const videoId = videoService.extractVideoId(e.url);

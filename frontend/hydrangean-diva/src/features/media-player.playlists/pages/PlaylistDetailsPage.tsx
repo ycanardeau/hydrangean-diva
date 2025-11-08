@@ -30,9 +30,13 @@ const AddToButton = (): ReactElement => {
 	return <EuiButton iconType={AddRegular}>Add to{/* LOC */}</EuiButton>;
 };
 
+interface RenamePlaylistFormSubmitEvent {
+	name: string;
+}
+
 interface RenamePlaylistModalProps {
 	onCancel: () => void;
-	onSave: (e: { name: string }) => Promise<void>;
+	onSave: (e: RenamePlaylistFormSubmitEvent) => Promise<void>;
 }
 
 const RenamePlaylistModal = ({

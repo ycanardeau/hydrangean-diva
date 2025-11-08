@@ -13,9 +13,14 @@ import {
 import { AddRegular } from '@fluentui/react-icons';
 import React, { memo, ReactElement, useCallback, useState } from 'react';
 
+export interface AddVideoFormSubmitEvent {
+	url: string;
+	title: string;
+}
+
 interface AddVideoModalProps {
 	onCancel: () => void;
-	onSave: (e: { url: string; title: string }) => Promise<void>;
+	onSave: (e: AddVideoFormSubmitEvent) => Promise<void>;
 }
 
 const AddVideoModal = ({
@@ -80,7 +85,7 @@ const AddVideoModal = ({
 };
 
 interface AddVideoButtonProps {
-	onSave: (e: { url: string; title: string }) => Promise<void>;
+	onSave: (e: AddVideoFormSubmitEvent) => Promise<void>;
 }
 
 export const AddVideoButton = memo(
@@ -88,7 +93,7 @@ export const AddVideoButton = memo(
 		const [isModalOpen, setModalOpen] = useState(false);
 
 		const handleSave = useCallback(
-			async (e: { url: string; title: string }): Promise<void> => {
+			async (e: AddVideoFormSubmitEvent): Promise<void> => {
 				await onSave(e);
 
 				setModalOpen(false);
