@@ -100,7 +100,7 @@ export const Header = (): ReactElement => {
 			linkProps: {
 				to: '/playlists',
 			},
-			isDisabled: true,
+			isDisabled: process.env.NODE_ENV === 'production',
 		}),
 	];
 
