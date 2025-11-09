@@ -1,0 +1,9 @@
+.openapi-generator-ignore
+apis/MediaPlayerPlaylistsApi.ts
+apis/index.ts
+docs/HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest.md
+docs/MediaPlayerPlaylistsApi.md
+index.ts
+models/HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest.ts
+models/index.ts
+runtime.ts
