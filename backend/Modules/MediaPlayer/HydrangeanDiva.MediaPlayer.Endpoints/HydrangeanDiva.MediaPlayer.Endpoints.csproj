@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\HydrangeanDiva.Shared\HydrangeanDiva.Shared.csproj" />
     <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Contracts\HydrangeanDiva.MediaPlayer.Contracts.csproj" />
   </ItemGroup>
 

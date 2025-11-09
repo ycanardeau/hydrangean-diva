@@ -11,5 +11,6 @@
   <Project Path="HydrangeanDiva.AppHost/HydrangeanDiva.AppHost.csproj" />
   <Project Path="HydrangeanDiva.ReverseProxy/HydrangeanDiva.ReverseProxy.csproj" />
   <Project Path="HydrangeanDiva.ServiceDefaults/HydrangeanDiva.ServiceDefaults.csproj" />
+  <Project Path="HydrangeanDiva.Shared/HydrangeanDiva.Shared.csproj" Id="0fff29a4-da50-4809-b087-081b61fd1de6" />
   <Project Path="HydrangeanDiva/HydrangeanDiva.csproj" />
 </Solution>
