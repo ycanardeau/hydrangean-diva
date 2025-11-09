@@ -8,7 +8,6 @@
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.5.2" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
     <PackageVersion Include="MediatR" Version="12.5.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.10" />
@@ -24,5 +23,6 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.13.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.13.0" />
     <PackageVersion Include="StronglyTypedId" Version="1.0.0-beta08" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.6" />
   </ItemGroup>
 </Project>
