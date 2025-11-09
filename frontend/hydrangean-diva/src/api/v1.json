@@ -1,0 +1,77 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "HydrangeanDiva",
+    "version": "1.0"
+  },
+  "paths": {
+    "/media-player/playlists": {
+      "post": {
+        "tags": [
+          "Media Player - Playlists"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Endpoints.Playlists.CreatePlaylistRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Endpoints.Playlists.CreatePlaylistRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Endpoints.Playlists.CreatePlaylistRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.CreatePlaylistResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.CreatePlaylistResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.CreatePlaylistResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.CreatePlaylistResponseDto": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "HydrangeanDiva.MediaPlayer.Endpoints.Playlists.CreatePlaylistRequest": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
