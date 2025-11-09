@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Application\HydrangeanDiva.MediaPlayer.Application.csproj" />
+    <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Endpoints\HydrangeanDiva.MediaPlayer.Endpoints.csproj" />
+    <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Infrastructure\HydrangeanDiva.MediaPlayer.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

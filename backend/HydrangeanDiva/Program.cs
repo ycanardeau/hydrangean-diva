@@ -8,6 +8,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+HydrangeanDiva.MediaPlayer.Module.ServiceExtensions.AddModule(builder);
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();

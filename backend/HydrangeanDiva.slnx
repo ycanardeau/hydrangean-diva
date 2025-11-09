@@ -1,4 +1,13 @@
 <Solution>
+  <Folder Name="/Modules/" />
+  <Folder Name="/Modules/MediaPlayer/">
+    <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Application/HydrangeanDiva.MediaPlayer.Application.csproj" />
+    <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Contracts/HydrangeanDiva.MediaPlayer.Contracts.csproj" />
+    <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Domain/HydrangeanDiva.MediaPlayer.Domain.csproj" />
+    <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Endpoints/HydrangeanDiva.MediaPlayer.Endpoints.csproj" />
+    <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Infrastructure/HydrangeanDiva.MediaPlayer.Infrastructure.csproj" />
+    <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Module/HydrangeanDiva.MediaPlayer.Module.csproj" />
+  </Folder>
   <Project Path="HydrangeanDiva.AppHost/HydrangeanDiva.AppHost.csproj" />
   <Project Path="HydrangeanDiva.ReverseProxy/HydrangeanDiva.ReverseProxy.csproj" />
   <Project Path="HydrangeanDiva.ServiceDefaults/HydrangeanDiva.ServiceDefaults.csproj" />

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Application\HydrangeanDiva.MediaPlayer.Application.csproj" />
+    <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Contracts\HydrangeanDiva.MediaPlayer.Contracts.csproj" />
+    <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Domain\HydrangeanDiva.MediaPlayer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

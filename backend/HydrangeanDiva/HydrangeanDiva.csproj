@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HydrangeanDiva.ServiceDefaults\HydrangeanDiva.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Modules\MediaPlayer\HydrangeanDiva.MediaPlayer.Module\HydrangeanDiva.MediaPlayer.Module.csproj" />
   </ItemGroup>
 
 </Project>
