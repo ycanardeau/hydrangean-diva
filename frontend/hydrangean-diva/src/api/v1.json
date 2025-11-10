@@ -170,7 +170,15 @@
         "additionalProperties": false
       },
       "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.GetPlaylistResponseDto": {
+        "required": [
+          "playlist"
+        ],
         "type": "object",
+        "properties": {
+          "playlist": {
+            "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.PlaylistDto"
+          }
+        },
         "additionalProperties": false
       },
       "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ListPlaylistsResponseDto": {
