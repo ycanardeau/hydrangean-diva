@@ -63,9 +63,7 @@ internal class ApplicationDbContext(
 			return null;
 		}
 
-		var user = await Users
-			.AsNoTracking()
-			.SingleOrDefaultAsync(x => x.Id == _currentUserId, cancellationToken);
+		var user = await Users.SingleOrDefaultAsync(x => x.Id == _currentUserId, cancellationToken);
 
 		return user;
 	}

@@ -11,5 +11,5 @@ internal abstract class Entity : IHasTimestamps
 internal abstract class Entity<TId> : Entity
 	where TId : struct
 {
-	public TId Id { get; set; }
+	public required TId Id { get; set; }
 }
