@@ -2,7 +2,13 @@ using Microsoft.Extensions.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var api = builder.AddProject<Projects.HydrangeanDiva>("hydrangeandiva");
+var hydrangeanDivaDb = builder.AddPostgres("postgres")
+	.WithDataVolume()
+	.WithPgAdmin()
+	.AddDatabase("DefaultConnection", "HydrangeanDiva");
+
+var api = builder.AddProject<Projects.HydrangeanDiva>("hydrangeandiva")
+	.WithReference(hydrangeanDivaDb);
 
 var frontend = builder.AddNpmApp(name: "frontend", workingDirectory: "../../frontend/hydrangean-diva", scriptName: "dev")
 	.WithHttpEndpoint(env: "PORT")
