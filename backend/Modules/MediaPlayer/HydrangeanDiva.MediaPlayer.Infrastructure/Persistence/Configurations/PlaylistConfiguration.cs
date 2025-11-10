@@ -14,6 +14,10 @@ internal class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
 		builder.Property(x => x.Id)
 			.HasConversion(x => x.Value, x => new(x));
 
+		builder.HasOne(x => x.Owner)
+			.WithMany(x => x.Playlists)
+			.HasForeignKey(x => x.OwnerId);
+
 		builder.Property(x => x.Name)
 			.HasConversion(x => x.Value, x => new(x))
 			.HasMaxLength(PlaylistName.MaxLength);

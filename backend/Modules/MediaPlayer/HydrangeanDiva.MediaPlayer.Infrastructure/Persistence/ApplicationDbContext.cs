@@ -1,5 +1,6 @@
 using HydrangeanDiva.MediaPlayer.Domain.Common.Interfaces;
 using HydrangeanDiva.MediaPlayer.Domain.Playlists.Entities;
+using HydrangeanDiva.MediaPlayer.Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace HydrangeanDiva.MediaPlayer.Infrastructure.Persistence;
@@ -11,6 +12,7 @@ internal class ApplicationDbContext(
 {
 	public static string Schema { get; } = "MediaPlayer";
 
+	public DbSet<User> Users { get; set; }
 	public DbSet<Playlist> Playlists { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
