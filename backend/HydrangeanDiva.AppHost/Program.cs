@@ -7,8 +7,13 @@ var hydrangeanDivaDb = builder.AddPostgres("postgres")
 	.WithPgAdmin()
 	.AddDatabase("DefaultConnection", "HydrangeanDiva");
 
+var mediaPlayerMigrationService = builder.AddProject<Projects.HydrangeanDiva_MediaPlayer_MigrationService>("hydrangeandiva-mediaplayer-migrationservice")
+	.WithReference(hydrangeanDivaDb)
+	.WaitFor(hydrangeanDivaDb);
+
 var api = builder.AddProject<Projects.HydrangeanDiva>("hydrangeandiva")
-	.WithReference(hydrangeanDivaDb);
+	.WithReference(hydrangeanDivaDb)
+	.WaitForCompletion(mediaPlayerMigrationService);
 
 var frontend = builder.AddNpmApp(name: "frontend", workingDirectory: "../../frontend/hydrangean-diva", scriptName: "dev")
 	.WithHttpEndpoint(env: "PORT")

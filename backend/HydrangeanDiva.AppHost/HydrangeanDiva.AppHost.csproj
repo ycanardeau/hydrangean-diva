@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HydrangeanDiva.ReverseProxy\HydrangeanDiva.ReverseProxy.csproj" />
     <ProjectReference Include="..\HydrangeanDiva\HydrangeanDiva.csproj" />
+    <ProjectReference Include="..\Modules\MediaPlayer\HydrangeanDiva.MediaPlayer.MigrationService\HydrangeanDiva.MediaPlayer.MigrationService.csproj" />
   </ItemGroup>
 
 </Project>

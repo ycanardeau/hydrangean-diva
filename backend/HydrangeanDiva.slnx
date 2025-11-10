@@ -6,6 +6,7 @@
     <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Domain/HydrangeanDiva.MediaPlayer.Domain.csproj" />
     <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Endpoints/HydrangeanDiva.MediaPlayer.Endpoints.csproj" />
     <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Infrastructure/HydrangeanDiva.MediaPlayer.Infrastructure.csproj" />
+    <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.MigrationService/HydrangeanDiva.MediaPlayer.MigrationService.csproj" />
     <Project Path="Modules/MediaPlayer/HydrangeanDiva.MediaPlayer.Module/HydrangeanDiva.MediaPlayer.Module.csproj" />
   </Folder>
   <Project Path="HydrangeanDiva.AppHost/HydrangeanDiva.AppHost.csproj" />
