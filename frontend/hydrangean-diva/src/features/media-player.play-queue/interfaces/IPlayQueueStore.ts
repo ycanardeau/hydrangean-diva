@@ -11,6 +11,7 @@ export interface IPlayQueueStore {
 	readonly isEmpty: boolean;
 	readonly currentItem: IPlayQueueItemStore | undefined;
 	readonly canPlay: boolean;
+	readonly canPause: boolean;
 	readonly hasMultipleItems: boolean;
 	readonly hasPreviousItem: boolean;
 	readonly hasNextItem: boolean;
