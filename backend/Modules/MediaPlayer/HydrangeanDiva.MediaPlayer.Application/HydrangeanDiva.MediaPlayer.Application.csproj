@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Domain\HydrangeanDiva.MediaPlayer.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

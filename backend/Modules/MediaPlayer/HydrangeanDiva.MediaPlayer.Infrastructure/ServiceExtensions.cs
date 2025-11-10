@@ -1,9 +1,11 @@
+using HydrangeanDiva.MediaPlayer.Application.Interfaces.Security;
+using HydrangeanDiva.MediaPlayer.Infrastructure.Persistence;
+using HydrangeanDiva.MediaPlayer.Infrastructure.Services.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using HydrangeanDiva.MediaPlayer.Infrastructure.Persistence;
 
 namespace HydrangeanDiva.MediaPlayer.Infrastructure;
 
@@ -34,6 +36,8 @@ internal static class ServiceExtensions
 		builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<IInfrastructure>());
 
 		builder.AddDbContext();
+
+		builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 		return builder;
 	}

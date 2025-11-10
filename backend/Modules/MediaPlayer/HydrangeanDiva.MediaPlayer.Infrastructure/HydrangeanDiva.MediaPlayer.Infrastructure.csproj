@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\HydrangeanDiva.EntityFrameworkCore.Shared\HydrangeanDiva.EntityFrameworkCore.Shared.csproj" />
+    <ProjectReference Include="..\..\..\HydrangeanDiva.Shared\HydrangeanDiva.Shared.csproj" />
     <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Application\HydrangeanDiva.MediaPlayer.Application.csproj" />
     <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Contracts\HydrangeanDiva.MediaPlayer.Contracts.csproj" />
     <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Domain\HydrangeanDiva.MediaPlayer.Domain.csproj" />
