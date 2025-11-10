@@ -174,7 +174,35 @@
         "additionalProperties": false
       },
       "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ListPlaylistsResponseDto": {
+        "required": [
+          "items"
+        ],
         "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.PlaylistDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.PlaylistDto": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
         "additionalProperties": false
       },
       "HydrangeanDiva.MediaPlayer.Endpoints.Playlists.CreatePlaylistRequest": {

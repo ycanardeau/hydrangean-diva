@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Contracts\HydrangeanDiva.MediaPlayer.Contracts.csproj" />
     <ProjectReference Include="..\HydrangeanDiva.MediaPlayer.Domain\HydrangeanDiva.MediaPlayer.Domain.csproj" />
   </ItemGroup>
 

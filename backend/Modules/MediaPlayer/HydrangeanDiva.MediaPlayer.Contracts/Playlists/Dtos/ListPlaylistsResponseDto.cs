@@ -1,3 +1,3 @@
 namespace HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos;
 
-public sealed record ListPlaylistsResponseDto();
+public sealed record ListPlaylistsResponseDto(PlaylistDto[] Items);
