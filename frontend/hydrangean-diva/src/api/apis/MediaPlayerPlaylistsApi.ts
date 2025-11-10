@@ -22,6 +22,14 @@ import {
     HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequestToJSON,
 } from '../models/index';
 
+export interface MediaPlayerPlaylistsIdDeleteRequest {
+    id: string;
+}
+
+export interface MediaPlayerPlaylistsIdGetRequest {
+    id: string;
+}
+
 export interface MediaPlayerPlaylistsPostRequest {
     hydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest?: HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest;
 }
@@ -30,6 +38,103 @@ export interface MediaPlayerPlaylistsPostRequest {
  * 
  */
 export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async mediaPlayerPlaylistsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/media-player/playlists`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.mediaPlayerPlaylistsGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdDeleteRaw(requestParameters: MediaPlayerPlaylistsIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling mediaPlayerPlaylistsIdDelete().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/media-player/playlists/{id}`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdDelete(requestParameters: MediaPlayerPlaylistsIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.mediaPlayerPlaylistsIdDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdGetRaw(requestParameters: MediaPlayerPlaylistsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling mediaPlayerPlaylistsIdGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/media-player/playlists/{id}`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdGet(requestParameters: MediaPlayerPlaylistsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.mediaPlayerPlaylistsIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */
