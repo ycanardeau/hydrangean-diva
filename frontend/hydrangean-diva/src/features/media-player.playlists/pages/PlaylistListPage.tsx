@@ -1,13 +1,4 @@
-import {
-	EuiPageTemplate,
-	EuiSpacer,
-	EuiTable,
-	EuiTableBody,
-	EuiTableHeader,
-	EuiTableHeaderCell,
-	EuiTableRow,
-	EuiTableRowCell,
-} from '@elastic/eui';
+import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { memo, ReactElement, useCallback, useState } from 'react';
 
@@ -35,25 +26,22 @@ const PlaylistListPageHeader = (): ReactElement => {
 	);
 };
 
-const PlaylistListTableHeader = memo((): ReactElement => {
-	return (
-		<EuiTableHeader>
-			<EuiTableHeaderCell>Name{/* LOC */}</EuiTableHeaderCell>
-		</EuiTableHeader>
-	);
-});
-
-interface PlaylistListTableBodyProps {
+interface PlaylistListTableProps {
 	playlistListStore: PlaylistListStore;
 }
 
-const PlaylistListTableBody = observer(
-	({ playlistListStore }: PlaylistListTableBodyProps): ReactElement => {
+const PlaylistListTable = observer(
+	({ playlistListStore }: PlaylistListTableProps): ReactElement => {
 		return (
-			<EuiTableBody>
-				{playlistListStore.items.map((item) => (
-					<EuiTableRow key={item.id}>
-						<EuiTableRowCell>
+			<EuiBasicTable
+				responsiveBreakpoint={false}
+				items={playlistListStore.items}
+				rowHeader="name"
+				columns={[
+					{
+						field: 'name',
+						name: 'Name' /* LOC */,
+						render: (_, item) => (
 							<AppLink
 								linkProps={{
 									to: '/playlists/$playlistId',
@@ -62,28 +50,16 @@ const PlaylistListTableBody = observer(
 							>
 								{item.name}
 							</AppLink>
-						</EuiTableRowCell>
-					</EuiTableRow>
-				))}
-			</EuiTableBody>
+						),
+					},
+				]}
+				rowProps={{}}
+				cellProps={{}}
+				loading={playlistListStore.loading}
+			/>
 		);
 	},
 );
-
-interface PlaylistListTableProps {
-	playlistListStore: PlaylistListStore;
-}
-
-const PlaylistListTable = ({
-	playlistListStore,
-}: PlaylistListTableProps): ReactElement => {
-	return (
-		<EuiTable>
-			<PlaylistListTableHeader />
-			<PlaylistListTableBody playlistListStore={playlistListStore} />
-		</EuiTable>
-	);
-};
 
 interface PlaylistListPageBodyProps {
 	playlistListStore: PlaylistListStore;
