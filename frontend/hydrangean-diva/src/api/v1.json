@@ -157,6 +157,65 @@
           }
         }
       }
+    },
+    "/media-player/playlists/{id}:rename": {
+      "post": {
+        "tags": [
+          "Media Player - Playlists"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Endpoints.Playlists.RenamePlaylistRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Endpoints.Playlists.RenamePlaylistRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Endpoints.Playlists.RenamePlaylistRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.RenamePlaylistResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.RenamePlaylistResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.RenamePlaylistResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -213,7 +272,23 @@
         },
         "additionalProperties": false
       },
+      "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.RenamePlaylistResponseDto": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "HydrangeanDiva.MediaPlayer.Endpoints.Playlists.CreatePlaylistRequest": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "HydrangeanDiva.MediaPlayer.Endpoints.Playlists.RenamePlaylistRequest": {
         "required": [
           "name"
         ],

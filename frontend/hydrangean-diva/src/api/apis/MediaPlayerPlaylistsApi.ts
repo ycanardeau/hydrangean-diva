@@ -18,6 +18,7 @@ import type {
   HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto,
   HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto,
   HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest,
+  HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest,
 } from '../models/index';
 import {
     HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDtoFromJSON,
@@ -26,6 +27,8 @@ import {
     HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDtoToJSON,
     HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequestFromJSON,
     HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequestToJSON,
+    HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequestFromJSON,
+    HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequestToJSON,
 } from '../models/index';
 
 export interface MediaPlayerPlaylistsIdDeleteRequest {
@@ -34,6 +37,11 @@ export interface MediaPlayerPlaylistsIdDeleteRequest {
 
 export interface MediaPlayerPlaylistsIdGetRequest {
     id: string;
+}
+
+export interface MediaPlayerPlaylistsIdRenamePostRequest {
+    id: string;
+    hydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest?: HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest;
 }
 
 export interface MediaPlayerPlaylistsPostRequest {
@@ -139,6 +147,44 @@ export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
      */
     async mediaPlayerPlaylistsIdGet(requestParameters: MediaPlayerPlaylistsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto> {
         const response = await this.mediaPlayerPlaylistsIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdRenamePostRaw(requestParameters: MediaPlayerPlaylistsIdRenamePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling mediaPlayerPlaylistsIdRenamePost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/media-player/playlists/{id}:rename`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequestToJSON(requestParameters['hydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdRenamePost(requestParameters: MediaPlayerPlaylistsIdRenamePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.mediaPlayerPlaylistsIdRenamePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

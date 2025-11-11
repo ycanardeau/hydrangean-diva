@@ -4,3 +4,4 @@ export * from './HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistRespo
 export * from './HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto';
 export * from './HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto';
 export * from './HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest';
+export * from './HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest';

@@ -38,6 +38,7 @@ const AddToButton = (): ReactElement => {
 };
 
 interface RenamePlaylistFormSubmitEvent {
+	id: string;
 	name: string;
 }
 
@@ -76,6 +77,7 @@ const RenamePlaylistModal = ({
 							setLoading(true);
 
 							await onSave({
+								id: playlist.id,
 								name: name,
 							});
 						} finally {
@@ -114,10 +116,23 @@ const RenamePlaylistModal = ({
 
 interface RenameButtonProps {
 	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
+	onSave: (e: RenamePlaylistFormSubmitEvent) => Promise<void>;
 }
 
-const RenameButton = ({ playlist }: RenameButtonProps): ReactElement => {
+const RenameButton = ({
+	playlist,
+	onSave,
+}: RenameButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
+
+	const handleSave = useCallback(
+		async (e: RenamePlaylistFormSubmitEvent): Promise<void> => {
+			await onSave(e);
+
+			setModalOpen(false);
+		},
+		[onSave],
+	);
 
 	return (
 		<>
@@ -132,7 +147,7 @@ const RenameButton = ({ playlist }: RenameButtonProps): ReactElement => {
 				<RenamePlaylistModal
 					playlist={playlist}
 					onCancel={(): void => setModalOpen(false)}
-					onSave={async (): Promise<void> => {}}
+					onSave={handleSave}
 				/>
 			)}
 		</>
@@ -237,6 +252,21 @@ export const PlaylistDetailsPage = ({
 
 	const router = useRouter();
 
+	const handleRenamePlaylist = useCallback(
+		async (e: RenamePlaylistFormSubmitEvent): Promise<void> => {
+			await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdRenamePost({
+				id: e.id,
+				hydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest:
+					{
+						name: e.name,
+					},
+			});
+
+			await router.invalidate();
+		},
+		[router],
+	);
+
 	const handleDeletePlaylist = useCallback(
 		async (e: DeletePlaylistFormSubmitEvent): Promise<void> => {
 			await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdDelete({
@@ -284,7 +314,10 @@ export const PlaylistDetailsPage = ({
 						<AddToButton />
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<RenameButton playlist={playlist} />
+						<RenameButton
+							playlist={playlist}
+							onSave={handleRenamePlaylist}
+						/>
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
 						<DeleteButton
