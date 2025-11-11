@@ -22,10 +22,12 @@ import {
 	PlayRegular,
 	RenameRegular,
 } from '@fluentui/react-icons';
-import { ReactElement, useState } from 'react';
+import { useRouter } from '@tanstack/react-router';
+import { ReactElement, useCallback, useState } from 'react';
 
 import { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
+import { mediaPlayerPlaylistsApi } from '@/features/common/helpers/clients';
 
 const PlayAllButton = (): ReactElement => {
 	return <EuiButton iconType={PlayRegular}>Play all{/* LOC */}</EuiButton>;
@@ -73,7 +75,9 @@ const RenamePlaylistModal = ({
 						try {
 							setLoading(true);
 
-							await onSave({ name });
+							await onSave({
+								name: name,
+							});
 						} finally {
 							setLoading(false);
 						}
@@ -135,22 +139,44 @@ const RenameButton = ({ playlist }: RenameButtonProps): ReactElement => {
 	);
 };
 
+interface DeletePlaylistFormSubmitEvent {
+	id: string;
+}
+
 interface DeletePlaylistConfirmModalProps {
 	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
 	onCancel: () => void;
+	onSave: (e: DeletePlaylistFormSubmitEvent) => Promise<void>;
 }
 
 const DeletePlaylistConfirmModal = ({
 	playlist,
 	onCancel,
+	onSave,
 }: DeletePlaylistConfirmModalProps): ReactElement => {
+	const [loading, setLoading] = useState(false);
+
+	const handleConfirm = useCallback(async (): Promise<void> => {
+		try {
+			setLoading(true);
+
+			await onSave({
+				id: playlist.id,
+			});
+		} finally {
+			setLoading(false);
+		}
+	}, [playlist, onSave]);
+
 	return (
 		<EuiConfirmModal
 			title="Delete playlist permanently?" /* LOC */
 			onCancel={onCancel}
+			onConfirm={handleConfirm}
 			cancelButtonText="Cancel" /* LOC */
 			confirmButtonText="Delete" /* LOC */
 			buttonColor="danger"
+			isLoading={loading}
 		>
 			<p>
 				Are you sure you want to delete this playlist? If you delete '
@@ -162,10 +188,23 @@ const DeletePlaylistConfirmModal = ({
 
 interface DeleteButtonProps {
 	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
+	onSave: (e: DeletePlaylistFormSubmitEvent) => Promise<void>;
 }
 
-const DeleteButton = ({ playlist }: DeleteButtonProps): ReactElement => {
+const DeleteButton = ({
+	playlist,
+	onSave,
+}: DeleteButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
+
+	const handleSave = useCallback(
+		async (e: DeletePlaylistFormSubmitEvent): Promise<void> => {
+			await onSave(e);
+
+			setModalOpen(false);
+		},
+		[onSave],
+	);
 
 	return (
 		<>
@@ -180,6 +219,7 @@ const DeleteButton = ({ playlist }: DeleteButtonProps): ReactElement => {
 				<DeletePlaylistConfirmModal
 					playlist={playlist}
 					onCancel={(): void => setModalOpen(false)}
+					onSave={handleSave}
 				/>
 			)}
 		</>
@@ -194,6 +234,19 @@ export const PlaylistDetailsPage = ({
 	playlist,
 }: PlaylistDetailsPageProps): ReactElement => {
 	const { euiTheme } = useEuiTheme();
+
+	const router = useRouter();
+
+	const handleDeletePlaylist = useCallback(
+		async (e: DeletePlaylistFormSubmitEvent): Promise<void> => {
+			await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdDelete({
+				id: e.id,
+			});
+
+			await router.navigate({ to: '/playlists' });
+		},
+		[router],
+	);
 
 	return (
 		<>
@@ -234,7 +287,10 @@ export const PlaylistDetailsPage = ({
 						<RenameButton playlist={playlist} />
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<DeleteButton playlist={playlist} />
+						<DeleteButton
+							playlist={playlist}
+							onSave={handleDeletePlaylist}
+						/>
 					</EuiFlexItem>
 				</EuiFlexGroup>
 			</EuiPageTemplate.Section>
