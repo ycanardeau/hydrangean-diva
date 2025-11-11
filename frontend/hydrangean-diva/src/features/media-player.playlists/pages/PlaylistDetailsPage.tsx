@@ -24,6 +24,9 @@ import {
 } from '@fluentui/react-icons';
 import { ReactElement, useState } from 'react';
 
+import { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api';
+import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
+
 const PlayAllButton = (): ReactElement => {
 	return <EuiButton iconType={PlayRegular}>Play all{/* LOC */}</EuiButton>;
 };
@@ -37,17 +40,19 @@ interface RenamePlaylistFormSubmitEvent {
 }
 
 interface RenamePlaylistModalProps {
+	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
 	onCancel: () => void;
 	onSave: (e: RenamePlaylistFormSubmitEvent) => Promise<void>;
 }
 
 const RenamePlaylistModal = ({
+	playlist,
 	onCancel,
 	onSave,
 }: RenamePlaylistModalProps): ReactElement => {
 	const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
 
-	const [name, setName] = useState('');
+	const [name, setName] = useState(playlist.name);
 	const [loading, setLoading] = useState(false);
 
 	return (
@@ -103,7 +108,11 @@ const RenamePlaylistModal = ({
 	);
 };
 
-const RenameButton = (): ReactElement => {
+interface RenameButtonProps {
+	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
+}
+
+const RenameButton = ({ playlist }: RenameButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	return (
@@ -117,6 +126,7 @@ const RenameButton = (): ReactElement => {
 
 			{isModalOpen && (
 				<RenamePlaylistModal
+					playlist={playlist}
 					onCancel={(): void => setModalOpen(false)}
 					onSave={async (): Promise<void> => {}}
 				/>
@@ -126,10 +136,12 @@ const RenameButton = (): ReactElement => {
 };
 
 interface DeletePlaylistConfirmModalProps {
+	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
 	onCancel: () => void;
 }
 
 const DeletePlaylistConfirmModal = ({
+	playlist,
 	onCancel,
 }: DeletePlaylistConfirmModalProps): ReactElement => {
 	return (
@@ -141,14 +153,18 @@ const DeletePlaylistConfirmModal = ({
 			buttonColor="danger"
 		>
 			<p>
-				Are you sure you want to delete this playlist? If you delete '',
-				you won't be able to recover it.{/* LOC */}
+				Are you sure you want to delete this playlist? If you delete '
+				{playlist.name}', you won't be able to recover it.{/* LOC */}
 			</p>
 		</EuiConfirmModal>
 	);
 };
 
-const DeleteButton = (): ReactElement => {
+interface DeleteButtonProps {
+	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
+}
+
+const DeleteButton = ({ playlist }: DeleteButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	return (
@@ -162,6 +178,7 @@ const DeleteButton = (): ReactElement => {
 
 			{isModalOpen && (
 				<DeletePlaylistConfirmModal
+					playlist={playlist}
 					onCancel={(): void => setModalOpen(false)}
 				/>
 			)}
@@ -169,13 +186,30 @@ const DeleteButton = (): ReactElement => {
 	);
 };
 
-export const PlaylistDetailsPage = (): ReactElement => {
+interface PlaylistDetailsPageProps {
+	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
+}
+
+export const PlaylistDetailsPage = ({
+	playlist,
+}: PlaylistDetailsPageProps): ReactElement => {
 	const { euiTheme } = useEuiTheme();
 
 	return (
 		<>
-			<EuiPageTemplate.Header
-				pageTitle="Playlist"
+			<AppPageTemplateHeader
+				pageTitle={playlist.name}
+				breadcrumbs={[
+					{
+						text: 'Playlists' /* LOC */,
+						linkProps: {
+							to: '/playlists',
+						},
+					},
+					{
+						text: playlist.name,
+					},
+				]}
 				description={`${0} items`}
 			/>
 
@@ -197,10 +231,10 @@ export const PlaylistDetailsPage = (): ReactElement => {
 						<AddToButton />
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<RenameButton />
+						<RenameButton playlist={playlist} />
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<DeleteButton />
+						<DeleteButton playlist={playlist} />
 					</EuiFlexItem>
 				</EuiFlexGroup>
 			</EuiPageTemplate.Section>

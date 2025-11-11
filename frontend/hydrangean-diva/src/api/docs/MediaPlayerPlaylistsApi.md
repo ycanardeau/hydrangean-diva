@@ -13,7 +13,7 @@ All URIs are relative to *http://localhost*
 
 ## mediaPlayerPlaylistsGet
 
-> object mediaPlayerPlaylistsGet()
+> HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto mediaPlayerPlaylistsGet()
 
 
 
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+[**HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto**](HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto.md)
 
 ### Authorization
 
@@ -135,7 +135,7 @@ No authorization required
 
 ## mediaPlayerPlaylistsIdGet
 
-> object mediaPlayerPlaylistsIdGet(id)
+> HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto mediaPlayerPlaylistsIdGet(id)
 
 
 
@@ -178,7 +178,7 @@ example().catch(console.error);
 
 ### Return type
 
-**object**
+[**HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto**](HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto.md)
 
 ### Authorization
 

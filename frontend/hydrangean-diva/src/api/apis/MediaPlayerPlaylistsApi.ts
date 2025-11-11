@@ -15,9 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto,
+  HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto,
   HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest,
 } from '../models/index';
 import {
+    HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDtoFromJSON,
+    HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDtoToJSON,
+    HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDtoFromJSON,
+    HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDtoToJSON,
     HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequestFromJSON,
     HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequestToJSON,
 } from '../models/index';
@@ -41,7 +47,7 @@ export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
 
     /**
      */
-    async mediaPlayerPlaylistsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async mediaPlayerPlaylistsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -56,12 +62,12 @@ export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async mediaPlayerPlaylistsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+    async mediaPlayerPlaylistsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto> {
         const response = await this.mediaPlayerPlaylistsGetRaw(initOverrides);
         return await response.value();
     }
@@ -103,7 +109,7 @@ export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
 
     /**
      */
-    async mediaPlayerPlaylistsIdGetRaw(requestParameters: MediaPlayerPlaylistsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async mediaPlayerPlaylistsIdGetRaw(requestParameters: MediaPlayerPlaylistsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -126,12 +132,12 @@ export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async mediaPlayerPlaylistsIdGet(requestParameters: MediaPlayerPlaylistsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+    async mediaPlayerPlaylistsIdGet(requestParameters: MediaPlayerPlaylistsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto> {
         const response = await this.mediaPlayerPlaylistsIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }

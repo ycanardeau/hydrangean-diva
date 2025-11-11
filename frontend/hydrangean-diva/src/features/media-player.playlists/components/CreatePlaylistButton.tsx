@@ -14,7 +14,7 @@ import {
 import { AddRegular } from '@fluentui/react-icons';
 import { ReactElement, useCallback, useState } from 'react';
 
-interface CreatePlaylistFormSubmitEvent {
+export interface CreatePlaylistFormSubmitEvent {
 	name: string;
 }
 
@@ -85,12 +85,23 @@ const CreatePlaylistModal = ({
 	);
 };
 
-export const CreatePlaylistButton = (): ReactElement => {
+interface CreatePlaylistButtonProps {
+	onSave: (e: CreatePlaylistFormSubmitEvent) => Promise<void>;
+}
+
+export const CreatePlaylistButton = ({
+	onSave,
+}: CreatePlaylistButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
 
-	const handleSave = useCallback(async (): Promise<void> => {
-		setModalOpen(false);
-	}, []);
+	const handleSave = useCallback(
+		async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {
+			await onSave(e);
+
+			setModalOpen(false);
+		},
+		[onSave],
+	);
 
 	return (
 		<>

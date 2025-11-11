@@ -1,12 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ReactElement } from 'react';
 
+import { mediaPlayerPlaylistsApi } from '@/features/common/helpers/clients';
 import { PlaylistDetailsPage } from '@/features/media-player.playlists/pages/PlaylistDetailsPage';
 
 const RouteComponent = (): ReactElement => {
-	return <PlaylistDetailsPage />;
+	const { playlist } = Route.useLoaderData();
+
+	return <PlaylistDetailsPage playlist={playlist} />;
 };
 
 export const Route = createFileRoute('/_authenticated/playlists/$playlistId/')({
+	loader: (context) =>
+		mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdGet({
+			id: context.params.playlistId,
+		}),
 	component: RouteComponent,
 });

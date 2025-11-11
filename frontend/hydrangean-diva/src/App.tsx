@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-router';
 import { ReactElement, ReactNode } from 'react';
 
-import { Compose } from '@/common/components/Compose';
+import { Compose } from '@/features/common/components/Compose';
 import { PlayQueueStoreProvider } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
 import { PlayerStoreProvider } from '@/features/media-player.player/components/PlayerStoreContext';
 import { routeTree } from '@/routeTree.gen';

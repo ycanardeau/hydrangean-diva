@@ -19,6 +19,7 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useState } from 'react';
 
+import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import {
 	AddVideoButton,
 	AddVideoFormSubmitEvent,
@@ -220,7 +221,7 @@ export const HydrangeanDiva = observer(
 	({ playQueueStore }: HydrangeanDivaProps): ReactElement => {
 		return (
 			<>
-				<EuiPageTemplate.Header
+				<AppPageTemplateHeader
 					pageTitle="Play queue" /* LOC */
 					rightSideItems={[]}
 				/>

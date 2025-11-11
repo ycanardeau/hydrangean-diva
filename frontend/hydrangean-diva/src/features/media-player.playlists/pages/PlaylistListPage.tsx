@@ -1,13 +1,88 @@
-import { EuiPageTemplate } from '@elastic/eui';
+import {
+	EuiPageTemplate,
+	EuiSpacer,
+	EuiTable,
+	EuiTableBody,
+	EuiTableHeader,
+	EuiTableHeaderCell,
+	EuiTableRow,
+	EuiTableRowCell,
+} from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import { memo, ReactElement, useState } from 'react';
+import { memo, ReactElement, useCallback, useState } from 'react';
 
+import { AppLink } from '@/common/components/AppLink';
+import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { MobXObservableStateProvider } from '@/features/common';
-import { PlaylistListEmptyPrompt } from '@/features/media-player.playlists/components/PlaylistListEmptyPrompt';
+import { useLocationStateStore } from '@/features/common/components/useLocationStateHandler';
+import { mediaPlayerPlaylistsApi } from '@/features/common/helpers/clients';
+import {
+	CreatePlaylistButton,
+	CreatePlaylistFormSubmitEvent,
+} from '@/features/media-player.playlists/components/CreatePlaylistButton';
 import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 
 const PlaylistListPageHeader = (): ReactElement => {
-	return <EuiPageTemplate.Header pageTitle="Playlists" /* LOC */ />;
+	return (
+		<AppPageTemplateHeader
+			pageTitle="Playlists" /* LOC */
+			breadcrumbs={[
+				{
+					text: 'Playlists' /* LOC */,
+				},
+			]}
+		/>
+	);
+};
+
+const PlaylistListTableHeader = memo((): ReactElement => {
+	return (
+		<EuiTableHeader>
+			<EuiTableHeaderCell>Name{/* LOC */}</EuiTableHeaderCell>
+		</EuiTableHeader>
+	);
+});
+
+interface PlaylistListTableBodyProps {
+	playlistListStore: PlaylistListStore;
+}
+
+const PlaylistListTableBody = observer(
+	({ playlistListStore }: PlaylistListTableBodyProps): ReactElement => {
+		return (
+			<EuiTableBody>
+				{playlistListStore.items.map((item) => (
+					<EuiTableRow key={item.id}>
+						<EuiTableRowCell>
+							<AppLink
+								linkProps={{
+									to: '/playlists/$playlistId',
+									params: { playlistId: item.id },
+								}}
+							>
+								{item.name}
+							</AppLink>
+						</EuiTableRowCell>
+					</EuiTableRow>
+				))}
+			</EuiTableBody>
+		);
+	},
+);
+
+interface PlaylistListTableProps {
+	playlistListStore: PlaylistListStore;
+}
+
+const PlaylistListTable = ({
+	playlistListStore,
+}: PlaylistListTableProps): ReactElement => {
+	return (
+		<EuiTable>
+			<PlaylistListTableHeader />
+			<PlaylistListTableBody playlistListStore={playlistListStore} />
+		</EuiTable>
+	);
 };
 
 interface PlaylistListPageBodyProps {
@@ -16,23 +91,45 @@ interface PlaylistListPageBodyProps {
 
 const PlaylistListPageBody = observer(
 	({ playlistListStore }: PlaylistListPageBodyProps): ReactElement => {
-		return playlistListStore.items.length === 0 ? (
-			<PlaylistListEmptyPrompt />
-		) : (
-			<></>
+		useLocationStateStore(playlistListStore);
+
+		const handleCreatePlaylist = useCallback(
+			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {
+				await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsPost({
+					hydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest:
+						{
+							name: e.name,
+						},
+				});
+
+				await playlistListStore.updateResults();
+			},
+			[playlistListStore],
+		);
+
+		return (
+			<EuiPageTemplate.Section>
+				<CreatePlaylistButton onSave={handleCreatePlaylist} />
+
+				<EuiSpacer size="l" />
+				<PlaylistListTable playlistListStore={playlistListStore} />
+			</EuiPageTemplate.Section>
 		);
 	},
 );
 
 export const PlaylistListPage = memo((): ReactElement => {
 	const [playlistListStore] = useState(
-		() => new PlaylistListStore(new MobXObservableStateProvider()),
+		() =>
+			new PlaylistListStore(
+				new MobXObservableStateProvider(),
+				mediaPlayerPlaylistsApi,
+			),
 	);
 
 	return (
 		<>
 			<PlaylistListPageHeader />
-
 			<PlaylistListPageBody playlistListStore={playlistListStore} />
 		</>
 	);
