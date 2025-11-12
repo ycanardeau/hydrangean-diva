@@ -158,6 +158,84 @@
         }
       }
     },
+    "/media-player/playlists/{id}/tracks": {
+      "get": {
+        "tags": [
+          "Media Player - Playlists"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ListTracksResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ListTracksResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ListTracksResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Media Player - Playlists"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ReplaceTracksResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ReplaceTracksResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ReplaceTracksResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/media-player/playlists/{id}:rename": {
       "post": {
         "tags": [
@@ -255,6 +333,10 @@
         },
         "additionalProperties": false
       },
+      "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ListTracksResponseDto": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.PlaylistDto": {
         "required": [
           "id",
@@ -273,6 +355,10 @@
         "additionalProperties": false
       },
       "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.RenamePlaylistResponseDto": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ReplaceTracksResponseDto": {
         "type": "object",
         "additionalProperties": false
       },
