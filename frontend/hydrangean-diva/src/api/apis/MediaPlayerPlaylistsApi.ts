@@ -44,6 +44,14 @@ export interface MediaPlayerPlaylistsIdRenamePostRequest {
     hydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest?: HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest;
 }
 
+export interface MediaPlayerPlaylistsIdTracksGetRequest {
+    id: string;
+}
+
+export interface MediaPlayerPlaylistsIdTracksPutRequest {
+    id: string;
+}
+
 export interface MediaPlayerPlaylistsPostRequest {
     hydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest?: HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest;
 }
@@ -185,6 +193,76 @@ export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
      */
     async mediaPlayerPlaylistsIdRenamePost(requestParameters: MediaPlayerPlaylistsIdRenamePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
         const response = await this.mediaPlayerPlaylistsIdRenamePostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdTracksGetRaw(requestParameters: MediaPlayerPlaylistsIdTracksGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling mediaPlayerPlaylistsIdTracksGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/media-player/playlists/{id}/tracks`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdTracksGet(requestParameters: MediaPlayerPlaylistsIdTracksGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.mediaPlayerPlaylistsIdTracksGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdTracksPutRaw(requestParameters: MediaPlayerPlaylistsIdTracksPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling mediaPlayerPlaylistsIdTracksPut().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/media-player/playlists/{id}/tracks`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async mediaPlayerPlaylistsIdTracksPut(requestParameters: MediaPlayerPlaylistsIdTracksPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.mediaPlayerPlaylistsIdTracksPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
