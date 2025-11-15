@@ -29,6 +29,27 @@ import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNo
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 
+interface AddToPlayQueueButtonProps {
+	playQueueStore: IPlayQueueStore;
+}
+
+const AddToPlayQueueButton = observer(
+	({ playQueueStore }: AddToPlayQueueButtonProps): ReactElement => {
+		return (
+			<EuiButton
+				iconType={AddRegular}
+				onClick={playQueueStore.addSelectedItems}
+				disabled={
+					playQueueStore.isEmpty ||
+					playQueueStore.selectedItems.length === 0
+				}
+			>
+				Add to play queue{/* LOC */}
+			</EuiButton>
+		);
+	},
+);
+
 interface DeveloperToolsButtonProps {
 	playQueueStore: PlayQueueStore;
 }
@@ -138,16 +159,7 @@ const PlayQueue = observer(
 						</EuiButton>
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<EuiButton
-							iconType={AddRegular}
-							onClick={playQueueStore.addSelectedItems}
-							disabled={
-								playQueueStore.isEmpty ||
-								playQueueStore.selectedItems.length === 0
-							}
-						>
-							Add to play queue{/* LOC */}
-						</EuiButton>
+						<AddToPlayQueueButton playQueueStore={playQueueStore} />
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
 						<EuiButton

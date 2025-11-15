@@ -108,6 +108,17 @@ const PlayQueueTableRowContextMenuPanel = memo(
 			},
 		);
 
+		const AddToPlayQueueContextMenu = memo((): ReactElement => {
+			return (
+				<ContextMenuItem
+					icon={<EuiIcon type={AddRegular} />}
+					onClick={item.addToPlayQueue}
+				>
+					Add to play queue{/* LOC */}
+				</ContextMenuItem>
+			);
+		});
+
 		return (
 			<EuiContextMenuPanel>
 				<ContextMenuItem
@@ -122,12 +133,7 @@ const PlayQueueTableRowContextMenuPanel = memo(
 				>
 					Play next{/* LOC */}
 				</ContextMenuItem>
-				<ContextMenuItem
-					icon={<EuiIcon type={AddRegular} />}
-					onClick={item.addToPlayQueue}
-				>
-					Add to play queue{/* LOC */}
-				</ContextMenuItem>
+				<AddToPlayQueueContextMenu />
 				<EuiHorizontalRule margin="none" />
 				<ContextMenuItem
 					icon={<EuiIcon type={ArrowUploadRegular} />}
