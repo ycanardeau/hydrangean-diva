@@ -24,6 +24,7 @@ import {
 } from '@tanstack/react-router';
 import { ReactElement, ReactNode, useCallback, useState } from 'react';
 
+import { featureFlags } from '@/features/common/helpers/featureFlags';
 import { bottomBarHeight } from '@/features/media-player.player/components/BottomBar';
 
 const commitHash =
@@ -100,7 +101,7 @@ export const Header = (): ReactElement => {
 			linkProps: {
 				to: '/playlists',
 			},
-			isDisabled: process.env.NODE_ENV === 'production',
+			isDisabled: !featureFlags.mediaPlayer.enablePlaylists,
 		}),
 	];
 
