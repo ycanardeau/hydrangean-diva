@@ -1,13 +1,10 @@
 import { PlayerType, useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
-	CommonProps,
 	EuiButton,
 	EuiButtonIcon,
 	EuiCheckbox,
-	EuiContextMenuItem,
-	EuiContextMenuItemProps,
-	EuiContextMenuPanel,
-	EuiHorizontalRule,
+	EuiContextMenu,
+	EuiContextMenuPanelDescriptor,
 	EuiIcon,
 	EuiLink,
 	EuiPopover,
@@ -30,10 +27,10 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React, {
-	ButtonHTMLAttributes,
 	memo,
 	ReactElement,
 	useCallback,
+	useMemo,
 	useState,
 } from 'react';
 import { ReactSortable } from 'react-sortablejs';
@@ -75,97 +72,101 @@ const PlayQueueTableHeader = observer(
 	},
 );
 
-interface PlayQueueTableRowContextMenuPanelProps {
+interface PlayQueueTableRowContextMenuProps {
 	item: IPlayQueueItemStore;
 	closePopover: () => void;
 }
 
-const PlayQueueTableRowContextMenuPanel = memo(
+const PlayQueueTableRowContextMenu = memo(
 	({
 		item,
 		closePopover,
-	}: PlayQueueTableRowContextMenuPanelProps): ReactElement => {
-		const ContextMenuItem = memo(
-			({
-				onClick,
-				...props
-			}: CommonProps &
-				Omit<
-					ButtonHTMLAttributes<HTMLButtonElement>,
-					'onClick' | 'disabled' | 'type'
-				> &
-				EuiContextMenuItemProps): ReactElement => {
-				const handleClick = useCallback(
-					(e: React.MouseEvent) => {
-						closePopover();
+	}: PlayQueueTableRowContextMenuProps): ReactElement => {
+		const panels = useMemo(
+			(): EuiContextMenuPanelDescriptor[] => [
+				{
+					id: 0,
+					items: [
+						{
+							name: 'Play first' /* LOC */,
+							icon: <EuiIcon type="" />,
+							onClick: async (): Promise<void> => {
+								closePopover();
 
-						onClick?.(e);
-					},
-					[onClick],
-				);
+								await item.playFirst();
+							},
+						},
+						{
+							name: 'Play next' /* LOC */,
+							icon: <EuiIcon type="" />,
+							onClick: async (): Promise<void> => {
+								closePopover();
 
-				return <EuiContextMenuItem {...props} onClick={handleClick} />;
-			},
+								await item.playNext();
+							},
+						},
+						{
+							name: 'Add to play queue' /* LOC */,
+							icon: <EuiIcon type={AddRegular} />,
+							onClick: async (): Promise<void> => {
+								closePopover();
+
+								await item.addToPlayQueue();
+							},
+						},
+						{
+							isSeparator: true,
+						},
+						{
+							name: 'Move to the top' /* LOC */,
+							icon: <EuiIcon type={ArrowUploadRegular} />,
+							onClick: async (): Promise<void> => {
+								closePopover();
+
+								item.moveToTop();
+							},
+							disabled: !item.canMoveToTop,
+						},
+						{
+							name: 'Move to the bottom' /* LOC */,
+							icon: <EuiIcon type={ArrowDownloadRegular} />,
+							onClick: async (): Promise<void> => {
+								closePopover();
+
+								item.moveToBottom();
+							},
+							disabled: !item.canMoveToBottom,
+						},
+						{
+							isSeparator: true,
+						},
+						{
+							name: 'Remove to the top' /* LOC */,
+							icon: <EuiIcon type="" />,
+							onClick: async (): Promise<void> => {
+								closePopover();
+
+								await item.removeToTop();
+							},
+							disabled: !item.canRemoveToTop,
+						},
+						{
+							name: 'Remove others' /* LOC */,
+							icon: <EuiIcon type="" />,
+							onClick: async (): Promise<void> => {
+								closePopover();
+
+								await item.removeOthers();
+							},
+							disabled: !item.canRemoveOthers,
+						},
+					],
+				},
+			],
+			[closePopover, item],
 		);
 
-		const AddToPlayQueueContextMenu = memo((): ReactElement => {
-			return (
-				<ContextMenuItem
-					icon={<EuiIcon type={AddRegular} />}
-					onClick={item.addToPlayQueue}
-				>
-					Add to play queue{/* LOC */}
-				</ContextMenuItem>
-			);
-		});
-
-		return (
-			<EuiContextMenuPanel>
-				<ContextMenuItem
-					icon={<EuiIcon type="" />}
-					onClick={item.playFirst}
-				>
-					Play first{/* LOC */}
-				</ContextMenuItem>
-				<ContextMenuItem
-					icon={<EuiIcon type="" />}
-					onClick={item.playNext}
-				>
-					Play next{/* LOC */}
-				</ContextMenuItem>
-				<AddToPlayQueueContextMenu />
-				<EuiHorizontalRule margin="none" />
-				<ContextMenuItem
-					icon={<EuiIcon type={ArrowUploadRegular} />}
-					onClick={item.moveToTop}
-					disabled={!item.canMoveToTop}
-				>
-					Move to the top{/* LOC */}
-				</ContextMenuItem>
-				<ContextMenuItem
-					icon={<EuiIcon type={ArrowDownloadRegular} />}
-					onClick={item.moveToBottom}
-					disabled={!item.canMoveToBottom}
-				>
-					Move to the bottom{/* LOC */}
-				</ContextMenuItem>
-				<EuiHorizontalRule margin="none" />
-				<ContextMenuItem
-					icon={<EuiIcon type="" />}
-					onClick={item.removeToTop}
-					disabled={!item.canRemoveToTop}
-				>
-					Remove to the top{/* LOC */}
-				</ContextMenuItem>
-				<ContextMenuItem
-					icon={<EuiIcon type="" />}
-					onClick={item.removeOthers}
-					disabled={!item.canRemoveOthers}
-				>
-					Remove others{/* LOC */}
-				</ContextMenuItem>
-			</EuiContextMenuPanel>
-		);
+		return <EuiContextMenu initialPanelId={0} panels={panels} />;
 	},
 );
 
@@ -197,7 +198,7 @@ const PlayQueueTableRowPopover = memo(
 				panelPaddingSize="none"
 				anchorPosition="leftCenter"
 			>
-				<PlayQueueTableRowContextMenuPanel
+				<PlayQueueTableRowContextMenu
 					item={item}
 					closePopover={closePopover}
 				/>
