@@ -237,20 +237,18 @@ const MoreOptionsContextMenu = memo(
 					items: [
 						{
 							name: 'Speed' /* LOC */,
-							icon: <EuiIcon type={TopSpeedRegular} size="m" />,
+							icon: <EuiIcon type={TopSpeedRegular} />,
 							panel: 1,
 						},
 						{
 							name: 'Skip back 10 seconds' /* LOC */,
-							icon: <EuiIcon type={SkipBack10Regular} size="m" />,
+							icon: <EuiIcon type={SkipBack10Regular} />,
 							onClick: handleClickSkipBack10,
 							disabled: playQueueStore.isEmpty,
 						},
 						{
 							name: 'Skip forward 30 seconds' /* LOC */,
-							icon: (
-								<EuiIcon type={SkipForward30Regular} size="m" />
-							),
+							icon: <EuiIcon type={SkipForward30Regular} />,
 							onClick: handleClickSkipForward30,
 							disabled: playQueueStore.isEmpty,
 						},
@@ -259,7 +257,7 @@ const MoreOptionsContextMenu = memo(
 						},
 						{
 							name: 'Remove from play queue' /* LOC */,
-							icon: <EuiIcon type={DismissRegular} size="m" />,
+							icon: <EuiIcon type={DismissRegular} />,
 							onClick: handleClickRemoveFromPlayQueue,
 							disabled: playQueueStore.isEmpty,
 						},

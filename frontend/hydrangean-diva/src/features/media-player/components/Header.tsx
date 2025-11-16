@@ -117,7 +117,7 @@ export const Header = (): ReactElement => {
 				<EuiHeaderSectionItemButton
 					onClick={(): void => setNavIsOpen(!navIsOpen)}
 				>
-					<EuiIcon type="menu" size="m" aria-hidden="true" />
+					<EuiIcon type="menu" aria-hidden="true" />
 				</EuiHeaderSectionItemButton>
 			}
 			onClose={(): void => setNavIsOpen(false)}
