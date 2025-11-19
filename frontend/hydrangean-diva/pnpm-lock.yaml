@@ -18,8 +18,8 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3(moment@2.30.1)
       '@elastic/eui':
-        specifier: ^102.3.0
-        version: 102.3.0(@elastic/datemath@5.0.3(moment@2.30.1))(@elastic/eui-theme-borealis@1.1.0)(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)
+        specifier: ^109.1.0
+        version: 109.1.0(@elastic/datemath@5.0.3(moment@2.30.1))(@elastic/eui-theme-borealis@5.0.0)(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)
       '@emotion/cache':
         specifier: ^11.14.0
         version: 11.14.0
@@ -1041,33 +1041,33 @@ packages:
     peerDependencies:
       moment: ^2.24.0
 
-  '@elastic/eui-theme-borealis@1.1.0':
-    resolution: {integrity: sha512-sm5wxrDPv/vul/37AAFmj9GfeAyA55+DWYQPI3k79hu6/Dcsp53Kdwaxh4BgFuNjfAAtMbmPkpBIOJMGSCeW1w==}
+  '@elastic/eui-theme-borealis@5.0.0':
+    resolution: {integrity: sha512-87LIeV/KQPB4aBe08/r//7uSOqDdnaSa4e3rAaxSwwQT1dXku/00uwXOWYgZ52otjzF+4t6vTmyqdgQGnLurNQ==}
 
-  '@elastic/eui-theme-common@1.1.0':
-    resolution: {integrity: sha512-WI+hkJcPdX82a7Y7LGIkHnC80X4O8YwjjzgwEHngsuMXKuFUkCs9JFru1adzg+mF0TAseUjE+V5PvNWlrm8J3g==}
+  '@elastic/eui-theme-common@7.0.0':
+    resolution: {integrity: sha512-zt4F4wwlUUaAV38B2ESbVUL5AMeGHozq7Xw2tYBgz/FXkYGGTMBsLIwBm7lPipEGjQ7N7Nkjff9l3h635yLdrQ==}
     peerDependencies:
       '@emotion/react': 11.x
-      react: ^16.12 || ^17.0 || ^18.0
-      react-dom: ^16.12 || ^17.0 || ^18.0
+      react: ^17.0 || ^18.0
+      react-dom: ^17.0 || ^18.0
 
-  '@elastic/eui@102.3.0':
-    resolution: {integrity: sha512-U0WOGkKaiYc42t6d+42RYnFJD6p03pHheM8H8t2sr+fmsnd6sMzEwkng+xiTZrUGSvtqmw1ltbJXdK31J5EwdQ==}
+  '@elastic/eui@109.1.0':
+    resolution: {integrity: sha512-V34RKiM8v0b8ken4HK+bl0lEjbrw7tGLv+5srBlqrH2OmfP2bIh5qcB7pxnRD6cuTgXoolJYE+JhTIiQC679+w==}
     engines: {node: 16.x || 18.x || >=20.x}
     peerDependencies:
       '@elastic/datemath': ^5.0.2
-      '@elastic/eui-theme-borealis': 1.1.0
+      '@elastic/eui-theme-borealis': 5.0.0
       '@emotion/css': 11.x
       '@emotion/react': 11.x
-      '@types/react': ^16.9 || ^17.0 || ^18.0
-      '@types/react-dom': ^16.9 || ^17.0 || ^18.0
+      '@types/react': ^17.0 || ^18.0
+      '@types/react-dom': ^17.0 || ^18.0
       moment: ^2.13.0
-      react: ^16.12 || ^17.0 || ^18.0
-      react-dom: ^16.12 || ^17.0 || ^18.0
+      react: ^17.0 || ^18.0
+      react-dom: ^17.0 || ^18.0
       typescript: ~4.5.3 || ^5
 
-  '@elastic/prismjs-esql@1.1.0':
-    resolution: {integrity: sha512-k2zZfCL4l+qCXfmc9jrnDdEWW2jDPFAHlCq1JAh3x7zWN6Eyc6ACn3oj9oy49xsuAO+BAhQ345uueL8K/3UIKg==}
+  '@elastic/prismjs-esql@1.1.2':
+    resolution: {integrity: sha512-cW/fYEfB/mkqURmEhxz7AX1yqxexKNwSO2VQOAWCkwvXLQirg9AnjDgMZIVTsPc8s4JdI3grA5p5rUruJq9GpA==}
 
   '@emnapi/core@1.4.5':
     resolution: {integrity: sha512-XsLw1dEOpkSX/WucdqUhPWP7hDxSvZiY+fsUC14h+FtQ2Ifni4znbBt8punRX+Uj2JG/uDb8nEHVKvrVlvdZ5Q==}
@@ -1918,8 +1918,10 @@ packages:
   '@types/hast@2.3.10':
     resolution: {integrity: sha512-McWspRw8xx8J9HurkVBfYj0xKoE25tOFlHGdx4MJ5xORQrMGZNqJhVQWaIbm6Oyla5kYOXtDiopzKRJzEOkwJw==}
 
-  '@types/hoist-non-react-statics@3.3.6':
-    resolution: {integrity: sha512-lPByRJUer/iN/xa4qpyL0qmL11DqNW81iU/IG1S3uvRUq4oKagz8VCxZjiWkumgt66YT3vOdDgZ0o32sGKtCEw==}
+  '@types/hoist-non-react-statics@3.3.7':
+    resolution: {integrity: sha512-PQTyIulDkIDro8P+IHbKCsw7U2xxBYflVzW/FgWdCAePD9xGSidgA76/GeJ6lBKoblyhf9pBY763gbrN+1dI8g==}
+    peerDependencies:
+      '@types/react': '*'
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -7006,9 +7008,9 @@ snapshots:
       moment: 2.30.1
       tslib: 1.14.1
 
-  '@elastic/eui-theme-borealis@1.1.0': {}
+  '@elastic/eui-theme-borealis@5.0.0': {}
 
-  '@elastic/eui-theme-common@1.1.0(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@elastic/eui-theme-common@7.0.0(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@18.3.23)(react@18.3.1)
       '@types/lodash': 4.17.17
@@ -7017,12 +7019,12 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@elastic/eui@102.3.0(@elastic/datemath@5.0.3(moment@2.30.1))(@elastic/eui-theme-borealis@1.1.0)(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)':
+  '@elastic/eui@109.1.0(@elastic/datemath@5.0.3(moment@2.30.1))(@elastic/eui-theme-borealis@5.0.0)(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)':
     dependencies:
       '@elastic/datemath': 5.0.3(moment@2.30.1)
-      '@elastic/eui-theme-borealis': 1.1.0
-      '@elastic/eui-theme-common': 1.1.0(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@elastic/prismjs-esql': 1.1.0
+      '@elastic/eui-theme-borealis': 5.0.0
+      '@elastic/eui-theme-common': 7.0.0(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@elastic/prismjs-esql': 1.1.2
       '@emotion/css': 11.13.5
       '@emotion/react': 11.14.0(@types/react@18.3.23)(react@18.3.1)
       '@hello-pangea/dnd': 16.6.0(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7067,7 +7069,7 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@elastic/prismjs-esql@1.1.0': {}
+  '@elastic/prismjs-esql@1.1.2': {}
 
   '@emnapi/core@1.4.5':
     dependencies:
@@ -7287,7 +7289,7 @@ snapshots:
 
   '@hello-pangea/dnd@16.6.0(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@babel/runtime': 7.27.4
+      '@babel/runtime': 7.28.4
       css-box-model: 1.2.1
       memoize-one: 6.0.0
       raf-schd: 4.0.3
@@ -7949,7 +7951,7 @@ snapshots:
     dependencies:
       '@types/unist': 2.0.11
 
-  '@types/hoist-non-react-statics@3.3.6':
+  '@types/hoist-non-react-statics@3.3.7(@types/react@18.3.23)':
     dependencies:
       '@types/react': 18.3.23
       hoist-non-react-statics: 3.3.2
@@ -10475,7 +10477,7 @@ snapshots:
 
   react-clientside-effect@1.2.8(react@18.3.1):
     dependencies:
-      '@babel/runtime': 7.27.4
+      '@babel/runtime': 7.28.4
       react: 18.3.1
 
   react-dom@18.3.1(react@18.3.1):
@@ -10501,7 +10503,7 @@ snapshots:
 
   react-focus-lock@2.13.6(@types/react@18.3.23)(react@18.3.1):
     dependencies:
-      '@babel/runtime': 7.27.4
+      '@babel/runtime': 7.28.4
       focus-lock: 1.3.6
       prop-types: 15.8.1
       react: 18.3.1
@@ -10533,13 +10535,13 @@ snapshots:
 
   react-redux@8.1.3(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(redux@4.2.1):
     dependencies:
-      '@babel/runtime': 7.27.4
-      '@types/hoist-non-react-statics': 3.3.6
+      '@babel/runtime': 7.28.4
+      '@types/hoist-non-react-statics': 3.3.7(@types/react@18.3.23)
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
       react: 18.3.1
       react-is: 18.3.1
-      use-sync-external-store: 1.5.0(react@18.3.1)
+      use-sync-external-store: 1.6.0(react@18.3.1)
     optionalDependencies:
       '@types/react': 18.3.23
       '@types/react-dom': 18.3.7(@types/react@18.3.23)
@@ -10603,7 +10605,7 @@ snapshots:
 
   react-window@1.8.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@babel/runtime': 7.27.4
+      '@babel/runtime': 7.28.4
       memoize-one: 5.2.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -10632,7 +10634,7 @@ snapshots:
 
   redux@4.2.1:
     dependencies:
-      '@babel/runtime': 7.27.4
+      '@babel/runtime': 7.28.4
 
   reflect-metadata@0.2.2: {}
 
