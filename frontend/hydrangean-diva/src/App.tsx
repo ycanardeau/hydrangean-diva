@@ -1,4 +1,5 @@
 import '@/icons';
+import './nprogress.css';
 
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
@@ -8,6 +9,7 @@ import {
 	createRouter,
 	RouterProvider,
 } from '@tanstack/react-router';
+import NProgress from 'nprogress';
 import { ReactElement, ReactNode } from 'react';
 
 import { Compose } from '@/features/common/components/Compose';
@@ -29,6 +31,16 @@ const router = createRouter({
 	defaultPreload: 'intent',
 	scrollRestoration: true,
 	history: hashHistory,
+});
+
+NProgress.configure({ showSpinner: false });
+
+// https://github.com/TanStack/router/discussions/549#discussioncomment-12855219
+router.subscribe('onBeforeLoad', ({ fromLocation, pathChanged }) => {
+	fromLocation && pathChanged && NProgress.start();
+});
+router.subscribe('onLoad', () => {
+	NProgress.done();
 });
 
 // Register the router instance for type safety
