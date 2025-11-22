@@ -1,4 +1,4 @@
-import { PlayerType, useNostalgicDiva } from '@aigamo/nostalgic-diva';
+import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiButtonIcon,
@@ -35,6 +35,7 @@ import React, {
 } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
+import { videoServiceIcons } from '@/features/common/constants/videoServiceIcons';
 import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 
@@ -242,16 +243,6 @@ const PlayQueueTableRowActionsCell = observer(
 		);
 	},
 );
-
-const videoServiceIcons: Record<PlayerType, string> = {
-	Audio: '' /* TODO */,
-	Dailymotion: 'https://www.dailymotion.com/favicon.ico',
-	Niconico: 'https://www.nicovideo.jp/favicon.ico',
-	SoundCloud: 'https://soundcloud.com/favicon.ico',
-	Twitch: 'https://www.twitch.tv/favicon.ico',
-	Vimeo: 'https://vimeo.com/favicon.ico',
-	YouTube: 'https://www.youtube.com/favicon.ico',
-};
 
 interface PlayQueueTableRowProps {
 	item: IPlayQueueItemStore;
