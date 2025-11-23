@@ -298,6 +298,16 @@ export const PlaylistDetailsPage = ({
 					},
 				]}
 				description={`${0} items`}
+				rightSideItems={[
+					<RenameButton
+						playlist={playlist}
+						onSave={handleRenamePlaylist}
+					/>,
+					<DeleteButton
+						playlist={playlist}
+						onSave={handleDeletePlaylist}
+					/>,
+				]}
 			/>
 
 			<EuiPageTemplate.Section>
@@ -316,18 +326,6 @@ export const PlaylistDetailsPage = ({
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
 						<AddToButton />
-					</EuiFlexItem>
-					<EuiFlexItem grow={false}>
-						<RenameButton
-							playlist={playlist}
-							onSave={handleRenamePlaylist}
-						/>
-					</EuiFlexItem>
-					<EuiFlexItem grow={false}>
-						<DeleteButton
-							playlist={playlist}
-							onSave={handleDeletePlaylist}
-						/>
 					</EuiFlexItem>
 				</EuiFlexGroup>
 			</EuiPageTemplate.Section>
