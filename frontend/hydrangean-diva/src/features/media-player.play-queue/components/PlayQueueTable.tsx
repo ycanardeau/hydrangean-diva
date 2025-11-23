@@ -35,7 +35,7 @@ import React, {
 } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
-import { videoServiceIcons } from '@/features/common/constants/videoServiceIcons';
+import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
 import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 

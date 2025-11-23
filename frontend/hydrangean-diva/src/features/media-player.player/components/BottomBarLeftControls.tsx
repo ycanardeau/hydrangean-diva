@@ -3,7 +3,7 @@ import { EuiButtonEmpty, EuiFlexGroup } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { ReactElement } from 'react';
 
-import { videoServiceIcons } from '@/features/common/constants/videoServiceIcons';
+import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 
 interface BottomBarLeftControlsProps {
