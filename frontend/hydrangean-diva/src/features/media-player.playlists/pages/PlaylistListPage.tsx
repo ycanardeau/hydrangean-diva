@@ -85,7 +85,9 @@ const PlaylistListPageBody = observer(
 
 		return (
 			<EuiPageTemplate.Section>
-				<CreatePlaylistButton onSave={handleCreatePlaylist} />
+				<CreatePlaylistButton onSave={handleCreatePlaylist}>
+					New playlist{/* LOC */}
+				</CreatePlaylistButton>
 
 				<EuiSpacer size="l" />
 				<PlaylistListTable playlistListStore={playlistListStore} />

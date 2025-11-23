@@ -12,7 +12,7 @@ import {
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
-import { ReactElement, useCallback, useState } from 'react';
+import { ReactElement, ReactNode, useCallback, useState } from 'react';
 
 export interface CreatePlaylistFormSubmitEvent {
 	name: string;
@@ -86,10 +86,12 @@ const CreatePlaylistModal = ({
 };
 
 interface CreatePlaylistButtonProps {
+	children?: ReactNode;
 	onSave: (e: CreatePlaylistFormSubmitEvent) => Promise<void>;
 }
 
 export const CreatePlaylistButton = ({
+	children,
 	onSave,
 }: CreatePlaylistButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
@@ -108,8 +110,9 @@ export const CreatePlaylistButton = ({
 			<EuiButton
 				onClick={(): void => setModalOpen(true)}
 				iconType={AddRegular}
+				fill
 			>
-				Create playlist{/* LOC */}
+				{children}
 			</EuiButton>
 
 			{isModalOpen && (

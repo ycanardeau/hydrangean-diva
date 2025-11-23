@@ -30,7 +30,11 @@ import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader
 import { mediaPlayerPlaylistsApi } from '@/features/common/helpers/clients';
 
 const PlayAllButton = (): ReactElement => {
-	return <EuiButton iconType={PlayRegular}>Play all{/* LOC */}</EuiButton>;
+	return (
+		<EuiButton iconType={PlayRegular} fill>
+			Play all{/* LOC */}
+		</EuiButton>
+	);
 };
 
 const AddToButton = (): ReactElement => {
