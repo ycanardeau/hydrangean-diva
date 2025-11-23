@@ -87,7 +87,7 @@ module.exports = {
 					},
 					{
 						from: '@aigamo.hydrangean-diva/media-player.playlists',
-						allow: [],
+						allow: ['@aigamo.hydrangean-diva/common'],
 					},
 					{
 						from: '@aigamo.hydrangean-diva/media-player',
