@@ -6,7 +6,6 @@ import {
 	EuiFlexGroup,
 	EuiFlexItem,
 	EuiFlyout,
-	EuiPageTemplate,
 	EuiSpacer,
 	useEuiTheme,
 } from '@elastic/eui';
@@ -19,7 +18,6 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useState } from 'react';
 
-import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import {
 	AddVideoButton,
 	AddVideoFormSubmitEvent,
@@ -100,7 +98,7 @@ interface PlayQueueProps {
 	playQueueStore: IPlayQueueStore;
 }
 
-const PlayQueue = observer(
+export const PlayQueue = observer(
 	({ playQueueStore }: PlayQueueProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
 
@@ -220,27 +218,6 @@ const PlayQueue = observer(
 				) : (
 					<PlayQueueTable playQueueStore={playQueueStore} />
 				)}
-			</>
-		);
-	},
-);
-
-interface HydrangeanDivaProps {
-	playQueueStore: IPlayQueueStore;
-}
-
-export const HydrangeanDiva = observer(
-	({ playQueueStore }: HydrangeanDivaProps): ReactElement => {
-		return (
-			<>
-				<AppPageTemplateHeader
-					pageTitle="Play queue" /* LOC */
-					rightSideItems={[]}
-				/>
-
-				<EuiPageTemplate.Section>
-					<PlayQueue playQueueStore={playQueueStore} />
-				</EuiPageTemplate.Section>
 			</>
 		);
 	},

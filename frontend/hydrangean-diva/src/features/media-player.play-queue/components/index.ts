@@ -1,2 +1,2 @@
-export * from './HydrangeanDiva';
+export * from './PlayQueue';
 export * from './PlayQueueStoreContext';
