@@ -24,8 +24,8 @@ import {
 } from '@tanstack/react-router';
 import { ReactElement, ReactNode, useCallback, useState } from 'react';
 
+import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
 import { featureFlags } from '@/features/common/helpers/featureFlags';
-import { bottomBarHeight } from '@/features/media-player.player/components/BottomBar';
 
 const commitHash =
 	typeof import.meta.env.VITE_COMMIT_HASH === 'string'

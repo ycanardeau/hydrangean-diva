@@ -6,15 +6,11 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useMemo } from 'react';
 
+import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
+import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
-import { bottomBarHeight } from '@/features/media-player.player/components/BottomBar';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
-
-export const miniPlayerSize = {
-	width: 16 * 25,
-	height: 9 * 25,
-} as const;
 
 interface MiniPlayerProps {
 	playerStore: IPlayerStore;

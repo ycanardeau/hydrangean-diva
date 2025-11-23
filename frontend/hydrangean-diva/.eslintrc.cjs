@@ -36,6 +36,10 @@ module.exports = {
 				pattern: 'src/features/common/**',
 			},
 			{
+				type: '@aigamo.hydrangean-diva/media-player.header',
+				pattern: 'src/features/media-player.header/**',
+			},
+			{
 				type: '@aigamo.hydrangean-diva/media-player.play-queue',
 				pattern: 'src/features/media-player.play-queue/**',
 			},
@@ -46,10 +50,6 @@ module.exports = {
 			{
 				type: '@aigamo.hydrangean-diva/media-player.playlists',
 				pattern: 'src/features/media-player.playlists/**',
-			},
-			{
-				type: '@aigamo.hydrangean-diva/media-player',
-				pattern: 'src/features/media-player/**',
 			},
 		],
 	},
@@ -75,6 +75,10 @@ module.exports = {
 						allow: [],
 					},
 					{
+						from: '@aigamo.hydrangean-diva/media-player.header',
+						allow: ['@aigamo.hydrangean-diva/common'],
+					},
+					{
 						from: '@aigamo.hydrangean-diva/media-player.play-queue',
 						allow: ['@aigamo.hydrangean-diva/common'],
 					},
@@ -88,10 +92,6 @@ module.exports = {
 					{
 						from: '@aigamo.hydrangean-diva/media-player.playlists',
 						allow: ['@aigamo.hydrangean-diva/common'],
-					},
-					{
-						from: '@aigamo.hydrangean-diva/media-player',
-						allow: ['@aigamo.hydrangean-diva/media-player.player'],
 					},
 				],
 			},

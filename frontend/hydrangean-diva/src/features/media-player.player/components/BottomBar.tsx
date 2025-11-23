@@ -9,8 +9,6 @@ import { BottomBarRightControls } from '@/features/media-player.player/component
 import { SeekBar } from '@/features/media-player.player/components/SeekBar';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
-export const bottomBarHeight = 80 + 1;
-
 interface BottomBarProps {
 	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
