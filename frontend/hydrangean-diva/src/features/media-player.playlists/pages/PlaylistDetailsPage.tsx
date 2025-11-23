@@ -19,6 +19,7 @@ import {
 import {
 	AddRegular,
 	DeleteRegular,
+	DismissRegular,
 	PlayRegular,
 	RenameRegular,
 } from '@fluentui/react-icons';
@@ -29,16 +30,28 @@ import { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/ap
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 
-const PlayAllButton = (): ReactElement => {
+const PlayButton = (): ReactElement => {
 	return (
 		<EuiButton iconType={PlayRegular} fill>
-			Play all{/* LOC */}
+			Play{/* LOC */}
 		</EuiButton>
 	);
 };
 
-const AddToButton = (): ReactElement => {
-	return <EuiButton iconType={AddRegular}>Add to{/* LOC */}</EuiButton>;
+const PlayNextButton = (): ReactElement => {
+	return <EuiButton>Play next{/* LOC */}</EuiButton>;
+};
+
+const AddToPlayQueueButton = (): ReactElement => {
+	return (
+		<EuiButton iconType={AddRegular}>
+			Add to play queue{/* LOC */}
+		</EuiButton>
+	);
+};
+
+const RemoveButton = (): ReactElement => {
+	return <EuiButton iconType={DismissRegular}>Remove{/* LOC */}</EuiButton>;
 };
 
 interface RenamePlaylistFormSubmitEvent {
@@ -322,10 +335,16 @@ export const PlaylistDetailsPage = ({
 					}}
 				>
 					<EuiFlexItem grow={false}>
-						<PlayAllButton />
+						<PlayButton />
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<AddToButton />
+						<PlayNextButton />
+					</EuiFlexItem>
+					<EuiFlexItem grow={false}>
+						<AddToPlayQueueButton />
+					</EuiFlexItem>
+					<EuiFlexItem grow={false}>
+						<RemoveButton />
 					</EuiFlexItem>
 				</EuiFlexGroup>
 			</EuiPageTemplate.Section>
