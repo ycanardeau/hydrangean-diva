@@ -27,7 +27,7 @@ import { ReactElement, useCallback, useState } from 'react';
 
 import { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
-import { mediaPlayerPlaylistsApi } from '@/features/common/helpers/clients';
+import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 
 const PlayAllButton = (): ReactElement => {
 	return (

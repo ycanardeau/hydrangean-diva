@@ -6,11 +6,11 @@ import { AppLink } from '@/common/components/AppLink';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { MobXObservableStateProvider } from '@/features/common';
 import { useLocationStateStore } from '@/features/common/components/useLocationStateHandler';
-import { mediaPlayerPlaylistsApi } from '@/features/common/helpers/clients';
 import {
 	CreatePlaylistButton,
 	CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
+import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 
 const PlaylistListPageHeader = (): ReactElement => {
