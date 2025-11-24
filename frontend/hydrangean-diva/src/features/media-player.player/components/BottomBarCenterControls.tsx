@@ -94,7 +94,10 @@ export const BottomBarCenterControls = observer(
 						size="s"
 						iconSize="l"
 						onClick={(): Promise<void> => diva.pause()}
-						disabled={!playQueueStore.canPause}
+						disabled={
+							!playQueueStore.canPause ||
+							!playerStore.controller.supports('pause')
+						}
 					/>
 				) : (
 					<EuiButtonIcon
@@ -104,7 +107,10 @@ export const BottomBarCenterControls = observer(
 						size="s"
 						iconSize="l"
 						onClick={(): Promise<void> => diva.play()}
-						disabled={!playQueueStore.canPlay}
+						disabled={
+							!playQueueStore.canPlay ||
+							!playerStore.controller.supports('play')
+						}
 					/>
 				)}
 				<EuiButtonIcon

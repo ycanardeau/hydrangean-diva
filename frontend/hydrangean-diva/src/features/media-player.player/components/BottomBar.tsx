@@ -45,6 +45,7 @@ export const BottomBar = observer(
 							</EuiFlexItem>
 							<EuiFlexItem css={{ width: 'calc(100% / 3)' }}>
 								<BottomBarRightControls
+									playerStore={playerStore}
 									playQueueStore={playQueueStore}
 									onClickPlayQueueButton={
 										onClickPlayQueueButton

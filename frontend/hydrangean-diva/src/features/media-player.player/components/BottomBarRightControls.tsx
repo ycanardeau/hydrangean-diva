@@ -19,6 +19,7 @@ import {
 	Speaker2Regular,
 	TopSpeedRegular,
 } from '@fluentui/react-icons';
+import { observer } from 'mobx-react-lite';
 import {
 	memo,
 	MouseEventHandler,
@@ -31,15 +32,41 @@ import {
 } from 'react';
 
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+
+interface MuteButtonProps {
+	playerStore: IPlayerStore;
+}
+
+const MuteButton = observer(
+	({ playerStore }: MuteButtonProps): ReactElement => {
+		return (
+			<EuiButtonIcon
+				title="Mute" /* LOC */
+				aria-label="Mute" /* LOC */
+				iconType={Speaker2Regular}
+				size="s"
+				iconSize="l"
+				disabled={!playerStore.controller.supports('setMuted')}
+			/>
+		);
+	},
+);
 
 interface VolumePopoverProps {
+	playerStore: IPlayerStore;
 	button?: NonNullable<ReactNode>;
 	isOpen: boolean;
 	closePopover: () => void;
 }
 
-const VolumePopover = memo(
-	({ button, isOpen, closePopover }: VolumePopoverProps): ReactElement => {
+const VolumePopover = observer(
+	({
+		playerStore,
+		button,
+		isOpen,
+		closePopover,
+	}: VolumePopoverProps): ReactElement => {
 		const [value, setValue] = useState('0');
 
 		const diva = useNostalgicDiva();
@@ -77,13 +104,7 @@ const VolumePopover = memo(
 						justifyContent="center"
 						alignItems="center"
 					>
-						<EuiButtonIcon
-							title="Mute" /* LOC */
-							aria-label="Mute" /* LOC */
-							iconType={Speaker2Regular}
-							size="s"
-							iconSize="l"
-						/>
+						<MuteButton playerStore={playerStore} />
 						<EuiRange
 							min={0}
 							max={100}
@@ -91,6 +112,9 @@ const VolumePopover = memo(
 							value={value}
 							onChange={handleChange}
 							css={{ blockSize: 32 }}
+							disabled={
+								!playerStore.controller.supports('setVolume')
+							}
 						/>
 					</EuiFlexGroup>
 				</EuiFormRow>
@@ -99,29 +123,37 @@ const VolumePopover = memo(
 	},
 );
 
-const VolumeButton = memo((): ReactElement => {
-	const [isVolumePopoverOpen, setIsVolumePopoverOpen] = useState(false);
+interface VolumeButtonProps {
+	playerStore: IPlayerStore;
+}
 
-	const toggleVolumePopover = (): void =>
-		setIsVolumePopoverOpen(!isVolumePopoverOpen);
+const VolumeButton = observer(
+	({ playerStore }: VolumeButtonProps): ReactElement => {
+		const [isVolumePopoverOpen, setIsVolumePopoverOpen] = useState(false);
 
-	return (
-		<VolumePopover
-			button={
-				<EuiButtonIcon
-					title="Volume" /* LOC */
-					aria-label="Volume" /* LOC */
-					iconType={Speaker2Regular}
-					size="s"
-					iconSize="l"
-					onClick={toggleVolumePopover}
-				/>
-			}
-			isOpen={isVolumePopoverOpen}
-			closePopover={(): void => setIsVolumePopoverOpen(false)}
-		/>
-	);
-});
+		const toggleVolumePopover = (): void =>
+			setIsVolumePopoverOpen(!isVolumePopoverOpen);
+
+		return (
+			<VolumePopover
+				playerStore={playerStore}
+				button={
+					<EuiButtonIcon
+						title="Volume" /* LOC */
+						aria-label="Volume" /* LOC */
+						iconType={Speaker2Regular}
+						size="s"
+						iconSize="l"
+						onClick={toggleVolumePopover}
+						disabled={!playerStore.controller.supports('getVolume')}
+					/>
+				}
+				isOpen={isVolumePopoverOpen}
+				closePopover={(): void => setIsVolumePopoverOpen(false)}
+			/>
+		);
+	},
+);
 
 interface PlayQueueButtonProps {
 	onClickPlayQueueButton: MouseEventHandler<HTMLButtonElement>;
@@ -143,12 +175,14 @@ const PlayQueueButton = ({
 };
 
 interface MoreOptionsContextMenuProps {
+	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
 	closePopover: () => void;
 }
 
-const MoreOptionsContextMenu = memo(
+const MoreOptionsContextMenu = observer(
 	({
+		playerStore,
 		playQueueStore,
 		closePopover,
 	}: MoreOptionsContextMenuProps): ReactElement => {
@@ -194,7 +228,13 @@ const MoreOptionsContextMenu = memo(
 				closePopover();
 			}, [playQueueStore, closePopover]);
 
-		const [playbackRate] = useState<number>();
+		const [playbackRate, setPlaybackRate] = useState<number>();
+
+		const handleClickSpeed = useCallback(async (): Promise<void> => {
+			await playerStore.controller
+				.getPlaybackRate()
+				.then((playbackRate) => setPlaybackRate(playbackRate));
+		}, [playerStore]);
 
 		const panels = useMemo(
 			(): EuiContextMenuPanelDescriptor[] => [
@@ -205,18 +245,31 @@ const MoreOptionsContextMenu = memo(
 							name: 'Speed' /* LOC */,
 							icon: <EuiIcon type={TopSpeedRegular} />,
 							panel: 1,
+							onClick: handleClickSpeed,
+							disabled:
+								!playerStore.controller.supports(
+									'getPlaybackRate',
+								),
 						},
 						{
 							name: 'Skip back 10 seconds' /* LOC */,
 							icon: <EuiIcon type={SkipBack10Regular} />,
 							onClick: handleClickSkipBack10,
-							disabled: playQueueStore.isEmpty,
+							disabled:
+								playQueueStore.isEmpty ||
+								!playerStore.controller.supports(
+									'setCurrentTime',
+								),
 						},
 						{
 							name: 'Skip forward 30 seconds' /* LOC */,
 							icon: <EuiIcon type={SkipForward30Regular} />,
 							onClick: handleClickSkipForward30,
-							disabled: playQueueStore.isEmpty,
+							disabled:
+								playQueueStore.isEmpty ||
+								!playerStore.controller.supports(
+									'setCurrentTime',
+								),
 						},
 						{
 							isSeparator: true,
@@ -238,12 +291,18 @@ const MoreOptionsContextMenu = memo(
 							onClick: (): Promise<void> =>
 								handleClickPlaybackRate(value),
 							icon: value === playbackRate ? 'check' : 'empty',
+							disabled:
+								!playerStore.controller.supports(
+									'setPlaybackRate',
+								),
 						}),
 					),
 				},
 			],
 			[
+				playerStore,
 				playQueueStore,
+				handleClickSpeed,
 				handleClickSkipBack10,
 				handleClickSkipForward30,
 				handleClickRemoveFromPlayQueue,
@@ -257,6 +316,7 @@ const MoreOptionsContextMenu = memo(
 );
 
 interface MoreOptionsPopoverProps {
+	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
 	button?: NonNullable<ReactNode>;
 	isOpen: boolean;
@@ -265,6 +325,7 @@ interface MoreOptionsPopoverProps {
 
 const MoreOptionsPopover = memo(
 	({
+		playerStore,
 		playQueueStore,
 		button,
 		isOpen,
@@ -279,6 +340,7 @@ const MoreOptionsPopover = memo(
 				anchorPosition="upRight"
 			>
 				<MoreOptionsContextMenu
+					playerStore={playerStore}
 					playQueueStore={playQueueStore}
 					closePopover={closePopover}
 				/>
@@ -288,11 +350,12 @@ const MoreOptionsPopover = memo(
 );
 
 interface MoreOptionsButtonProps {
+	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
 }
 
 const MoreOptionsButton = memo(
-	({ playQueueStore }: MoreOptionsButtonProps): ReactElement => {
+	({ playerStore, playQueueStore }: MoreOptionsButtonProps): ReactElement => {
 		const [isMoreOptionsPopoverOpen, setIsMoreOptionsPopoverOpen] =
 			useState(false);
 
@@ -301,6 +364,7 @@ const MoreOptionsButton = memo(
 
 		return (
 			<MoreOptionsPopover
+				playerStore={playerStore}
 				playQueueStore={playQueueStore}
 				button={
 					<EuiButtonIcon
@@ -320,12 +384,14 @@ const MoreOptionsButton = memo(
 );
 
 interface BottomBarRightControlsProps {
+	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
 	onClickPlayQueueButton?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const BottomBarRightControls = memo(
 	({
+		playerStore,
 		playQueueStore,
 		onClickPlayQueueButton,
 	}: BottomBarRightControlsProps): ReactElement => {
@@ -336,13 +402,16 @@ export const BottomBarRightControls = memo(
 				justifyContent="flexEnd"
 				alignItems="center"
 			>
-				<VolumeButton />
+				<VolumeButton playerStore={playerStore} />
 				{onClickPlayQueueButton && (
 					<PlayQueueButton
 						onClickPlayQueueButton={onClickPlayQueueButton}
 					/>
 				)}
-				<MoreOptionsButton playQueueStore={playQueueStore} />
+				<MoreOptionsButton
+					playerStore={playerStore}
+					playQueueStore={playQueueStore}
+				/>
 			</EuiFlexGroup>
 		);
 	},

@@ -1,22 +1,29 @@
-import { TimeEvent } from '@aigamo/nostalgic-diva';
+import {
+	IPlayerController,
+	nullPlayerController,
+	TimeEvent,
+} from '@aigamo/nostalgic-diva';
 import { action, observable } from 'mobx';
 
 import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
 export class PlayerStore implements IPlayerStore {
+	controller: IPlayerController = nullPlayerController;
 	playing = false;
 	percent = 0;
 	seeking = false;
 
 	constructor(observableStateProvider: IObservableStateProvider) {
 		observableStateProvider.makeObservable(this, {
+			controller: observable,
 			playing: observable,
 			percent: observable,
 			seeking: observable,
 			setPlaying: action,
 			setPercent: action,
 			setSeeking: action,
+			onControllerChange: action.bound,
 			onPlay: action.bound,
 			onPause: action.bound,
 			onEnded: action.bound,
@@ -34,6 +41,10 @@ export class PlayerStore implements IPlayerStore {
 
 	setSeeking(value: boolean): void {
 		this.seeking = value;
+	}
+
+	onControllerChange(value: IPlayerController): void {
+		this.controller = value;
 	}
 
 	onPlay(): void {

@@ -88,6 +88,7 @@ export const MiniPlayer = observer(
 						<NostalgicDiva
 							src={playQueueStore.currentItem.url}
 							options={options}
+							onControllerChange={playerStore.onControllerChange}
 						/>
 					)}
 				</div>
