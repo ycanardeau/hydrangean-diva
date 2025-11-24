@@ -11,7 +11,7 @@
 		"generate-clients": "pnpm openapi-generator-cli generate -g typescript-fetch --additional-properties=legacyDiscriminatorBehavior=false -i /local/src/api/v1.json -o /local/src/api"
 	},
 	"dependencies": {
-		"@aigamo/nostalgic-diva": "^1.15.0",
+		"@aigamo/nostalgic-diva": "^1.15.1",
 		"@aigamo/route-sphere": "^2.0.2",
 		"@elastic/datemath": "^5.0.3",
 		"@elastic/eui": "^109.1.0",
