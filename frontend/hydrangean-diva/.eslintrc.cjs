@@ -72,7 +72,7 @@ module.exports = {
 				rules: [
 					{
 						from: '@aigamo.hydrangean-diva/common',
-						allow: [],
+						disallow: ['*'],
 					},
 					{
 						from: '@aigamo.hydrangean-diva/media-player.header',

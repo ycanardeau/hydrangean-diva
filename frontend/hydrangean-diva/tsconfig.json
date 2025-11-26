@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"types": ["node", "@testing-library/jest-dom", "vitest/globals"],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -10,21 +11,20 @@
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
-		"baseUrl": "./",
 		"paths": {
-			"@/*": ["src/*"]
-		},
-		"jsxImportSource": "@emotion/react"
-	},
-	"include": ["src"],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
+			"@/*": ["./src/*"],
+			"@test-utils": ["./test-utils"]
 		}
+	},
+	"include": [
+		"src",
+		"test-utils",
+		".storybook/main.ts",
+		".storybook/preview.tsx"
 	]
 }
