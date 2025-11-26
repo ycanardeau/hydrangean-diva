@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"@aigamo/nostalgic-diva": "^1.15.2",
-		"@aigamo/route-sphere": "^2.0.2",
+		"@aigamo/route-sphere": "^2.0.4",
 		"@elastic/datemath": "^5.0.3",
 		"@elastic/eui": "^109.1.0",
 		"@emotion/cache": "^11.14.0",
@@ -75,7 +75,7 @@
 		"workbox-routing": "^7.3.0"
 	},
 	"peerDependencies": {
-		"@aigamo/route-sphere": "^2.0.2",
+		"@aigamo/route-sphere": "^2.0.4",
 		"@elastic/datemath": "^5.0.3",
 		"@elastic/eui": "^109.1.0",
 		"@emotion/cache": "^11.14.0",
