@@ -18,6 +18,8 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useState } from 'react';
 
+import { featureFlags } from '@/features/common/helpers/featureFlags';
+import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
 import {
 	AddVideoButton,
 	AddVideoFormSubmitEvent,
@@ -102,6 +104,9 @@ export const PlayQueue = observer(
 	({ playQueueStore }: PlayQueueProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
 
+		const handleAddToPlaylist =
+			useCallback(async (): Promise<void> => {}, []);
+
 		const handleAddVideo = useCallback(
 			async (e: AddVideoFormSubmitEvent): Promise<void> => {
 				const videoService = findVideoService(e.url);
@@ -158,6 +163,12 @@ export const PlayQueue = observer(
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
 						<AddToPlayQueueButton playQueueStore={playQueueStore} />
+					</EuiFlexItem>
+					<EuiFlexItem grow={false}>
+						<AddToSelectablePopover
+							disabled={!featureFlags.mediaPlayer.enablePlaylists}
+							onAddToPlaylist={handleAddToPlaylist}
+						/>
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
 						<EuiButton

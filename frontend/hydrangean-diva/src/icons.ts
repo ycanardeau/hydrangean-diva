@@ -12,6 +12,8 @@ import { icon as fullScreenExit } from '@elastic/eui/es/components/icon/assets/f
 import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
 import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
 import { icon as popout } from '@elastic/eui/es/components/icon/assets/popout';
+import { icon as returnKey } from '@elastic/eui/es/components/icon/assets/return_key';
+import { icon as search } from '@elastic/eui/es/components/icon/assets/search';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
 import { ValuesType } from 'utility-types';
 
@@ -31,6 +33,8 @@ const cachedIcons: IconComponentCacheType = {
 	logoGithub,
 	menu,
 	popout,
+	returnKey,
+	search,
 };
 
 appendIconComponentCache(cachedIcons);
