@@ -10,6 +10,8 @@ import {
 	PauseFilled,
 	PlayFilled,
 	PreviousFilled,
+	SkipBack10Regular,
+	SkipForward30Regular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import { ReactElement, useCallback } from 'react';
@@ -81,6 +83,40 @@ const PreviousButton = observer(
 	},
 );
 
+interface SkipBack10ButtonProps {
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
+}
+
+const SkipBack10Button = observer(
+	({ playerStore, playQueueStore }: SkipBack10ButtonProps): ReactElement => {
+		const diva = useNostalgicDiva();
+
+		const handleClick = useCallback(async () => {
+			const currentTime = await diva.getCurrentTime();
+
+			if (currentTime !== undefined) {
+				await diva.setCurrentTime(currentTime - 10);
+			}
+		}, [diva]);
+
+		return (
+			<EuiButtonIcon
+				title="Skip back 10 seconds" /* LOC */
+				aria-label="Skip back 10 seconds" /* LOC */
+				iconType={SkipBack10Regular}
+				size="s"
+				iconSize="l"
+				onClick={handleClick}
+				disabled={
+					playQueueStore.isEmpty ||
+					!playerStore.controller.supports('setCurrentTime')
+				}
+			/>
+		);
+	},
+);
+
 interface PauseButtonProps {
 	playerStore: IPlayerStore;
 	playQueueStore: IPlayQueueStore;
@@ -127,6 +163,43 @@ const PlayButton = observer(
 				disabled={
 					!playQueueStore.canPlay ||
 					!playerStore.controller.supports('play')
+				}
+			/>
+		);
+	},
+);
+
+interface SkipForward30ButtonProps {
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
+}
+
+const SkipForward30Button = observer(
+	({
+		playerStore,
+		playQueueStore,
+	}: SkipForward30ButtonProps): ReactElement => {
+		const diva = useNostalgicDiva();
+
+		const handleClick = useCallback(async () => {
+			const currentTime = await diva.getCurrentTime();
+
+			if (currentTime !== undefined) {
+				await diva.setCurrentTime(currentTime + 30);
+			}
+		}, [diva]);
+
+		return (
+			<EuiButtonIcon
+				title="Skip forward 30 seconds" /* LOC */
+				aria-label="Skip forward 30 seconds" /* LOC */
+				iconType={SkipForward30Regular}
+				size="s"
+				iconSize="l"
+				onClick={handleClick}
+				disabled={
+					playQueueStore.isEmpty ||
+					!playerStore.controller.supports('setCurrentTime')
 				}
 			/>
 		);
@@ -213,6 +286,10 @@ export const BottomBarCenterControls = observer(
 			>
 				<ShuffleButton playQueueStore={playQueueStore} />
 				<PreviousButton playQueueStore={playQueueStore} />
+				<SkipBack10Button
+					playerStore={playerStore}
+					playQueueStore={playQueueStore}
+				/>
 				{playerStore.playing ? (
 					<PauseButton
 						playerStore={playerStore}
@@ -224,6 +301,10 @@ export const BottomBarCenterControls = observer(
 						playQueueStore={playQueueStore}
 					/>
 				)}
+				<SkipForward30Button
+					playerStore={playerStore}
+					playQueueStore={playQueueStore}
+				/>
 				<NextButton playQueueStore={playQueueStore} />
 				<RepeatButton playQueueStore={playQueueStore} />
 			</EuiFlexGroup>
