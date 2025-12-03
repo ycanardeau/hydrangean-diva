@@ -18,22 +18,40 @@ import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/I
 import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
-const repeatIconTypes: Record<RepeatMode, IconType> = {
-	[RepeatMode.Off]: ArrowRepeatAllOffFilled,
-	[RepeatMode.All]: ArrowRepeatAllFilled,
-	[RepeatMode.One]: ArrowRepeat1Filled,
-};
-
-interface BottomBarCenterControlsProps {
-	playerStore: IPlayerStore;
+interface ShuffleButtonProps {
 	playQueueStore: IPlayQueueStore;
 }
 
-export const BottomBarCenterControls = observer(
-	({
-		playerStore,
-		playQueueStore,
-	}: BottomBarCenterControlsProps): ReactElement => {
+const ShuffleButton = observer(
+	({ playQueueStore }: ShuffleButtonProps): ReactElement => {
+		return (
+			<EuiButtonIcon
+				title={
+					`Shuffle: ${playQueueStore.shuffle ? 'On' : 'Off'}` /* LOC */
+				}
+				aria-label={
+					`Shuffle: ${playQueueStore.shuffle ? 'On' : 'Off'}` /* LOC */
+				}
+				iconType={
+					playQueueStore.shuffle
+						? ArrowShuffleFilled
+						: ArrowShuffleOffFilled
+				}
+				size="s"
+				iconSize="l"
+				onClick={playQueueStore.toggleShuffle}
+				disabled /* TODO: remove */
+			/>
+		);
+	},
+);
+
+interface PreviousButtonProps {
+	playQueueStore: IPlayQueueStore;
+}
+
+const PreviousButton = observer(
+	({ playQueueStore }: PreviousButtonProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		const handlePrevious = useCallback(async () => {
@@ -50,102 +68,164 @@ export const BottomBarCenterControls = observer(
 		}, [playQueueStore, diva]);
 
 		return (
+			<EuiButtonIcon
+				title="Previous" /* LOC */
+				aria-label="Previous" /* LOC */
+				iconType={PreviousFilled}
+				size="s"
+				iconSize="l"
+				onClick={handlePrevious}
+				disabled={playQueueStore.isEmpty}
+			/>
+		);
+	},
+);
+
+interface PauseButtonProps {
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
+}
+
+const PauseButton = observer(
+	({ playerStore, playQueueStore }: PauseButtonProps): ReactElement => {
+		const diva = useNostalgicDiva();
+
+		return (
+			<EuiButtonIcon
+				title="Pause" /* LOC */
+				aria-label="Pause" /* LOC */
+				iconType={PauseFilled}
+				size="s"
+				iconSize="l"
+				onClick={(): Promise<void> => diva.pause()}
+				disabled={
+					!playQueueStore.canPause ||
+					!playerStore.controller.supports('pause')
+				}
+			/>
+		);
+	},
+);
+
+interface PlayButtonProps {
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
+}
+
+const PlayButton = observer(
+	({ playerStore, playQueueStore }: PlayButtonProps): ReactElement => {
+		const diva = useNostalgicDiva();
+
+		return (
+			<EuiButtonIcon
+				title="Play" /* LOC */
+				aria-label="Play" /* LOC */
+				iconType={PlayFilled}
+				size="s"
+				iconSize="l"
+				onClick={(): Promise<void> => diva.play()}
+				disabled={
+					!playQueueStore.canPlay ||
+					!playerStore.controller.supports('play')
+				}
+			/>
+		);
+	},
+);
+
+interface NextButtonProps {
+	playQueueStore: IPlayQueueStore;
+}
+
+const NextButton = observer(
+	({ playQueueStore }: NextButtonProps): ReactElement => {
+		return (
+			<EuiButtonIcon
+				title="Next" /* LOC */
+				aria-label="Next" /* LOC */
+				iconType={NextFilled}
+				size="s"
+				iconSize="l"
+				onClick={playQueueStore.next}
+				disabled={!playQueueStore.hasNextItem}
+			/>
+		);
+	},
+);
+
+const repeatIconTypes: Record<RepeatMode, IconType> = {
+	[RepeatMode.Off]: ArrowRepeatAllOffFilled,
+	[RepeatMode.All]: ArrowRepeatAllFilled,
+	[RepeatMode.One]: ArrowRepeat1Filled,
+};
+
+interface RepeatButtonProps {
+	playQueueStore: IPlayQueueStore;
+}
+
+const RepeatButton = observer(
+	({ playQueueStore }: RepeatButtonProps): ReactElement => {
+		return (
+			<EuiButtonIcon
+				title={
+					`Repeat: ${
+						playQueueStore.repeat === RepeatMode.All
+							? 'All'
+							: playQueueStore.repeat === RepeatMode.One
+								? 'One'
+								: 'Off'
+					}` /* LOC */
+				}
+				aria-label={
+					`Repeat: ${
+						playQueueStore.repeat === RepeatMode.All
+							? 'All'
+							: playQueueStore.repeat === RepeatMode.One
+								? 'One'
+								: 'Off'
+					}` /* LOC */
+				}
+				iconType={repeatIconTypes[playQueueStore.repeat]}
+				size="s"
+				iconSize="l"
+				onClick={playQueueStore.toggleRepeat}
+			/>
+		);
+	},
+);
+
+interface BottomBarCenterControlsProps {
+	playerStore: IPlayerStore;
+	playQueueStore: IPlayQueueStore;
+}
+
+export const BottomBarCenterControls = observer(
+	({
+		playerStore,
+		playQueueStore,
+	}: BottomBarCenterControlsProps): ReactElement => {
+		return (
 			<EuiFlexGroup
 				responsive={false}
 				gutterSize="s"
 				justifyContent="center"
 				alignItems="center"
 			>
-				<EuiButtonIcon
-					title={
-						`Shuffle: ${
-							playQueueStore.shuffle ? 'On' : 'Off'
-						}` /* LOC */
-					}
-					aria-label={
-						`Shuffle: ${
-							playQueueStore.shuffle ? 'On' : 'Off'
-						}` /* LOC */
-					}
-					iconType={
-						playQueueStore.shuffle
-							? ArrowShuffleFilled
-							: ArrowShuffleOffFilled
-					}
-					size="s"
-					iconSize="l"
-					onClick={playQueueStore.toggleShuffle}
-					disabled /* TODO: remove */
-				/>
-				<EuiButtonIcon
-					title="Previous" /* LOC */
-					aria-label="Previous" /* LOC */
-					iconType={PreviousFilled}
-					size="s"
-					iconSize="l"
-					onClick={handlePrevious}
-					disabled={playQueueStore.isEmpty}
-				/>
+				<ShuffleButton playQueueStore={playQueueStore} />
+				<PreviousButton playQueueStore={playQueueStore} />
 				{playerStore.playing ? (
-					<EuiButtonIcon
-						title="Pause" /* LOC */
-						aria-label="Pause" /* LOC */
-						iconType={PauseFilled}
-						size="s"
-						iconSize="l"
-						onClick={(): Promise<void> => diva.pause()}
-						disabled={
-							!playQueueStore.canPause ||
-							!playerStore.controller.supports('pause')
-						}
+					<PauseButton
+						playerStore={playerStore}
+						playQueueStore={playQueueStore}
 					/>
 				) : (
-					<EuiButtonIcon
-						title="Play" /* LOC */
-						aria-label="Play" /* LOC */
-						iconType={PlayFilled}
-						size="s"
-						iconSize="l"
-						onClick={(): Promise<void> => diva.play()}
-						disabled={
-							!playQueueStore.canPlay ||
-							!playerStore.controller.supports('play')
-						}
+					<PlayButton
+						playerStore={playerStore}
+						playQueueStore={playQueueStore}
 					/>
 				)}
-				<EuiButtonIcon
-					title="Next" /* LOC */
-					aria-label="Next" /* LOC */
-					iconType={NextFilled}
-					size="s"
-					iconSize="l"
-					onClick={playQueueStore.next}
-					disabled={!playQueueStore.hasNextItem}
-				/>
-				<EuiButtonIcon
-					title={
-						`Repeat: ${
-							playQueueStore.repeat === RepeatMode.All
-								? 'All'
-								: playQueueStore.repeat === RepeatMode.One
-									? 'One'
-									: 'Off'
-						}` /* LOC */
-					}
-					aria-label={
-						`Repeat: ${
-							playQueueStore.repeat === RepeatMode.All
-								? 'All'
-								: playQueueStore.repeat === RepeatMode.One
-									? 'One'
-									: 'Off'
-						}` /* LOC */
-					}
-					iconType={repeatIconTypes[playQueueStore.repeat]}
-					size="s"
-					iconSize="l"
-					onClick={playQueueStore.toggleRepeat}
-				/>
+				<NextButton playQueueStore={playQueueStore} />
+				<RepeatButton playQueueStore={playQueueStore} />
 			</EuiFlexGroup>
 		);
 	},
