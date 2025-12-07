@@ -387,5 +387,10 @@
         "additionalProperties": false
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Media Player - Playlists"
+    }
+  ]
 }
