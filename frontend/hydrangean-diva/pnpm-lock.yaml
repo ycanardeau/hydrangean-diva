@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@aigamo/nostalgic-diva':
-        specifier: ^1.16.0-rc.0
-        version: 1.16.0-rc.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.15.2
+        version: 1.15.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@aigamo/route-sphere':
         specifier: ^2.0.4
         version: 2.0.4(lodash-es@4.17.21)(mobx-react-lite@4.1.0(mobx@6.13.7)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(mobx@6.13.7)(qs@6.14.0)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
@@ -195,8 +195,8 @@ packages:
   '@adobe/css-tools@4.4.4':
     resolution: {integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==}
 
-  '@aigamo/nostalgic-diva@1.16.0-rc.0':
-    resolution: {integrity: sha512-4mhIuqZzuSLiX/TlIt7nmmuSbqKPr4sPOuj2bkxfXsI16vSjwfet8dGUQBPMGbh2fI32sLoTZIwwwvhatRsTbw==}
+  '@aigamo/nostalgic-diva@1.15.2':
+    resolution: {integrity: sha512-G4xcUk0D+LEyAoDWNLYe6ooAgXsXHLp9lv0l0FfkMGAUAXWxdZad0E+Rh8ZfPiNvU8tukZ8945CX+WYUU5HlNg==}
     peerDependencies:
       react: ^17 || ^18
       react-dom: ^17 || ^18
@@ -5501,7 +5501,7 @@ snapshots:
 
   '@adobe/css-tools@4.4.4': {}
 
-  '@aigamo/nostalgic-diva@1.16.0-rc.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@aigamo/nostalgic-diva@1.15.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
