@@ -1,7 +1,6 @@
 import {
 	NostalgicDiva,
 	PlayerOptions,
-	PlayerType,
 	useNostalgicDiva,
 } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
@@ -61,11 +60,6 @@ export const MiniPlayer = observer(
 
 		const options = useMemo(
 			(): PlayerOptions => ({
-				services: {
-					[PlayerType.YouTube]: {
-						host: 'https://www.youtube.com',
-					},
-				},
 				onLoaded: handleLoaded,
 				onPlay: playerStore.onPlay,
 				onPause: playerStore.onPause,
