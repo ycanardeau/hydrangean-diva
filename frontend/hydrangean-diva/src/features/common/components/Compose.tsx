@@ -1,5 +1,4 @@
 // https://stackoverflow.com/questions/51504506/too-many-react-context-providers/58924810#58924810
-
 import {
 	JSXElementConstructor,
 	PropsWithChildren,

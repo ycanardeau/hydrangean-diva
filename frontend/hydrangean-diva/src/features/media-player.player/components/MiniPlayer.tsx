@@ -1,3 +1,8 @@
+import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
+import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
+import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import {
 	NostalgicDiva,
 	PlayerOptions,
@@ -5,12 +10,6 @@ import {
 } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useMemo } from 'react';
-
-import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
-import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
-import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
 interface MiniPlayerProps {
 	playerStore: IPlayerStore;

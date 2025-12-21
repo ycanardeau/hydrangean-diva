@@ -1,3 +1,6 @@
+import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
+import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonEmpty,
@@ -9,11 +12,7 @@ import {
 } from '@elastic/eui';
 import { OpenRegular } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { memo, ReactElement, useCallback, useMemo, useState } from 'react';
-
-import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { ReactElement, memo, useCallback, useMemo, useState } from 'react';
 
 interface PlayQueueItemContextMenuProps {
 	item: IPlayQueueItemStore;

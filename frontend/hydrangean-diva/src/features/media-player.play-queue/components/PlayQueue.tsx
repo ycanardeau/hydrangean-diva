@@ -1,3 +1,13 @@
+import { featureFlags } from '@/features/common/helpers/featureFlags';
+import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
+import {
+	AddVideoButton,
+	AddVideoFormSubmitEvent,
+} from '@/features/media-player.play-queue/components/AddVideoButton';
+import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
+import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
@@ -17,17 +27,6 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback, useState } from 'react';
-
-import { featureFlags } from '@/features/common/helpers/featureFlags';
-import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
-import {
-	AddVideoButton,
-	AddVideoFormSubmitEvent,
-} from '@/features/media-player.play-queue/components/AddVideoButton';
-import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
-import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
-import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 
 interface AddToPlayQueueButtonProps {
 	playQueueStore: IPlayQueueStore;

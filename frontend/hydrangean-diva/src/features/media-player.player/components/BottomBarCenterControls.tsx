@@ -1,3 +1,6 @@
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
+import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { EuiButtonIcon, EuiFlexGroup, IconType } from '@elastic/eui';
 import {
@@ -15,10 +18,6 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import { ReactElement, useCallback } from 'react';
-
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
-import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
 interface ShuffleButtonProps {
 	playQueueStore: IPlayQueueStore;

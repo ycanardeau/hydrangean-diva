@@ -1,17 +1,14 @@
-import { LocationStateStore, StateChangeEvent } from '@aigamo/route-sphere';
-import { action, computed, observable, runInAction } from 'mobx';
-
 import {
 	HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
 	MediaPlayerPlaylistsApi,
 } from '@/api';
 import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import { LocationStateStore, StateChangeEvent } from '@aigamo/route-sphere';
+import { action, computed, observable, runInAction } from 'mobx';
 
 type PlaylistListLocationState = Record<string, never>;
 
-export class PlaylistListStore
-	implements LocationStateStore<PlaylistListLocationState>
-{
+export class PlaylistListStore implements LocationStateStore<PlaylistListLocationState> {
 	items: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto[] = [];
 	loading = false;
 

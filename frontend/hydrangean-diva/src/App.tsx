@@ -1,21 +1,20 @@
+import { Compose } from '@/features/common/components/Compose';
+import { PlayQueueStoreProvider } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
+import { PlayerStoreProvider } from '@/features/media-player.player/components/PlayerStoreContext';
 import '@/icons';
-import './nprogress.css';
-
+import { routeTree } from '@/routeTree.gen';
 import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
 import {
+	RouterProvider,
 	createHashHistory,
 	createRouter,
-	RouterProvider,
 } from '@tanstack/react-router';
 import NProgress from 'nprogress';
 import { ReactElement, ReactNode } from 'react';
 
-import { Compose } from '@/features/common/components/Compose';
-import { PlayQueueStoreProvider } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
-import { PlayerStoreProvider } from '@/features/media-player.player/components/PlayerStoreContext';
-import { routeTree } from '@/routeTree.gen';
+import './nprogress.css';
 
 // https://elastic.github.io/eui/#/utilities/provider
 const euiCache = createCache({

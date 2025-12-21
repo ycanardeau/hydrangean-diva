@@ -1,3 +1,5 @@
+// FIXME
+import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import {
 	EuiButton,
 	EuiPopover,
@@ -8,9 +10,6 @@ import {
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
 import { ReactElement, useEffect, useState } from 'react';
-
-// FIXME
-import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 
 interface AddToSelectablePopoverProps {
 	disabled: boolean;

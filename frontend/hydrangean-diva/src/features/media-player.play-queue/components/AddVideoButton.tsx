@@ -12,7 +12,7 @@ import {
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
-import React, { memo, ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, memo, useCallback, useState } from 'react';
 
 export interface AddVideoFormSubmitEvent {
 	url: string;

@@ -1,11 +1,10 @@
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { EuiRange } from '@elastic/eui';
 import { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
 import { observer } from 'mobx-react-lite';
 import { ReactElement, useCallback } from 'react';
-
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
 interface SeekBarProps {
 	playerStore: IPlayerStore;

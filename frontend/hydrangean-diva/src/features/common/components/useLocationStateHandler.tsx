@@ -4,7 +4,7 @@ import {
 	useStateHandler,
 } from '@aigamo/route-sphere';
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { parse, ParsedQs } from 'qs';
+import { ParsedQs, parse } from 'qs';
 import React from 'react';
 
 export const useLocationStateDeserializer = (): (() => ParsedQs) => {

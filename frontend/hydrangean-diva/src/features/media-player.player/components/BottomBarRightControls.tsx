@@ -1,3 +1,5 @@
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonIcon,
@@ -21,18 +23,15 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import {
-	memo,
 	MouseEventHandler,
 	ReactElement,
 	ReactNode,
+	memo,
 	useCallback,
 	useLayoutEffect,
 	useMemo,
 	useState,
 } from 'react';
-
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 
 interface MuteButtonProps {
 	playerStore: IPlayerStore;

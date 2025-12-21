@@ -1,16 +1,15 @@
+import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
+import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { reaction } from 'mobx';
 import React, {
-	createContext,
 	ReactElement,
 	ReactNode,
+	createContext,
 	useContext,
 	useEffect,
 	useState,
 } from 'react';
-
-import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
-import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const PlayQueueStoreContext = createContext<PlayQueueStore>(undefined!);

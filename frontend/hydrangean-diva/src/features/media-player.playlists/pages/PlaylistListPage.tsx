@@ -1,7 +1,3 @@
-import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
-import { observer } from 'mobx-react-lite';
-import { memo, ReactElement, useCallback, useState } from 'react';
-
 import { AppLink } from '@/common/components/AppLink';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { MobXObservableStateProvider } from '@/features/common';
@@ -12,6 +8,9 @@ import {
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
+import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
+import { observer } from 'mobx-react-lite';
+import { ReactElement, memo, useCallback, useState } from 'react';
 
 const PlaylistListPageHeader = (): ReactElement => {
 	return (

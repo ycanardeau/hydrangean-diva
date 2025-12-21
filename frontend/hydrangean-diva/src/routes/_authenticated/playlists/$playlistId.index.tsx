@@ -1,8 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { ReactElement } from 'react';
-
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import { PlaylistDetailsPage } from '@/features/media-player.playlists/pages/PlaylistDetailsPage';
+import { createFileRoute } from '@tanstack/react-router';
+import { ReactElement } from 'react';
 
 const RouteComponent = (): ReactElement => {
 	const { playlist } = Route.useLoaderData();

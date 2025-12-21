@@ -1,13 +1,12 @@
-import { EuiBottomBar, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
-import { observer } from 'mobx-react-lite';
-import React, { MouseEventHandler, ReactElement } from 'react';
-
 import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 import { BottomBarCenterControls } from '@/features/media-player.player/components/BottomBarCenterControls';
 import { BottomBarLeftControls } from '@/features/media-player.player/components/BottomBarLeftControls';
 import { BottomBarRightControls } from '@/features/media-player.player/components/BottomBarRightControls';
 import { SeekBar } from '@/features/media-player.player/components/SeekBar';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import { EuiBottomBar, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
+import { observer } from 'mobx-react-lite';
+import React, { MouseEventHandler, ReactElement } from 'react';
 
 interface BottomBarProps {
 	playerStore: IPlayerStore;

@@ -1,3 +1,6 @@
+import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
+import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
@@ -27,17 +30,13 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React, {
-	memo,
 	ReactElement,
+	memo,
 	useCallback,
 	useMemo,
 	useState,
 } from 'react';
 import { ReactSortable } from 'react-sortablejs';
-
-import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 
 interface PlayQueueTableHeaderProps {
 	playQueueStore: IPlayQueueStore;

@@ -1,10 +1,9 @@
-import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
-import { observer } from 'mobx-react-lite';
-import React, { ReactElement, ReactNode } from 'react';
-
 import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
 import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
 import { usePlayQueueStore } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
+import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
+import { observer } from 'mobx-react-lite';
+import React, { ReactElement, ReactNode } from 'react';
 
 interface MediaPlayerLayoutProps {
 	children?: ReactNode;

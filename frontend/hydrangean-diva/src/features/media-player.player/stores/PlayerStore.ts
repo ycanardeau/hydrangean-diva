@@ -1,12 +1,11 @@
-import {
-	IPlayerController,
-	nullPlayerController,
-	TimeEvent,
-} from '@aigamo/nostalgic-diva';
-import { action, observable } from 'mobx';
-
 import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import {
+	IPlayerController,
+	TimeEvent,
+	nullPlayerController,
+} from '@aigamo/nostalgic-diva';
+import { action, observable } from 'mobx';
 
 export class PlayerStore implements IPlayerStore {
 	controller: IPlayerController = nullPlayerController;
