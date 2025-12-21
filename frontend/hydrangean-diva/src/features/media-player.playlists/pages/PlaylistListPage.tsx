@@ -35,6 +35,7 @@ const PlaylistListTable = observer(
 			<EuiBasicTable
 				responsiveBreakpoint={false}
 				items={playlistListStore.items}
+				itemId="id"
 				rowHeader="name"
 				columns={[
 					{

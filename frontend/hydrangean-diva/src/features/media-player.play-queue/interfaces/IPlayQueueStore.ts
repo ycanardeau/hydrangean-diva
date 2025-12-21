@@ -22,6 +22,7 @@ export interface IPlayQueueStore {
 	setItems(value: IPlayQueueItemStore[]): void;
 	clear(): void;
 	setCurrentItem(item: IPlayQueueItemStore | undefined): void;
+	clearAndSetItems(items: IPlayQueueItemStore[]): void;
 	playNext(items: IPlayQueueItemStore[]): Promise<void>;
 	playSelectedItemsNext(): Promise<void>;
 	addItems(items: IPlayQueueItemStore[]): Promise<void>;

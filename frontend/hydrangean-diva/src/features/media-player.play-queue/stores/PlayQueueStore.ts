@@ -68,11 +68,12 @@ export class PlayQueueStore
 	}
 
 	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore {
-		return PlayQueueItemStore.fromDto(
-			this.observableStateProvider,
-			this,
-			dto,
-		);
+		return PlayQueueItemStore.fromDto(this.observableStateProvider, this, {
+			url: dto.url,
+			type: dto.type,
+			videoId: dto.videoId,
+			title: dto.title,
+		});
 	}
 
 	get localStorageState(): PlayQueueDto {

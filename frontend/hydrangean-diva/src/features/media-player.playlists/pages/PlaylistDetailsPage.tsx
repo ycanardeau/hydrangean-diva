@@ -34,21 +34,48 @@ import { useRouter } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { ReactElement, useCallback, useState } from 'react';
 
-const PlayButton = (): ReactElement => {
+interface PlayAllButtonProps {
+	playlistStore: PlaylistStore;
+}
+
+const PlayAllButton = ({ playlistStore }: PlayAllButtonProps): ReactElement => {
 	return (
-		<EuiButton iconType={PlayRegular} fill>
+		<EuiButton
+			iconType={PlayRegular}
+			fill
+			onClick={playlistStore.playSelectedItems}
+		>
 			Play{/* LOC */}
 		</EuiButton>
 	);
 };
 
-const PlayNextButton = (): ReactElement => {
-	return <EuiButton>Play next{/* LOC */}</EuiButton>;
+interface PlayNextButtonProps {
+	playlistStore: PlaylistStore;
+}
+
+const PlayNextButton = ({
+	playlistStore,
+}: PlayNextButtonProps): ReactElement => {
+	return (
+		<EuiButton onClick={playlistStore.playSelectedItemsNext}>
+			Play next{/* LOC */}
+		</EuiButton>
+	);
 };
 
-const AddToPlayQueueButton = (): ReactElement => {
+interface AddToPlayQueueButtonProps {
+	playlistStore: PlaylistStore;
+}
+
+const AddToPlayQueueButton = ({
+	playlistStore,
+}: AddToPlayQueueButtonProps): ReactElement => {
 	return (
-		<EuiButton iconType={AddRegular}>
+		<EuiButton
+			iconType={AddRegular}
+			onClick={playlistStore.addSelectedItemsToPlayQueue}
+		>
 			Add to play queue{/* LOC */}
 		</EuiButton>
 	);
@@ -341,13 +368,15 @@ export const PlaylistDetailsPage = observer(
 						}}
 					>
 						<EuiFlexItem grow={false}>
-							<PlayButton />
+							<PlayAllButton playlistStore={playlistStore} />
 						</EuiFlexItem>
 						<EuiFlexItem grow={false}>
-							<PlayNextButton />
+							<PlayNextButton playlistStore={playlistStore} />
 						</EuiFlexItem>
 						<EuiFlexItem grow={false}>
-							<AddToPlayQueueButton />
+							<AddToPlayQueueButton
+								playlistStore={playlistStore}
+							/>
 						</EuiFlexItem>
 						<EuiFlexItem grow={false}>
 							<RemoveButton />

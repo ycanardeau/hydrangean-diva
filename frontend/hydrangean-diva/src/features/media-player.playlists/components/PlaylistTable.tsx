@@ -18,6 +18,7 @@ export const PlaylistTable = observer(
 			<EuiBasicTable
 				responsiveBreakpoint={false}
 				items={playlistStore.items}
+				itemId="id"
 				rowHeader="name"
 				columns={[
 					{
@@ -50,15 +51,13 @@ export const PlaylistTable = observer(
 					},
 					{
 						name: '',
-						field: '',
+						field: 'id',
 						render: (_, item) => (
 							<>
 								<EuiButton
 									iconType={PlayRegular}
 									size="s"
-									onClick={async (): Promise<void> => {
-										// TODO: implement
-									}}
+									onClick={item.play}
 								>
 									Play{/* LOC */}
 								</EuiButton>
@@ -71,7 +70,10 @@ export const PlaylistTable = observer(
 				rowProps={{}}
 				cellProps={{}}
 				loading={playlistStore.loading}
-				selection={{}}
+				selection={{
+					onSelectionChange: playlistStore.select,
+					selected: playlistStore.selectedItems,
+				}}
 			/>
 		);
 	},

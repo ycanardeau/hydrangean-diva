@@ -1,8 +1,11 @@
 import {
 	HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
+	HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
 	MediaPlayerPlaylistsApi,
 } from '@/api';
 import { IObservableStateProvider } from '@/features/common';
+// FIXME
+import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
 import { LocationStateStore, StateChangeEvent } from '@aigamo/route-sphere';
 import { action, computed, observable, runInAction } from 'mobx';
@@ -14,6 +17,7 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	loading = false;
 
 	constructor(
+		private readonly playQueueStore: IPlayQueueStore,
 		private readonly observableStateProvider: IObservableStateProvider,
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
 		private readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
@@ -22,7 +26,29 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 			items: observable,
 			loading: observable,
 			locationState: computed,
+			selectedItems: computed,
+			selectedItemsOrAllItems: computed,
 			updateResults: action.bound,
+			unselectAll: action.bound,
+			select: action.bound,
+			play: action.bound,
+			playSelectedItems: action.bound,
+			playNext: action.bound,
+			playSelectedItemsNext: action.bound,
+			addToPlayQueue: action.bound,
+			addSelectedItemsToPlayQueue: action.bound,
+		});
+	}
+
+	createItem(
+		dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
+	): PlaylistItemStore {
+		return new PlaylistItemStore(this.observableStateProvider, this, {
+			id: dto.id,
+			url: dto.url,
+			type: dto.type,
+			videoId: dto.videoId,
+			title: dto.title,
 		});
 	}
 
@@ -30,6 +56,14 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 		return {};
 	}
 	set locationState(value: PlaylistLocationState) {}
+
+	get selectedItems(): PlaylistItemStore[] {
+		return this.items.filter((item) => item.isSelected);
+	}
+
+	get selectedItemsOrAllItems(): PlaylistItemStore[] {
+		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
+	}
 
 	validateLocationState(
 		locationState: any,
@@ -48,14 +82,7 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 				runInAction(() => {
 					const { items } = response;
 
-					this.items = items.map(
-						(item) =>
-							new PlaylistItemStore(
-								this.observableStateProvider,
-								this,
-								item,
-							),
-					);
+					this.items = items.map((item) => this.createItem(item));
 				}),
 			)
 			.finally(() =>
@@ -70,4 +97,54 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	): Promise<void> => {
 		return this.updateResults();
 	};
+
+	unselectAll(): void {
+		for (const item of this.items) {
+			item.unselect();
+		}
+	}
+
+	select(items: PlaylistItemStore[]): void {
+		this.unselectAll();
+
+		for (const item of items) {
+			item.select();
+		}
+	}
+
+	play(items: PlaylistItemStore[]): void {
+		this.playQueueStore.clearAndSetItems(
+			items.map((item) => this.playQueueStore.createItem(item)),
+		);
+	}
+
+	playSelectedItems(): void {
+		this.play(this.selectedItemsOrAllItems);
+
+		this.unselectAll();
+	}
+
+	playNext(items: PlaylistItemStore[]): Promise<void> {
+		return this.playQueueStore.playNext(
+			items.map((item) => this.playQueueStore.createItem(item)),
+		);
+	}
+
+	async playSelectedItemsNext(): Promise<void> {
+		await this.playNext(this.selectedItemsOrAllItems);
+
+		this.unselectAll();
+	}
+
+	addToPlayQueue(items: PlaylistItemStore[]): Promise<void> {
+		return this.playQueueStore.addItems(
+			items.map((item) => this.playQueueStore.createItem(item)),
+		);
+	}
+
+	async addSelectedItemsToPlayQueue(): Promise<void> {
+		await this.addToPlayQueue(this.selectedItemsOrAllItems);
+
+		this.unselectAll();
+	}
 }
