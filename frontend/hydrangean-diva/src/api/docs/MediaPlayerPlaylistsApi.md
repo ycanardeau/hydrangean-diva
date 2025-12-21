@@ -271,7 +271,7 @@ No authorization required
 
 ## mediaPlayerPlaylistsIdTracksGet
 
-> object mediaPlayerPlaylistsIdTracksGet(id)
+> HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDto mediaPlayerPlaylistsIdTracksGet(id)
 
 
 
@@ -314,7 +314,7 @@ example().catch(console.error);
 
 ### Return type
 
-**object**
+[**HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDto**](HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDto.md)
 
 ### Authorization
 

@@ -28,6 +28,7 @@ export interface IPlayQueueStore {
 	addSelectedItems(): Promise<void>;
 	playFirst(items: IPlayQueueItemStore[]): Promise<void>;
 	moveItem(item: IPlayQueueItemStore, index: number): void;
+	goToFirst(): Promise<void>;
 	removeItems(items: IPlayQueueItemStore[]): Promise<void>;
 	removeSelectedItems(): Promise<void>;
 	removeItemsAbove(item: IPlayQueueItemStore): Promise<void>;
@@ -36,5 +37,4 @@ export interface IPlayQueueStore {
 	toggleShuffle(): void;
 	previous(): Promise<void>;
 	next(): Promise<void>;
-	goToFirst(): Promise<void>;
 }

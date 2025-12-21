@@ -1,6 +1,9 @@
 import { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
+import { useLocationStateStore } from '@/features/common/components/useLocationStateHandler';
+import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
+import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -16,6 +19,7 @@ import {
 	EuiModalHeader,
 	EuiModalHeaderTitle,
 	EuiPageTemplate,
+	EuiSpacer,
 	useEuiTheme,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
@@ -27,6 +31,7 @@ import {
 	RenameRegular,
 } from '@fluentui/react-icons';
 import { useRouter } from '@tanstack/react-router';
+import { observer } from 'mobx-react-lite';
 import { ReactElement, useCallback, useState } from 'react';
 
 const PlayButton = (): ReactElement => {
@@ -259,94 +264,109 @@ const DeleteButton = ({
 
 interface PlaylistDetailsPageProps {
 	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
+	playlistStore: PlaylistStore;
 }
 
-export const PlaylistDetailsPage = ({
-	playlist,
-}: PlaylistDetailsPageProps): ReactElement => {
-	const { euiTheme } = useEuiTheme();
+export const PlaylistDetailsPage = observer(
+	({ playlist, playlistStore }: PlaylistDetailsPageProps): ReactElement => {
+		useLocationStateStore(playlistStore);
 
-	const router = useRouter();
+		const { euiTheme } = useEuiTheme();
 
-	const handleRenamePlaylist = useCallback(
-		async (e: RenamePlaylistFormSubmitEvent): Promise<void> => {
-			await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdRenamePost({
-				id: e.id,
-				hydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest:
-					{
-						name: e.name,
-					},
-			});
+		const router = useRouter();
 
-			await router.invalidate();
-		},
-		[router],
-	);
-
-	const handleDeletePlaylist = useCallback(
-		async (e: DeletePlaylistFormSubmitEvent): Promise<void> => {
-			await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdDelete({
-				id: e.id,
-			});
-
-			await router.navigate({ to: '/playlists' });
-		},
-		[router],
-	);
-
-	return (
-		<>
-			<AppPageTemplateHeader
-				pageTitle={playlist.name}
-				breadcrumbs={[
-					{
-						text: 'Playlists' /* LOC */,
-						linkProps: {
-							to: '/playlists',
+		const handleRenamePlaylist = useCallback(
+			async (e: RenamePlaylistFormSubmitEvent): Promise<void> => {
+				await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdRenamePost({
+					id: e.id,
+					hydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest:
+						{
+							name: e.name,
 						},
-					},
-					{
-						text: playlist.name,
-					},
-				]}
-				description={`${0} items`}
-				rightSideItems={[
-					<RenameButton
-						playlist={playlist}
-						onSave={handleRenamePlaylist}
-					/>,
-					<DeleteButton
-						playlist={playlist}
-						onSave={handleDeletePlaylist}
-					/>,
-				]}
-			/>
+				});
 
-			<EuiPageTemplate.Section>
-				<EuiFlexGroup
-					alignItems="center"
-					gutterSize="m"
-					style={{
-						position: 'sticky',
-						top: 48,
-						zIndex: 998,
-						background: euiTheme.colors.backgroundBasePlain,
-					}}
-				>
-					<EuiFlexItem grow={false}>
-						<PlayButton />
-					</EuiFlexItem>
-					<EuiFlexItem grow={false}>
-						<PlayNextButton />
-					</EuiFlexItem>
-					<EuiFlexItem grow={false}>
-						<AddToPlayQueueButton />
-					</EuiFlexItem>
-					<EuiFlexItem grow={false}>
-						<RemoveButton />
-					</EuiFlexItem>
-				</EuiFlexGroup>
-			</EuiPageTemplate.Section>
-		</>
-	);
-};
+				await router.invalidate();
+			},
+			[router],
+		);
+
+		const handleDeletePlaylist = useCallback(
+			async (e: DeletePlaylistFormSubmitEvent): Promise<void> => {
+				await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdDelete({
+					id: e.id,
+				});
+
+				await router.navigate({ to: '/playlists' });
+			},
+			[router],
+		);
+
+		return (
+			<>
+				<AppPageTemplateHeader
+					pageTitle={playlist.name}
+					breadcrumbs={[
+						{
+							text: 'Playlists' /* LOC */,
+							linkProps: {
+								to: '/playlists',
+							},
+						},
+						{
+							text: playlist.name,
+						},
+					]}
+					description={`${0} items`}
+					rightSideItems={[
+						<RenameButton
+							playlist={playlist}
+							onSave={handleRenamePlaylist}
+						/>,
+						<DeleteButton
+							playlist={playlist}
+							onSave={handleDeletePlaylist}
+						/>,
+					]}
+				/>
+
+				<EuiPageTemplate.Section>
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="m"
+						style={{
+							position: 'sticky',
+							top: 48,
+							zIndex: 998,
+							background: euiTheme.colors.backgroundBasePlain,
+						}}
+					>
+						<EuiFlexItem grow={false}>
+							<PlayButton />
+						</EuiFlexItem>
+						<EuiFlexItem grow={false}>
+							<PlayNextButton />
+						</EuiFlexItem>
+						<EuiFlexItem grow={false}>
+							<AddToPlayQueueButton />
+						</EuiFlexItem>
+						<EuiFlexItem grow={false}>
+							<RemoveButton />
+						</EuiFlexItem>
+					</EuiFlexGroup>
+
+					<EuiSpacer
+						size="l"
+						style={{
+							position: 'sticky',
+							top: 48 + 40,
+							zIndex: 998,
+							background: euiTheme.colors.backgroundBasePlain,
+						}}
+					/>
+
+					<PlaylistTable playlistStore={playlistStore} />
+				</EuiPageTemplate.Section>
+			</>
+		);
+	},
+);

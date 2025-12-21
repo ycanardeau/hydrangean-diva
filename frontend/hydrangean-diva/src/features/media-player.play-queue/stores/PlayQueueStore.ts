@@ -55,6 +55,7 @@ export class PlayQueueStore
 			addSelectedItems: action.bound,
 			playFirst: action,
 			moveItem: action,
+			goToFirst: action,
 			removeItems: action,
 			removeSelectedItems: action.bound,
 			removeOtherItems: action,
@@ -63,7 +64,6 @@ export class PlayQueueStore
 			toggleShuffle: action.bound,
 			previous: action,
 			next: action.bound,
-			goToFirst: action,
 		});
 	}
 
@@ -269,6 +269,14 @@ export class PlayQueueStore
 		this.items.splice(index, 0, element);
 	}
 
+	async goToFirst(): Promise<void> {
+		if (this.currentIndex === undefined) {
+			return;
+		}
+
+		this.currentIndex = 0;
+	}
+
 	async removeItems(items: IPlayQueueItemStore[]): Promise<void> {
 		// Note: We need to remove the current (if any) and other (previous and/or next) items separately,
 		// so that the current index can be set properly even if the current item was removed.
@@ -366,13 +374,5 @@ export class PlayQueueStore
 		this.interact();
 
 		this.currentIndex++;
-	}
-
-	async goToFirst(): Promise<void> {
-		if (this.currentIndex === undefined) {
-			return;
-		}
-
-		this.currentIndex = 0;
 	}
 }

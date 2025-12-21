@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDto,
   HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDto,
+  HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDto,
   HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest,
   HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest,
 } from '../models/index';
@@ -25,6 +26,8 @@ import {
     HydrangeanDivaMediaPlayerContractsPlaylistsDtosGetPlaylistResponseDtoToJSON,
     HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDtoFromJSON,
     HydrangeanDivaMediaPlayerContractsPlaylistsDtosListPlaylistsResponseDtoToJSON,
+    HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDtoFromJSON,
+    HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDtoToJSON,
     HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequestFromJSON,
     HydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequestToJSON,
     HydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequestFromJSON,
@@ -198,7 +201,7 @@ export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
 
     /**
      */
-    async mediaPlayerPlaylistsIdTracksGetRaw(requestParameters: MediaPlayerPlaylistsIdTracksGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async mediaPlayerPlaylistsIdTracksGetRaw(requestParameters: MediaPlayerPlaylistsIdTracksGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDto>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -221,12 +224,12 @@ export class MediaPlayerPlaylistsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async mediaPlayerPlaylistsIdTracksGet(requestParameters: MediaPlayerPlaylistsIdTracksGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+    async mediaPlayerPlaylistsIdTracksGet(requestParameters: MediaPlayerPlaylistsIdTracksGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HydrangeanDivaMediaPlayerContractsPlaylistsDtosListTracksResponseDto> {
         const response = await this.mediaPlayerPlaylistsIdTracksGetRaw(requestParameters, initOverrides);
         return await response.value();
     }

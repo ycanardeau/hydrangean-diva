@@ -334,7 +334,18 @@
         "additionalProperties": false
       },
       "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ListTracksResponseDto": {
+        "required": [
+          "items"
+        ],
         "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.TrackDto"
+            }
+          }
+        },
         "additionalProperties": false
       },
       "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.PlaylistDto": {
@@ -360,6 +371,35 @@
       },
       "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.ReplaceTracksResponseDto": {
         "type": "object",
+        "additionalProperties": false
+      },
+      "HydrangeanDiva.MediaPlayer.Contracts.Playlists.Dtos.TrackDto": {
+        "required": [
+          "id",
+          "title",
+          "type",
+          "url",
+          "videoId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "url": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "videoId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
         "additionalProperties": false
       },
       "HydrangeanDiva.MediaPlayer.Endpoints.Playlists.CreatePlaylistRequest": {
