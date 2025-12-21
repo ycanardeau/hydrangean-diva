@@ -6,12 +6,7 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		ecmaVersion: 'latest',
 	},
-	plugins: [
-		'@typescript-eslint/eslint-plugin',
-		'simple-import-sort',
-		'import',
-		'boundaries',
-	],
+	plugins: ['@typescript-eslint/eslint-plugin', 'import', 'boundaries'],
 	extends: [
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
@@ -60,11 +55,6 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
 		'@typescript-eslint/no-floating-promises': 'error',
-		'simple-import-sort/imports': 'error',
-		'simple-import-sort/exports': 'error',
-		'import/first': 'error',
-		'import/newline-after-import': 'error',
-		'import/no-duplicates': 'error',
 		'boundaries/element-types': [
 			2,
 			{
