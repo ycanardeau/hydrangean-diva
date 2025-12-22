@@ -1,4 +1,4 @@
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { BottomBarCenterControls } from '@/features/media-player.player/components/BottomBarCenterControls';
 import { BottomBarLeftControls } from '@/features/media-player.player/components/BottomBarLeftControls';
 import { BottomBarRightControls } from '@/features/media-player.player/components/BottomBarRightControls';

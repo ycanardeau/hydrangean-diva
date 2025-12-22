@@ -1,5 +1,5 @@
 import { Compose } from '@/features/common/components/Compose';
-import { PlayQueueStoreProvider } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
+import { PlayQueueStoreProvider } from '@/features/media-player.play-queue/components/PlayQueueStoreProvider';
 import { PlayerStoreProvider } from '@/features/media-player.player/components/PlayerStoreContext';
 import '@/icons';
 import { routeTree } from '@/routeTree.gen';

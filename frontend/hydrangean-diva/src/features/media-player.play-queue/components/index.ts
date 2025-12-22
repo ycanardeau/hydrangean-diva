@@ -1,2 +1,2 @@
 export * from './PlayQueue';
-export * from './PlayQueueStoreContext';
+export * from './PlayQueueStoreProvider';

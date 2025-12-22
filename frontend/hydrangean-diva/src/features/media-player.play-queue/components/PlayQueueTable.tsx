@@ -1,6 +1,6 @@
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,

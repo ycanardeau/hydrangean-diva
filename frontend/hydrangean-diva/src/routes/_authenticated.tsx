@@ -1,5 +1,6 @@
 import { Header } from '@/features/media-player.header/components/Header';
-import { usePlayQueueStore } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
+import { usePlayQueueStore } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
+import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { BottomBar } from '@/features/media-player.player/components/BottomBar';
 import { MediaPlayerLayout } from '@/features/media-player.player/components/MediaPlayerLayout';
 import { MiniPlayer } from '@/features/media-player.player/components/MiniPlayer';
@@ -13,7 +14,10 @@ const RouteComponent = observer((): ReactElement => {
 	const playerStore = usePlayerStore();
 	const playQueueStore = usePlayQueueStore();
 
-	useLocalStorageStateStore('PlayQueueStore', playQueueStore);
+	useLocalStorageStateStore(
+		'PlayQueueStore',
+		playQueueStore as PlayQueueStore,
+	);
 
 	return (
 		<>

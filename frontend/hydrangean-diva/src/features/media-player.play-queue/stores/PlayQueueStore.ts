@@ -1,13 +1,13 @@
 import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import { getOrAddSchema } from '@/features/common/stores/getOrAddSchema';
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import {
 	PlayQueueDto,
 	PlayQueueDtoSchema,
-} from '@/features/media-player.play-queue/interfaces/PlayQueueDto';
-import { PlayQueueItemDto } from '@/features/media-player.play-queue/interfaces/PlayQueueItemDto';
-import { RepeatMode } from '@/features/media-player.play-queue/interfaces/RepeatMode';
+} from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueDto';
+import { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
+import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { PlayQueueItemStore } from '@/features/media-player.play-queue/stores/PlayQueueItemStore';
 import { LocalStorageStateStore } from '@aigamo/route-sphere';
 import { pull } from 'lodash-es';

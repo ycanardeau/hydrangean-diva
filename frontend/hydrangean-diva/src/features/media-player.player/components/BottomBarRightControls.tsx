@@ -1,4 +1,4 @@
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {

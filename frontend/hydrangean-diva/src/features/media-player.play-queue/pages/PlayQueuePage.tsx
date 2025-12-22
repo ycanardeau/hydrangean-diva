@@ -1,6 +1,6 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
+import { usePlayQueueStore } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
 import { PlayQueue } from '@/features/media-player.play-queue/components/PlayQueue';
-import { usePlayQueueStore } from '@/features/media-player.play-queue/components/PlayQueueStoreContext';
 import { EuiPageTemplate } from '@elastic/eui';
 import { ReactElement } from 'react';
 

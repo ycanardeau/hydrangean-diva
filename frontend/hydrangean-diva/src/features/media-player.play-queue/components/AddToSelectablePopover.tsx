@@ -1,5 +1,4 @@
-// FIXME
-import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
+import { mediaPlayerPlaylistsApi } from '@/features/media-player.play-queue/helpers/mediaPlayerPlaylistsApi';
 import {
 	EuiButton,
 	EuiPopover,

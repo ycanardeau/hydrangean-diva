@@ -1,7 +1,7 @@
 import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
-import { PlayQueueItemDto } from '@/features/media-player.play-queue/interfaces/PlayQueueItemDto';
+import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, observable } from 'mobx';
 

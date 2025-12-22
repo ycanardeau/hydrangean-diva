@@ -1,5 +1,5 @@
 import { MobXObservableStateProvider } from '@/features/common';
-import { usePlayQueueStore } from '@/features/media-player.play-queue';
+import { usePlayQueueStore } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import { PlaylistDetailsPage } from '@/features/media-player.playlists/pages/PlaylistDetailsPage';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';

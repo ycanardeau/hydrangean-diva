@@ -4,8 +4,7 @@ import {
 	MediaPlayerPlaylistsApi,
 } from '@/api';
 import { IObservableStateProvider } from '@/features/common';
-// FIXME
-import { IPlayQueueStore } from '@/features/media-player.play-queue/interfaces/IPlayQueueStore';
+import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
 import { LocationStateStore, StateChangeEvent } from '@aigamo/route-sphere';
 import { action, computed, observable, runInAction } from 'mobx';

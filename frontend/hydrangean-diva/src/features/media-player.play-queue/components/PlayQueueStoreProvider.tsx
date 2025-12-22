@@ -1,18 +1,9 @@
 import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
+import { PlayQueueStoreContext } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { reaction } from 'mobx';
-import React, {
-	ReactElement,
-	ReactNode,
-	createContext,
-	useContext,
-	useEffect,
-	useState,
-} from 'react';
-
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const PlayQueueStoreContext = createContext<PlayQueueStore>(undefined!);
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 
 interface PlayQueueStoreProviderProps {
 	children?: ReactNode;
@@ -50,8 +41,4 @@ export const PlayQueueStoreProvider = ({
 			{children}
 		</PlayQueueStoreContext.Provider>
 	);
-};
-
-export const usePlayQueueStore = (): PlayQueueStore => {
-	return useContext(PlayQueueStoreContext);
 };
