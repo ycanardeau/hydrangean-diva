@@ -1,0 +1,6 @@
+:root {
+  /* fixed header height */
+  --euiFixedHeadersHeight: 48px;
+  /* add safe area inset to header for iOS */
+  --euiFixedHeadersOffset: calc(env(safe-area-inset-top) + var(--euiFixedHeadersHeight));
+}
