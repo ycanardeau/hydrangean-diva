@@ -120,10 +120,8 @@ export const BottomBarLeftControls = observer(
 				justifyContent="flexStart"
 				alignItems="center"
 			>
-				{bottomBarStore.playQueueStore.currentItem && (
-					<PlayQueueItemPopover
-						item={bottomBarStore.playQueueStore.currentItem}
-					/>
+				{bottomBarStore.currentItem && (
+					<PlayQueueItemPopover item={bottomBarStore.currentItem} />
 				)}
 			</EuiFlexGroup>
 		);

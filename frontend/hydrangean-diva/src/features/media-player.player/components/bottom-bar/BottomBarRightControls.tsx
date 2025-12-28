@@ -193,24 +193,16 @@ const MoreOptionsContextMenu = observer(
 		const diva = useNostalgicDiva();
 
 		const handleClickSkipBack10 = useCallback(async () => {
-			const currentTime = await diva.getCurrentTime();
-
-			if (currentTime !== undefined) {
-				await diva.setCurrentTime(currentTime - 10);
-			}
+			await bottomBarStore.skipBack10();
 
 			closePopover();
-		}, [diva, closePopover]);
+		}, [bottomBarStore, closePopover]);
 
 		const handleClickSkipForward30 = useCallback(async () => {
-			const currentTime = await diva.getCurrentTime();
-
-			if (currentTime !== undefined) {
-				await diva.setCurrentTime(currentTime + 30);
-			}
+			await bottomBarStore.skipForward30();
 
 			closePopover();
-		}, [diva, closePopover]);
+		}, [bottomBarStore, closePopover]);
 
 		const handleClickPlaybackRate = useCallback(
 			async (playbackRate: number): Promise<void> => {
@@ -223,9 +215,9 @@ const MoreOptionsContextMenu = observer(
 
 		const handleClickRemoveFromPlayQueue =
 			useCallback(async (): Promise<void> => {
-				if (bottomBarStore.playQueueStore.currentItem !== undefined) {
+				if (bottomBarStore.currentItem !== undefined) {
 					await bottomBarStore.playQueueStore.removeItems([
-						bottomBarStore.playQueueStore.currentItem,
+						bottomBarStore.currentItem,
 					]);
 				}
 
@@ -259,21 +251,13 @@ const MoreOptionsContextMenu = observer(
 							name: 'Skip back 10 seconds' /* LOC */,
 							icon: <EuiIcon type={SkipBack10Regular} />,
 							onClick: handleClickSkipBack10,
-							disabled:
-								bottomBarStore.playQueueStore.isEmpty ||
-								!bottomBarStore.playerStore.controller.supports(
-									'setCurrentTime',
-								),
+							disabled: !bottomBarStore.canSkipBack10,
 						},
 						{
 							name: 'Skip forward 30 seconds' /* LOC */,
 							icon: <EuiIcon type={SkipForward30Regular} />,
 							onClick: handleClickSkipForward30,
-							disabled:
-								bottomBarStore.playQueueStore.isEmpty ||
-								!bottomBarStore.playerStore.controller.supports(
-									'setCurrentTime',
-								),
+							disabled: !bottomBarStore.canSkipForward30,
 						},
 						{
 							isSeparator: true,

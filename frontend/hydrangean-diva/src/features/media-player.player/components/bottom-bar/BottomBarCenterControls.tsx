@@ -1,6 +1,5 @@
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
-import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { EuiButtonIcon, EuiFlexGroup, IconType } from '@elastic/eui';
 import {
 	ArrowRepeat1Filled,
@@ -16,7 +15,7 @@ import {
 	SkipForward30Regular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, useCallback } from 'react';
+import { ReactElement } from 'react';
 
 interface ShuffleButtonProps {
 	bottomBarStore: IBottomBarStore;
@@ -27,20 +26,20 @@ const ShuffleButton = observer(
 		return (
 			<EuiButtonIcon
 				title={
-					`Shuffle: ${bottomBarStore.playQueueStore.shuffle ? 'On' : 'Off'}` /* LOC */
+					`Shuffle: ${bottomBarStore.shuffle ? 'On' : 'Off'}` /* LOC */
 				}
 				aria-label={
-					`Shuffle: ${bottomBarStore.playQueueStore.shuffle ? 'On' : 'Off'}` /* LOC */
+					`Shuffle: ${bottomBarStore.shuffle ? 'On' : 'Off'}` /* LOC */
 				}
 				iconType={
-					bottomBarStore.playQueueStore.shuffle
+					bottomBarStore.shuffle
 						? ArrowShuffleFilled
 						: ArrowShuffleOffFilled
 				}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.playQueueStore.toggleShuffle}
-				disabled /* TODO: remove */
+				onClick={bottomBarStore.toggleShuffle}
+				disabled={!bottomBarStore.canToggleShuffle}
 			/>
 		);
 	},
@@ -52,21 +51,6 @@ interface PreviousButtonProps {
 
 const PreviousButton = observer(
 	({ bottomBarStore }: PreviousButtonProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
-		const handlePrevious = useCallback(async () => {
-			if (bottomBarStore.playQueueStore.hasPreviousItem) {
-				const currentTime = await diva.getCurrentTime();
-				if (currentTime === undefined || currentTime < 5) {
-					await bottomBarStore.playQueueStore.previous();
-				} else {
-					await diva.setCurrentTime(0);
-				}
-			} else {
-				await diva.setCurrentTime(0);
-			}
-		}, [bottomBarStore, diva]);
-
 		return (
 			<EuiButtonIcon
 				title="Previous" /* LOC */
@@ -74,8 +58,8 @@ const PreviousButton = observer(
 				iconType={PreviousFilled}
 				size="s"
 				iconSize="l"
-				onClick={handlePrevious}
-				disabled={bottomBarStore.playQueueStore.isEmpty}
+				onClick={bottomBarStore.previous}
+				disabled={!bottomBarStore.canPrevious}
 			/>
 		);
 	},
@@ -87,16 +71,6 @@ interface SkipBack10ButtonProps {
 
 const SkipBack10Button = observer(
 	({ bottomBarStore }: SkipBack10ButtonProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
-		const handleClick = useCallback(async () => {
-			const currentTime = await diva.getCurrentTime();
-
-			if (currentTime !== undefined) {
-				await diva.setCurrentTime(currentTime - 10);
-			}
-		}, [diva]);
-
 		return (
 			<EuiButtonIcon
 				title="Skip back 10 seconds" /* LOC */
@@ -104,13 +78,8 @@ const SkipBack10Button = observer(
 				iconType={SkipBack10Regular}
 				size="s"
 				iconSize="l"
-				onClick={handleClick}
-				disabled={
-					bottomBarStore.playQueueStore.isEmpty ||
-					!bottomBarStore.playerStore.controller.supports(
-						'setCurrentTime',
-					)
-				}
+				onClick={bottomBarStore.skipBack10}
+				disabled={!bottomBarStore.canSkipBack10}
 			/>
 		);
 	},
@@ -122,8 +91,6 @@ interface PauseButtonProps {
 
 const PauseButton = observer(
 	({ bottomBarStore }: PauseButtonProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
 		return (
 			<EuiButtonIcon
 				title="Pause" /* LOC */
@@ -131,11 +98,8 @@ const PauseButton = observer(
 				iconType={PauseFilled}
 				size="s"
 				iconSize="l"
-				onClick={(): Promise<void> => diva.pause()}
-				disabled={
-					!bottomBarStore.playQueueStore.canPause ||
-					!bottomBarStore.playerStore.controller.supports('pause')
-				}
+				onClick={bottomBarStore.pause}
+				disabled={!bottomBarStore.canPause}
 			/>
 		);
 	},
@@ -147,8 +111,6 @@ interface PlayButtonProps {
 
 const PlayButton = observer(
 	({ bottomBarStore }: PlayButtonProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
 		return (
 			<EuiButtonIcon
 				title="Play" /* LOC */
@@ -156,11 +118,8 @@ const PlayButton = observer(
 				iconType={PlayFilled}
 				size="s"
 				iconSize="l"
-				onClick={(): Promise<void> => diva.play()}
-				disabled={
-					!bottomBarStore.playQueueStore.canPlay ||
-					!bottomBarStore.playerStore.controller.supports('play')
-				}
+				onClick={bottomBarStore.play}
+				disabled={!bottomBarStore.canPlay}
 			/>
 		);
 	},
@@ -172,16 +131,6 @@ interface SkipForward30ButtonProps {
 
 const SkipForward30Button = observer(
 	({ bottomBarStore }: SkipForward30ButtonProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
-		const handleClick = useCallback(async () => {
-			const currentTime = await diva.getCurrentTime();
-
-			if (currentTime !== undefined) {
-				await diva.setCurrentTime(currentTime + 30);
-			}
-		}, [diva]);
-
 		return (
 			<EuiButtonIcon
 				title="Skip forward 30 seconds" /* LOC */
@@ -189,13 +138,8 @@ const SkipForward30Button = observer(
 				iconType={SkipForward30Regular}
 				size="s"
 				iconSize="l"
-				onClick={handleClick}
-				disabled={
-					bottomBarStore.playQueueStore.isEmpty ||
-					!bottomBarStore.playerStore.controller.supports(
-						'setCurrentTime',
-					)
-				}
+				onClick={bottomBarStore.skipForward30}
+				disabled={!bottomBarStore.canSkipForward30}
 			/>
 		);
 	},
@@ -214,8 +158,8 @@ const NextButton = observer(
 				iconType={NextFilled}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.playQueueStore.next}
-				disabled={!bottomBarStore.playQueueStore.hasNextItem}
+				onClick={bottomBarStore.next}
+				disabled={!bottomBarStore.canNext}
 			/>
 		);
 	},
@@ -237,28 +181,27 @@ const RepeatButton = observer(
 			<EuiButtonIcon
 				title={
 					`Repeat: ${
-						bottomBarStore.playQueueStore.repeat === RepeatMode.All
+						bottomBarStore.repeat === RepeatMode.All
 							? 'All'
-							: bottomBarStore.playQueueStore.repeat ===
-								  RepeatMode.One
+							: bottomBarStore.repeat === RepeatMode.One
 								? 'One'
 								: 'Off'
 					}` /* LOC */
 				}
 				aria-label={
 					`Repeat: ${
-						bottomBarStore.playQueueStore.repeat === RepeatMode.All
+						bottomBarStore.repeat === RepeatMode.All
 							? 'All'
-							: bottomBarStore.playQueueStore.repeat ===
-								  RepeatMode.One
+							: bottomBarStore.repeat === RepeatMode.One
 								? 'One'
 								: 'Off'
 					}` /* LOC */
 				}
-				iconType={repeatIconTypes[bottomBarStore.playQueueStore.repeat]}
+				iconType={repeatIconTypes[bottomBarStore.repeat]}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.playQueueStore.toggleRepeat}
+				onClick={bottomBarStore.toggleRepeat}
+				disabled={!bottomBarStore.canToggleRepeat}
 			/>
 		);
 	},
@@ -280,7 +223,7 @@ export const BottomBarCenterControls = observer(
 				<ShuffleButton bottomBarStore={bottomBarStore} />
 				<PreviousButton bottomBarStore={bottomBarStore} />
 				<SkipBack10Button bottomBarStore={bottomBarStore} />
-				{bottomBarStore.playerStore.playing ? (
+				{bottomBarStore.playing ? (
 					<PauseButton bottomBarStore={bottomBarStore} />
 				) : (
 					<PlayButton bottomBarStore={bottomBarStore} />
