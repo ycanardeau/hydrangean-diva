@@ -7,6 +7,7 @@ import { MiniPlayer } from '@/features/media-player.player/components/MiniPlayer
 import { usePlayerStore } from '@/features/media-player.player/components/PlayerStoreContext';
 import { BottomBar } from '@/features/media-player.player/components/bottom-bar/BottomBar';
 import { BottomBarStore } from '@/features/media-player.player/stores/BottomBarStore';
+import { MiniPlayerStore } from '@/features/media-player.player/stores/MiniPlayerStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { useLocalStorageStateStore } from '@aigamo/route-sphere';
 import { Outlet, createFileRoute } from '@tanstack/react-router';
@@ -17,6 +18,16 @@ const RouteComponent = observer((): ReactElement => {
 	const playerStore = usePlayerStore();
 	const playQueueStore = usePlayQueueStore();
 	const diva = useNostalgicDiva();
+
+	const [miniPlayerStore] = useState(
+		() =>
+			new MiniPlayerStore(
+				new MobXObservableStateProvider(),
+				playerStore,
+				playQueueStore,
+				diva,
+			),
+	);
 
 	const [bottomBarStore] = useState(
 		() =>
@@ -42,10 +53,7 @@ const RouteComponent = observer((): ReactElement => {
 			</MediaPlayerLayout>
 
 			{!playQueueStore.isEmpty && (
-				<MiniPlayer
-					playerStore={playerStore}
-					playQueueStore={playQueueStore}
-				/>
+				<MiniPlayer miniPlayerStore={miniPlayerStore} />
 			)}
 
 			<BottomBar bottomBarStore={bottomBarStore} />

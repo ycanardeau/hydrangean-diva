@@ -1,71 +1,25 @@
 import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
 import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
-import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
-import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
-import {
-	NostalgicDiva,
-	PlayerOptions,
-	useNostalgicDiva,
-} from '@aigamo/nostalgic-diva';
+import { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
+import { NostalgicDiva, PlayerOptions } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
-import React, { ReactElement, useCallback, useMemo } from 'react';
+import React, { ReactElement, useMemo } from 'react';
 
 interface MiniPlayerProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	miniPlayerStore: IMiniPlayerStore;
 }
 
 export const MiniPlayer = observer(
-	({ playerStore, playQueueStore }: MiniPlayerProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
-		const handleLoaded = useCallback(async (): Promise<void> => {
-			if (!playQueueStore.interacted) {
-				return;
-			}
-
-			await diva.play();
-		}, [playQueueStore, diva]);
-
-		const handleEnded = useCallback(async (): Promise<void> => {
-			switch (playQueueStore.repeat) {
-				case RepeatMode.One:
-					await diva.setCurrentTime(0);
-					break;
-
-				case RepeatMode.Off:
-				case RepeatMode.All:
-					if (playQueueStore.isLastItem) {
-						switch (playQueueStore.repeat) {
-							case RepeatMode.Off:
-								playerStore.onEnded();
-								break;
-
-							case RepeatMode.All:
-								if (playQueueStore.hasMultipleItems) {
-									await playQueueStore.goToFirst();
-								} else {
-									await diva.setCurrentTime(0);
-								}
-								break;
-						}
-					} else {
-						await playQueueStore.next();
-					}
-					break;
-			}
-		}, [playQueueStore, playerStore, diva]);
-
+	({ miniPlayerStore }: MiniPlayerProps): ReactElement => {
 		const options = useMemo(
 			(): PlayerOptions => ({
-				onLoaded: handleLoaded,
-				onPlay: playerStore.onPlay,
-				onPause: playerStore.onPause,
-				onEnded: handleEnded,
-				onTimeUpdate: playerStore.onTimeUpdate,
+				onLoaded: miniPlayerStore.onLoaded,
+				onPlay: miniPlayerStore.onPlay,
+				onPause: miniPlayerStore.onPause,
+				onEnded: miniPlayerStore.onEnded,
+				onTimeUpdate: miniPlayerStore.onTimeUpdate,
 			}),
-			[playerStore, handleLoaded, handleEnded],
+			[miniPlayerStore],
 		);
 
 		return (
@@ -83,11 +37,13 @@ export const MiniPlayer = observer(
 				}}
 			>
 				<div css={{ flexGrow: 1, backgroundColor: 'black' }}>
-					{playQueueStore.currentItem && (
+					{miniPlayerStore.currentItem && (
 						<NostalgicDiva
-							src={playQueueStore.currentItem.url}
+							src={miniPlayerStore.currentItem.url}
 							options={options}
-							onControllerChange={playerStore.onControllerChange}
+							onControllerChange={
+								miniPlayerStore.onControllerChange
+							}
 						/>
 					)}
 				</div>
