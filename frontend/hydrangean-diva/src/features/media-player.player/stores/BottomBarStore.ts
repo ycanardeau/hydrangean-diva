@@ -12,12 +12,14 @@ import { action, computed } from 'mobx';
 export class BottomBarStore implements IBottomBarStore {
 	constructor(
 		observableStateProvider: IObservableStateProvider,
-		/* TODO: private */ readonly playerStore: IPlayerStore,
-		/* TODO: private */ readonly playQueueStore: IPlayQueueStore,
+		private readonly playerStore: IPlayerStore,
+		private readonly playQueueStore: IPlayQueueStore,
 	) {
 		observableStateProvider.makeObservable(this, {
 			controller: computed,
 			playing: computed,
+			percent: computed,
+			canSeek: computed,
 			currentItem: computed,
 			repeat: computed,
 			shuffle: computed,
@@ -30,6 +32,8 @@ export class BottomBarStore implements IBottomBarStore {
 			canSkipBack10: computed,
 			canSkipForward30: computed,
 			canRemoveFromPlayQueue: computed,
+			setPercent: action.bound,
+			setSeeking: action.bound,
 			toggleRepeat: action.bound,
 			toggleShuffle: action.bound,
 			play: action.bound,
@@ -48,6 +52,17 @@ export class BottomBarStore implements IBottomBarStore {
 
 	get playing(): boolean {
 		return this.playerStore.playing;
+	}
+
+	get percent(): number {
+		return this.playerStore.percent;
+	}
+
+	get canSeek(): boolean {
+		return (
+			!this.playQueueStore.isEmpty &&
+			this.controller.supports('setCurrentTime')
+		);
 	}
 
 	get currentItem(): IPlayQueueItemStore | undefined {
@@ -89,21 +104,23 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	get canSkipBack10(): boolean {
-		return (
-			!this.playQueueStore.isEmpty &&
-			this.controller.supports('setCurrentTime')
-		);
+		return this.canSeek;
 	}
 
 	get canSkipForward30(): boolean {
-		return (
-			!this.playQueueStore.isEmpty &&
-			this.controller.supports('setCurrentTime')
-		);
+		return this.canSeek;
 	}
 
 	get canRemoveFromPlayQueue(): boolean {
 		return !this.playQueueStore.isEmpty;
+	}
+
+	setPercent(value: number): void {
+		this.playerStore.setPercent(value);
+	}
+
+	setSeeking(value: boolean): void {
+		this.playerStore.setSeeking(value);
 	}
 
 	toggleRepeat(): void {

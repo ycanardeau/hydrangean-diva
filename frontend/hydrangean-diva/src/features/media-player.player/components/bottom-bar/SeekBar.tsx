@@ -16,7 +16,8 @@ export const SeekBar = observer(
 		const handleChange = useCallback(
 			(e: _SingleRangeChangeEvent) => {
 				const percent = Number(e.currentTarget.value) / 100;
-				bottomBarStore.playerStore.setPercent(percent);
+
+				bottomBarStore.setPercent(percent);
 			},
 			[bottomBarStore],
 		);
@@ -24,7 +25,7 @@ export const SeekBar = observer(
 		const handleMouseDown = useCallback(
 			(e: React.MouseEvent<HTMLInputElement>) => {
 				if (e.button === 0) {
-					bottomBarStore.playerStore.setSeeking(true);
+					bottomBarStore.setSeeking(true);
 				}
 			},
 			[bottomBarStore],
@@ -35,7 +36,7 @@ export const SeekBar = observer(
 				if (e.button === 0) {
 					const percent = Number(e.currentTarget.value) / 100;
 
-					bottomBarStore.playerStore.setSeeking(false);
+					bottomBarStore.setSeeking(false);
 
 					const duration = await diva.getDuration();
 					if (duration !== undefined) {
@@ -51,14 +52,14 @@ export const SeekBar = observer(
 				min={0}
 				max={100}
 				step={0.0000001}
-				value={bottomBarStore.playerStore.percent * 100}
+				value={bottomBarStore.percent * 100}
 				onChange={handleChange}
 				onMouseDown={handleMouseDown}
 				onMouseUp={handleMouseUp}
 				fullWidth
 				showRange
 				css={{ blockSize: 32 }}
-				disabled={bottomBarStore.playQueueStore.isEmpty}
+				disabled={!bottomBarStore.canSeek}
 			/>
 		);
 	},
