@@ -14,9 +14,9 @@ export class BottomBarStore implements IBottomBarStore {
 		observableStateProvider: IObservableStateProvider,
 		/* TODO: private */ readonly playerStore: IPlayerStore,
 		/* TODO: private */ readonly playQueueStore: IPlayQueueStore,
-		private readonly diva: IPlayerController,
 	) {
 		observableStateProvider.makeObservable(this, {
+			controller: computed,
 			playing: computed,
 			currentItem: computed,
 			repeat: computed,
@@ -38,6 +38,10 @@ export class BottomBarStore implements IBottomBarStore {
 			skipBack10: action.bound,
 			skipForward30: action.bound,
 		});
+	}
+
+	get controller(): IPlayerController {
+		return this.playerStore.controller;
 	}
 
 	get playing(): boolean {
@@ -65,16 +69,12 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	get canPlay(): boolean {
-		return (
-			this.playQueueStore.canPlay &&
-			this.playerStore.controller.supports('play')
-		);
+		return this.playQueueStore.canPlay && this.controller.supports('play');
 	}
 
 	get canPause(): boolean {
 		return (
-			this.playQueueStore.canPause &&
-			this.playerStore.controller.supports('pause')
+			this.playQueueStore.canPause && this.controller.supports('pause')
 		);
 	}
 
@@ -89,14 +89,14 @@ export class BottomBarStore implements IBottomBarStore {
 	get canSkipBack10(): boolean {
 		return (
 			!this.playQueueStore.isEmpty &&
-			this.playerStore.controller.supports('setCurrentTime')
+			this.controller.supports('setCurrentTime')
 		);
 	}
 
 	get canSkipForward30(): boolean {
 		return (
 			!this.playQueueStore.isEmpty &&
-			this.playerStore.controller.supports('setCurrentTime')
+			this.controller.supports('setCurrentTime')
 		);
 	}
 
@@ -109,23 +109,23 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	play(): Promise<void> {
-		return this.diva.play();
+		return this.controller.play();
 	}
 
 	pause(): Promise<void> {
-		return this.diva.pause();
+		return this.controller.pause();
 	}
 
 	async previous(): Promise<void> {
 		if (this.playQueueStore.hasPreviousItem) {
-			const currentTime = await this.diva.getCurrentTime();
+			const currentTime = await this.controller.getCurrentTime();
 			if (currentTime === undefined || currentTime < 5) {
 				await this.playQueueStore.previous();
 			} else {
-				await this.diva.setCurrentTime(0);
+				await this.controller.setCurrentTime(0);
 			}
 		} else {
-			await this.diva.setCurrentTime(0);
+			await this.controller.setCurrentTime(0);
 		}
 	}
 
@@ -134,18 +134,18 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	async skipBack10(): Promise<void> {
-		const currentTime = await this.diva.getCurrentTime();
+		const currentTime = await this.controller.getCurrentTime();
 
 		if (currentTime !== undefined) {
-			await this.diva.setCurrentTime(currentTime - 10);
+			await this.controller.setCurrentTime(currentTime - 10);
 		}
 	}
 
 	async skipForward30(): Promise<void> {
-		const currentTime = await this.diva.getCurrentTime();
+		const currentTime = await this.controller.getCurrentTime();
 
 		if (currentTime !== undefined) {
-			await this.diva.setCurrentTime(currentTime + 30);
+			await this.controller.setCurrentTime(currentTime + 30);
 		}
 	}
 }

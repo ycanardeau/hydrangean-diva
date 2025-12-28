@@ -4,8 +4,10 @@ import {
 } from '@/features/media-player.play-queue.abstractions';
 import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import { IPlayerController } from '@aigamo/nostalgic-diva';
 
 export interface IBottomBarStore {
+	readonly controller: IPlayerController;
 	readonly playing: boolean;
 	readonly currentItem: IPlayQueueItemStore | undefined;
 	readonly repeat: RepeatMode;

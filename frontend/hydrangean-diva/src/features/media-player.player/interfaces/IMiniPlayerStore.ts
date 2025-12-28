@@ -2,6 +2,7 @@ import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstract
 import { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
 
 export interface IMiniPlayerStore {
+	readonly controller: IPlayerController;
 	readonly currentItem: IPlayQueueItemStore | undefined;
 	onLoaded(): Promise<void>;
 	onPlay(): void;

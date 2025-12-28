@@ -45,9 +45,7 @@ const MuteButton = observer(
 				iconType={Speaker2Regular}
 				size="s"
 				iconSize="l"
-				disabled={
-					!bottomBarStore.playerStore.controller.supports('setMuted')
-				}
+				disabled={!bottomBarStore.controller.supports('setMuted')}
 			/>
 		);
 	},
@@ -113,9 +111,7 @@ const VolumePopover = observer(
 							onChange={handleChange}
 							css={{ blockSize: 32 }}
 							disabled={
-								!bottomBarStore.playerStore.controller.supports(
-									'setVolume',
-								)
+								!bottomBarStore.controller.supports('setVolume')
 							}
 						/>
 					</EuiFlexGroup>
@@ -148,9 +144,7 @@ const VolumeButton = observer(
 						iconSize="l"
 						onClick={toggleVolumePopover}
 						disabled={
-							!bottomBarStore.playerStore.controller.supports(
-								'getVolume',
-							)
+							!bottomBarStore.controller.supports('getVolume')
 						}
 					/>
 				}
@@ -227,7 +221,7 @@ const MoreOptionsContextMenu = observer(
 		const [playbackRate, setPlaybackRate] = useState<number>();
 
 		const handleClickSpeed = useCallback(async (): Promise<void> => {
-			await bottomBarStore.playerStore.controller
+			await bottomBarStore.controller
 				.getPlaybackRate()
 				.then((playbackRate) => setPlaybackRate(playbackRate));
 		}, [bottomBarStore]);
@@ -243,7 +237,7 @@ const MoreOptionsContextMenu = observer(
 							panel: 1,
 							onClick: handleClickSpeed,
 							disabled:
-								!bottomBarStore.playerStore.controller.supports(
+								!bottomBarStore.controller.supports(
 									'getPlaybackRate',
 								),
 						},
@@ -280,7 +274,7 @@ const MoreOptionsContextMenu = observer(
 								handleClickPlaybackRate(value),
 							icon: value === playbackRate ? 'check' : 'empty',
 							disabled:
-								!bottomBarStore.playerStore.controller.supports(
+								!bottomBarStore.controller.supports(
 									'setPlaybackRate',
 								),
 						}),

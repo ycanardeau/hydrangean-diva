@@ -14,9 +14,9 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 		observableStateProvider: IObservableStateProvider,
 		private readonly playerStore: IPlayerStore,
 		private readonly playQueueStore: IPlayQueueStore,
-		private readonly diva: IPlayerController,
 	) {
 		observableStateProvider.makeObservable(this, {
+			controller: computed,
 			currentItem: computed,
 			onLoaded: action.bound,
 			onPlay: action.bound,
@@ -25,6 +25,10 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 			onTimeUpdate: action.bound,
 			onControllerChange: action.bound,
 		});
+	}
+
+	get controller(): IPlayerController {
+		return this.playerStore.controller;
 	}
 
 	get currentItem(): IPlayQueueItemStore | undefined {
@@ -36,7 +40,7 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 			return;
 		}
 
-		await this.diva.play();
+		await this.controller.play();
 	}
 
 	onPlay(): void {
@@ -50,7 +54,7 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 	async onEnded(): Promise<void> {
 		switch (this.playQueueStore.repeat) {
 			case RepeatMode.One:
-				await this.diva.setCurrentTime(0);
+				await this.controller.setCurrentTime(0);
 				break;
 
 			case RepeatMode.Off:
@@ -65,7 +69,7 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 							if (this.playQueueStore.hasMultipleItems) {
 								await this.playQueueStore.goToFirst();
 							} else {
-								await this.diva.setCurrentTime(0);
+								await this.controller.setCurrentTime(0);
 							}
 							break;
 					}
