@@ -1,5 +1,4 @@
-import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonIcon,
@@ -34,11 +33,11 @@ import {
 } from 'react';
 
 interface MuteButtonProps {
-	playerStore: IPlayerStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const MuteButton = observer(
-	({ playerStore }: MuteButtonProps): ReactElement => {
+	({ bottomBarStore }: MuteButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title="Mute" /* LOC */
@@ -46,14 +45,16 @@ const MuteButton = observer(
 				iconType={Speaker2Regular}
 				size="s"
 				iconSize="l"
-				disabled={!playerStore.controller.supports('setMuted')}
+				disabled={
+					!bottomBarStore.playerStore.controller.supports('setMuted')
+				}
 			/>
 		);
 	},
 );
 
 interface VolumePopoverProps {
-	playerStore: IPlayerStore;
+	bottomBarStore: IBottomBarStore;
 	button?: NonNullable<ReactNode>;
 	isOpen: boolean;
 	closePopover: () => void;
@@ -61,7 +62,7 @@ interface VolumePopoverProps {
 
 const VolumePopover = observer(
 	({
-		playerStore,
+		bottomBarStore,
 		button,
 		isOpen,
 		closePopover,
@@ -103,7 +104,7 @@ const VolumePopover = observer(
 						justifyContent="center"
 						alignItems="center"
 					>
-						<MuteButton playerStore={playerStore} />
+						<MuteButton bottomBarStore={bottomBarStore} />
 						<EuiRange
 							min={0}
 							max={100}
@@ -112,7 +113,9 @@ const VolumePopover = observer(
 							onChange={handleChange}
 							css={{ blockSize: 32 }}
 							disabled={
-								!playerStore.controller.supports('setVolume')
+								!bottomBarStore.playerStore.controller.supports(
+									'setVolume',
+								)
 							}
 						/>
 					</EuiFlexGroup>
@@ -123,11 +126,11 @@ const VolumePopover = observer(
 );
 
 interface VolumeButtonProps {
-	playerStore: IPlayerStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const VolumeButton = observer(
-	({ playerStore }: VolumeButtonProps): ReactElement => {
+	({ bottomBarStore }: VolumeButtonProps): ReactElement => {
 		const [isVolumePopoverOpen, setIsVolumePopoverOpen] = useState(false);
 
 		const toggleVolumePopover = (): void =>
@@ -135,7 +138,7 @@ const VolumeButton = observer(
 
 		return (
 			<VolumePopover
-				playerStore={playerStore}
+				bottomBarStore={bottomBarStore}
 				button={
 					<EuiButtonIcon
 						title="Volume" /* LOC */
@@ -144,7 +147,11 @@ const VolumeButton = observer(
 						size="s"
 						iconSize="l"
 						onClick={toggleVolumePopover}
-						disabled={!playerStore.controller.supports('getVolume')}
+						disabled={
+							!bottomBarStore.playerStore.controller.supports(
+								'getVolume',
+							)
+						}
 					/>
 				}
 				isOpen={isVolumePopoverOpen}
@@ -174,15 +181,13 @@ const PlayQueueButton = ({
 };
 
 interface MoreOptionsContextMenuProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 	closePopover: () => void;
 }
 
 const MoreOptionsContextMenu = observer(
 	({
-		playerStore,
-		playQueueStore,
+		bottomBarStore,
 		closePopover,
 	}: MoreOptionsContextMenuProps): ReactElement => {
 		const diva = useNostalgicDiva();
@@ -218,22 +223,22 @@ const MoreOptionsContextMenu = observer(
 
 		const handleClickRemoveFromPlayQueue =
 			useCallback(async (): Promise<void> => {
-				if (playQueueStore.currentItem !== undefined) {
-					await playQueueStore.removeItems([
-						playQueueStore.currentItem,
+				if (bottomBarStore.playQueueStore.currentItem !== undefined) {
+					await bottomBarStore.playQueueStore.removeItems([
+						bottomBarStore.playQueueStore.currentItem,
 					]);
 				}
 
 				closePopover();
-			}, [playQueueStore, closePopover]);
+			}, [bottomBarStore, closePopover]);
 
 		const [playbackRate, setPlaybackRate] = useState<number>();
 
 		const handleClickSpeed = useCallback(async (): Promise<void> => {
-			await playerStore.controller
+			await bottomBarStore.playerStore.controller
 				.getPlaybackRate()
 				.then((playbackRate) => setPlaybackRate(playbackRate));
-		}, [playerStore]);
+		}, [bottomBarStore]);
 
 		const panels = useMemo(
 			(): EuiContextMenuPanelDescriptor[] => [
@@ -246,7 +251,7 @@ const MoreOptionsContextMenu = observer(
 							panel: 1,
 							onClick: handleClickSpeed,
 							disabled:
-								!playerStore.controller.supports(
+								!bottomBarStore.playerStore.controller.supports(
 									'getPlaybackRate',
 								),
 						},
@@ -255,8 +260,8 @@ const MoreOptionsContextMenu = observer(
 							icon: <EuiIcon type={SkipBack10Regular} />,
 							onClick: handleClickSkipBack10,
 							disabled:
-								playQueueStore.isEmpty ||
-								!playerStore.controller.supports(
+								bottomBarStore.playQueueStore.isEmpty ||
+								!bottomBarStore.playerStore.controller.supports(
 									'setCurrentTime',
 								),
 						},
@@ -265,8 +270,8 @@ const MoreOptionsContextMenu = observer(
 							icon: <EuiIcon type={SkipForward30Regular} />,
 							onClick: handleClickSkipForward30,
 							disabled:
-								playQueueStore.isEmpty ||
-								!playerStore.controller.supports(
+								bottomBarStore.playQueueStore.isEmpty ||
+								!bottomBarStore.playerStore.controller.supports(
 									'setCurrentTime',
 								),
 						},
@@ -277,7 +282,7 @@ const MoreOptionsContextMenu = observer(
 							name: 'Remove from play queue' /* LOC */,
 							icon: <EuiIcon type={DismissRegular} />,
 							onClick: handleClickRemoveFromPlayQueue,
-							disabled: playQueueStore.isEmpty,
+							disabled: bottomBarStore.playQueueStore.isEmpty,
 						},
 					],
 				},
@@ -291,7 +296,7 @@ const MoreOptionsContextMenu = observer(
 								handleClickPlaybackRate(value),
 							icon: value === playbackRate ? 'check' : 'empty',
 							disabled:
-								!playerStore.controller.supports(
+								!bottomBarStore.playerStore.controller.supports(
 									'setPlaybackRate',
 								),
 						}),
@@ -299,8 +304,7 @@ const MoreOptionsContextMenu = observer(
 				},
 			],
 			[
-				playerStore,
-				playQueueStore,
+				bottomBarStore,
 				handleClickSpeed,
 				handleClickSkipBack10,
 				handleClickSkipForward30,
@@ -315,8 +319,7 @@ const MoreOptionsContextMenu = observer(
 );
 
 interface MoreOptionsPopoverProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 	button?: NonNullable<ReactNode>;
 	isOpen: boolean;
 	closePopover: () => void;
@@ -324,8 +327,7 @@ interface MoreOptionsPopoverProps {
 
 const MoreOptionsPopover = memo(
 	({
-		playerStore,
-		playQueueStore,
+		bottomBarStore,
 		button,
 		isOpen,
 		closePopover,
@@ -339,8 +341,7 @@ const MoreOptionsPopover = memo(
 				anchorPosition="upRight"
 			>
 				<MoreOptionsContextMenu
-					playerStore={playerStore}
-					playQueueStore={playQueueStore}
+					bottomBarStore={bottomBarStore}
 					closePopover={closePopover}
 				/>
 			</EuiPopover>
@@ -349,12 +350,11 @@ const MoreOptionsPopover = memo(
 );
 
 interface MoreOptionsButtonProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const MoreOptionsButton = memo(
-	({ playerStore, playQueueStore }: MoreOptionsButtonProps): ReactElement => {
+	({ bottomBarStore }: MoreOptionsButtonProps): ReactElement => {
 		const [isMoreOptionsPopoverOpen, setIsMoreOptionsPopoverOpen] =
 			useState(false);
 
@@ -363,8 +363,7 @@ const MoreOptionsButton = memo(
 
 		return (
 			<MoreOptionsPopover
-				playerStore={playerStore}
-				playQueueStore={playQueueStore}
+				bottomBarStore={bottomBarStore}
 				button={
 					<EuiButtonIcon
 						title="More options" /* LOC */
@@ -383,15 +382,13 @@ const MoreOptionsButton = memo(
 );
 
 interface BottomBarRightControlsProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 	onClickPlayQueueButton?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const BottomBarRightControls = memo(
 	({
-		playerStore,
-		playQueueStore,
+		bottomBarStore,
 		onClickPlayQueueButton,
 	}: BottomBarRightControlsProps): ReactElement => {
 		return (
@@ -401,16 +398,13 @@ export const BottomBarRightControls = memo(
 				justifyContent="flexEnd"
 				alignItems="center"
 			>
-				<VolumeButton playerStore={playerStore} />
+				<VolumeButton bottomBarStore={bottomBarStore} />
 				{onClickPlayQueueButton && (
 					<PlayQueueButton
 						onClickPlayQueueButton={onClickPlayQueueButton}
 					/>
 				)}
-				<MoreOptionsButton
-					playerStore={playerStore}
-					playQueueStore={playQueueStore}
-				/>
+				<MoreOptionsButton bottomBarStore={bottomBarStore} />
 			</EuiFlexGroup>
 		);
 	},

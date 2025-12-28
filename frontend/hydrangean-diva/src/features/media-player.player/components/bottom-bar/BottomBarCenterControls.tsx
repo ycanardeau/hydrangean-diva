@@ -1,6 +1,5 @@
-import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { EuiButtonIcon, EuiFlexGroup, IconType } from '@elastic/eui';
 import {
@@ -20,27 +19,27 @@ import { observer } from 'mobx-react-lite';
 import { ReactElement, useCallback } from 'react';
 
 interface ShuffleButtonProps {
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const ShuffleButton = observer(
-	({ playQueueStore }: ShuffleButtonProps): ReactElement => {
+	({ bottomBarStore }: ShuffleButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title={
-					`Shuffle: ${playQueueStore.shuffle ? 'On' : 'Off'}` /* LOC */
+					`Shuffle: ${bottomBarStore.playQueueStore.shuffle ? 'On' : 'Off'}` /* LOC */
 				}
 				aria-label={
-					`Shuffle: ${playQueueStore.shuffle ? 'On' : 'Off'}` /* LOC */
+					`Shuffle: ${bottomBarStore.playQueueStore.shuffle ? 'On' : 'Off'}` /* LOC */
 				}
 				iconType={
-					playQueueStore.shuffle
+					bottomBarStore.playQueueStore.shuffle
 						? ArrowShuffleFilled
 						: ArrowShuffleOffFilled
 				}
 				size="s"
 				iconSize="l"
-				onClick={playQueueStore.toggleShuffle}
+				onClick={bottomBarStore.playQueueStore.toggleShuffle}
 				disabled /* TODO: remove */
 			/>
 		);
@@ -48,25 +47,25 @@ const ShuffleButton = observer(
 );
 
 interface PreviousButtonProps {
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const PreviousButton = observer(
-	({ playQueueStore }: PreviousButtonProps): ReactElement => {
+	({ bottomBarStore }: PreviousButtonProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		const handlePrevious = useCallback(async () => {
-			if (playQueueStore.hasPreviousItem) {
+			if (bottomBarStore.playQueueStore.hasPreviousItem) {
 				const currentTime = await diva.getCurrentTime();
 				if (currentTime === undefined || currentTime < 5) {
-					await playQueueStore.previous();
+					await bottomBarStore.playQueueStore.previous();
 				} else {
 					await diva.setCurrentTime(0);
 				}
 			} else {
 				await diva.setCurrentTime(0);
 			}
-		}, [playQueueStore, diva]);
+		}, [bottomBarStore, diva]);
 
 		return (
 			<EuiButtonIcon
@@ -76,19 +75,18 @@ const PreviousButton = observer(
 				size="s"
 				iconSize="l"
 				onClick={handlePrevious}
-				disabled={playQueueStore.isEmpty}
+				disabled={bottomBarStore.playQueueStore.isEmpty}
 			/>
 		);
 	},
 );
 
 interface SkipBack10ButtonProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const SkipBack10Button = observer(
-	({ playerStore, playQueueStore }: SkipBack10ButtonProps): ReactElement => {
+	({ bottomBarStore }: SkipBack10ButtonProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		const handleClick = useCallback(async () => {
@@ -108,8 +106,10 @@ const SkipBack10Button = observer(
 				iconSize="l"
 				onClick={handleClick}
 				disabled={
-					playQueueStore.isEmpty ||
-					!playerStore.controller.supports('setCurrentTime')
+					bottomBarStore.playQueueStore.isEmpty ||
+					!bottomBarStore.playerStore.controller.supports(
+						'setCurrentTime',
+					)
 				}
 			/>
 		);
@@ -117,12 +117,11 @@ const SkipBack10Button = observer(
 );
 
 interface PauseButtonProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const PauseButton = observer(
-	({ playerStore, playQueueStore }: PauseButtonProps): ReactElement => {
+	({ bottomBarStore }: PauseButtonProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		return (
@@ -134,8 +133,8 @@ const PauseButton = observer(
 				iconSize="l"
 				onClick={(): Promise<void> => diva.pause()}
 				disabled={
-					!playQueueStore.canPause ||
-					!playerStore.controller.supports('pause')
+					!bottomBarStore.playQueueStore.canPause ||
+					!bottomBarStore.playerStore.controller.supports('pause')
 				}
 			/>
 		);
@@ -143,12 +142,11 @@ const PauseButton = observer(
 );
 
 interface PlayButtonProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const PlayButton = observer(
-	({ playerStore, playQueueStore }: PlayButtonProps): ReactElement => {
+	({ bottomBarStore }: PlayButtonProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		return (
@@ -160,8 +158,8 @@ const PlayButton = observer(
 				iconSize="l"
 				onClick={(): Promise<void> => diva.play()}
 				disabled={
-					!playQueueStore.canPlay ||
-					!playerStore.controller.supports('play')
+					!bottomBarStore.playQueueStore.canPlay ||
+					!bottomBarStore.playerStore.controller.supports('play')
 				}
 			/>
 		);
@@ -169,15 +167,11 @@ const PlayButton = observer(
 );
 
 interface SkipForward30ButtonProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const SkipForward30Button = observer(
-	({
-		playerStore,
-		playQueueStore,
-	}: SkipForward30ButtonProps): ReactElement => {
+	({ bottomBarStore }: SkipForward30ButtonProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		const handleClick = useCallback(async () => {
@@ -197,8 +191,10 @@ const SkipForward30Button = observer(
 				iconSize="l"
 				onClick={handleClick}
 				disabled={
-					playQueueStore.isEmpty ||
-					!playerStore.controller.supports('setCurrentTime')
+					bottomBarStore.playQueueStore.isEmpty ||
+					!bottomBarStore.playerStore.controller.supports(
+						'setCurrentTime',
+					)
 				}
 			/>
 		);
@@ -206,11 +202,11 @@ const SkipForward30Button = observer(
 );
 
 interface NextButtonProps {
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const NextButton = observer(
-	({ playQueueStore }: NextButtonProps): ReactElement => {
+	({ bottomBarStore }: NextButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title="Next" /* LOC */
@@ -218,8 +214,8 @@ const NextButton = observer(
 				iconType={NextFilled}
 				size="s"
 				iconSize="l"
-				onClick={playQueueStore.next}
-				disabled={!playQueueStore.hasNextItem}
+				onClick={bottomBarStore.playQueueStore.next}
+				disabled={!bottomBarStore.playQueueStore.hasNextItem}
 			/>
 		);
 	},
@@ -232,50 +228,48 @@ const repeatIconTypes: Record<RepeatMode, IconType> = {
 };
 
 interface RepeatButtonProps {
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 const RepeatButton = observer(
-	({ playQueueStore }: RepeatButtonProps): ReactElement => {
+	({ bottomBarStore }: RepeatButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title={
 					`Repeat: ${
-						playQueueStore.repeat === RepeatMode.All
+						bottomBarStore.playQueueStore.repeat === RepeatMode.All
 							? 'All'
-							: playQueueStore.repeat === RepeatMode.One
+							: bottomBarStore.playQueueStore.repeat ===
+								  RepeatMode.One
 								? 'One'
 								: 'Off'
 					}` /* LOC */
 				}
 				aria-label={
 					`Repeat: ${
-						playQueueStore.repeat === RepeatMode.All
+						bottomBarStore.playQueueStore.repeat === RepeatMode.All
 							? 'All'
-							: playQueueStore.repeat === RepeatMode.One
+							: bottomBarStore.playQueueStore.repeat ===
+								  RepeatMode.One
 								? 'One'
 								: 'Off'
 					}` /* LOC */
 				}
-				iconType={repeatIconTypes[playQueueStore.repeat]}
+				iconType={repeatIconTypes[bottomBarStore.playQueueStore.repeat]}
 				size="s"
 				iconSize="l"
-				onClick={playQueueStore.toggleRepeat}
+				onClick={bottomBarStore.playQueueStore.toggleRepeat}
 			/>
 		);
 	},
 );
 
 interface BottomBarCenterControlsProps {
-	playerStore: IPlayerStore;
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 export const BottomBarCenterControls = observer(
-	({
-		playerStore,
-		playQueueStore,
-	}: BottomBarCenterControlsProps): ReactElement => {
+	({ bottomBarStore }: BottomBarCenterControlsProps): ReactElement => {
 		return (
 			<EuiFlexGroup
 				responsive={false}
@@ -283,29 +277,17 @@ export const BottomBarCenterControls = observer(
 				justifyContent="center"
 				alignItems="center"
 			>
-				<ShuffleButton playQueueStore={playQueueStore} />
-				<PreviousButton playQueueStore={playQueueStore} />
-				<SkipBack10Button
-					playerStore={playerStore}
-					playQueueStore={playQueueStore}
-				/>
-				{playerStore.playing ? (
-					<PauseButton
-						playerStore={playerStore}
-						playQueueStore={playQueueStore}
-					/>
+				<ShuffleButton bottomBarStore={bottomBarStore} />
+				<PreviousButton bottomBarStore={bottomBarStore} />
+				<SkipBack10Button bottomBarStore={bottomBarStore} />
+				{bottomBarStore.playerStore.playing ? (
+					<PauseButton bottomBarStore={bottomBarStore} />
 				) : (
-					<PlayButton
-						playerStore={playerStore}
-						playQueueStore={playQueueStore}
-					/>
+					<PlayButton bottomBarStore={bottomBarStore} />
 				)}
-				<SkipForward30Button
-					playerStore={playerStore}
-					playQueueStore={playQueueStore}
-				/>
-				<NextButton playQueueStore={playQueueStore} />
-				<RepeatButton playQueueStore={playQueueStore} />
+				<SkipForward30Button bottomBarStore={bottomBarStore} />
+				<NextButton bottomBarStore={bottomBarStore} />
+				<RepeatButton bottomBarStore={bottomBarStore} />
 			</EuiFlexGroup>
 		);
 	},

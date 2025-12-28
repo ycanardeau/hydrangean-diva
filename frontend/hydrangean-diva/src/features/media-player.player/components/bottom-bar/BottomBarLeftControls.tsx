@@ -1,6 +1,6 @@
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
 import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonEmpty,
@@ -108,11 +108,11 @@ const PlayQueueItemPopover = memo(
 );
 
 interface BottomBarLeftControlsProps {
-	playQueueStore: IPlayQueueStore;
+	bottomBarStore: IBottomBarStore;
 }
 
 export const BottomBarLeftControls = observer(
-	({ playQueueStore }: BottomBarLeftControlsProps): ReactElement => {
+	({ bottomBarStore }: BottomBarLeftControlsProps): ReactElement => {
 		return (
 			<EuiFlexGroup
 				responsive={false}
@@ -120,8 +120,10 @@ export const BottomBarLeftControls = observer(
 				justifyContent="flexStart"
 				alignItems="center"
 			>
-				{playQueueStore.currentItem && (
-					<PlayQueueItemPopover item={playQueueStore.currentItem} />
+				{bottomBarStore.playQueueStore.currentItem && (
+					<PlayQueueItemPopover
+						item={bottomBarStore.playQueueStore.currentItem}
+					/>
 				)}
 			</EuiFlexGroup>
 		);
