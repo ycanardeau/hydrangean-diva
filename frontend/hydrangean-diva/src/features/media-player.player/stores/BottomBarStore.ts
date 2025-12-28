@@ -29,6 +29,7 @@ export class BottomBarStore implements IBottomBarStore {
 			canNext: computed,
 			canSkipBack10: computed,
 			canSkipForward30: computed,
+			canRemoveFromPlayQueue: computed,
 			toggleRepeat: action.bound,
 			toggleShuffle: action.bound,
 			play: action.bound,
@@ -37,6 +38,7 @@ export class BottomBarStore implements IBottomBarStore {
 			next: action.bound,
 			skipBack10: action.bound,
 			skipForward30: action.bound,
+			removeFromPlayQueue: action.bound,
 		});
 	}
 
@@ -100,6 +102,10 @@ export class BottomBarStore implements IBottomBarStore {
 		);
 	}
 
+	get canRemoveFromPlayQueue(): boolean {
+		return !this.playQueueStore.isEmpty;
+	}
+
 	toggleRepeat(): void {
 		this.playQueueStore.toggleRepeat();
 	}
@@ -146,6 +152,12 @@ export class BottomBarStore implements IBottomBarStore {
 
 		if (currentTime !== undefined) {
 			await this.controller.setCurrentTime(currentTime + 30);
+		}
+	}
+
+	async removeFromPlayQueue(): Promise<void> {
+		if (this.currentItem !== undefined) {
+			await this.playQueueStore.removeItems([this.currentItem]);
 		}
 	}
 }

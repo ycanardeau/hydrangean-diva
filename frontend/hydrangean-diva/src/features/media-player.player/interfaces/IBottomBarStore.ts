@@ -20,6 +20,7 @@ export interface IBottomBarStore {
 	readonly canNext: boolean;
 	readonly canSkipBack10: boolean;
 	readonly canSkipForward30: boolean;
+	readonly canRemoveFromPlayQueue: boolean;
 	toggleRepeat(): void;
 	toggleShuffle(): void;
 	play(): Promise<void>;
@@ -28,6 +29,7 @@ export interface IBottomBarStore {
 	next(): Promise<void>;
 	skipBack10(): Promise<void>;
 	skipForward30(): Promise<void>;
+	removeFromPlayQueue(): Promise<void>;
 
 	// TODO: Remove these deprecated properties in the future
 	/** @deprecated */ readonly playerStore: IPlayerStore;

@@ -209,11 +209,7 @@ const MoreOptionsContextMenu = observer(
 
 		const handleClickRemoveFromPlayQueue =
 			useCallback(async (): Promise<void> => {
-				if (bottomBarStore.currentItem !== undefined) {
-					await bottomBarStore.playQueueStore.removeItems([
-						bottomBarStore.currentItem,
-					]);
-				}
+				await bottomBarStore.removeFromPlayQueue();
 
 				closePopover();
 			}, [bottomBarStore, closePopover]);
@@ -260,7 +256,7 @@ const MoreOptionsContextMenu = observer(
 							name: 'Remove from play queue' /* LOC */,
 							icon: <EuiIcon type={DismissRegular} />,
 							onClick: handleClickRemoveFromPlayQueue,
-							disabled: bottomBarStore.playQueueStore.isEmpty,
+							disabled: !bottomBarStore.canRemoveFromPlayQueue,
 						},
 					],
 				},
