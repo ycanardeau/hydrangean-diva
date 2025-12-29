@@ -12,8 +12,8 @@ import { action, computed } from 'mobx';
 export class MiniPlayerStore implements IMiniPlayerStore {
 	constructor(
 		observableStateProvider: IObservableStateProvider,
-		private readonly playerStore: IPlayerStore,
-		private readonly playQueueStore: IPlayQueueStore,
+		private readonly player: IPlayerStore,
+		private readonly playQueue: IPlayQueueStore,
 	) {
 		observableStateProvider.makeObservable(this, {
 			controller: computed,
@@ -28,15 +28,15 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 	}
 
 	get controller(): IPlayerController {
-		return this.playerStore.controller;
+		return this.player.controller;
 	}
 
 	get currentItem(): IPlayQueueItemStore | undefined {
-		return this.playQueueStore.currentItem;
+		return this.playQueue.currentItem;
 	}
 
 	async onLoaded(): Promise<void> {
-		if (!this.playQueueStore.interacted) {
+		if (!this.playQueue.interacted) {
 			return;
 		}
 
@@ -44,47 +44,47 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 	}
 
 	onPlay(): void {
-		this.playerStore.onPlay();
+		this.player.onPlay();
 	}
 
 	onPause(): void {
-		this.playerStore.onPause();
+		this.player.onPause();
 	}
 
 	async onEnded(): Promise<void> {
-		switch (this.playQueueStore.repeat) {
+		switch (this.playQueue.repeat) {
 			case RepeatMode.One:
 				await this.controller.setCurrentTime(0);
 				break;
 
 			case RepeatMode.Off:
 			case RepeatMode.All:
-				if (this.playQueueStore.isLastItem) {
-					switch (this.playQueueStore.repeat) {
+				if (this.playQueue.isLastItem) {
+					switch (this.playQueue.repeat) {
 						case RepeatMode.Off:
-							this.playerStore.onEnded();
+							this.player.onEnded();
 							break;
 
 						case RepeatMode.All:
-							if (this.playQueueStore.hasMultipleItems) {
-								await this.playQueueStore.goToFirst();
+							if (this.playQueue.hasMultipleItems) {
+								await this.playQueue.goToFirst();
 							} else {
 								await this.controller.setCurrentTime(0);
 							}
 							break;
 					}
 				} else {
-					await this.playQueueStore.next();
+					await this.playQueue.next();
 				}
 				break;
 		}
 	}
 
 	onTimeUpdate(event: TimeEvent): void {
-		this.playerStore.onTimeUpdate(event);
+		this.player.onTimeUpdate(event);
 	}
 
 	onControllerChange(value: IPlayerController): void {
-		this.playerStore.onControllerChange(value);
+		this.player.onControllerChange(value);
 	}
 }

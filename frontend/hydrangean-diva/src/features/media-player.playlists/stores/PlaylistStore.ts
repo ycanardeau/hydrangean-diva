@@ -16,7 +16,7 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	loading = false;
 
 	constructor(
-		private readonly playQueueStore: IPlayQueueStore,
+		private readonly playQueue: IPlayQueueStore,
 		private readonly observableStateProvider: IObservableStateProvider,
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
 		private readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
@@ -112,8 +112,8 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	}
 
 	play(items: PlaylistItemStore[]): void {
-		this.playQueueStore.clearAndSetItems(
-			items.map((item) => this.playQueueStore.createItem(item)),
+		this.playQueue.clearAndSetItems(
+			items.map((item) => this.playQueue.createItem(item)),
 		);
 	}
 
@@ -124,8 +124,8 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	}
 
 	playNext(items: PlaylistItemStore[]): Promise<void> {
-		return this.playQueueStore.playNext(
-			items.map((item) => this.playQueueStore.createItem(item)),
+		return this.playQueue.playNext(
+			items.map((item) => this.playQueue.createItem(item)),
 		);
 	}
 
@@ -136,8 +136,8 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	}
 
 	addToPlayQueue(items: PlaylistItemStore[]): Promise<void> {
-		return this.playQueueStore.addItems(
-			items.map((item) => this.playQueueStore.createItem(item)),
+		return this.playQueue.addItems(
+			items.map((item) => this.playQueue.createItem(item)),
 		);
 	}
 

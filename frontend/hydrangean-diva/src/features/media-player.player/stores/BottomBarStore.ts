@@ -12,8 +12,8 @@ import { action, computed } from 'mobx';
 export class BottomBarStore implements IBottomBarStore {
 	constructor(
 		observableStateProvider: IObservableStateProvider,
-		private readonly playerStore: IPlayerStore,
-		private readonly playQueueStore: IPlayQueueStore,
+		private readonly player: IPlayerStore,
+		private readonly playQueue: IPlayQueueStore,
 	) {
 		observableStateProvider.makeObservable(this, {
 			controller: computed,
@@ -47,34 +47,34 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	get controller(): IPlayerController {
-		return this.playerStore.controller;
+		return this.player.controller;
 	}
 
 	get playing(): boolean {
-		return this.playerStore.playing;
+		return this.player.playing;
 	}
 
 	get percent(): number {
-		return this.playerStore.percent;
+		return this.player.percent;
 	}
 
 	get canSeek(): boolean {
 		return (
-			!this.playQueueStore.isEmpty &&
+			!this.playQueue.isEmpty &&
 			this.controller.supports('setCurrentTime')
 		);
 	}
 
 	get currentItem(): IPlayQueueItemStore | undefined {
-		return this.playQueueStore.currentItem;
+		return this.playQueue.currentItem;
 	}
 
 	get repeat(): RepeatMode {
-		return this.playQueueStore.repeat;
+		return this.playQueue.repeat;
 	}
 
 	get shuffle(): boolean {
-		return this.playQueueStore.shuffle;
+		return this.playQueue.shuffle;
 	}
 
 	get canToggleRepeat(): boolean {
@@ -86,21 +86,19 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	get canPlay(): boolean {
-		return this.playQueueStore.canPlay && this.controller.supports('play');
+		return this.playQueue.canPlay && this.controller.supports('play');
 	}
 
 	get canPause(): boolean {
-		return (
-			this.playQueueStore.canPause && this.controller.supports('pause')
-		);
+		return this.playQueue.canPause && this.controller.supports('pause');
 	}
 
 	get canPrevious(): boolean {
-		return !this.playQueueStore.isEmpty;
+		return !this.playQueue.isEmpty;
 	}
 
 	get canNext(): boolean {
-		return this.playQueueStore.hasNextItem;
+		return this.playQueue.hasNextItem;
 	}
 
 	get canSkipBack10(): boolean {
@@ -112,23 +110,23 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	get canRemoveFromPlayQueue(): boolean {
-		return !this.playQueueStore.isEmpty;
+		return !this.playQueue.isEmpty;
 	}
 
 	setPercent(value: number): void {
-		this.playerStore.setPercent(value);
+		this.player.setPercent(value);
 	}
 
 	setSeeking(value: boolean): void {
-		this.playerStore.setSeeking(value);
+		this.player.setSeeking(value);
 	}
 
 	toggleRepeat(): void {
-		this.playQueueStore.toggleRepeat();
+		this.playQueue.toggleRepeat();
 	}
 
 	toggleShuffle(): void {
-		this.playQueueStore.toggleShuffle();
+		this.playQueue.toggleShuffle();
 	}
 
 	play(): Promise<void> {
@@ -140,10 +138,10 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	async previous(): Promise<void> {
-		if (this.playQueueStore.hasPreviousItem) {
+		if (this.playQueue.hasPreviousItem) {
 			const currentTime = await this.controller.getCurrentTime();
 			if (currentTime === undefined || currentTime < 5) {
-				await this.playQueueStore.previous();
+				await this.playQueue.previous();
 			} else {
 				await this.controller.setCurrentTime(0);
 			}
@@ -153,7 +151,7 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	next(): Promise<void> {
-		return this.playQueueStore.next();
+		return this.playQueue.next();
 	}
 
 	async skipBack10(): Promise<void> {
@@ -174,7 +172,7 @@ export class BottomBarStore implements IBottomBarStore {
 
 	async removeFromPlayQueue(): Promise<void> {
 		if (this.currentItem !== undefined) {
-			await this.playQueueStore.removeItems([this.currentItem]);
+			await this.playQueue.removeItems([this.currentItem]);
 		}
 	}
 }

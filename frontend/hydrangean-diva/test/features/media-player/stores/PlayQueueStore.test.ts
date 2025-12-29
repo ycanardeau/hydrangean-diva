@@ -5,29 +5,29 @@ import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQu
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-let playQueueStore: PlayQueueStore;
+let playQueue: PlayQueueStore;
 
 let item: IPlayQueueItemStore;
 let item2: IPlayQueueItemStore;
 let item3: IPlayQueueItemStore;
 
 beforeEach(() => {
-	playQueueStore = new PlayQueueStore(new ObservableStateProvider());
+	playQueue = new PlayQueueStore(new ObservableStateProvider());
 
 	[item, item2, item3] = [
-		playQueueStore.createItem({
+		playQueue.createItem({
 			url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 			type: PlayerType.YouTube,
 			videoId: 'jUe7dDLGpv8',
 			title: '2nd Album「Hydrangean Diva」/Nejishiki【Trailer】 - YouTube',
 		}),
-		playQueueStore.createItem({
+		playQueue.createItem({
 			url: 'https://www.youtube.com/watch?v=bGdtvUQ9OAs',
 			type: PlayerType.YouTube,
 			videoId: 'bGdtvUQ9OAs',
 			title: '3rd Album「nostalgic diva」Nejishiki【Trailer】 /3rd Album「nostalgic diva」/ねじ式【クロスフェード】 - YouTube',
 		}),
-		playQueueStore.createItem({
+		playQueue.createItem({
 			url: 'https://www.nicovideo.jp/watch/sm23384530',
 			type: PlayerType.Niconico,
 			videoId: 'sm23384530',
@@ -38,376 +38,373 @@ beforeEach(() => {
 
 describe('constructor', () => {
 	it('should construct PlayQueueStore', () => {
-		expect(playQueueStore.interacted).toBe(false);
-		expect(playQueueStore.items.length).toBe(0);
-		expect(playQueueStore.currentId).toBeUndefined();
-		expect(playQueueStore.repeat).toBe(RepeatMode.Off);
-		expect(playQueueStore.shuffle).toBe(false);
+		expect(playQueue.interacted).toBe(false);
+		expect(playQueue.items.length).toBe(0);
+		expect(playQueue.currentId).toBeUndefined();
+		expect(playQueue.repeat).toBe(RepeatMode.Off);
+		expect(playQueue.shuffle).toBe(false);
 	});
 });
 
 describe('isEmpty', () => {
 	it('should return true when play queue is empty', () => {
-		expect(playQueueStore.isEmpty).toBe(true);
+		expect(playQueue.isEmpty).toBe(true);
 	});
 
 	it('should return false when play queue is not empty', () => {
-		const item = playQueueStore.createItem({
+		const item = playQueue.createItem({
 			url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 			type: PlayerType.YouTube,
 			videoId: 'jUe7dDLGpv8',
 			title: '2nd Album「Hydrangean Diva」/Nejishiki【Trailer】 - YouTube',
 		});
-		playQueueStore.setItems([item]);
+		playQueue.setItems([item]);
 
-		expect(playQueueStore.isEmpty).toBe(false);
+		expect(playQueue.isEmpty).toBe(false);
 	});
 });
 
 describe('currentItem', () => {
 	it('should return current item', () => {
-		expect(playQueueStore.currentItem).toBeUndefined();
+		expect(playQueue.currentItem).toBeUndefined();
 
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.currentItem).toBe(item2);
+		expect(playQueue.currentItem).toBe(item2);
 	});
 });
 
 describe('canPlay', () => {
 	it('should return false when currentItem is undefined', () => {
-		expect(playQueueStore.currentItem).toBeUndefined();
+		expect(playQueue.currentItem).toBeUndefined();
 
-		expect(playQueueStore.canPlay).toBe(false);
+		expect(playQueue.canPlay).toBe(false);
 	});
 
 	it('should return true when currentItem is not undefined', () => {
-		expect(playQueueStore.currentItem).toBeUndefined();
+		expect(playQueue.currentItem).toBeUndefined();
 
-		playQueueStore.setItems([item]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.canPlay).toBe(true);
+		expect(playQueue.canPlay).toBe(true);
 	});
 });
 
 describe('canPause', () => {
 	it('should return false when currentItem is undefined', () => {
-		expect(playQueueStore.currentItem).toBeUndefined();
+		expect(playQueue.currentItem).toBeUndefined();
 
-		expect(playQueueStore.canPause).toBe(false);
+		expect(playQueue.canPause).toBe(false);
 	});
 
 	it('should return true when currentItem is not undefined', () => {
-		expect(playQueueStore.currentItem).toBeUndefined();
+		expect(playQueue.currentItem).toBeUndefined();
 
-		playQueueStore.setItems([item]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.canPause).toBe(true);
+		expect(playQueue.canPause).toBe(true);
 	});
 });
 
 describe('hasMultipleItems', () => {
 	it('should return false when play queue is empty', () => {
-		expect(playQueueStore.hasMultipleItems).toBe(false);
+		expect(playQueue.hasMultipleItems).toBe(false);
 	});
 
 	it('should return false when play queue has only one item', () => {
-		playQueueStore.setItems([item]);
+		playQueue.setItems([item]);
 
-		expect(playQueueStore.items.length).toBe(1);
+		expect(playQueue.items.length).toBe(1);
 
-		expect(playQueueStore.hasMultipleItems).toBe(false);
+		expect(playQueue.hasMultipleItems).toBe(false);
 	});
 
 	it('should return true when play queue has multiple items', () => {
-		playQueueStore.setItems([item, item2]);
+		playQueue.setItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
 
-		expect(playQueueStore.hasMultipleItems).toBe(true);
+		expect(playQueue.hasMultipleItems).toBe(true);
 	});
 });
 
 describe('currentIndex', () => {
 	it('should return current index', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 
 	it('should set current index', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		playQueueStore.currentIndex = 1;
+		playQueue.currentIndex = 1;
 
-		expect(playQueueStore.currentId).toBe(item2.id);
+		expect(playQueue.currentId).toBe(item2.id);
 	});
 });
 
 describe('hasPreviousItem', () => {
 	it('should return false when play queue is empty', () => {
-		expect(playQueueStore.hasPreviousItem).toBe(false);
+		expect(playQueue.hasPreviousItem).toBe(false);
 	});
 
 	it('should return false when play queue has only one item', () => {
-		playQueueStore.setItems([item]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(1);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(1);
+		expect(playQueue.currentIndex).toBe(0);
 
-		expect(playQueueStore.hasPreviousItem).toBe(false);
+		expect(playQueue.hasPreviousItem).toBe(false);
 	});
 
 	it('should return false when play queue has multiple items and currentIndex is first', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		expect(playQueueStore.hasPreviousItem).toBe(false);
+		expect(playQueue.hasPreviousItem).toBe(false);
 	});
 
 	it('should return false when play queue has multiple items and currentIndex is not first', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		expect(playQueueStore.hasPreviousItem).toBe(true);
+		expect(playQueue.hasPreviousItem).toBe(true);
 	});
 });
 
 describe('hasNextItem', () => {
 	it('should return false when play queue is empty', () => {
-		expect(playQueueStore.hasNextItem).toBe(false);
+		expect(playQueue.hasNextItem).toBe(false);
 	});
 
 	it('should return false when play queue has only one item', () => {
-		playQueueStore.setItems([item]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(1);
-		expect(playQueueStore.items).toStrictEqual([item]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(1);
+		expect(playQueue.items).toStrictEqual([item]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		expect(playQueueStore.hasNextItem).toBe(false);
+		expect(playQueue.hasNextItem).toBe(false);
 	});
 
 	it('should return false when play queue has multiple items and currentIndex is last', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		expect(playQueueStore.hasNextItem).toBe(false);
+		expect(playQueue.hasNextItem).toBe(false);
 	});
 
 	it('should return false when play queue has multiple items and currentIndex is not last', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		expect(playQueueStore.hasNextItem).toBe(true);
+		expect(playQueue.hasNextItem).toBe(true);
 	});
 });
 
 describe('isLastItem', () => {
 	it('should return false when play queue is empty', () => {
-		expect(playQueueStore.isLastItem).toBe(false);
+		expect(playQueue.isLastItem).toBe(false);
 	});
 
 	it('should return false when currentIndex is not last', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		expect(playQueueStore.isLastItem).toBe(false);
+		expect(playQueue.isLastItem).toBe(false);
 	});
 
 	it('should return true when currentIndex is last', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		expect(playQueueStore.isLastItem).toBe(true);
+		expect(playQueue.isLastItem).toBe(true);
 	});
 });
 
 describe('selectedItems', () => {
 	it('should return selected items', () => {
-		playQueueStore.setItems([item, item2]);
+		playQueue.setItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
 
-		for (const item of playQueueStore.items) {
+		for (const item of playQueue.items) {
 			expect(item.isSelected).toBe(false);
 		}
 
-		for (const item of playQueueStore.items) {
+		for (const item of playQueue.items) {
 			item.toggleSelected();
 		}
 
-		for (const item of playQueueStore.items) {
+		for (const item of playQueue.items) {
 			expect(item.isSelected).toBe(true);
 		}
 
-		expect(playQueueStore.selectedItems.length).toBe(2);
-		expect(playQueueStore.selectedItems).toStrictEqual([item, item2]);
+		expect(playQueue.selectedItems.length).toBe(2);
+		expect(playQueue.selectedItems).toStrictEqual([item, item2]);
 	});
 });
 
 describe('allItemsSelected', () => {
 	it('should return false if some items are not selected', () => {
-		playQueueStore.setItems([item, item2]);
+		playQueue.setItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
 
-		for (const item of playQueueStore.items) {
+		for (const item of playQueue.items) {
 			expect(item.isSelected).toBe(false);
 		}
 
-		playQueueStore.items[0].toggleSelected();
+		playQueue.items[0].toggleSelected();
 
-		expect(playQueueStore.allItemsSelected).toBe(false);
+		expect(playQueue.allItemsSelected).toBe(false);
 	});
 
 	it('should return true if all items are selected', () => {
-		playQueueStore.setItems([item, item2]);
+		playQueue.setItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
 
-		for (const item of playQueueStore.items) {
+		for (const item of playQueue.items) {
 			expect(item.isSelected).toBe(false);
 		}
 
-		for (const item of playQueueStore.items) {
+		for (const item of playQueue.items) {
 			item.toggleSelected();
 		}
 
-		expect(playQueueStore.allItemsSelected).toBe(true);
+		expect(playQueue.allItemsSelected).toBe(true);
 	});
 });
 
 describe('selectedItemsOrAllItems', () => {
 	it('should return selected items when selected', () => {
-		playQueueStore.setItems([item, item2]);
+		playQueue.setItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
 
-		playQueueStore.items[0].toggleSelected();
+		playQueue.items[0].toggleSelected();
 
-		expect(playQueueStore.selectedItemsOrAllItems.length).toBe(1);
-		expect(playQueueStore.selectedItemsOrAllItems).toStrictEqual([item]);
+		expect(playQueue.selectedItemsOrAllItems.length).toBe(1);
+		expect(playQueue.selectedItemsOrAllItems).toStrictEqual([item]);
 	});
 
 	it('should return all items when not selected', () => {
-		playQueueStore.setItems([item, item2]);
+		playQueue.setItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
 
-		expect(playQueueStore.selectedItemsOrAllItems.length).toBe(2);
-		expect(playQueueStore.selectedItemsOrAllItems).toStrictEqual([
-			item,
-			item2,
-		]);
+		expect(playQueue.selectedItemsOrAllItems.length).toBe(2);
+		expect(playQueue.selectedItemsOrAllItems).toStrictEqual([item, item2]);
 	});
 });
 
 describe('setItems', () => {
 	it('should set items', () => {
-		playQueueStore.setItems([item, item2]);
+		playQueue.setItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
 	});
 });
 
 describe('interact', () => {
 	it('should set interacted to true', () => {
-		expect(playQueueStore.interacted).toBe(false);
+		expect(playQueue.interacted).toBe(false);
 
-		(playQueueStore as any).interact();
+		(playQueue as any).interact();
 
-		expect(playQueueStore.interacted).toBe(true);
+		expect(playQueue.interacted).toBe(true);
 	});
 });
 
 describe('clear', () => {
 	it('should clear items and set currentIndex to undefined', () => {
-		expect(playQueueStore.interacted).toBe(false);
+		expect(playQueue.interacted).toBe(false);
 
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		playQueueStore.clear();
+		playQueue.clear();
 
-		expect(playQueueStore.items.length).toBe(0);
-		expect(playQueueStore.currentIndex).toBe(undefined);
-		expect(playQueueStore.interacted).toBe(true);
+		expect(playQueue.items.length).toBe(0);
+		expect(playQueue.currentIndex).toBe(undefined);
+		expect(playQueue.interacted).toBe(true);
 	});
 });
 
 describe('unselectAll', () => {
 	it('should unselect all items', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		for (const item of playQueueStore.items) {
+		for (const item of playQueue.items) {
 			item.toggleSelected();
 		}
 
-		expect(playQueueStore.selectedItems.length).toBe(2);
-		expect(playQueueStore.selectedItems).toStrictEqual([item, item2]);
-		for (const item of playQueueStore.items) {
+		expect(playQueue.selectedItems.length).toBe(2);
+		expect(playQueue.selectedItems).toStrictEqual([item, item2]);
+		for (const item of playQueue.items) {
 			expect(item.isSelected).toBe(true);
 		}
 
-		playQueueStore.unselectAll();
+		playQueue.unselectAll();
 
-		expect(playQueueStore.selectedItems.length).toBe(0);
-		expect(playQueueStore.selectedItems).toStrictEqual([]);
-		for (const item of playQueueStore.items) {
+		expect(playQueue.selectedItems.length).toBe(0);
+		expect(playQueue.selectedItems).toStrictEqual([]);
+		for (const item of playQueue.items) {
 			expect(item.isSelected).toBe(false);
 		}
 	});
@@ -415,80 +412,80 @@ describe('unselectAll', () => {
 
 describe('setCurrentItem', () => {
 	it('should set currentId', () => {
-		expect(playQueueStore.currentId).toBe(undefined);
+		expect(playQueue.currentId).toBe(undefined);
 
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		expect(playQueueStore.currentId).toBe(item2.id);
-		expect(playQueueStore.interacted).toBe(true);
+		expect(playQueue.currentId).toBe(item2.id);
+		expect(playQueue.interacted).toBe(true);
 	});
 });
 
 describe('setNextItems', () => {
 	it('should set next items', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		playQueueStore.setNextItems([item, item2]);
+		playQueue.setNextItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(4);
-		expect(playQueueStore.items).toStrictEqual([item, item2, item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(4);
+		expect(playQueue.items).toStrictEqual([item, item2, item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 	});
 });
 
 describe('clearAndSetItems', () => {
 	it('should clear and set items', () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		playQueueStore.clearAndSetItems([item2, item]);
+		playQueue.clearAndSetItems([item2, item]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item2, item]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item2, item]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 });
 
 describe('playNext', () => {
 	it('should set items if play queue is empty', async () => {
-		expect(playQueueStore.isEmpty).toBe(true);
+		expect(playQueue.isEmpty).toBe(true);
 
-		await playQueueStore.playNext([item, item2]);
+		await playQueue.playNext([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 
 	it('should play next if play queue is not empty', async () => {
-		expect(playQueueStore.isEmpty).toBe(true);
+		expect(playQueue.isEmpty).toBe(true);
 
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		await playQueueStore.playNext([item, item2]);
+		await playQueue.playNext([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(4);
-		expect(playQueueStore.items).toStrictEqual([item, item, item2, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(4);
+		expect(playQueue.items).toStrictEqual([item, item, item2, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 });
 
@@ -496,30 +493,30 @@ describe('playNext', () => {
 
 describe('addItems', () => {
 	it('should set items if play queue is empty', async () => {
-		expect(playQueueStore.isEmpty).toBe(true);
+		expect(playQueue.isEmpty).toBe(true);
 
-		await playQueueStore.addItems([item, item2]);
+		await playQueue.addItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 
 	it('should add items if play queue is not empty', async () => {
-		expect(playQueueStore.isEmpty).toBe(true);
+		expect(playQueue.isEmpty).toBe(true);
 
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		await playQueueStore.addItems([item, item2]);
+		await playQueue.addItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(4);
-		expect(playQueueStore.items).toStrictEqual([item, item2, item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(4);
+		expect(playQueue.items).toStrictEqual([item, item2, item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 });
 
@@ -527,254 +524,254 @@ describe('addItems', () => {
 
 describe('playFirst', () => {
 	it('should set items if play queue is empty', async () => {
-		expect(playQueueStore.isEmpty).toBe(true);
+		expect(playQueue.isEmpty).toBe(true);
 
-		await playQueueStore.playFirst([item, item2]);
+		await playQueue.playFirst([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 
 	it('should play first if play queue is not empty', async () => {
-		expect(playQueueStore.isEmpty).toBe(true);
+		expect(playQueue.isEmpty).toBe(true);
 
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		await playQueueStore.playFirst([item3]);
+		await playQueue.playFirst([item3]);
 
-		expect(playQueueStore.items.length).toBe(3);
-		expect(playQueueStore.items).toStrictEqual([item3, item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
-		expect(playQueueStore.interacted).toBe(true);
+		expect(playQueue.items.length).toBe(3);
+		expect(playQueue.items).toStrictEqual([item3, item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
+		expect(playQueue.interacted).toBe(true);
 	});
 });
 
 describe('moveItem', () => {
 	it('should move item', () => {
-		playQueueStore.setItems([item, item2, item3]);
+		playQueue.setItems([item, item2, item3]);
 
-		expect(playQueueStore.items.length).toBe(3);
-		expect(playQueueStore.items).toStrictEqual([item, item2, item3]);
+		expect(playQueue.items.length).toBe(3);
+		expect(playQueue.items).toStrictEqual([item, item2, item3]);
 
-		playQueueStore.moveItem(item, 2);
+		playQueue.moveItem(item, 2);
 
-		expect(playQueueStore.items.length).toBe(3);
-		expect(playQueueStore.items).toStrictEqual([item2, item3, item]);
+		expect(playQueue.items.length).toBe(3);
+		expect(playQueue.items).toStrictEqual([item2, item3, item]);
 	});
 });
 
 describe('removeItems', () => {
 	it('should remove items', async () => {
-		playQueueStore.setItems([item, item2, item3]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2, item3]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(3);
-		expect(playQueueStore.items).toStrictEqual([item, item2, item3]);
-		expect(playQueueStore.currentIndex).toBe(0);
-		expect(playQueueStore.currentItem).toBe(item);
+		expect(playQueue.items.length).toBe(3);
+		expect(playQueue.items).toStrictEqual([item, item2, item3]);
+		expect(playQueue.currentIndex).toBe(0);
+		expect(playQueue.currentItem).toBe(item);
 
-		await playQueueStore.removeItems([item, item2]);
+		await playQueue.removeItems([item, item2]);
 
-		expect(playQueueStore.items.length).toBe(1);
-		expect(playQueueStore.items).toStrictEqual([item3]);
-		expect(playQueueStore.currentIndex).toBe(0);
-		expect(playQueueStore.currentItem).toBe(item3);
+		expect(playQueue.items.length).toBe(1);
+		expect(playQueue.items).toStrictEqual([item3]);
+		expect(playQueue.currentIndex).toBe(0);
+		expect(playQueue.currentItem).toBe(item3);
 	});
 });
 
 describe('removeSelectedItems', () => {
 	it('should remove selected items', async () => {
-		playQueueStore.setItems([item, item2, item3]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2, item3]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(3);
-		expect(playQueueStore.items).toStrictEqual([item, item2, item3]);
-		expect(playQueueStore.currentIndex).toBe(0);
-		expect(playQueueStore.currentItem).toBe(item);
+		expect(playQueue.items.length).toBe(3);
+		expect(playQueue.items).toStrictEqual([item, item2, item3]);
+		expect(playQueue.currentIndex).toBe(0);
+		expect(playQueue.currentItem).toBe(item);
 
-		playQueueStore.items[0].toggleSelected();
-		playQueueStore.items[1].toggleSelected();
+		playQueue.items[0].toggleSelected();
+		playQueue.items[1].toggleSelected();
 
-		await playQueueStore.removeSelectedItems();
+		await playQueue.removeSelectedItems();
 
-		expect(playQueueStore.items.length).toBe(1);
-		expect(playQueueStore.items).toStrictEqual([item3]);
-		expect(playQueueStore.currentIndex).toBe(0);
-		expect(playQueueStore.currentItem).toBe(item3);
+		expect(playQueue.items.length).toBe(1);
+		expect(playQueue.items).toStrictEqual([item3]);
+		expect(playQueue.currentIndex).toBe(0);
+		expect(playQueue.currentItem).toBe(item3);
 	});
 });
 
 describe('removeOtherItems', () => {
 	it('should remove other items', async () => {
-		playQueueStore.setItems([item, item2, item3]);
+		playQueue.setItems([item, item2, item3]);
 
-		expect(playQueueStore.items.length).toBe(3);
-		expect(playQueueStore.items).toStrictEqual([item, item2, item3]);
+		expect(playQueue.items.length).toBe(3);
+		expect(playQueue.items).toStrictEqual([item, item2, item3]);
 
-		await playQueueStore.removeOtherItems(item2);
+		await playQueue.removeOtherItems(item2);
 
-		expect(playQueueStore.items.length).toBe(1);
-		expect(playQueueStore.items).toStrictEqual([item2]);
+		expect(playQueue.items.length).toBe(1);
+		expect(playQueue.items).toStrictEqual([item2]);
 	});
 });
 
 describe('removeItemsAbove', () => {
 	it('should remove items above', async () => {
-		playQueueStore.setItems([item, item2, item3]);
+		playQueue.setItems([item, item2, item3]);
 
-		expect(playQueueStore.items.length).toBe(3);
-		expect(playQueueStore.items).toStrictEqual([item, item2, item3]);
+		expect(playQueue.items.length).toBe(3);
+		expect(playQueue.items).toStrictEqual([item, item2, item3]);
 
-		await playQueueStore.removeItemsAbove(item3);
+		await playQueue.removeItemsAbove(item3);
 
-		expect(playQueueStore.items.length).toBe(1);
-		expect(playQueueStore.items).toStrictEqual([item3]);
+		expect(playQueue.items.length).toBe(1);
+		expect(playQueue.items).toStrictEqual([item3]);
 	});
 });
 
 describe('toggleRepeat', () => {
 	it('should set repeat to RepeatMode.All when repeat is RepeatMode.Off', () => {
-		expect(playQueueStore.repeat).toBe(RepeatMode.Off);
+		expect(playQueue.repeat).toBe(RepeatMode.Off);
 
-		playQueueStore.toggleRepeat();
+		playQueue.toggleRepeat();
 
-		expect(playQueueStore.repeat).toBe(RepeatMode.All);
+		expect(playQueue.repeat).toBe(RepeatMode.All);
 	});
 
 	it('should set repeat to RepeatMode.One when repeat is RepeatMode.All', () => {
-		expect(playQueueStore.repeat).toBe(RepeatMode.Off);
+		expect(playQueue.repeat).toBe(RepeatMode.Off);
 
-		playQueueStore.toggleRepeat();
+		playQueue.toggleRepeat();
 
-		expect(playQueueStore.repeat).toBe(RepeatMode.All);
+		expect(playQueue.repeat).toBe(RepeatMode.All);
 
-		playQueueStore.toggleRepeat();
+		playQueue.toggleRepeat();
 
-		expect(playQueueStore.repeat).toBe(RepeatMode.One);
+		expect(playQueue.repeat).toBe(RepeatMode.One);
 	});
 
 	it('should set repeat to RepeatMode.Off when repeat is RepeatMode.One', () => {
-		expect(playQueueStore.repeat).toBe(RepeatMode.Off);
+		expect(playQueue.repeat).toBe(RepeatMode.Off);
 
-		playQueueStore.toggleRepeat();
+		playQueue.toggleRepeat();
 
-		expect(playQueueStore.repeat).toBe(RepeatMode.All);
+		expect(playQueue.repeat).toBe(RepeatMode.All);
 
-		playQueueStore.toggleRepeat();
+		playQueue.toggleRepeat();
 
-		expect(playQueueStore.repeat).toBe(RepeatMode.One);
+		expect(playQueue.repeat).toBe(RepeatMode.One);
 
-		playQueueStore.toggleRepeat();
+		playQueue.toggleRepeat();
 
-		expect(playQueueStore.repeat).toBe(RepeatMode.Off);
+		expect(playQueue.repeat).toBe(RepeatMode.Off);
 	});
 });
 
 describe('toggleShuffle', () => {
 	it('should set shuffle to true when shuffle is false', () => {
-		expect(playQueueStore.shuffle).toBe(false);
+		expect(playQueue.shuffle).toBe(false);
 
-		playQueueStore.toggleShuffle();
+		playQueue.toggleShuffle();
 
-		expect(playQueueStore.shuffle).toBe(true);
+		expect(playQueue.shuffle).toBe(true);
 	});
 
 	it('should set shuffle to false when shuffle is true', () => {
-		expect(playQueueStore.shuffle).toBe(false);
+		expect(playQueue.shuffle).toBe(false);
 
-		playQueueStore.toggleShuffle();
+		playQueue.toggleShuffle();
 
-		expect(playQueueStore.shuffle).toBe(true);
+		expect(playQueue.shuffle).toBe(true);
 
-		playQueueStore.toggleShuffle();
+		playQueue.toggleShuffle();
 
-		expect(playQueueStore.shuffle).toBe(false);
+		expect(playQueue.shuffle).toBe(false);
 	});
 });
 
 describe('previous', () => {
 	it('should go to previous item when available', async () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		await playQueueStore.previous();
+		await playQueue.previous();
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 
 	it('should not go to previous item when not available', async () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		await playQueueStore.previous();
+		await playQueue.previous();
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 });
 
 describe('next', () => {
 	it('should go to next item when available', async () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 
-		await playQueueStore.next();
+		await playQueue.next();
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 	});
 
 	it('should not go to next item when not available', async () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		await playQueueStore.next();
+		await playQueue.next();
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 	});
 });
 
 describe('goToFirst', () => {
 	it('should set currentIndex to 0', async () => {
-		playQueueStore.setItems([item, item2]);
-		playQueueStore.setCurrentItem(item2);
+		playQueue.setItems([item, item2]);
+		playQueue.setCurrentItem(item2);
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(1);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(1);
 
-		await playQueueStore.goToFirst();
+		await playQueue.goToFirst();
 
-		expect(playQueueStore.items.length).toBe(2);
-		expect(playQueueStore.items).toStrictEqual([item, item2]);
-		expect(playQueueStore.currentIndex).toBe(0);
+		expect(playQueue.items.length).toBe(2);
+		expect(playQueue.items).toStrictEqual([item, item2]);
+		expect(playQueue.currentIndex).toBe(0);
 	});
 });

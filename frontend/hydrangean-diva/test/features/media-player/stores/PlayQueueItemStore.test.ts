@@ -4,12 +4,12 @@ import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQu
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-let playQueueStore: PlayQueueStore;
-let playQueueItemStore: IPlayQueueItemStore;
+let playQueue: PlayQueueStore;
+let playQueueItem: IPlayQueueItemStore;
 
 beforeEach(() => {
-	playQueueStore = new PlayQueueStore(new ObservableStateProvider());
-	playQueueItemStore = playQueueStore.createItem({
+	playQueue = new PlayQueueStore(new ObservableStateProvider());
+	playQueueItem = playQueue.createItem({
 		url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 		type: PlayerType.YouTube,
 		videoId: 'jUe7dDLGpv8',
@@ -19,14 +19,14 @@ beforeEach(() => {
 
 describe('constructor', () => {
 	it('should construct PlayerStore', () => {
-		expect(playQueueItemStore).toBeDefined();
-		expect(playQueueItemStore.isSelected).toBe(false);
-		expect(playQueueItemStore.url).toBe(
+		expect(playQueueItem).toBeDefined();
+		expect(playQueueItem.isSelected).toBe(false);
+		expect(playQueueItem.url).toBe(
 			'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 		);
-		expect(playQueueItemStore.type).toBe('YouTube');
-		expect(playQueueItemStore.videoId).toBe('jUe7dDLGpv8');
-		expect(playQueueItemStore.title).toBe(
+		expect(playQueueItem.type).toBe('YouTube');
+		expect(playQueueItem.videoId).toBe('jUe7dDLGpv8');
+		expect(playQueueItem.title).toBe(
 			'2nd Album「Hydrangean Diva」/Nejishiki【Trailer】 - YouTube',
 		);
 	});
@@ -34,30 +34,30 @@ describe('constructor', () => {
 
 describe('unselect', () => {
 	it('should unselect item', () => {
-		playQueueItemStore.toggleSelected();
+		playQueueItem.toggleSelected();
 
-		expect(playQueueItemStore.isSelected).toBe(true);
+		expect(playQueueItem.isSelected).toBe(true);
 
-		playQueueItemStore.unselect();
+		playQueueItem.unselect();
 
-		expect(playQueueItemStore.isSelected).toBe(false);
+		expect(playQueueItem.isSelected).toBe(false);
 	});
 });
 
 describe('toggleSelect', () => {
 	it('should set isSelected to true when isSelected is false', () => {
-		playQueueItemStore.toggleSelected();
+		playQueueItem.toggleSelected();
 
-		expect(playQueueItemStore.isSelected).toBe(true);
+		expect(playQueueItem.isSelected).toBe(true);
 	});
 
 	it('should set isSelected to false when isSelected is true', () => {
-		playQueueItemStore.toggleSelected();
+		playQueueItem.toggleSelected();
 
-		expect(playQueueItemStore.isSelected).toBe(true);
+		expect(playQueueItem.isSelected).toBe(true);
 
-		playQueueItemStore.toggleSelected();
+		playQueueItem.toggleSelected();
 
-		expect(playQueueItemStore.isSelected).toBe(false);
+		expect(playQueueItem.isSelected).toBe(false);
 	});
 });
