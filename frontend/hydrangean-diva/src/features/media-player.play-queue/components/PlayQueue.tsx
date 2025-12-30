@@ -5,17 +5,16 @@ import {
 	AddVideoButton,
 	AddVideoFormSubmitEvent,
 } from '@/features/media-player.play-queue/components/AddVideoButton';
+import { DeveloperToolsButton } from '@/features/media-player.play-queue/components/DeveloperToolsButton';
 import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
 import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
-	EuiCodeBlock,
 	EuiEmptyPrompt,
 	EuiFlexGroup,
 	EuiFlexItem,
-	EuiFlyout,
 	EuiSpacer,
 	useEuiTheme,
 } from '@elastic/eui';
@@ -23,10 +22,9 @@ import {
 	AddRegular,
 	DeleteRegular,
 	DismissRegular,
-	WindowDevToolsRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import React, { ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, useCallback } from 'react';
 
 interface AddToPlayQueueButtonProps {
 	playQueueStore: IPlayQueueStore;
@@ -42,52 +40,6 @@ const AddToPlayQueueButton = observer(
 			>
 				Add to play queue{/* LOC */}
 			</EuiButton>
-		);
-	},
-);
-
-interface DeveloperToolsButtonProps {
-	playQueueStore: PlayQueueStore;
-}
-
-const DeveloperToolsButton = observer(
-	({ playQueueStore }: DeveloperToolsButtonProps): ReactElement => {
-		const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
-
-		return (
-			<>
-				{isFlyoutVisible && (
-					<EuiFlyout
-						type="push"
-						size="s"
-						onClose={(): void => setIsFlyoutVisible(false)}
-					>
-						<div style={{ blockSize: '100%' }}>
-							<EuiCodeBlock
-								language="json"
-								overflowHeight="100%"
-								isCopyable
-								isVirtualized
-							>
-								{JSON.stringify(
-									playQueueStore.localStorageState,
-									undefined,
-									2,
-								)}
-							</EuiCodeBlock>
-						</div>
-					</EuiFlyout>
-				)}
-
-				<EuiButton
-					onClick={(): void =>
-						setIsFlyoutVisible((visible) => !visible)
-					}
-					iconType={WindowDevToolsRegular}
-				>
-					Developer tools
-				</EuiButton>
-			</>
 		);
 	},
 );
