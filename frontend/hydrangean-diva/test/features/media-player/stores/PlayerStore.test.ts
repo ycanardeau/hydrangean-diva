@@ -2,91 +2,91 @@ import { ObservableStateProvider } from '@/features/common/stores/ObservableStat
 import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-let playerStore: PlayerStore;
+let player: PlayerStore;
 
 beforeEach(() => {
-	playerStore = new PlayerStore(new ObservableStateProvider());
+	player = new PlayerStore(new ObservableStateProvider());
 });
 
 describe('constructor', () => {
 	it('should construct PlayerStore', () => {
-		expect(playerStore).toBeDefined();
-		expect(playerStore.playing).toBe(false);
-		expect(playerStore.percent).toBe(0);
-		expect(playerStore.seeking).toBe(false);
+		expect(player).toBeDefined();
+		expect(player.playing).toBe(false);
+		expect(player.percent).toBe(0);
+		expect(player.seeking).toBe(false);
 	});
 });
 
 describe('setPlaying', () => {
 	it('should set playing', () => {
-		playerStore.setPlaying(true);
+		player.setPlaying(true);
 
-		expect(playerStore.playing).toBe(true);
+		expect(player.playing).toBe(true);
 	});
 });
 
 describe('setPercent', () => {
 	it('should set percent', () => {
-		playerStore.setPercent(100);
+		player.setPercent(100);
 
-		expect(playerStore.percent).toBe(100);
+		expect(player.percent).toBe(100);
 	});
 });
 
 describe('setSeeking', () => {
 	it('should set seeking', () => {
-		playerStore.setSeeking(true);
+		player.setSeeking(true);
 
-		expect(playerStore.seeking).toBe(true);
+		expect(player.seeking).toBe(true);
 	});
 });
 
 describe('onPlay', () => {
 	it('should set playing to true', () => {
-		playerStore.onPlay();
+		player.onPlay();
 
-		expect(playerStore.playing).toBe(true);
+		expect(player.playing).toBe(true);
 	});
 });
 
 describe('onPause', () => {
 	it('should set playing to false', () => {
-		playerStore.onPlay();
+		player.onPlay();
 
-		expect(playerStore.playing).toBe(true);
+		expect(player.playing).toBe(true);
 
-		playerStore.onPause();
+		player.onPause();
 
-		expect(playerStore.playing).toBe(false);
+		expect(player.playing).toBe(false);
 	});
 });
 
 describe('onEnded', () => {
 	it('should set playing to false', () => {
-		playerStore.onPlay();
+		player.onPlay();
 
-		expect(playerStore.playing).toBe(true);
+		expect(player.playing).toBe(true);
 
-		playerStore.onEnded();
+		player.onEnded();
 
-		expect(playerStore.playing).toBe(false);
+		expect(player.playing).toBe(false);
 	});
 });
 
 describe('onTimeUpdate', () => {
 	it('should set percent when not seeking', () => {
-		playerStore.onTimeUpdate({ duration: 100, percent: 100, seconds: 100 });
+		player.onTimeUpdate({ duration: 100, percent: 100, seconds: 100 });
 
-		expect(playerStore.percent).toBe(100);
+		expect(player.percent).toBe(100);
 	});
 
 	it('should not set percent when seeking', () => {
-		playerStore.setSeeking(true);
+		player.setSeeking(true);
 
-		expect(playerStore.seeking).toBe(true);
+		expect(player.seeking).toBe(true);
 
-		playerStore.onTimeUpdate({ duration: 100, percent: 100, seconds: 100 });
+		player.onTimeUpdate({ duration: 100, percent: 100, seconds: 100 });
 
-		expect(playerStore.percent).toBe(0);
+		expect(player.percent).toBe(0);
 	});
 });

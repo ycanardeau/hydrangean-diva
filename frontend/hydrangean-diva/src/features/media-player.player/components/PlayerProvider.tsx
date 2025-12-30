@@ -1,22 +1,22 @@
 import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
-import { PlayerStoreContext } from '@/features/media-player.player/contexts/PlayerStoreContext';
+import { PlayerContext } from '@/features/media-player.player/contexts/PlayerContext';
 import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
 import React, { ReactElement, ReactNode, useState } from 'react';
 
-interface PlayerStoreProviderProps {
+interface PlayerProviderProps {
 	children?: ReactNode;
 }
 
-export const PlayerStoreProvider = ({
+export const PlayerProvider = ({
 	children,
-}: PlayerStoreProviderProps): ReactElement => {
-	const [playerStore] = useState(
+}: PlayerProviderProps): ReactElement => {
+	const [player] = useState(
 		() => new PlayerStore(new MobXObservableStateProvider()),
 	);
 
 	return (
-		<PlayerStoreContext.Provider value={playerStore}>
+		<PlayerContext.Provider value={player}>
 			{children}
-		</PlayerStoreContext.Provider>
+		</PlayerContext.Provider>
 	);
 };

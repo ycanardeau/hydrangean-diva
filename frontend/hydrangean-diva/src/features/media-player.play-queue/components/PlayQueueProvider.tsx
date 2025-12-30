@@ -1,18 +1,18 @@
 import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
-import { PlayQueueStoreContext } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
+import { PlayQueueContext } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { reaction } from 'mobx';
 import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 
-interface PlayQueueStoreProviderProps {
+interface PlayQueueProviderProps {
 	children?: ReactNode;
 }
 
-export const PlayQueueStoreProvider = ({
+export const PlayQueueProvider = ({
 	children,
-}: PlayQueueStoreProviderProps): ReactElement => {
-	const [playQueueStore] = useState(
+}: PlayQueueProviderProps): ReactElement => {
+	const [playQueue] = useState(
 		() => new PlayQueueStore(new MobXObservableStateProvider()),
 	);
 
@@ -20,7 +20,7 @@ export const PlayQueueStoreProvider = ({
 
 	useEffect(() => {
 		return reaction(
-			() => playQueueStore.currentItem,
+			() => playQueue.currentItem,
 			async (currentItem, previousItem) => {
 				if (currentItem === undefined || previousItem === undefined) {
 					return;
@@ -34,11 +34,11 @@ export const PlayQueueStoreProvider = ({
 				}
 			},
 		);
-	}, [playQueueStore, diva]);
+	}, [playQueue, diva]);
 
 	return (
-		<PlayQueueStoreContext.Provider value={playQueueStore}>
+		<PlayQueueContext.Provider value={playQueue}>
 			{children}
-		</PlayQueueStoreContext.Provider>
+		</PlayQueueContext.Provider>
 	);
 };

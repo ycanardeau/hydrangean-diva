@@ -12,7 +12,7 @@ export class PlaylistItemStore {
 
 	constructor(
 		observableStateProvider: IObservableStateProvider,
-		private readonly playlistStore: PlaylistStore,
+		private readonly playlist: PlaylistStore,
 		private readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
 	) {
 		this.id = PlaylistItemStore.nextId++;
@@ -43,7 +43,7 @@ export class PlaylistItemStore {
 	}
 
 	get index(): number {
-		return this.playlistStore.items.indexOf(this);
+		return this.playlist.items.indexOf(this);
 	}
 
 	unselect(): void {

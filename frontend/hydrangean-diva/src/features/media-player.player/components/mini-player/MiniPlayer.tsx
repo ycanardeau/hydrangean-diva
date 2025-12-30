@@ -1,22 +1,22 @@
 import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
 import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
-import { useMiniPlayerStore } from '@/features/media-player.player/contexts/MiniPlayerStoreContext';
+import { useMiniPlayer } from '@/features/media-player.player/contexts/MiniPlayerContext';
 import { NostalgicDiva, PlayerOptions } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useMemo } from 'react';
 
 export const MiniPlayer = observer((): ReactElement => {
-	const miniPlayerStore = useMiniPlayerStore();
+	const miniPlayer = useMiniPlayer();
 
 	const options = useMemo(
 		(): PlayerOptions => ({
-			onLoaded: miniPlayerStore.onLoaded,
-			onPlay: miniPlayerStore.onPlay,
-			onPause: miniPlayerStore.onPause,
-			onEnded: miniPlayerStore.onEnded,
-			onTimeUpdate: miniPlayerStore.onTimeUpdate,
+			onLoaded: miniPlayer.onLoaded,
+			onPlay: miniPlayer.onPlay,
+			onPause: miniPlayer.onPause,
+			onEnded: miniPlayer.onEnded,
+			onTimeUpdate: miniPlayer.onTimeUpdate,
 		}),
-		[miniPlayerStore],
+		[miniPlayer],
 	);
 
 	return (
@@ -34,11 +34,11 @@ export const MiniPlayer = observer((): ReactElement => {
 			}}
 		>
 			<div css={{ flexGrow: 1, backgroundColor: 'black' }}>
-				{miniPlayerStore.currentItem && (
+				{miniPlayer.currentItem && (
 					<NostalgicDiva
-						src={miniPlayerStore.currentItem.url}
+						src={miniPlayer.currentItem.url}
 						options={options}
-						onControllerChange={miniPlayerStore.onControllerChange}
+						onControllerChange={miniPlayer.onControllerChange}
 					/>
 				)}
 			</div>

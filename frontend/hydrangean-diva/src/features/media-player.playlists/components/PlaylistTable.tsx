@@ -7,17 +7,17 @@ import { observer } from 'mobx-react-lite';
 import { ReactElement } from 'react';
 
 interface PlaylistTableProps {
-	playlistStore: PlaylistStore;
+	playlist: PlaylistStore;
 }
 
 export const PlaylistTable = observer(
-	({ playlistStore }: PlaylistTableProps): ReactElement => {
+	({ playlist }: PlaylistTableProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
 		return (
 			<EuiBasicTable
 				responsiveBreakpoint={false}
-				items={playlistStore.items}
+				items={playlist.items}
 				itemId="id"
 				rowHeader="name"
 				columns={[
@@ -69,10 +69,10 @@ export const PlaylistTable = observer(
 				]}
 				rowProps={{}}
 				cellProps={{}}
-				loading={playlistStore.loading}
+				loading={playlist.loading}
 				selection={{
-					onSelectionChange: playlistStore.select,
-					selected: playlistStore.selectedItems,
+					onSelectionChange: playlist.select,
+					selected: playlist.selectedItems,
 				}}
 			/>
 		);

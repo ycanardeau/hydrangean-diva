@@ -1,5 +1,5 @@
 import { Header } from '@/features/media-player.header/components/Header';
-import { usePlayQueueStore } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
+import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { MediaPlayerLayout } from '@/features/media-player.player/components/MediaPlayerLayout';
 import { BottomBar } from '@/features/media-player.player/components/bottom-bar/BottomBar';
 import { MiniPlayer } from '@/features/media-player.player/components/mini-player/MiniPlayer';
@@ -9,9 +9,9 @@ import { observer } from 'mobx-react-lite';
 import { ReactElement } from 'react';
 
 const RouteComponent = observer((): ReactElement => {
-	const playQueueStore = usePlayQueueStore();
+	const playQueue = usePlayQueue();
 
-	useLocalStorageStateStore('PlayQueueStore', playQueueStore);
+	useLocalStorageStateStore('PlayQueueStore', playQueue);
 
 	return (
 		<>
@@ -21,7 +21,7 @@ const RouteComponent = observer((): ReactElement => {
 				<Outlet />
 			</MediaPlayerLayout>
 
-			{!playQueueStore.isEmpty && <MiniPlayer />}
+			{!playQueue.isEmpty && <MiniPlayer />}
 
 			<BottomBar />
 		</>

@@ -1,11 +1,11 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
-import { usePlayQueueStore } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
+import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { PlayQueue } from '@/features/media-player.play-queue/components/PlayQueue';
 import { EuiPageTemplate } from '@elastic/eui';
 import { ReactElement } from 'react';
 
 export const PlayQueuePage = (): ReactElement => {
-	const playQueueStore = usePlayQueueStore();
+	const playQueue = usePlayQueue();
 
 	return (
 		<>
@@ -15,7 +15,7 @@ export const PlayQueuePage = (): ReactElement => {
 			/>
 
 			<EuiPageTemplate.Section>
-				<PlayQueue playQueueStore={playQueueStore} />
+				<PlayQueue playQueue={playQueue} />
 			</EuiPageTemplate.Section>
 		</>
 	);

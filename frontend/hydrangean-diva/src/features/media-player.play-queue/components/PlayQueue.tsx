@@ -27,16 +27,16 @@ import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useCallback } from 'react';
 
 interface AddToPlayQueueButtonProps {
-	playQueueStore: IPlayQueueStore;
+	playQueue: IPlayQueueStore;
 }
 
 const AddToPlayQueueButton = observer(
-	({ playQueueStore }: AddToPlayQueueButtonProps): ReactElement => {
+	({ playQueue }: AddToPlayQueueButtonProps): ReactElement => {
 		return (
 			<EuiButton
 				iconType={AddRegular}
-				onClick={playQueueStore.addSelectedItems}
-				disabled={!playQueueStore.canAddSelectedItems}
+				onClick={playQueue.addSelectedItems}
+				disabled={!playQueue.canAddSelectedItems}
 			>
 				Add to play queue{/* LOC */}
 			</EuiButton>
@@ -45,11 +45,11 @@ const AddToPlayQueueButton = observer(
 );
 
 interface PlayQueueProps {
-	playQueueStore: IPlayQueueStore;
+	playQueue: IPlayQueueStore;
 }
 
 export const PlayQueue = observer(
-	({ playQueueStore }: PlayQueueProps): ReactElement => {
+	({ playQueue }: PlayQueueProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
 
 		const handleAddToPlaylist =
@@ -74,7 +74,7 @@ export const PlayQueue = observer(
 				);
 				const jsonData = await response.json();
 
-				const item = playQueueStore.createItem({
+				const item = playQueue.createItem({
 					url: e.url,
 					type: videoService.type,
 					videoId: videoId,
@@ -83,9 +83,9 @@ export const PlayQueue = observer(
 						(isNoembedResult(jsonData) ? jsonData.title : videoId),
 				});
 
-				await playQueueStore.addItems([item]);
+				await playQueue.addItems([item]);
 			},
-			[playQueueStore],
+			[playQueue],
 		);
 
 		return (
@@ -102,14 +102,14 @@ export const PlayQueue = observer(
 				>
 					<EuiFlexItem grow={false}>
 						<EuiButton
-							disabled={!playQueueStore.canPlaySelectedItemsNext}
-							onClick={playQueueStore.playSelectedItemsNext}
+							disabled={!playQueue.canPlaySelectedItemsNext}
+							onClick={playQueue.playSelectedItemsNext}
 						>
 							Play next{/* LOC */}
 						</EuiButton>
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
-						<AddToPlayQueueButton playQueueStore={playQueueStore} />
+						<AddToPlayQueueButton playQueue={playQueue} />
 					</EuiFlexItem>
 					<EuiFlexItem grow={false}>
 						<AddToSelectablePopover
@@ -120,8 +120,8 @@ export const PlayQueue = observer(
 					<EuiFlexItem grow={false}>
 						<EuiButton
 							iconType={DismissRegular}
-							onClick={playQueueStore.removeSelectedItems}
-							disabled={!playQueueStore.canRemoveSelectedItems}
+							onClick={playQueue.removeSelectedItems}
+							disabled={!playQueue.canRemoveSelectedItems}
 						>
 							Remove{/* LOC */}
 						</EuiButton>
@@ -129,8 +129,8 @@ export const PlayQueue = observer(
 					<EuiFlexItem grow={false}>
 						<EuiButton
 							iconType={DeleteRegular}
-							onClick={playQueueStore.clear}
-							disabled={!playQueueStore.canClear}
+							onClick={playQueue.clear}
+							disabled={!playQueue.canClear}
 						>
 							Clear{/* LOC */}
 						</EuiButton>
@@ -139,9 +139,7 @@ export const PlayQueue = observer(
 					<EuiFlexItem grow={false}>
 						{false && (
 							<DeveloperToolsButton
-								playQueueStore={
-									playQueueStore as PlayQueueStore
-								}
+								playQueue={playQueue as PlayQueueStore}
 							/>
 						)}
 
@@ -159,7 +157,7 @@ export const PlayQueue = observer(
 					}}
 				/>
 
-				{playQueueStore.isEmpty ? (
+				{playQueue.isEmpty ? (
 					<EuiEmptyPrompt
 						title={<h2>We couldn't find any videos</h2>}
 						body={
@@ -171,7 +169,7 @@ export const PlayQueue = observer(
 						actions={<AddVideoButton onSave={handleAddVideo} />}
 					/>
 				) : (
-					<PlayQueueTable playQueueStore={playQueueStore} />
+					<PlayQueueTable playQueue={playQueue} />
 				)}
 			</>
 		);

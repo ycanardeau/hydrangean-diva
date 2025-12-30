@@ -39,11 +39,11 @@ import React, {
 import { ReactSortable } from 'react-sortablejs';
 
 interface PlayQueueTableHeaderProps {
-	playQueueStore: IPlayQueueStore;
+	playQueue: IPlayQueueStore;
 }
 
 const PlayQueueTableHeader = observer(
-	({ playQueueStore }: PlayQueueTableHeaderProps): ReactElement => {
+	({ playQueue }: PlayQueueTableHeaderProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
 
 		return (
@@ -58,12 +58,12 @@ const PlayQueueTableHeader = observer(
 				<EuiTableHeaderCellCheckbox>
 					<EuiCheckbox
 						id="" // TODO
-						checked={playQueueStore.allItemsSelected}
+						checked={playQueue.allItemsSelected}
 						onChange={(e): void => {
 							if (e.target.checked) {
-								playQueueStore.selectAll();
+								playQueue.selectAll();
 							} else {
-								playQueueStore.unselectAll();
+								playQueue.unselectAll();
 							}
 						}}
 					/>
@@ -289,18 +289,18 @@ const PlayQueueTableRow = observer(
 );
 
 interface PlayQueueTableBodyProps {
-	playQueueStore: IPlayQueueStore;
+	playQueue: IPlayQueueStore;
 }
 
 const PlayQueueTableBody = observer(
-	({ playQueueStore }: PlayQueueTableBodyProps): ReactElement => {
+	({ playQueue }: PlayQueueTableBodyProps): ReactElement => {
 		return (
 			<ReactSortable
 				tag="tbody"
-				list={playQueueStore.items}
-				setList={(items): void => playQueueStore.setItems(items)}
+				list={playQueue.items}
+				setList={(items): void => playQueue.setItems(items)}
 			>
-				{playQueueStore.items.map((item) => (
+				{playQueue.items.map((item) => (
 					<PlayQueueTableRow key={item.id} item={item} />
 				))}
 			</ReactSortable>
@@ -309,15 +309,15 @@ const PlayQueueTableBody = observer(
 );
 
 interface PlayQueueTableProps {
-	playQueueStore: IPlayQueueStore;
+	playQueue: IPlayQueueStore;
 }
 
 export const PlayQueueTable = observer(
-	({ playQueueStore }: PlayQueueTableProps): ReactElement => {
+	({ playQueue }: PlayQueueTableProps): ReactElement => {
 		return (
 			<EuiTable>
-				<PlayQueueTableHeader playQueueStore={playQueueStore} />
-				<PlayQueueTableBody playQueueStore={playQueueStore} />
+				<PlayQueueTableHeader playQueue={playQueue} />
+				<PlayQueueTableBody playQueue={playQueue} />
 			</EuiTable>
 		);
 	},

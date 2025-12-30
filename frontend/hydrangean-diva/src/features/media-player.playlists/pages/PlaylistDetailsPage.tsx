@@ -35,15 +35,15 @@ import { observer } from 'mobx-react-lite';
 import { ReactElement, useCallback, useState } from 'react';
 
 interface PlayAllButtonProps {
-	playlistStore: PlaylistStore;
+	playlist: PlaylistStore;
 }
 
-const PlayAllButton = ({ playlistStore }: PlayAllButtonProps): ReactElement => {
+const PlayAllButton = ({ playlist }: PlayAllButtonProps): ReactElement => {
 	return (
 		<EuiButton
 			iconType={PlayRegular}
 			fill
-			onClick={playlistStore.playSelectedItems}
+			onClick={playlist.playSelectedItems}
 		>
 			Play{/* LOC */}
 		</EuiButton>
@@ -51,30 +51,28 @@ const PlayAllButton = ({ playlistStore }: PlayAllButtonProps): ReactElement => {
 };
 
 interface PlayNextButtonProps {
-	playlistStore: PlaylistStore;
+	playlist: PlaylistStore;
 }
 
-const PlayNextButton = ({
-	playlistStore,
-}: PlayNextButtonProps): ReactElement => {
+const PlayNextButton = ({ playlist }: PlayNextButtonProps): ReactElement => {
 	return (
-		<EuiButton onClick={playlistStore.playSelectedItemsNext}>
+		<EuiButton onClick={playlist.playSelectedItemsNext}>
 			Play next{/* LOC */}
 		</EuiButton>
 	);
 };
 
 interface AddToPlayQueueButtonProps {
-	playlistStore: PlaylistStore;
+	playlist: PlaylistStore;
 }
 
 const AddToPlayQueueButton = ({
-	playlistStore,
+	playlist,
 }: AddToPlayQueueButtonProps): ReactElement => {
 	return (
 		<EuiButton
 			iconType={AddRegular}
-			onClick={playlistStore.addSelectedItemsToPlayQueue}
+			onClick={playlist.addSelectedItemsToPlayQueue}
 		>
 			Add to play queue{/* LOC */}
 		</EuiButton>
@@ -290,13 +288,12 @@ const DeleteButton = ({
 };
 
 interface PlaylistDetailsPageProps {
-	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
-	playlistStore: PlaylistStore;
+	playlist: PlaylistStore;
 }
 
 export const PlaylistDetailsPage = observer(
-	({ playlist, playlistStore }: PlaylistDetailsPageProps): ReactElement => {
-		useLocationStateStore(playlistStore);
+	({ playlist }: PlaylistDetailsPageProps): ReactElement => {
+		useLocationStateStore(playlist);
 
 		const { euiTheme } = useEuiTheme();
 
@@ -331,7 +328,7 @@ export const PlaylistDetailsPage = observer(
 		return (
 			<>
 				<AppPageTemplateHeader
-					pageTitle={playlist.name}
+					pageTitle={playlist.dto.name}
 					breadcrumbs={[
 						{
 							text: 'Playlists' /* LOC */,
@@ -340,17 +337,17 @@ export const PlaylistDetailsPage = observer(
 							},
 						},
 						{
-							text: playlist.name,
+							text: playlist.dto.name,
 						},
 					]}
 					description={`${0} items`}
 					rightSideItems={[
 						<RenameButton
-							playlist={playlist}
+							playlist={playlist.dto}
 							onSave={handleRenamePlaylist}
 						/>,
 						<DeleteButton
-							playlist={playlist}
+							playlist={playlist.dto}
 							onSave={handleDeletePlaylist}
 						/>,
 					]}
@@ -368,15 +365,13 @@ export const PlaylistDetailsPage = observer(
 						}}
 					>
 						<EuiFlexItem grow={false}>
-							<PlayAllButton playlistStore={playlistStore} />
+							<PlayAllButton playlist={playlist} />
 						</EuiFlexItem>
 						<EuiFlexItem grow={false}>
-							<PlayNextButton playlistStore={playlistStore} />
+							<PlayNextButton playlist={playlist} />
 						</EuiFlexItem>
 						<EuiFlexItem grow={false}>
-							<AddToPlayQueueButton
-								playlistStore={playlistStore}
-							/>
+							<AddToPlayQueueButton playlist={playlist} />
 						</EuiFlexItem>
 						<EuiFlexItem grow={false}>
 							<RemoveButton />
@@ -393,7 +388,7 @@ export const PlaylistDetailsPage = observer(
 						}}
 					/>
 
-					<PlaylistTable playlistStore={playlistStore} />
+					<PlaylistTable playlist={playlist} />
 				</EuiPageTemplate.Section>
 			</>
 		);

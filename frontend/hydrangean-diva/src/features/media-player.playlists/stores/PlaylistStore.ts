@@ -19,7 +19,7 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 		private readonly playQueue: IPlayQueueStore,
 		private readonly observableStateProvider: IObservableStateProvider,
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
-		private readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
+		readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
 	) {
 		observableStateProvider.makeObservable(this, {
 			items: observable,

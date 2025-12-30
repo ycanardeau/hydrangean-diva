@@ -26,15 +26,15 @@ const PlaylistListPageHeader = (): ReactElement => {
 };
 
 interface PlaylistListTableProps {
-	playlistListStore: PlaylistListStore;
+	playlistList: PlaylistListStore;
 }
 
 const PlaylistListTable = observer(
-	({ playlistListStore }: PlaylistListTableProps): ReactElement => {
+	({ playlistList }: PlaylistListTableProps): ReactElement => {
 		return (
 			<EuiBasicTable
 				responsiveBreakpoint={false}
-				items={playlistListStore.items}
+				items={playlistList.items}
 				itemId="id"
 				rowHeader="name"
 				columns={[
@@ -55,19 +55,19 @@ const PlaylistListTable = observer(
 				]}
 				rowProps={{}}
 				cellProps={{}}
-				loading={playlistListStore.loading}
+				loading={playlistList.loading}
 			/>
 		);
 	},
 );
 
 interface PlaylistListPageBodyProps {
-	playlistListStore: PlaylistListStore;
+	playlistList: PlaylistListStore;
 }
 
 const PlaylistListPageBody = observer(
-	({ playlistListStore }: PlaylistListPageBodyProps): ReactElement => {
-		useLocationStateStore(playlistListStore);
+	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
+		useLocationStateStore(playlistList);
 
 		const handleCreatePlaylist = useCallback(
 			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {
@@ -78,9 +78,9 @@ const PlaylistListPageBody = observer(
 						},
 				});
 
-				await playlistListStore.updateResults();
+				await playlistList.updateResults();
 			},
-			[playlistListStore],
+			[playlistList],
 		);
 
 		return (
@@ -90,14 +90,14 @@ const PlaylistListPageBody = observer(
 				</CreatePlaylistButton>
 
 				<EuiSpacer size="l" />
-				<PlaylistListTable playlistListStore={playlistListStore} />
+				<PlaylistListTable playlistList={playlistList} />
 			</EuiPageTemplate.Section>
 		);
 	},
 );
 
 export const PlaylistListPage = memo((): ReactElement => {
-	const [playlistListStore] = useState(
+	const [playlistList] = useState(
 		() =>
 			new PlaylistListStore(
 				new MobXObservableStateProvider(),
@@ -108,7 +108,7 @@ export const PlaylistListPage = memo((): ReactElement => {
 	return (
 		<>
 			<PlaylistListPageHeader />
-			<PlaylistListPageBody playlistListStore={playlistListStore} />
+			<PlaylistListPageBody playlistList={playlistList} />
 		</>
 	);
 });

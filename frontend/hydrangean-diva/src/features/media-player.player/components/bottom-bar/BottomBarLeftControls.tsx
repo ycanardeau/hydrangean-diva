@@ -108,11 +108,11 @@ const PlayQueueItemPopover = memo(
 );
 
 interface BottomBarLeftControlsProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
 export const BottomBarLeftControls = observer(
-	({ bottomBarStore }: BottomBarLeftControlsProps): ReactElement => {
+	({ bottomBar }: BottomBarLeftControlsProps): ReactElement => {
 		return (
 			<EuiFlexGroup
 				responsive={false}
@@ -120,8 +120,8 @@ export const BottomBarLeftControls = observer(
 				justifyContent="flexStart"
 				alignItems="center"
 			>
-				{bottomBarStore.currentItem && (
-					<PlayQueueItemPopover item={bottomBarStore.currentItem} />
+				{bottomBar.currentItem && (
+					<PlayQueueItemPopover item={bottomBar.currentItem} />
 				)}
 			</EuiFlexGroup>
 		);

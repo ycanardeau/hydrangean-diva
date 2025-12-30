@@ -1,5 +1,5 @@
 import { MobXObservableStateProvider } from '@/features/common';
-import { usePlayQueueStore } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
+import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import { PlaylistDetailsPage } from '@/features/media-player.playlists/pages/PlaylistDetailsPage';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
@@ -7,26 +7,21 @@ import { createFileRoute } from '@tanstack/react-router';
 import { ReactElement, useState } from 'react';
 
 const RouteComponent = (): ReactElement => {
-	const playQueueStore = usePlayQueueStore();
+	const playQueue = usePlayQueue();
 
-	const { playlist } = Route.useLoaderData();
+	const loaderData = Route.useLoaderData();
 
-	const [playlistStore] = useState(
+	const [playlist] = useState(
 		() =>
 			new PlaylistStore(
-				playQueueStore,
+				playQueue,
 				new MobXObservableStateProvider(),
 				mediaPlayerPlaylistsApi,
-				playlist,
+				loaderData.playlist,
 			),
 	);
 
-	return (
-		<PlaylistDetailsPage
-			playlist={playlist}
-			playlistStore={playlistStore}
-		/>
-	);
+	return <PlaylistDetailsPage playlist={playlist} />;
 };
 
 export const Route = createFileRoute('/_authenticated/playlists/$playlistId/')({

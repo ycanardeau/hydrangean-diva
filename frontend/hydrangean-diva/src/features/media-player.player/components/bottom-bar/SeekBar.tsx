@@ -6,61 +6,59 @@ import { observer } from 'mobx-react-lite';
 import { ReactElement, useCallback } from 'react';
 
 interface SeekBarProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
-export const SeekBar = observer(
-	({ bottomBarStore }: SeekBarProps): ReactElement => {
-		const diva = useNostalgicDiva();
+export const SeekBar = observer(({ bottomBar }: SeekBarProps): ReactElement => {
+	const diva = useNostalgicDiva();
 
-		const handleChange = useCallback(
-			(e: _SingleRangeChangeEvent) => {
+	const handleChange = useCallback(
+		(e: _SingleRangeChangeEvent) => {
+			const percent = Number(e.currentTarget.value) / 100;
+
+			bottomBar.setPercent(percent);
+		},
+		[bottomBar],
+	);
+
+	const handleMouseDown = useCallback(
+		(e: React.MouseEvent<HTMLInputElement>) => {
+			if (e.button === 0) {
+				bottomBar.setSeeking(true);
+			}
+		},
+		[bottomBar],
+	);
+
+	const handleMouseUp = useCallback(
+		async (e: React.MouseEvent<HTMLInputElement>) => {
+			if (e.button === 0) {
 				const percent = Number(e.currentTarget.value) / 100;
 
-				bottomBarStore.setPercent(percent);
-			},
-			[bottomBarStore],
-		);
+				bottomBar.setSeeking(false);
 
-		const handleMouseDown = useCallback(
-			(e: React.MouseEvent<HTMLInputElement>) => {
-				if (e.button === 0) {
-					bottomBarStore.setSeeking(true);
+				const duration = await diva.getDuration();
+				if (duration !== undefined) {
+					await diva.setCurrentTime(duration * percent);
 				}
-			},
-			[bottomBarStore],
-		);
+			}
+		},
+		[bottomBar, diva],
+	);
 
-		const handleMouseUp = useCallback(
-			async (e: React.MouseEvent<HTMLInputElement>) => {
-				if (e.button === 0) {
-					const percent = Number(e.currentTarget.value) / 100;
-
-					bottomBarStore.setSeeking(false);
-
-					const duration = await diva.getDuration();
-					if (duration !== undefined) {
-						await diva.setCurrentTime(duration * percent);
-					}
-				}
-			},
-			[bottomBarStore, diva],
-		);
-
-		return (
-			<EuiRange
-				min={0}
-				max={100}
-				step={0.0000001}
-				value={bottomBarStore.percent * 100}
-				onChange={handleChange}
-				onMouseDown={handleMouseDown}
-				onMouseUp={handleMouseUp}
-				fullWidth
-				showRange
-				css={{ blockSize: 32 }}
-				disabled={!bottomBarStore.canSeek}
-			/>
-		);
-	},
-);
+	return (
+		<EuiRange
+			min={0}
+			max={100}
+			step={0.0000001}
+			value={bottomBar.percent * 100}
+			onChange={handleChange}
+			onMouseDown={handleMouseDown}
+			onMouseUp={handleMouseUp}
+			fullWidth
+			showRange
+			css={{ blockSize: 32 }}
+			disabled={!bottomBar.canSeek}
+		/>
+	);
+});

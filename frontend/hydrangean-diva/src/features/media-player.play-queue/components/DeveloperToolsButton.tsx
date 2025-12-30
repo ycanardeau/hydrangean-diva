@@ -5,11 +5,11 @@ import { observer } from 'mobx-react-lite';
 import { ReactElement, useState } from 'react';
 
 interface DeveloperToolsButtonProps {
-	playQueueStore: PlayQueueStore;
+	playQueue: PlayQueueStore;
 }
 
 export const DeveloperToolsButton = observer(
-	({ playQueueStore }: DeveloperToolsButtonProps): ReactElement => {
+	({ playQueue }: DeveloperToolsButtonProps): ReactElement => {
 		const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
 
 		return (
@@ -28,7 +28,7 @@ export const DeveloperToolsButton = observer(
 								isVirtualized
 							>
 								{JSON.stringify(
-									playQueueStore.localStorageState,
+									playQueue.localStorageState,
 									undefined,
 									2,
 								)}

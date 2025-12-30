@@ -1,6 +1,6 @@
 import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
 import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
-import { usePlayQueueStore } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueStoreContext';
+import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, ReactNode } from 'react';
@@ -11,7 +11,7 @@ interface MediaPlayerLayoutProps {
 
 export const MediaPlayerLayout = observer(
 	({ children }: MediaPlayerLayoutProps): ReactElement => {
-		const playQueueStore = usePlayQueueStore();
+		const playQueue = usePlayQueue();
 
 		return (
 			<EuiPageTemplate
@@ -22,7 +22,7 @@ export const MediaPlayerLayout = observer(
 			>
 				{children}
 
-				{!playQueueStore.isEmpty && (
+				{!playQueue.isEmpty && (
 					<EuiSpacer style={{ blockSize: miniPlayerSize.height }} />
 				)}
 			</EuiPageTemplate>

@@ -18,39 +18,37 @@ import { observer } from 'mobx-react-lite';
 import { ReactElement } from 'react';
 
 interface ShuffleButtonProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
 const ShuffleButton = observer(
-	({ bottomBarStore }: ShuffleButtonProps): ReactElement => {
+	({ bottomBar }: ShuffleButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
-				title={
-					`Shuffle: ${bottomBarStore.shuffle ? 'On' : 'Off'}` /* LOC */
-				}
+				title={`Shuffle: ${bottomBar.shuffle ? 'On' : 'Off'}` /* LOC */}
 				aria-label={
-					`Shuffle: ${bottomBarStore.shuffle ? 'On' : 'Off'}` /* LOC */
+					`Shuffle: ${bottomBar.shuffle ? 'On' : 'Off'}` /* LOC */
 				}
 				iconType={
-					bottomBarStore.shuffle
+					bottomBar.shuffle
 						? ArrowShuffleFilled
 						: ArrowShuffleOffFilled
 				}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.toggleShuffle}
-				disabled={!bottomBarStore.canToggleShuffle}
+				onClick={bottomBar.toggleShuffle}
+				disabled={!bottomBar.canToggleShuffle}
 			/>
 		);
 	},
 );
 
 interface PreviousButtonProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
 const PreviousButton = observer(
-	({ bottomBarStore }: PreviousButtonProps): ReactElement => {
+	({ bottomBar }: PreviousButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title="Previous" /* LOC */
@@ -58,19 +56,19 @@ const PreviousButton = observer(
 				iconType={PreviousFilled}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.previous}
-				disabled={!bottomBarStore.canPrevious}
+				onClick={bottomBar.previous}
+				disabled={!bottomBar.canPrevious}
 			/>
 		);
 	},
 );
 
 interface SkipBack10ButtonProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
 const SkipBack10Button = observer(
-	({ bottomBarStore }: SkipBack10ButtonProps): ReactElement => {
+	({ bottomBar }: SkipBack10ButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title="Skip back 10 seconds" /* LOC */
@@ -78,19 +76,19 @@ const SkipBack10Button = observer(
 				iconType={SkipBack10Regular}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.skipBack10}
-				disabled={!bottomBarStore.canSkipBack10}
+				onClick={bottomBar.skipBack10}
+				disabled={!bottomBar.canSkipBack10}
 			/>
 		);
 	},
 );
 
 interface PauseButtonProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
 const PauseButton = observer(
-	({ bottomBarStore }: PauseButtonProps): ReactElement => {
+	({ bottomBar }: PauseButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title="Pause" /* LOC */
@@ -98,39 +96,37 @@ const PauseButton = observer(
 				iconType={PauseFilled}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.pause}
-				disabled={!bottomBarStore.canPause}
+				onClick={bottomBar.pause}
+				disabled={!bottomBar.canPause}
 			/>
 		);
 	},
 );
 
 interface PlayButtonProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
-const PlayButton = observer(
-	({ bottomBarStore }: PlayButtonProps): ReactElement => {
-		return (
-			<EuiButtonIcon
-				title="Play" /* LOC */
-				aria-label="Play" /* LOC */
-				iconType={PlayFilled}
-				size="s"
-				iconSize="l"
-				onClick={bottomBarStore.play}
-				disabled={!bottomBarStore.canPlay}
-			/>
-		);
-	},
-);
+const PlayButton = observer(({ bottomBar }: PlayButtonProps): ReactElement => {
+	return (
+		<EuiButtonIcon
+			title="Play" /* LOC */
+			aria-label="Play" /* LOC */
+			iconType={PlayFilled}
+			size="s"
+			iconSize="l"
+			onClick={bottomBar.play}
+			disabled={!bottomBar.canPlay}
+		/>
+	);
+});
 
 interface SkipForward30ButtonProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
 const SkipForward30Button = observer(
-	({ bottomBarStore }: SkipForward30ButtonProps): ReactElement => {
+	({ bottomBar }: SkipForward30ButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title="Skip forward 30 seconds" /* LOC */
@@ -138,32 +134,30 @@ const SkipForward30Button = observer(
 				iconType={SkipForward30Regular}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.skipForward30}
-				disabled={!bottomBarStore.canSkipForward30}
+				onClick={bottomBar.skipForward30}
+				disabled={!bottomBar.canSkipForward30}
 			/>
 		);
 	},
 );
 
 interface NextButtonProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
-const NextButton = observer(
-	({ bottomBarStore }: NextButtonProps): ReactElement => {
-		return (
-			<EuiButtonIcon
-				title="Next" /* LOC */
-				aria-label="Next" /* LOC */
-				iconType={NextFilled}
-				size="s"
-				iconSize="l"
-				onClick={bottomBarStore.next}
-				disabled={!bottomBarStore.canNext}
-			/>
-		);
-	},
-);
+const NextButton = observer(({ bottomBar }: NextButtonProps): ReactElement => {
+	return (
+		<EuiButtonIcon
+			title="Next" /* LOC */
+			aria-label="Next" /* LOC */
+			iconType={NextFilled}
+			size="s"
+			iconSize="l"
+			onClick={bottomBar.next}
+			disabled={!bottomBar.canNext}
+		/>
+	);
+});
 
 const repeatIconTypes: Record<RepeatMode, IconType> = {
 	[RepeatMode.Off]: ArrowRepeatAllOffFilled,
@@ -172,47 +166,47 @@ const repeatIconTypes: Record<RepeatMode, IconType> = {
 };
 
 interface RepeatButtonProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
 const RepeatButton = observer(
-	({ bottomBarStore }: RepeatButtonProps): ReactElement => {
+	({ bottomBar }: RepeatButtonProps): ReactElement => {
 		return (
 			<EuiButtonIcon
 				title={
 					`Repeat: ${
-						bottomBarStore.repeat === RepeatMode.All
+						bottomBar.repeat === RepeatMode.All
 							? 'All'
-							: bottomBarStore.repeat === RepeatMode.One
+							: bottomBar.repeat === RepeatMode.One
 								? 'One'
 								: 'Off'
 					}` /* LOC */
 				}
 				aria-label={
 					`Repeat: ${
-						bottomBarStore.repeat === RepeatMode.All
+						bottomBar.repeat === RepeatMode.All
 							? 'All'
-							: bottomBarStore.repeat === RepeatMode.One
+							: bottomBar.repeat === RepeatMode.One
 								? 'One'
 								: 'Off'
 					}` /* LOC */
 				}
-				iconType={repeatIconTypes[bottomBarStore.repeat]}
+				iconType={repeatIconTypes[bottomBar.repeat]}
 				size="s"
 				iconSize="l"
-				onClick={bottomBarStore.toggleRepeat}
-				disabled={!bottomBarStore.canToggleRepeat}
+				onClick={bottomBar.toggleRepeat}
+				disabled={!bottomBar.canToggleRepeat}
 			/>
 		);
 	},
 );
 
 interface BottomBarCenterControlsProps {
-	bottomBarStore: IBottomBarStore;
+	bottomBar: IBottomBarStore;
 }
 
 export const BottomBarCenterControls = observer(
-	({ bottomBarStore }: BottomBarCenterControlsProps): ReactElement => {
+	({ bottomBar }: BottomBarCenterControlsProps): ReactElement => {
 		return (
 			<EuiFlexGroup
 				responsive={false}
@@ -220,17 +214,17 @@ export const BottomBarCenterControls = observer(
 				justifyContent="center"
 				alignItems="center"
 			>
-				<ShuffleButton bottomBarStore={bottomBarStore} />
-				<PreviousButton bottomBarStore={bottomBarStore} />
-				<SkipBack10Button bottomBarStore={bottomBarStore} />
-				{bottomBarStore.playing ? (
-					<PauseButton bottomBarStore={bottomBarStore} />
+				<ShuffleButton bottomBar={bottomBar} />
+				<PreviousButton bottomBar={bottomBar} />
+				<SkipBack10Button bottomBar={bottomBar} />
+				{bottomBar.playing ? (
+					<PauseButton bottomBar={bottomBar} />
 				) : (
-					<PlayButton bottomBarStore={bottomBarStore} />
+					<PlayButton bottomBar={bottomBar} />
 				)}
-				<SkipForward30Button bottomBarStore={bottomBarStore} />
-				<NextButton bottomBarStore={bottomBarStore} />
-				<RepeatButton bottomBarStore={bottomBarStore} />
+				<SkipForward30Button bottomBar={bottomBar} />
+				<NextButton bottomBar={bottomBar} />
+				<RepeatButton bottomBar={bottomBar} />
 			</EuiFlexGroup>
 		);
 	},
