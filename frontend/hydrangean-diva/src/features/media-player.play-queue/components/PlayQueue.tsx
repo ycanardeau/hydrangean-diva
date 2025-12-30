@@ -106,30 +106,32 @@ export const PlayQueue = observer(
 		const handleAddVideo = useCallback(
 			async (e: AddVideoFormSubmitEvent): Promise<void> => {
 				const videoService = findVideoService(e.url);
-				if (videoService !== undefined) {
-					const videoId = videoService.extractVideoId(e.url);
-					if (videoId !== undefined) {
-						const response = await fetch(
-							`https://noembed.com/embed?url=${encodeURIComponent(
-								e.url,
-							)}`,
-						);
-						const jsonData = await response.json();
-
-						await playQueueStore.addItems([
-							playQueueStore.createItem({
-								url: e.url,
-								type: videoService.type,
-								videoId: videoId,
-								title:
-									e.title ||
-									(isNoembedResult(jsonData)
-										? jsonData.title
-										: videoId),
-							}),
-						]);
-					}
+				if (videoService === undefined) {
+					return;
 				}
+
+				const videoId = videoService.extractVideoId(e.url);
+				if (videoId === undefined) {
+					return;
+				}
+
+				const response = await fetch(
+					`https://noembed.com/embed?url=${encodeURIComponent(
+						e.url,
+					)}`,
+				);
+				const jsonData = await response.json();
+
+				const item = playQueueStore.createItem({
+					url: e.url,
+					type: videoService.type,
+					videoId: videoId,
+					title:
+						e.title ||
+						(isNoembedResult(jsonData) ? jsonData.title : videoId),
+				});
+
+				await playQueueStore.addItems([item]);
 			},
 			[playQueueStore],
 		);
