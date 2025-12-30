@@ -16,11 +16,13 @@ export interface IPlayQueueStore {
 	readonly hasPreviousItem: boolean;
 	readonly hasNextItem: boolean;
 	readonly isLastItem: boolean;
-	allItemsSelected: boolean;
 	readonly selectedItems: IPlayQueueItemStore[];
+	readonly allItemsSelected: boolean;
 	readonly selectedItemsOrAllItems: IPlayQueueItemStore[];
 	setItems(value: IPlayQueueItemStore[]): void;
 	clear(): void;
+	unselectAll(): void;
+	selectAll(): void;
 	setCurrentItem(item: IPlayQueueItemStore | undefined): void;
 	clearAndSetItems(items: IPlayQueueItemStore[]): void;
 	playNext(items: IPlayQueueItemStore[]): Promise<void>;

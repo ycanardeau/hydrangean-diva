@@ -60,7 +60,11 @@ const PlayQueueTableHeader = observer(
 						id="" // TODO
 						checked={playQueueStore.allItemsSelected}
 						onChange={(e): void => {
-							playQueueStore.allItemsSelected = e.target.checked;
+							if (e.target.checked) {
+								playQueueStore.selectAll();
+							} else {
+								playQueueStore.unselectAll();
+							}
 						}}
 					/>
 				</EuiTableHeaderCellCheckbox>

@@ -46,6 +46,7 @@ export class PlayQueueStore
 			interact: action,
 			clear: action.bound,
 			unselectAll: action,
+			selectAll: action,
 			setCurrentItem: action,
 			setNextItems: action,
 			clearAndSetItems: action,
@@ -161,11 +162,6 @@ export class PlayQueueStore
 	get allItemsSelected(): boolean {
 		return this.selectedItems.length === this.items.length;
 	}
-	set allItemsSelected(value: boolean) {
-		for (const item of this.items) {
-			item.isSelected = value;
-		}
-	}
 
 	get selectedItemsOrAllItems(): IPlayQueueItemStore[] {
 		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
@@ -189,6 +185,12 @@ export class PlayQueueStore
 	unselectAll(): void {
 		for (const item of this.items) {
 			item.unselect();
+		}
+	}
+
+	selectAll(): void {
+		for (const item of this.items) {
+			item.select();
 		}
 	}
 

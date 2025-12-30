@@ -29,6 +29,7 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 			canRemoveToTop: computed,
 			canRemoveOthers: computed,
 			unselect: action,
+			select: action,
 			toggleSelected: action.bound,
 			play: action,
 			remove: action.bound,
@@ -104,6 +105,10 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 
 	unselect(): void {
 		this.isSelected = false;
+	}
+
+	select(): void {
+		this.isSelected = true;
 	}
 
 	toggleSelected(): void {

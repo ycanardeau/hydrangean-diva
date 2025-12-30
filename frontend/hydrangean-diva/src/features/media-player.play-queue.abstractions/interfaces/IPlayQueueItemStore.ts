@@ -3,7 +3,7 @@ import { PlayerType } from '@aigamo/nostalgic-diva';
 
 export interface IPlayQueueItemStore {
 	readonly id: number;
-	isSelected: boolean;
+	readonly isSelected: boolean;
 	readonly dto: PlayQueueItemDto;
 	readonly url: string;
 	readonly type: PlayerType;
@@ -16,6 +16,7 @@ export interface IPlayQueueItemStore {
 	readonly isCurrent: boolean;
 	clone(): IPlayQueueItemStore;
 	unselect(): void;
+	select(): void;
 	toggleSelected(): void;
 	play(): void;
 	remove(): Promise<void>;
