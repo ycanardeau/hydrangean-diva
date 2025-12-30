@@ -1,4 +1,4 @@
-import { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
+import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonIcon,
@@ -32,11 +32,9 @@ import {
 	useState,
 } from 'react';
 
-interface MuteButtonProps {
-	bottomBar: IBottomBarStore;
-}
+const MuteButton = observer((): ReactElement => {
+	const bottomBar = useBottomBar();
 
-const MuteButton = observer(({ bottomBar }: MuteButtonProps): ReactElement => {
 	return (
 		<EuiButtonIcon
 			title="Mute" /* LOC */
@@ -50,19 +48,15 @@ const MuteButton = observer(({ bottomBar }: MuteButtonProps): ReactElement => {
 });
 
 interface VolumePopoverProps {
-	bottomBar: IBottomBarStore;
 	button?: NonNullable<ReactNode>;
 	isOpen: boolean;
 	closePopover: () => void;
 }
 
 const VolumePopover = observer(
-	({
-		bottomBar,
-		button,
-		isOpen,
-		closePopover,
-	}: VolumePopoverProps): ReactElement => {
+	({ button, isOpen, closePopover }: VolumePopoverProps): ReactElement => {
+		const bottomBar = useBottomBar();
+
 		const [value, setValue] = useState('0');
 
 		const diva = useNostalgicDiva();
@@ -100,7 +94,7 @@ const VolumePopover = observer(
 						justifyContent="center"
 						alignItems="center"
 					>
-						<MuteButton bottomBar={bottomBar} />
+						<MuteButton />
 						<EuiRange
 							min={0}
 							max={100}
@@ -119,37 +113,32 @@ const VolumePopover = observer(
 	},
 );
 
-interface VolumeButtonProps {
-	bottomBar: IBottomBarStore;
-}
+const VolumeButton = observer((): ReactElement => {
+	const bottomBar = useBottomBar();
 
-const VolumeButton = observer(
-	({ bottomBar }: VolumeButtonProps): ReactElement => {
-		const [isVolumePopoverOpen, setIsVolumePopoverOpen] = useState(false);
+	const [isVolumePopoverOpen, setIsVolumePopoverOpen] = useState(false);
 
-		const toggleVolumePopover = (): void =>
-			setIsVolumePopoverOpen(!isVolumePopoverOpen);
+	const toggleVolumePopover = (): void =>
+		setIsVolumePopoverOpen(!isVolumePopoverOpen);
 
-		return (
-			<VolumePopover
-				bottomBar={bottomBar}
-				button={
-					<EuiButtonIcon
-						title="Volume" /* LOC */
-						aria-label="Volume" /* LOC */
-						iconType={Speaker2Regular}
-						size="s"
-						iconSize="l"
-						onClick={toggleVolumePopover}
-						disabled={!bottomBar.controller.supports('getVolume')}
-					/>
-				}
-				isOpen={isVolumePopoverOpen}
-				closePopover={(): void => setIsVolumePopoverOpen(false)}
-			/>
-		);
-	},
-);
+	return (
+		<VolumePopover
+			button={
+				<EuiButtonIcon
+					title="Volume" /* LOC */
+					aria-label="Volume" /* LOC */
+					iconType={Speaker2Regular}
+					size="s"
+					iconSize="l"
+					onClick={toggleVolumePopover}
+					disabled={!bottomBar.controller.supports('getVolume')}
+				/>
+			}
+			isOpen={isVolumePopoverOpen}
+			closePopover={(): void => setIsVolumePopoverOpen(false)}
+		/>
+	);
+});
 
 interface PlayQueueButtonProps {
 	onClickPlayQueueButton: MouseEventHandler<HTMLButtonElement>;
@@ -171,15 +160,13 @@ const PlayQueueButton = ({
 };
 
 interface MoreOptionsContextMenuProps {
-	bottomBar: IBottomBarStore;
 	closePopover: () => void;
 }
 
 const MoreOptionsContextMenu = observer(
-	({
-		bottomBar,
-		closePopover,
-	}: MoreOptionsContextMenuProps): ReactElement => {
+	({ closePopover }: MoreOptionsContextMenuProps): ReactElement => {
+		const bottomBar = useBottomBar();
+
 		const diva = useNostalgicDiva();
 
 		const handleClickSkipBack10 = useCallback(async () => {
@@ -289,7 +276,6 @@ const MoreOptionsContextMenu = observer(
 );
 
 interface MoreOptionsPopoverProps {
-	bottomBar: IBottomBarStore;
 	button?: NonNullable<ReactNode>;
 	isOpen: boolean;
 	closePopover: () => void;
@@ -297,7 +283,6 @@ interface MoreOptionsPopoverProps {
 
 const MoreOptionsPopover = memo(
 	({
-		bottomBar,
 		button,
 		isOpen,
 		closePopover,
@@ -310,57 +295,43 @@ const MoreOptionsPopover = memo(
 				panelPaddingSize="none"
 				anchorPosition="upRight"
 			>
-				<MoreOptionsContextMenu
-					bottomBar={bottomBar}
-					closePopover={closePopover}
-				/>
+				<MoreOptionsContextMenu closePopover={closePopover} />
 			</EuiPopover>
 		);
 	},
 );
 
-interface MoreOptionsButtonProps {
-	bottomBar: IBottomBarStore;
-}
+const MoreOptionsButton = memo((): ReactElement => {
+	const [isMoreOptionsPopoverOpen, setIsMoreOptionsPopoverOpen] =
+		useState(false);
 
-const MoreOptionsButton = memo(
-	({ bottomBar }: MoreOptionsButtonProps): ReactElement => {
-		const [isMoreOptionsPopoverOpen, setIsMoreOptionsPopoverOpen] =
-			useState(false);
+	const toggleMoreOptionsPopover = (): void =>
+		setIsMoreOptionsPopoverOpen(!isMoreOptionsPopoverOpen);
 
-		const toggleMoreOptionsPopover = (): void =>
-			setIsMoreOptionsPopoverOpen(!isMoreOptionsPopoverOpen);
-
-		return (
-			<MoreOptionsPopover
-				bottomBar={bottomBar}
-				button={
-					<EuiButtonIcon
-						title="More options" /* LOC */
-						aria-label="More options" /* LOC */
-						iconType={MoreHorizontalFilled}
-						size="s"
-						iconSize="l"
-						onClick={toggleMoreOptionsPopover}
-					/>
-				}
-				isOpen={isMoreOptionsPopoverOpen}
-				closePopover={(): void => setIsMoreOptionsPopoverOpen(false)}
-			/>
-		);
-	},
-);
+	return (
+		<MoreOptionsPopover
+			button={
+				<EuiButtonIcon
+					title="More options" /* LOC */
+					aria-label="More options" /* LOC */
+					iconType={MoreHorizontalFilled}
+					size="s"
+					iconSize="l"
+					onClick={toggleMoreOptionsPopover}
+				/>
+			}
+			isOpen={isMoreOptionsPopoverOpen}
+			closePopover={(): void => setIsMoreOptionsPopoverOpen(false)}
+		/>
+	);
+});
 
 interface BottomBarRightControlsProps {
-	bottomBar: IBottomBarStore;
 	onClickPlayQueueButton?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const BottomBarRightControls = memo(
-	({
-		bottomBar,
-		onClickPlayQueueButton,
-	}: BottomBarRightControlsProps): ReactElement => {
+	({ onClickPlayQueueButton }: BottomBarRightControlsProps): ReactElement => {
 		return (
 			<EuiFlexGroup
 				responsive={false}
@@ -368,13 +339,13 @@ export const BottomBarRightControls = memo(
 				justifyContent="flexEnd"
 				alignItems="center"
 			>
-				<VolumeButton bottomBar={bottomBar} />
+				<VolumeButton />
 				{onClickPlayQueueButton && (
 					<PlayQueueButton
 						onClickPlayQueueButton={onClickPlayQueueButton}
 					/>
 				)}
-				<MoreOptionsButton bottomBar={bottomBar} />
+				<MoreOptionsButton />
 			</EuiFlexGroup>
 		);
 	},
