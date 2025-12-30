@@ -9,6 +9,7 @@ export interface IPlayQueueStore {
 	readonly shuffle: boolean;
 	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore;
 	readonly isEmpty: boolean;
+	readonly canClear: boolean;
 	readonly currentItem: IPlayQueueItemStore | undefined;
 	readonly canPlay: boolean;
 	readonly canPause: boolean;

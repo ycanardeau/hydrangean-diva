@@ -31,6 +31,7 @@ export class PlayQueueStore
 			shuffle: observable,
 			localStorageState: computed.struct,
 			isEmpty: computed,
+			canClear: computed,
 			currentItem: computed,
 			canPlay: computed,
 			canPause: computed,
@@ -108,6 +109,10 @@ export class PlayQueueStore
 
 	get isEmpty(): boolean {
 		return this.items.length === 0;
+	}
+
+	get canClear(): boolean {
+		return !this.isEmpty;
 	}
 
 	get currentItem(): IPlayQueueItemStore | undefined {

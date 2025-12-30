@@ -176,7 +176,7 @@ export const PlayQueue = observer(
 						<EuiButton
 							iconType={DeleteRegular}
 							onClick={playQueueStore.clear}
-							disabled={playQueueStore.isEmpty}
+							disabled={!playQueueStore.canClear}
 						>
 							Clear{/* LOC */}
 						</EuiButton>
