@@ -41,6 +41,7 @@ export class PlayQueueStore
 			isLastItem: computed,
 			selectedItems: computed,
 			allItemsSelected: computed,
+			hasSelectedItems: computed,
 			selectedItemsOrAllItems: computed,
 			setItems: action,
 			interact: action,
@@ -163,8 +164,12 @@ export class PlayQueueStore
 		return this.selectedItems.length === this.items.length;
 	}
 
+	get hasSelectedItems(): boolean {
+		return this.selectedItems.length > 0;
+	}
+
 	get selectedItemsOrAllItems(): IPlayQueueItemStore[] {
-		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
+		return this.hasSelectedItems ? this.selectedItems : this.items;
 	}
 
 	setItems(value: IPlayQueueItemStore[]): void {

@@ -39,8 +39,7 @@ const AddToPlayQueueButton = observer(
 				iconType={AddRegular}
 				onClick={playQueueStore.addSelectedItems}
 				disabled={
-					playQueueStore.isEmpty ||
-					playQueueStore.selectedItems.length === 0
+					playQueueStore.isEmpty || !playQueueStore.hasSelectedItems
 				}
 			>
 				Add to play queue{/* LOC */}
@@ -153,7 +152,7 @@ export const PlayQueue = observer(
 						<EuiButton
 							disabled={
 								playQueueStore.isEmpty ||
-								playQueueStore.selectedItems.length === 0
+								!playQueueStore.hasSelectedItems
 							}
 							onClick={playQueueStore.playSelectedItemsNext}
 						>
@@ -175,7 +174,7 @@ export const PlayQueue = observer(
 							onClick={playQueueStore.removeSelectedItems}
 							disabled={
 								playQueueStore.isEmpty ||
-								playQueueStore.selectedItems.length === 0
+								!playQueueStore.hasSelectedItems
 							}
 						>
 							Remove{/* LOC */}

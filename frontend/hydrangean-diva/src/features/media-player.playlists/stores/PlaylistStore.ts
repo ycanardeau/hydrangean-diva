@@ -26,6 +26,7 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 			loading: observable,
 			locationState: computed,
 			selectedItems: computed,
+			hasSelectedItems: computed,
 			selectedItemsOrAllItems: computed,
 			updateResults: action.bound,
 			unselectAll: action.bound,
@@ -60,8 +61,12 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 		return this.items.filter((item) => item.isSelected);
 	}
 
+	get hasSelectedItems(): boolean {
+		return this.selectedItems.length > 0;
+	}
+
 	get selectedItemsOrAllItems(): PlaylistItemStore[] {
-		return this.selectedItems.length > 0 ? this.selectedItems : this.items;
+		return this.hasSelectedItems ? this.selectedItems : this.items;
 	}
 
 	validateLocationState(

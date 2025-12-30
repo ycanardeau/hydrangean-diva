@@ -18,6 +18,7 @@ export interface IPlayQueueStore {
 	readonly isLastItem: boolean;
 	readonly selectedItems: IPlayQueueItemStore[];
 	readonly allItemsSelected: boolean;
+	readonly hasSelectedItems: boolean;
 	readonly selectedItemsOrAllItems: IPlayQueueItemStore[];
 	setItems(value: IPlayQueueItemStore[]): void;
 	clear(): void;
