@@ -1,9 +1,7 @@
+import { HydrangeanDivaProvider } from '@/features';
 import { Compose } from '@/features/common/components/Compose';
-import { PlayQueueStoreProvider } from '@/features/media-player.play-queue/components/PlayQueueStoreProvider';
-import { PlayerStoreProvider } from '@/features/media-player.player/components/PlayerStoreContext';
 import '@/icons';
 import { routeTree } from '@/routeTree.gen';
-import { NostalgicDivaProvider } from '@aigamo/nostalgic-diva';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
 import {
@@ -63,14 +61,7 @@ const AppProvider = ({ children }: AppProviderProps): ReactElement => {
 
 const App = (): ReactElement => {
 	return (
-		<Compose
-			components={[
-				AppProvider,
-				NostalgicDivaProvider,
-				PlayerStoreProvider,
-				PlayQueueStoreProvider,
-			]}
-		>
+		<Compose components={[AppProvider, HydrangeanDivaProvider]}>
 			<RouterProvider router={router} />
 		</Compose>
 	);

@@ -2,21 +2,19 @@ import { BottomBarCenterControls } from '@/features/media-player.player/componen
 import { BottomBarLeftControls } from '@/features/media-player.player/components/bottom-bar/BottomBarLeftControls';
 import { BottomBarRightControls } from '@/features/media-player.player/components/bottom-bar/BottomBarRightControls';
 import { SeekBar } from '@/features/media-player.player/components/bottom-bar/SeekBar';
-import { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
+import { useBottomBarStore } from '@/features/media-player.player/contexts/BottomBarStoreContext';
 import { EuiBottomBar, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEventHandler, ReactElement } from 'react';
 
 interface BottomBarProps {
-	bottomBarStore: IBottomBarStore;
 	onClickPlayQueueButton?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const BottomBar = observer(
-	({
-		bottomBarStore,
-		onClickPlayQueueButton,
-	}: BottomBarProps): ReactElement => {
+	({ onClickPlayQueueButton }: BottomBarProps): ReactElement => {
+		const bottomBarStore = useBottomBarStore();
+
 		return (
 			<EuiBottomBar paddingSize="s">
 				<EuiFlexGroup direction="column" gutterSize="none">

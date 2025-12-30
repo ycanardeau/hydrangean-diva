@@ -1,16 +1,7 @@
 import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import { PlayerStoreContext } from '@/features/media-player.player/contexts/PlayerStoreContext';
 import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
-import React, {
-	ReactElement,
-	ReactNode,
-	createContext,
-	useContext,
-	useState,
-} from 'react';
-
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const PlayerStoreContext = createContext<IPlayerStore>(undefined!);
+import React, { ReactElement, ReactNode, useState } from 'react';
 
 interface PlayerStoreProviderProps {
 	children?: ReactNode;
@@ -28,8 +19,4 @@ export const PlayerStoreProvider = ({
 			{children}
 		</PlayerStoreContext.Provider>
 	);
-};
-
-export const usePlayerStore = (): IPlayerStore => {
-	return useContext(PlayerStoreContext);
 };

@@ -1,5 +1,3 @@
-export * from './bottom-bar/BottomBar';
-export * from './HydrangeanDivaProvider';
+export * from './bottom-bar';
+export * from './mini-player';
 export * from './MediaPlayerLayout';
-export * from './MiniPlayer';
-export * from './PlayerStoreContext';
