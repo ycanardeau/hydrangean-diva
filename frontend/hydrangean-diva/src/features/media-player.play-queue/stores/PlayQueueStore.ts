@@ -43,6 +43,9 @@ export class PlayQueueStore
 			allItemsSelected: computed,
 			hasSelectedItems: computed,
 			selectedItemsOrAllItems: computed,
+			canAddSelectedItems: computed,
+			canPlaySelectedItemsNext: computed,
+			canRemoveSelectedItems: computed,
 			setItems: action,
 			interact: action,
 			clear: action.bound,
@@ -170,6 +173,18 @@ export class PlayQueueStore
 
 	get selectedItemsOrAllItems(): IPlayQueueItemStore[] {
 		return this.hasSelectedItems ? this.selectedItems : this.items;
+	}
+
+	get canAddSelectedItems(): boolean {
+		return !this.isEmpty && this.hasSelectedItems;
+	}
+
+	get canPlaySelectedItemsNext(): boolean {
+		return !this.isEmpty && this.hasSelectedItems;
+	}
+
+	get canRemoveSelectedItems(): boolean {
+		return !this.isEmpty && this.hasSelectedItems;
 	}
 
 	setItems(value: IPlayQueueItemStore[]): void {

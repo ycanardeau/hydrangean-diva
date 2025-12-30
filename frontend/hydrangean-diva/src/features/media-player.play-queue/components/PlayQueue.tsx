@@ -38,9 +38,7 @@ const AddToPlayQueueButton = observer(
 			<EuiButton
 				iconType={AddRegular}
 				onClick={playQueueStore.addSelectedItems}
-				disabled={
-					playQueueStore.isEmpty || !playQueueStore.hasSelectedItems
-				}
+				disabled={!playQueueStore.canAddSelectedItems}
 			>
 				Add to play queue{/* LOC */}
 			</EuiButton>
@@ -150,10 +148,7 @@ export const PlayQueue = observer(
 				>
 					<EuiFlexItem grow={false}>
 						<EuiButton
-							disabled={
-								playQueueStore.isEmpty ||
-								!playQueueStore.hasSelectedItems
-							}
+							disabled={!playQueueStore.canPlaySelectedItemsNext}
 							onClick={playQueueStore.playSelectedItemsNext}
 						>
 							Play next{/* LOC */}
@@ -172,10 +167,7 @@ export const PlayQueue = observer(
 						<EuiButton
 							iconType={DismissRegular}
 							onClick={playQueueStore.removeSelectedItems}
-							disabled={
-								playQueueStore.isEmpty ||
-								!playQueueStore.hasSelectedItems
-							}
+							disabled={!playQueueStore.canRemoveSelectedItems}
 						>
 							Remove{/* LOC */}
 						</EuiButton>
