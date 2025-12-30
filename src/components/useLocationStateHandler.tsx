@@ -10,7 +10,10 @@ export const useLocationStateDeserializer = (): (() => ParsedQs) => {
 	const location = useLocation();
 
 	// Pass `location` as deps instead of `location.search`.
-	return React.useCallback(() => parse(location.search.slice(1)), [location]);
+	return React.useCallback(
+		(): ParsedQs => parse(location.search.slice(1)),
+		[location],
+	);
 };
 
 export const useLocationStateSerializer = <TState,>(): ((
@@ -19,7 +22,7 @@ export const useLocationStateSerializer = <TState,>(): ((
 	const navigate = useNavigate();
 
 	return React.useCallback(
-		(state: TState) => {
+		(state: TState): void => {
 			const newUrl = `?${stringify(state)}`;
 			navigate(newUrl);
 		},
@@ -50,7 +53,7 @@ export const useLocationStateSetter = <TState,>(
 	store: LocationStateStore<TState>,
 ): ((state: TState) => void) => {
 	return React.useCallback(
-		(state: TState) => {
+		(state: TState): void => {
 			store.locationState = state;
 		},
 		[store],
@@ -60,7 +63,7 @@ export const useLocationStateSetter = <TState,>(
 export const useLocationStateGetter = <TState,>(
 	store: LocationStateStore<TState>,
 ): (() => TState) => {
-	return React.useCallback(() => store.locationState, [store]);
+	return React.useCallback((): TState => store.locationState, [store]);
 };
 
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
