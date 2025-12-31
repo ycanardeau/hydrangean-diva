@@ -40,7 +40,6 @@
 		"@eslint/eslintrc": "^3.3.1",
 		"@openapitools/openapi-generator-cli": "^2.25.2",
 		"@tanstack/router-plugin": "^1.139.7",
-		"@testing-library/jest-dom": "^6.9.1",
 		"@trivago/prettier-plugin-sort-imports": "^6.0.0",
 		"@types/lodash-es": "^4.17.12",
 		"@types/node": "^24.10.1",
