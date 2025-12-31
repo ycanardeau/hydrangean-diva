@@ -1,104 +1,112 @@
 module.exports = {
-	parser: '@typescript-eslint/parser',
-	parserOptions: {
-		project: 'tsconfig.json',
-		sourceType: 'module',
-		tsconfigRootDir: __dirname,
-		ecmaVersion: 'latest',
-	},
-	plugins: ['@typescript-eslint/eslint-plugin', 'import', 'boundaries'],
-	extends: [
-		'plugin:@typescript-eslint/recommended',
-		'plugin:prettier/recommended',
-		'react-app',
-		'plugin:boundaries/recommended',
-	],
 	root: true,
 	env: {
 		node: true,
 		jest: true,
 	},
-	ignorePatterns: ['.eslintrc.cjs'],
-	settings: {
-		'import/resolver': {
-			typescript: {
-				alwaysTryTypes: true,
+	ignorePatterns: ['dist'],
+	overrides: [
+		{
+			files: ['**/*.{ts,tsx}'],
+			parser: '@typescript-eslint/parser',
+			parserOptions: {
+				projectService: true,
+				tsconfigRootDir: __dirname,
 			},
-		},
-		'boundaries/elements': [
-			{
-				type: '@aigamo.hydrangean-diva/common',
-				pattern: 'src/features/common/**',
-			},
-			{
-				type: '@aigamo.hydrangean-diva/media-player.header',
-				pattern: 'src/features/media-player.header/**',
-			},
-			{
-				type: '@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-				pattern: 'src/features/media-player.play-queue.abstractions/**',
-			},
-			{
-				type: '@aigamo.hydrangean-diva/media-player.play-queue',
-				pattern: 'src/features/media-player.play-queue/**',
-			},
-			{
-				type: '@aigamo.hydrangean-diva/media-player.player',
-				pattern: 'src/features/media-player.player/**',
-			},
-			{
-				type: '@aigamo.hydrangean-diva/media-player.playlists',
-				pattern: 'src/features/media-player.playlists/**',
-			},
-		],
-	},
-	rules: {
-		'@typescript-eslint/interface-name-prefix': 'off',
-		'@typescript-eslint/explicit-function-return-type': 'error',
-		'@typescript-eslint/explicit-module-boundary-types': 'off',
-		'@typescript-eslint/no-explicit-any': 'off',
-		'@typescript-eslint/no-empty-function': 'off',
-		'@typescript-eslint/no-floating-promises': 'error',
-		'boundaries/element-types': [
-			2,
-			{
-				default: 'disallow',
-				rules: [
+			plugins: [
+				'@typescript-eslint/eslint-plugin',
+				'import',
+				'boundaries',
+			],
+			extends: [
+				'plugin:@typescript-eslint/recommended',
+				'plugin:prettier/recommended',
+				'react-app',
+				'plugin:boundaries/recommended',
+			],
+			settings: {
+				'import/resolver': {
+					typescript: {
+						alwaysTryTypes: true,
+					},
+				},
+				'boundaries/elements': [
 					{
-						from: '@aigamo.hydrangean-diva/common',
-						disallow: ['*'],
+						type: '@aigamo.hydrangean-diva/common',
+						pattern: 'src/features/common/**',
 					},
 					{
-						from: '@aigamo.hydrangean-diva/media-player.header',
-						allow: ['@aigamo.hydrangean-diva/common'],
+						type: '@aigamo.hydrangean-diva/media-player.header',
+						pattern: 'src/features/media-player.header/**',
 					},
 					{
-						from: '@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-						allow: [],
+						type: '@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+						pattern:
+							'src/features/media-player.play-queue.abstractions/**',
 					},
 					{
-						from: '@aigamo.hydrangean-diva/media-player.play-queue',
-						allow: [
-							'@aigamo.hydrangean-diva/common',
-							'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-						],
+						type: '@aigamo.hydrangean-diva/media-player.play-queue',
+						pattern: 'src/features/media-player.play-queue/**',
 					},
 					{
-						from: '@aigamo.hydrangean-diva/media-player.player',
-						allow: [
-							'@aigamo.hydrangean-diva/common',
-							'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-						],
+						type: '@aigamo.hydrangean-diva/media-player.player',
+						pattern: 'src/features/media-player.player/**',
 					},
 					{
-						from: '@aigamo.hydrangean-diva/media-player.playlists',
-						allow: [
-							'@aigamo.hydrangean-diva/common',
-							'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+						type: '@aigamo.hydrangean-diva/media-player.playlists',
+						pattern: 'src/features/media-player.playlists/**',
+					},
+				],
+			},
+			rules: {
+				'@typescript-eslint/interface-name-prefix': 'off',
+				'@typescript-eslint/explicit-function-return-type': 'error',
+				'@typescript-eslint/explicit-module-boundary-types': 'off',
+				'@typescript-eslint/no-explicit-any': 'off',
+				'@typescript-eslint/no-empty-function': 'off',
+				'@typescript-eslint/no-floating-promises': 'error',
+				'boundaries/element-types': [
+					2,
+					{
+						default: 'disallow',
+						rules: [
+							{
+								from: '@aigamo.hydrangean-diva/common',
+								disallow: ['*'],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player.header',
+								allow: ['@aigamo.hydrangean-diva/common'],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+								allow: [],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player.play-queue',
+								allow: [
+									'@aigamo.hydrangean-diva/common',
+									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+								],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player.player',
+								allow: [
+									'@aigamo.hydrangean-diva/common',
+									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+								],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player.playlists',
+								allow: [
+									'@aigamo.hydrangean-diva/common',
+									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+								],
+							},
 						],
 					},
 				],
 			},
-		],
-	},
+		},
+	],
 };
