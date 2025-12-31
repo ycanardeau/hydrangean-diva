@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"types": ["node", "@testing-library/jest-dom", "vitest/globals"],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -17,14 +16,8 @@
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"paths": {
-			"@/*": ["./src/*"],
-			"@test-utils": ["./test-utils"]
+			"@/*": ["./src/*"]
 		}
 	},
-	"include": [
-		"src",
-		"test-utils",
-		".storybook/main.ts",
-		".storybook/preview.tsx"
-	]
+	"include": ["src"]
 }
