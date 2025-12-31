@@ -1,12 +1,7 @@
 {
 	"singleQuote": true,
 	"trailingComma": "all",
-	"importOrder": [
-		"^@core/(.*)$",
-		"^@server/(.*)$",
-		"^@ui/(.*)$",
-		"^[./]"
-	],
+	"importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
 	"importOrderSeparation": true,
 	"importOrderSortSpecifiers": true,
 	"importOrderParserPlugins": [
@@ -16,5 +11,6 @@
 		"classProperties",
 		"decorators-legacy",
 		"importAssertions"
-	]
+	],
+	"plugins": ["@trivago/prettier-plugin-sort-imports"]
 }
