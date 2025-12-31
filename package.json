@@ -4,7 +4,8 @@
 	"type": "module",
 	"scripts": {
 		"clean": "rimraf ./dist",
-		"build": "pnpm clean && tsgo && vite build"
+		"build": "pnpm clean && tsgo && vite build",
+		"lint": "eslint ."
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.0",
