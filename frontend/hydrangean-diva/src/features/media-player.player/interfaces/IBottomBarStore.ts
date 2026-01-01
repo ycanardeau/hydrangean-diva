@@ -1,6 +1,6 @@
-import { RepeatMode } from '@/features/media-player.play-queue.abstractions';
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
-import { IPlayerController } from '@aigamo/nostalgic-diva';
+import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import type { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
+import type { IPlayerController } from '@aigamo/nostalgic-diva';
 
 export interface IBottomBarStore {
 	readonly controller: IPlayerController;

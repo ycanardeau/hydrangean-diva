@@ -1,8 +1,8 @@
-import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import {
-	IPlayerController,
-	TimeEvent,
+	type IPlayerController,
+	type TimeEvent,
 	nullPlayerController,
 } from '@aigamo/nostalgic-diva';
 import { action, observable } from 'mobx';

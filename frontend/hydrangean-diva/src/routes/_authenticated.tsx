@@ -6,7 +6,7 @@ import { MiniPlayer } from '@/features/media-player.player/components/mini-playe
 import { useLocalStorageStateStore } from '@aigamo/route-sphere';
 import { Outlet, createFileRoute } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 const RouteComponent = observer((): ReactElement => {
 	const playQueue = usePlayQueue();

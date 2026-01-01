@@ -1,4 +1,4 @@
-import { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
+import type { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
 import { createContext, useContext } from 'react';
 
 export const MiniPlayerContext = createContext<IMiniPlayerStore>(undefined!);

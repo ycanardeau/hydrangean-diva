@@ -1,5 +1,5 @@
-import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
-import { AnnotationsMap } from 'mobx';
+import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import type { AnnotationsMap } from 'mobx';
 
 export class ObservableStateProvider implements IObservableStateProvider {
 	makeObservable<

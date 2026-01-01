@@ -1,9 +1,12 @@
 import {
-	HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
+	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
 	MediaPlayerPlaylistsApi,
 } from '@/api';
-import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
-import { LocationStateStore, StateChangeEvent } from '@aigamo/route-sphere';
+import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import type {
+	LocationStateStore,
+	StateChangeEvent,
+} from '@aigamo/route-sphere';
 import { action, computed, observable, runInAction } from 'mobx';
 
 type PlaylistListLocationState = Record<string, never>;

@@ -1,5 +1,5 @@
 import { PlayerType } from '@aigamo/nostalgic-diva';
-import { JSONSchemaType } from 'ajv';
+import type { JSONSchemaType } from 'ajv';
 
 export interface PlayQueueItemDto {
 	readonly url: string;

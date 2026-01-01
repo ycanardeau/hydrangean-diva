@@ -1,10 +1,10 @@
 import {
-	LocationStateStore,
-	StateChangeEvent,
+	type LocationStateStore,
+	type StateChangeEvent,
 	useStateHandler,
 } from '@aigamo/route-sphere';
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { ParsedQs, parse } from 'qs';
+import { type ParsedQs, parse } from 'qs';
 import React from 'react';
 
 export const useLocationStateDeserializer = (): (() => ParsedQs) => {

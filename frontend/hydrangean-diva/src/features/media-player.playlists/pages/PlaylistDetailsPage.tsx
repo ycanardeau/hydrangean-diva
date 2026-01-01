@@ -1,4 +1,4 @@
-import { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api';
+import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { useLocationStateStore } from '@/features/common/components/useLocationStateHandler';
 import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
@@ -32,7 +32,7 @@ import {
 } from '@fluentui/react-icons';
 import { useRouter } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, useCallback, useState } from 'react';
+import { type ReactElement, useCallback, useState } from 'react';
 
 interface PlayAllButtonProps {
 	playlist: PlaylistStore;

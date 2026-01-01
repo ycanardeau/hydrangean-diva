@@ -1,6 +1,6 @@
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
-import { EuiButtonIcon, EuiFlexGroup, IconType } from '@elastic/eui';
+import { EuiButtonIcon, EuiFlexGroup, type IconType } from '@elastic/eui';
 import {
 	ArrowRepeat1Filled,
 	ArrowRepeatAllFilled,
@@ -15,7 +15,7 @@ import {
 	SkipForward30Regular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 const ShuffleButton = observer((): ReactElement => {
 	const bottomBar = useBottomBar();

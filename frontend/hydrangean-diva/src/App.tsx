@@ -10,7 +10,7 @@ import {
 	createRouter,
 } from '@tanstack/react-router';
 import NProgress from 'nprogress';
-import { ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
 import './nprogress.css';
 

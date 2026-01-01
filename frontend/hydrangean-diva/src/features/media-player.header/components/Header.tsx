@@ -11,20 +11,25 @@ import {
 	EuiHeaderSectionItemButton,
 	EuiIcon,
 	EuiListGroup,
-	EuiListGroupItemProps,
+	type EuiListGroupItemProps,
 	EuiToolTip,
-	IconType,
+	type IconType,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { Cd16Regular, NavigationPlayRegular } from '@fluentui/react-icons';
 import {
-	AnyRouter,
-	LinkProps,
-	RegisteredRouter,
+	type AnyRouter,
+	type LinkProps,
+	type RegisteredRouter,
 	useMatchRoute,
 	useRouter,
 } from '@tanstack/react-router';
-import { ReactElement, ReactNode, useCallback, useState } from 'react';
+import {
+	type ReactElement,
+	type ReactNode,
+	useCallback,
+	useState,
+} from 'react';
 
 const commitHash =
 	typeof import.meta.env.VITE_COMMIT_HASH === 'string'

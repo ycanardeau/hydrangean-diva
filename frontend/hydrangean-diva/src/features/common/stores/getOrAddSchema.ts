@@ -1,4 +1,4 @@
-import Ajv, { JSONSchemaType, ValidateFunction } from 'ajv';
+import Ajv, { type JSONSchemaType, type ValidateFunction } from 'ajv';
 
 const ajv = new Ajv({
 	coerceTypes: true,

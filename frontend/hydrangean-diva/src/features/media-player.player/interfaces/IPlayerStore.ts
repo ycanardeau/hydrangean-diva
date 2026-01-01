@@ -1,4 +1,4 @@
-import { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
+import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
 
 export interface IPlayerStore {
 	readonly controller: IPlayerController;

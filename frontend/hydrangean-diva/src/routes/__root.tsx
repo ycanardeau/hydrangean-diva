@@ -1,6 +1,6 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 const RootComponent = (): ReactElement => {
 	return (

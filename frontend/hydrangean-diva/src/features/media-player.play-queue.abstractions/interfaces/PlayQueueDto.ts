@@ -1,9 +1,9 @@
 import {
-	PlayQueueItemDto,
+	type PlayQueueItemDto,
 	PlayQueueItemDtoSchema,
 } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
-import { JSONSchemaType } from 'ajv';
+import type { JSONSchemaType } from 'ajv';
 
 export interface PlayQueueDto {
 	readonly version?: '1.0';

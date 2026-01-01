@@ -1,11 +1,11 @@
-import { EuiLink, EuiLinkAnchorProps } from '@elastic/eui';
+import { EuiLink, type EuiLinkAnchorProps } from '@elastic/eui';
 import {
-	AnyRouter,
-	LinkProps,
-	RegisteredRouter,
+	type AnyRouter,
+	type LinkProps,
+	type RegisteredRouter,
 	useRouter,
 } from '@tanstack/react-router';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 export const AppLink = <
 	TComp = 'a',

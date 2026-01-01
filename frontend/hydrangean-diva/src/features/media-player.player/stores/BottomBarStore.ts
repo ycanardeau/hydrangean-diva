@@ -1,12 +1,10 @@
-import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
-import {
-	IPlayQueueItemStore,
-	RepeatMode,
-} from '@/features/media-player.play-queue.abstractions';
-import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
-import { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
-import { IPlayerController } from '@aigamo/nostalgic-diva';
+import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import type { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
+import type { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
+import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import type { IPlayerController } from '@aigamo/nostalgic-diva';
 import { action, computed } from 'mobx';
 
 export class BottomBarStore implements IBottomBarStore {

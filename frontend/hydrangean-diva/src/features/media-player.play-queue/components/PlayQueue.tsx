@@ -1,9 +1,9 @@
 import { featureFlags } from '@/features/common/helpers/featureFlags';
-import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
 import {
 	AddVideoButton,
-	AddVideoFormSubmitEvent,
+	type AddVideoFormSubmitEvent,
 } from '@/features/media-player.play-queue/components/AddVideoButton';
 import { DeveloperToolsButton } from '@/features/media-player.play-queue/components/DeveloperToolsButton';
 import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
@@ -24,7 +24,7 @@ import {
 	DismissRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import React, { ReactElement, useCallback } from 'react';
+import React, { type ReactElement, useCallback } from 'react';
 
 interface AddToPlayQueueButtonProps {
 	playQueue: IPlayQueueStore;

@@ -9,7 +9,7 @@ import {
 	EuiText,
 } from '@elastic/eui';
 import { PlayRegular } from '@fluentui/react-icons';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 type ThirdPartyPlayerType = Exclude<PlayerType, PlayerType.Audio>;
 

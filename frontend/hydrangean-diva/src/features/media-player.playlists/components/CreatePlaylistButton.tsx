@@ -12,7 +12,12 @@ import {
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
-import { ReactElement, ReactNode, useCallback, useState } from 'react';
+import {
+	type ReactElement,
+	type ReactNode,
+	useCallback,
+	useState,
+} from 'react';
 
 export interface CreatePlaylistFormSubmitEvent {
 	name: string;

@@ -1,4 +1,4 @@
-import { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
+import type { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
 import { createContext, useContext } from 'react';
 
 export const BottomBarContext = createContext<IBottomBarStore>(undefined!);

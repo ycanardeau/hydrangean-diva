@@ -4,7 +4,7 @@ import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { EuiBasicTable, EuiButton, EuiLink } from '@elastic/eui';
 import { PlayRegular } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 interface PlaylistTableProps {
 	playlist: PlaylistStore;

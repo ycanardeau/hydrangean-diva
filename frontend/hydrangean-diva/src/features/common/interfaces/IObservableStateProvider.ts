@@ -1,4 +1,4 @@
-import { AnnotationsMap } from 'mobx';
+import type { AnnotationsMap } from 'mobx';
 
 export interface IObservableStateProvider {
 	makeObservable<

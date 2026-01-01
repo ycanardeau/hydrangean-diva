@@ -3,14 +3,14 @@ import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonIcon,
 	EuiContextMenu,
-	EuiContextMenuPanelDescriptor,
+	type EuiContextMenuPanelDescriptor,
 	EuiFlexGroup,
 	EuiFormRow,
 	EuiIcon,
 	EuiPopover,
 	EuiRange,
 } from '@elastic/eui';
-import { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
+import type { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
 import {
 	DismissRegular,
 	MoreHorizontalFilled,
@@ -22,9 +22,9 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import {
-	MouseEventHandler,
-	ReactElement,
-	ReactNode,
+	type MouseEventHandler,
+	type ReactElement,
+	type ReactNode,
 	memo,
 	useCallback,
 	useLayoutEffect,

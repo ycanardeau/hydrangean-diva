@@ -1,4 +1,4 @@
-import { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
+import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 
 export interface IPlayQueueItemStore {

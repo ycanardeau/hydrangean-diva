@@ -1,9 +1,9 @@
 import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { EuiRange } from '@elastic/eui';
-import { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
+import type { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, useCallback } from 'react';
+import { type ReactElement, useCallback } from 'react';
 
 export const SeekBar = observer((): ReactElement => {
 	const bottomBar = useBottomBar();

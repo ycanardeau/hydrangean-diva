@@ -5,10 +5,10 @@ import {
 	EuiPopoverFooter,
 	EuiPopoverTitle,
 	EuiSelectable,
-	EuiSelectableOption,
+	type EuiSelectableOption,
 } from '@elastic/eui';
 import { AddRegular } from '@fluentui/react-icons';
-import { ReactElement, useEffect, useState } from 'react';
+import { type ReactElement, useEffect, useState } from 'react';
 
 interface AddToSelectablePopoverProps {
 	disabled: boolean;

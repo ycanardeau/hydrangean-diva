@@ -1,7 +1,7 @@
 import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
 import { PlayerContext } from '@/features/media-player.player/contexts/PlayerContext';
 import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { type ReactElement, type ReactNode, useState } from 'react';
 
 interface PlayerProviderProps {
 	children?: ReactNode;

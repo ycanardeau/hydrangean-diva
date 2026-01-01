@@ -1,12 +1,12 @@
-import { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import {
-	IPlayQueueItemStore,
-	IPlayQueueStore,
+	type IPlayQueueItemStore,
+	type IPlayQueueStore,
 	RepeatMode,
 } from '@/features/media-player.play-queue.abstractions';
-import { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
-import { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
-import { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
+import type { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
+import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
 import { action, computed } from 'mobx';
 
 export class MiniPlayerStore implements IMiniPlayerStore {

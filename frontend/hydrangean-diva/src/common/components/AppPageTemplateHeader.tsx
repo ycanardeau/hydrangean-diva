@@ -1,12 +1,16 @@
-import { EuiPageHeaderProps, EuiPageTemplate, EuiTabProps } from '@elastic/eui';
-import { EuiBreadcrumbProps } from '@elastic/eui/src/components/breadcrumbs/types';
 import {
-	AnyRouter,
-	LinkProps,
-	RegisteredRouter,
+	type EuiPageHeaderProps,
+	EuiPageTemplate,
+	type EuiTabProps,
+} from '@elastic/eui';
+import type { EuiBreadcrumbProps } from '@elastic/eui/src/components/breadcrumbs/types';
+import {
+	type AnyRouter,
+	type LinkProps,
+	type RegisteredRouter,
 	useRouter,
 } from '@tanstack/react-router';
-import { ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
 export const AppPageTemplateHeader = <
 	TComp = 'a',

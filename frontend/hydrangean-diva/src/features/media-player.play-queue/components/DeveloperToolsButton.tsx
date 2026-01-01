@@ -2,7 +2,7 @@ import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQu
 import { EuiButton, EuiCodeBlock, EuiFlyout } from '@elastic/eui';
 import { WindowDevToolsRegular } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, useState } from 'react';
+import { type ReactElement, useState } from 'react';
 
 interface DeveloperToolsButtonProps {
 	playQueue: PlayQueueStore;

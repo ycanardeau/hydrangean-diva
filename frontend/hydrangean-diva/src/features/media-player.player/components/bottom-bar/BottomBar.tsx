@@ -4,7 +4,7 @@ import { BottomBarRightControls } from '@/features/media-player.player/component
 import { SeekBar } from '@/features/media-player.player/components/bottom-bar/SeekBar';
 import { EuiBottomBar, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import React, { MouseEventHandler, ReactElement } from 'react';
+import React, { type MouseEventHandler, type ReactElement } from 'react';
 
 interface BottomBarProps {
 	onClickPlayQueueButton?: MouseEventHandler<HTMLButtonElement>;

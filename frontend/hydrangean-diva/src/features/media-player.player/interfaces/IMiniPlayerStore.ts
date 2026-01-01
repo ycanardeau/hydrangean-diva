@@ -1,5 +1,5 @@
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
-import { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
+import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
 
 export interface IMiniPlayerStore {
 	readonly controller: IPlayerController;

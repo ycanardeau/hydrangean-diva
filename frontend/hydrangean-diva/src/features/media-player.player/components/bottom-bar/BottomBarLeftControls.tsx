@@ -1,18 +1,18 @@
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonEmpty,
 	EuiContextMenu,
-	EuiContextMenuPanelDescriptor,
+	type EuiContextMenuPanelDescriptor,
 	EuiFlexGroup,
 	EuiIcon,
 	EuiPopover,
 } from '@elastic/eui';
 import { OpenRegular } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, memo, useCallback, useMemo, useState } from 'react';
+import { type ReactElement, memo, useCallback, useMemo, useState } from 'react';
 
 interface PlayQueueItemContextMenuProps {
 	item: IPlayQueueItemStore;

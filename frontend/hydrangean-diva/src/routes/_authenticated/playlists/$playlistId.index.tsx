@@ -4,7 +4,7 @@ import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpe
 import { PlaylistDetailsPage } from '@/features/media-player.playlists/pages/PlaylistDetailsPage';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import { createFileRoute } from '@tanstack/react-router';
-import { ReactElement, useState } from 'react';
+import { type ReactElement, useState } from 'react';
 
 const RouteComponent = (): ReactElement => {
 	const playQueue = usePlayQueue();

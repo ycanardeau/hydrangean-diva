@@ -1,13 +1,13 @@
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
-import { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
-import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiButtonIcon,
 	EuiCheckbox,
 	EuiContextMenu,
-	EuiContextMenuPanelDescriptor,
+	type EuiContextMenuPanelDescriptor,
 	EuiIcon,
 	EuiLink,
 	EuiPopover,
@@ -30,7 +30,7 @@ import {
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import React, {
-	ReactElement,
+	type ReactElement,
 	memo,
 	useCallback,
 	useMemo,

@@ -5,9 +5,9 @@ import { BottomBarProvider } from '@/features/media-player.player/components/bot
 import { MiniPlayerProvider } from '@/features/media-player.player/components/mini-player/MiniPlayerProvider';
 import {
 	NostalgicDivaProvider,
-	NostalgicDivaProviderProps,
+	type NostalgicDivaProviderProps,
 } from '@aigamo/nostalgic-diva';
-import { ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
 export interface HydrangeanDivaProviderProps {
 	children?: ReactNode;

@@ -16,7 +16,7 @@ import { icon as returnKey } from '@elastic/eui/es/components/icon/assets/return
 import { icon as search } from '@elastic/eui/es/components/icon/assets/search';
 import { icon as stopFilled } from '@elastic/eui/es/components/icon/assets/stop_filled';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
-import { ValuesType } from 'utility-types';
+import type { ValuesType } from 'utility-types';
 
 type IconComponentNameType = ValuesType<typeof ICON_TYPES>;
 type IconComponentCacheType = Partial<Record<IconComponentNameType, unknown>>;

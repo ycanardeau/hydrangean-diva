@@ -4,13 +4,13 @@ import { MobXObservableStateProvider } from '@/features/common';
 import { useLocationStateStore } from '@/features/common/components/useLocationStateHandler';
 import {
 	CreatePlaylistButton,
-	CreatePlaylistFormSubmitEvent,
+	type CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, memo, useCallback, useState } from 'react';
+import { type ReactElement, memo, useCallback, useState } from 'react';
 
 const PlaylistListPageHeader = (): ReactElement => {
 	return (

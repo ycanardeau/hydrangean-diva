@@ -1,5 +1,5 @@
 import { Navigate, createFileRoute } from '@tanstack/react-router';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 const RouteComponent = (): ReactElement => {
 	return <Navigate to="/play-queue" />;

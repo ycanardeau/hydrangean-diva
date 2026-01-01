@@ -3,7 +3,7 @@ import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import React, { ReactElement, ReactNode } from 'react';
+import React, { type ReactElement, type ReactNode } from 'react';
 
 interface MediaPlayerLayoutProps {
 	children?: ReactNode;

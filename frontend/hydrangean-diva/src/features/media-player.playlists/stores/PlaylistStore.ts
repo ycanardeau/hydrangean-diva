@@ -1,12 +1,15 @@
 import {
-	HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
-	HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
+	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
+	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
 	MediaPlayerPlaylistsApi,
 } from '@/api';
-import { IObservableStateProvider } from '@/features/common';
-import { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
+import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
-import { LocationStateStore, StateChangeEvent } from '@aigamo/route-sphere';
+import type {
+	LocationStateStore,
+	StateChangeEvent,
+} from '@aigamo/route-sphere';
 import { action, computed, observable, runInAction } from 'mobx';
 
 type PlaylistLocationState = Record<string, never>;

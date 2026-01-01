@@ -1,5 +1,5 @@
-import { HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto } from '@/api';
-import { IObservableStateProvider } from '@/features/common';
+import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto } from '@/api';
+import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, observable } from 'mobx';
