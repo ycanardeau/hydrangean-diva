@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@aigamo/nostalgic-diva':
-        specifier: ^1.16.0
-        version: 1.16.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.16.1
+        version: 1.16.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@aigamo/route-sphere':
-        specifier: ^2.0.5
-        version: 2.0.5(lodash-es@4.17.22)(mobx-react-lite@4.1.1(mobx@6.15.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(mobx@6.15.0)(qs@6.14.0)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        specifier: ^2.0.6
+        version: 2.0.6(lodash-es@4.17.22)(mobx-react-lite@4.1.1(mobx@6.15.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(mobx@6.15.0)(qs@6.14.0)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       '@elastic/datemath':
         specifier: ^5.0.3
         version: 5.0.3(moment@2.30.1)
@@ -189,14 +189,14 @@ importers:
 
 packages:
 
-  '@aigamo/nostalgic-diva@1.16.0':
-    resolution: {integrity: sha512-ppSjVkkYTNJTUbE3jBOzY+Dn7XttsL11SMHNN6JBPhCfbNMb+wv4YbW7c0SO4QSQ90buCIAu9XInInf6HnYvQA==}
+  '@aigamo/nostalgic-diva@1.16.1':
+    resolution: {integrity: sha512-EbYJFX1vgr5Q8xxE8PedtB9PfFVDY18UeKe9PwrN4PBuDfzXX0jfR2AYci4cS5Rk0ud+5ivX4cVynvhdycR1dQ==}
     peerDependencies:
       react: ^17 || ^18
       react-dom: ^17 || ^18
 
-  '@aigamo/route-sphere@2.0.5':
-    resolution: {integrity: sha512-TQGYD0ulAyyNYSYdjO4o8sYDxwfNhgwf41TvWHjsbKJKoQceYRC0GX1c6GkalZZXJMCx1t/U62bEvL+xkXtRfw==}
+  '@aigamo/route-sphere@2.0.6':
+    resolution: {integrity: sha512-zHHMwG/FQV1zXSWjvCihn+SfXSp2Dgxo3h6F51HzXwK4Faq7Yk/7qoMmEdLOATnSLUjh5OuOK2OOLlMBECIo+w==}
     peerDependencies:
       lodash-es: ^4.17.22
       mobx: ^6.15.0
@@ -5350,12 +5350,12 @@ packages:
 
 snapshots:
 
-  '@aigamo/nostalgic-diva@1.16.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@aigamo/nostalgic-diva@1.16.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@aigamo/route-sphere@2.0.5(lodash-es@4.17.22)(mobx-react-lite@4.1.1(mobx@6.15.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(mobx@6.15.0)(qs@6.14.0)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@aigamo/route-sphere@2.0.6(lodash-es@4.17.22)(mobx-react-lite@4.1.1(mobx@6.15.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(mobx@6.15.0)(qs@6.14.0)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     dependencies:
       lodash-es: 4.17.22
       mobx: 6.15.0
