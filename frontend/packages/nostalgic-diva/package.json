@@ -1,0 +1,82 @@
+{
+	"name": "@aigamo/nostalgic-diva",
+	"version": "1.16.1",
+	"type": "module",
+	"scripts": {
+		"clean": "rimraf ./dist",
+		"build": "pnpm clean && tsgo -b && vite build",
+		"lint": "eslint ."
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@eslint/compat": "^2.0.0",
+		"@eslint/eslintrc": "^3.3.1",
+		"@trivago/prettier-plugin-sort-imports": "^6.0.0",
+		"@types/node": "^24.10.1",
+		"@types/react": "^18.3.27",
+		"@types/react-dom": "^18.3.7",
+		"@typescript-eslint/eslint-plugin": "^8.48.0",
+		"@typescript-eslint/parser": "^8.48.0",
+		"@typescript/native-preview": "7.0.0-dev.20251212.1",
+		"@vitejs/plugin-react": "^5.1.1",
+		"eslint": "^9.39.1",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-config-react-app": "^7.0.1",
+		"eslint-plugin-flowtype": "^8.0.3",
+		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-jsx-a11y": "^6.10.2",
+		"eslint-plugin-prettier": "^5.5.4",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-hooks": "^7.0.1",
+		"prettier": "^3.6.2",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"rimraf": "^6.1.2",
+		"vite": "^7.2.4",
+		"vite-plugin-dts": "^4.5.4",
+		"vitest": "^4.0.14"
+	},
+	"peerDependencies": {
+		"react": "^17 || ^18",
+		"react-dom": "^17 || ^18"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
+		}
+	},
+	"description": "React function components for imperatively controlling embedded players (audio, Niconico, SoundCloud and YouTube) using refs.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ycanardeau/nostalgic-diva.git"
+	},
+	"keywords": [
+		"react",
+		"player",
+		"audio",
+		"dailymotion",
+		"niconico",
+		"soundcloud",
+		"twitch",
+		"vimeo",
+		"youtube"
+	],
+	"author": "Aigamo <51428094+ycanardeau@users.noreply.github.com>",
+	"bugs": {
+		"url": "https://github.com/ycanardeau/nostalgic-diva/issues"
+	}
+}
