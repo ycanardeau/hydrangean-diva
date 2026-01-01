@@ -16,9 +16,7 @@ export default defineConfig({
 		dts({
 			insertTypesEntry: true,
 		}),
-		react({
-			jsxRuntime: 'classic',
-		}),
+		react(),
 	],
 	build: {
 		lib: {
