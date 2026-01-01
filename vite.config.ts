@@ -14,6 +14,8 @@ export default defineConfig({
 	},
 	plugins: [
 		dts({
+			// https://github.com/qmhc/unplugin-dts/blob/708056e3ec6444ba3feb2b444bdecf53ac75b152/README.md
+			tsconfigPath: './tsconfig.app.json',
 			insertTypesEntry: true,
 		}),
 		react(),
