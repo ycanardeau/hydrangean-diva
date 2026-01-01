@@ -4,9 +4,9 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {},
-	"dependencies": {},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "catalog:",
+		"nx": "22.3.3",
 		"prettier": "catalog:"
 	}
 }
