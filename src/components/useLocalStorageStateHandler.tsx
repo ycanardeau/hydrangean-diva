@@ -1,7 +1,7 @@
+import type { LocalStorageStateStore } from '@/stores/LocalStorageStateStore';
+import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import React from 'react';
 
-import { LocalStorageStateStore } from '../stores/LocalStorageStateStore';
-import { StateChangeEvent } from '../stores/StateChangeEvent';
 import { useStateHandler } from './useStateHandler';
 
 export const useLocalStorageStateDeserializer = (key: string): (() => any) => {

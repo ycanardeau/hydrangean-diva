@@ -1,8 +1,7 @@
+import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { isEqual, omitBy } from 'lodash-es';
 import { reaction } from 'mobx';
 import React from 'react';
-
-import { StateChangeEvent } from '../stores/StateChangeEvent';
 
 export const useRestoreState = <TState,>(
 	popStateRef: React.MutableRefObject<boolean>,

@@ -1,4 +1,4 @@
-import { StateChangeEvent } from './StateChangeEvent';
+import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 
 export interface LocationStateStore<TState> {
 	locationState: TState;

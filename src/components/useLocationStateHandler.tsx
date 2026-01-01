@@ -1,9 +1,9 @@
-import { ParsedQs, parse, stringify } from 'qs';
+import type { LocationStateStore } from '@/stores/LocationStateStore';
+import type { StateChangeEvent } from '@/stores/StateChangeEvent';
+import { type ParsedQs, parse, stringify } from 'qs';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { LocationStateStore } from '../stores/LocationStateStore';
-import { StateChangeEvent } from '../stores/StateChangeEvent';
 import { useStateHandler } from './useStateHandler';
 
 export const useLocationStateDeserializer = (): (() => ParsedQs) => {
