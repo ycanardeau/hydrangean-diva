@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {},
 	"devDependencies": {
+		"@nx/js": "22.3.3",
 		"@trivago/prettier-plugin-sort-imports": "catalog:",
 		"nx": "22.3.3",
 		"prettier": "catalog:"

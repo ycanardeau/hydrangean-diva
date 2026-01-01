@@ -1,0 +1,11 @@
+{
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	// https://nx.dev/docs/guides/nx-release/release-projects-independently#configure-independent-releases
+	"release": {
+		"projectsRelationship": "independent",
+		"changelog": {
+			"projectChangelogs": true
+		},
+		"projects": ["hydrangean-diva", "nostalgic-diva", "route-sphere"]
+	}
+}
