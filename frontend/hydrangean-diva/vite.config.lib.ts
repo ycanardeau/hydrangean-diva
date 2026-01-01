@@ -14,11 +14,11 @@ export default defineConfig({
 	},
 	plugins: [
 		dts({
+			// https://github.com/qmhc/unplugin-dts/blob/708056e3ec6444ba3feb2b444bdecf53ac75b152/README.md
+			tsconfigPath: './tsconfig.app.json',
 			insertTypesEntry: true,
 		}),
 		react({
-			// https://stackoverflow.com/a/71950081
-			jsxRuntime: 'automatic',
 			// https://dev.to/ajitsinghkamal/using-emotionjs-with-vite-2ndj#comment-1nif3
 			jsxImportSource: '@emotion/react',
 		}),
