@@ -24,7 +24,7 @@ import {
 	DismissRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import React, { type ReactElement, useCallback } from 'react';
+import { type ReactElement, useCallback } from 'react';
 
 interface AddToPlayQueueButtonProps {
 	playQueue: IPlayQueueStore;

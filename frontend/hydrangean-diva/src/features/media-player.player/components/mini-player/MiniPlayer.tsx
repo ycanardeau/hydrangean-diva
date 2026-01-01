@@ -3,7 +3,7 @@ import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
 import { useMiniPlayer } from '@/features/media-player.player/contexts/MiniPlayerContext';
 import { NostalgicDiva, type PlayerOptions } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
-import React, { type ReactElement, useMemo } from 'react';
+import { type ReactElement, useMemo } from 'react';
 
 export const MiniPlayer = observer((): ReactElement => {
 	const miniPlayer = useMiniPlayer();

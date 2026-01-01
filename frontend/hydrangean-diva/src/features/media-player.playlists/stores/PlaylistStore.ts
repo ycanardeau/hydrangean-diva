@@ -58,7 +58,7 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	get locationState(): PlaylistLocationState {
 		return {};
 	}
-	set locationState(value: PlaylistLocationState) {}
+	set locationState(_value: PlaylistLocationState) {}
 
 	get selectedItems(): PlaylistItemStore[] {
 		return this.items.filter((item) => item.isSelected);
@@ -73,8 +73,8 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	}
 
 	validateLocationState(
-		locationState: any,
-	): locationState is PlaylistLocationState {
+		_locationState: any,
+	): _locationState is PlaylistLocationState {
 		return true /* TODO: implement */;
 	}
 
@@ -100,7 +100,7 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 	}
 
 	onLocationStateChange = (
-		event: StateChangeEvent<PlaylistLocationState>,
+		_event: StateChangeEvent<PlaylistLocationState>,
 	): Promise<void> => {
 		return this.updateResults();
 	};

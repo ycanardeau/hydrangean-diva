@@ -3,7 +3,7 @@ import { usePlayQueue } from '@/features/media-player.play-queue.abstractions';
 import { MiniPlayerContext } from '@/features/media-player.player/contexts/MiniPlayerContext';
 import { usePlayer } from '@/features/media-player.player/contexts/PlayerContext';
 import { MiniPlayerStore } from '@/features/media-player.player/stores/MiniPlayerStore';
-import React, { type ReactElement, type ReactNode, useState } from 'react';
+import { type ReactElement, type ReactNode, useState } from 'react';
 
 interface MiniPlayerProviderProps {
 	children?: ReactNode;

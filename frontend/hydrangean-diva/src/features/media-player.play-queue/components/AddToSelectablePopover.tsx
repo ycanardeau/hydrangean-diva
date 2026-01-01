@@ -61,8 +61,8 @@ export const AddToSelectablePopover = ({
 				options={options === 'loading' ? undefined : options}
 				isLoading={options === 'loading'}
 				onChange={async (
-					option,
-					event,
+					_option,
+					_event,
 					changedOption,
 				): Promise<void> => {
 					setPopoverOpen(false);

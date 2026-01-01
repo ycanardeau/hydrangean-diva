@@ -4,8 +4,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsgo && vite build",
-		"build:lib": "tsgo && vite build --config vite.config.lib.ts",
+		"build": "tsgo -b && vite build",
+		"build:lib": "tsgo -b && vite build --config vite.config.lib.ts",
 		"lint": "eslint .",
 		"preview": "vite preview",
 		"test": "vitest --environment=jsdom",

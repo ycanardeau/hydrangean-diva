@@ -3,12 +3,7 @@ import { PlayQueueContext } from '@/features/media-player.play-queue.abstraction
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import { reaction } from 'mobx';
-import React, {
-	type ReactElement,
-	type ReactNode,
-	useEffect,
-	useState,
-} from 'react';
+import { type ReactElement, type ReactNode, useEffect, useState } from 'react';
 
 interface PlayQueueProviderProps {
 	children?: ReactNode;

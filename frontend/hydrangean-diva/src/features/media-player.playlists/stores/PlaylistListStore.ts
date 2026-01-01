@@ -30,11 +30,11 @@ export class PlaylistListStore implements LocationStateStore<PlaylistListLocatio
 	get locationState(): PlaylistListLocationState {
 		return {};
 	}
-	set locationState(value: PlaylistListLocationState) {}
+	set locationState(_value: PlaylistListLocationState) {}
 
 	validateLocationState(
-		locationState: any,
-	): locationState is PlaylistListLocationState {
+		_locationState: any,
+	): _locationState is PlaylistListLocationState {
 		return true /* TODO: implement */;
 	}
 
@@ -58,7 +58,7 @@ export class PlaylistListStore implements LocationStateStore<PlaylistListLocatio
 	}
 
 	onLocationStateChange = (
-		event: StateChangeEvent<PlaylistListLocationState>,
+		_event: StateChangeEvent<PlaylistListLocationState>,
 	): Promise<void> => {
 		return this.updateResults();
 	};
