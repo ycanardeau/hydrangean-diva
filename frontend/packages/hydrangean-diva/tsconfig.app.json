@@ -1,0 +1,17 @@
+{
+	"extends": "../../tsconfig.app.json",
+	"compilerOptions": {
+		"types": ["vite/client", "node"],
+
+		/* Linting */
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"erasableSyntaxOnly": false,
+
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"jsxImportSource": "@emotion/react"
+	},
+	"include": ["src"]
+}

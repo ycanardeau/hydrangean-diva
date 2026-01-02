@@ -1,0 +1,88 @@
+{
+	"name": "@aigamo/route-sphere",
+	"version": "2.0.6",
+	"type": "module",
+	"scripts": {
+		"clean": "rimraf ./dist",
+		"build": "pnpm clean && tsgo -b && vite build",
+		"lint": "eslint ."
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@eslint/compat": "catalog:",
+		"@eslint/eslintrc": "catalog:",
+		"@trivago/prettier-plugin-sort-imports": "catalog:",
+		"@types/lodash-es": "catalog:",
+		"@types/node": "catalog:",
+		"@types/qs": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"@typescript-eslint/eslint-plugin": "catalog:",
+		"@typescript-eslint/parser": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"@vitejs/plugin-react": "catalog:",
+		"eslint": "catalog:",
+		"eslint-config-prettier": "catalog:",
+		"eslint-config-react-app": "catalog:",
+		"eslint-plugin-flowtype": "catalog:",
+		"eslint-plugin-import": "catalog:",
+		"eslint-plugin-jsx-a11y": "catalog:",
+		"eslint-plugin-prettier": "catalog:",
+		"eslint-plugin-react": "catalog:",
+		"eslint-plugin-react-hooks": "catalog:",
+		"lodash-es": "catalog:",
+		"mobx": "catalog:",
+		"mobx-react-lite": "catalog:",
+		"prettier": "catalog:",
+		"qs": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"react-router-dom": "catalog:",
+		"rimraf": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-dts": "catalog:",
+		"vitest": "catalog:"
+	},
+	"peerDependencies": {
+		"lodash-es": "catalog:",
+		"mobx": "catalog:",
+		"mobx-react-lite": "^3.0.0 || ^4.0.0",
+		"qs": "catalog:",
+		"react": "^17 || ^18",
+		"react-dom": "^17 || ^18",
+		"react-router-dom": "catalog:"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
+		}
+	},
+	"description": "Sync query parameters with a MobX store and React Router.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ycanardeau/route-sphere.git"
+	},
+	"keywords": [
+		"react",
+		"react-router",
+		"mobx"
+	],
+	"author": "Aigamo <51428094+ycanardeau@users.noreply.github.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ycanardeau/route-sphere/issues"
+	}
+}

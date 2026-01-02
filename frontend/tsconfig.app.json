@@ -5,7 +5,7 @@
 		"useDefineForClassFields": true,
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"module": "ESNext",
-		"types": ["vite/client", "node"],
+		"types": ["vite/client"],
 		"skipLibCheck": true,
 
 		/* Bundler mode */
@@ -18,16 +18,10 @@
 
 		/* Linting */
 		"strict": true,
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"erasableSyntaxOnly": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedSideEffectImports": true,
-
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"jsxImportSource": "@emotion/react"
-	},
-	"include": ["src"]
+		"noUncheckedSideEffectImports": true
+	}
 }

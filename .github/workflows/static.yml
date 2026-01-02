@@ -4,7 +4,7 @@ name: Deploy static content to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches: ["monorepo"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,7 +22,7 @@ concurrency:
 
 defaults:
   run:
-    working-directory: "./frontend/hydrangean-diva"
+    working-directory: "./frontend"
 
 jobs:
   # Single deploy job since we're just deploying
@@ -39,22 +39,25 @@ jobs:
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
-          version: 9
+          version: 10
 
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22.11.0
+          node-version: 24
           cache: "pnpm"
-          cache-dependency-path: ./frontend/hydrangean-diva/pnpm-lock.yaml
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm i
 
-      - name: Build
+      - name: Build all packages
+        run: pnpm -r build
+
+      - name: Build hydrangean-diva app
         env:
           VITE_COMMIT_HASH: ${{ github.sha }}
-        run: pnpm build
+        run: pnpm --filter hydrangean-diva build:app
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
@@ -63,7 +66,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist folder
-          path: "./frontend/hydrangean-diva/dist"
+          path: "./frontend/packages/hydrangean-diva/dist"
 
       - name: Deploy to GitHub Pages
         id: deployment

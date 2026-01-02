@@ -1,0 +1,129 @@
+{
+	"name": "@aigamo/hydrangean-diva",
+	"version": "0.0.1-alpha.31",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsgo -b && vite build",
+		"build:app": "tsgo -b && vite build --config vite.config.app.ts",
+		"lint": "eslint .",
+		"preview": "vite preview",
+		"test": "vitest --environment=jsdom",
+		"generate-clients": "pnpm openapi-generator-cli generate -g typescript-fetch --additional-properties=legacyDiscriminatorBehavior=false -i /local/src/api/v1.json -o /local/src/api"
+	},
+	"dependencies": {
+		"@aigamo/nostalgic-diva": "workspace:*",
+		"@aigamo/route-sphere": "workspace:*",
+		"@elastic/datemath": "catalog:",
+		"@elastic/eui": "catalog:",
+		"@emotion/cache": "catalog:",
+		"@emotion/css": "catalog:",
+		"@emotion/react": "catalog:",
+		"@fluentui/react-icons": "catalog:",
+		"@tanstack/react-router": "catalog:",
+		"@tanstack/react-router-devtools": "catalog:",
+		"ajv": "catalog:",
+		"lodash-es": "catalog:",
+		"mobx": "catalog:",
+		"mobx-react-lite": "catalog:",
+		"moment": "catalog:",
+		"nprogress": "catalog:",
+		"prop-types": "catalog:",
+		"qs": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"react-sortablejs": "catalog:",
+		"sortablejs": "catalog:",
+		"utility-types": "catalog:"
+	},
+	"devDependencies": {
+		"@eslint/compat": "catalog:",
+		"@eslint/eslintrc": "catalog:",
+		"@openapitools/openapi-generator-cli": "catalog:",
+		"@tanstack/router-plugin": "catalog:",
+		"@trivago/prettier-plugin-sort-imports": "catalog:",
+		"@types/lodash-es": "catalog:",
+		"@types/node": "catalog:",
+		"@types/nprogress": "catalog:",
+		"@types/qs": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"@typescript-eslint/eslint-plugin": "catalog:",
+		"@typescript-eslint/parser": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"@vite-pwa/assets-generator": "catalog:",
+		"@vitejs/plugin-react": "catalog:",
+		"eslint": "catalog:",
+		"eslint-config-prettier": "catalog:",
+		"eslint-config-react-app": "catalog:",
+		"eslint-import-resolver-typescript": "catalog:",
+		"eslint-plugin-boundaries": "catalog:",
+		"eslint-plugin-flowtype": "catalog:",
+		"eslint-plugin-import": "catalog:",
+		"eslint-plugin-jsx-a11y": "catalog:",
+		"eslint-plugin-prettier": "catalog:",
+		"eslint-plugin-react": "catalog:",
+		"eslint-plugin-react-hooks": "catalog:",
+		"jsdom": "catalog:",
+		"prettier": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-dts": "catalog:",
+		"vite-plugin-pwa": "catalog:",
+		"vitest": "catalog:",
+		"workbox-core": "catalog:",
+		"workbox-precaching": "catalog:",
+		"workbox-routing": "catalog:"
+	},
+	"peerDependencies": {
+		"@aigamo/route-sphere": "workspace:*",
+		"@elastic/datemath": "catalog:",
+		"@elastic/eui": "catalog:",
+		"@emotion/cache": "catalog:",
+		"@emotion/css": "catalog:",
+		"@emotion/react": "catalog:",
+		"@fluentui/react-icons": "catalog:",
+		"@tanstack/react-router": "catalog:",
+		"@tanstack/react-router-devtools": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
+		}
+	},
+	"description": "An open-source online media player that can be deployed to and hosted on GitHub pages.",
+	"license": "",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ycanardeau/hydrangean-diva.git"
+	},
+	"keywords": [
+		"react",
+		"player",
+		"audio",
+		"dailymotion",
+		"niconico",
+		"soundcloud",
+		"twitch",
+		"vimeo",
+		"youtube"
+	],
+	"author": "Aigamo <51428094+ycanardeau@users.noreply.github.com>",
+	"bugs": {
+		"url": "https://github.com/ycanardeau/hydrangean-diva/issues"
+	}
+}

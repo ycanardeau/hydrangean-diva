@@ -1,0 +1,12 @@
+{
+	"extends": "../../tsconfig.app.json",
+	"compilerOptions": {
+		/* Linting */
+		"erasableSyntaxOnly": false,
+
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["src"]
+}
