@@ -15,7 +15,7 @@ var api = builder.AddProject<Projects.HydrangeanDiva>("hydrangeandiva")
 	.WithReference(hydrangeanDivaDb)
 	.WaitForCompletion(mediaPlayerMigrationService);
 
-var frontend = builder.AddNpmApp(name: "frontend", workingDirectory: "../../frontend/hydrangean-diva", scriptName: "dev")
+var frontend = builder.AddNpmApp(name: "frontend", workingDirectory: "../../frontend/packages/hydrangean-diva", scriptName: "dev")
 	.WithHttpEndpoint(env: "PORT")
 	.WithExternalHttpEndpoints()
 	.WithReference(api)
