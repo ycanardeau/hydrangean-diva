@@ -51,7 +51,7 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
-      - name: Build all packages
+      - name: Build packages
         run: pnpm -r build
 
       - name: Build hydrangean-diva app
