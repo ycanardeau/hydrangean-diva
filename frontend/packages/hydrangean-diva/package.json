@@ -3,11 +3,11 @@
 	"version": "0.0.1-alpha.34",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
+		"dev": "vite --config vite.config.app.ts",
 		"build": "tsgo -b && vite build",
 		"build:app": "tsgo -b && vite build --config vite.config.app.ts",
 		"lint": "eslint .",
-		"preview": "vite preview",
+		"preview": "vite preview --config vite.config.app.ts",
 		"test": "vitest --environment=jsdom",
 		"generate-clients": "pnpm openapi-generator-cli generate -g typescript-fetch --additional-properties=legacyDiscriminatorBehavior=false -i /local/src/api/v1.json -o /local/src/api"
 	},
