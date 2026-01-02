@@ -65,7 +65,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/ycanardeau/nostalgic-diva.git"
+		"url": "git+https://github.com/ycanardeau/hydrangean-diva.git"
 	},
 	"keywords": [
 		"react",
