@@ -1,5 +1,8 @@
 {
 	"name": "@aigamo/nostalgic-diva",
+	"publishConfig": {
+		"access": "public"
+	},
 	"version": "1.16.1",
 	"type": "module",
 	"scripts": {
