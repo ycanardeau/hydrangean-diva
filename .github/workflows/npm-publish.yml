@@ -2,12 +2,6 @@ name: Publish
 
 on:
   workflow_dispatch:
-    inputs:
-      dry-run:
-        description: "Run in dry-run mode (no actual publishing)"
-        required: false
-        default: false
-        type: boolean
 
 defaults:
   run:
