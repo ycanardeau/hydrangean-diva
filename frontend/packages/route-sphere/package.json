@@ -1,6 +1,6 @@
 {
 	"name": "@aigamo/route-sphere",
-	"version": "2.0.6",
+	"version": "2.0.7-1",
 	"type": "module",
 	"scripts": {
 		"clean": "rimraf ./dist",
@@ -73,7 +73,7 @@
 	"description": "Sync query parameters with a MobX store and React Router.",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/ycanardeau/route-sphere.git"
+		"url": "git+https://github.com/ycanardeau/hydrangean-diva.git"
 	},
 	"keywords": [
 		"react",

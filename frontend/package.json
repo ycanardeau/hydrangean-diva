@@ -3,7 +3,9 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"scripts": {},
+	"scripts": {
+		"release": "nx release --skip-publish"
+	},
 	"devDependencies": {
 		"@nx/js": "22.3.3",
 		"@trivago/prettier-plugin-sort-imports": "catalog:",

@@ -1,6 +1,6 @@
 {
 	"name": "@aigamo/nostalgic-diva",
-	"version": "1.16.1",
+	"version": "1.16.2-1",
 	"type": "module",
 	"scripts": {
 		"clean": "rimraf ./dist",
@@ -62,7 +62,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/ycanardeau/nostalgic-diva.git"
+		"url": "git+https://github.com/ycanardeau/hydrangean-diva.git"
 	},
 	"keywords": [
 		"react",
