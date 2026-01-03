@@ -5,6 +5,7 @@
 	"scripts": {
 		"clean": "rimraf ./dist",
 		"build": "pnpm clean && tsgo -b && vite build",
+		"build:watch": "pnpm build --watch",
 		"lint": "eslint ."
 	},
 	"dependencies": {},
