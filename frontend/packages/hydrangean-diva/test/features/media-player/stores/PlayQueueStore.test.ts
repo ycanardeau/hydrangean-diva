@@ -38,7 +38,6 @@ beforeEach(() => {
 
 describe('constructor', () => {
 	it('should construct PlayQueueStore', () => {
-		expect(playQueue.interacted).toBe(false);
 		expect(playQueue.items.length).toBe(0);
 		expect(playQueue.currentId).toBeUndefined();
 		expect(playQueue.repeat).toBe(RepeatMode.Off);
@@ -352,20 +351,8 @@ describe('setItems', () => {
 	});
 });
 
-describe('interact', () => {
-	it('should set interacted to true', () => {
-		expect(playQueue.interacted).toBe(false);
-
-		(playQueue as any).interact();
-
-		expect(playQueue.interacted).toBe(true);
-	});
-});
-
 describe('clear', () => {
 	it('should clear items and set currentIndex to undefined', () => {
-		expect(playQueue.interacted).toBe(false);
-
 		playQueue.setItems([item, item2]);
 		playQueue.setCurrentItem(item2);
 
@@ -377,7 +364,6 @@ describe('clear', () => {
 
 		expect(playQueue.items.length).toBe(0);
 		expect(playQueue.currentIndex).toBe(undefined);
-		expect(playQueue.interacted).toBe(true);
 	});
 });
 
@@ -422,7 +408,6 @@ describe('setCurrentItem', () => {
 		expect(playQueue.currentIndex).toBe(1);
 
 		expect(playQueue.currentId).toBe(item2.id);
-		expect(playQueue.interacted).toBe(true);
 	});
 });
 
@@ -548,7 +533,6 @@ describe('playFirst', () => {
 		expect(playQueue.items.length).toBe(3);
 		expect(playQueue.items).toStrictEqual([item3, item, item2]);
 		expect(playQueue.currentIndex).toBe(0);
-		expect(playQueue.interacted).toBe(true);
 	});
 });
 
