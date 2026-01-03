@@ -1,14 +1,12 @@
 import { featureFlags } from '@/features/common/helpers/featureFlags';
-import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import type { IPlayQueueTableStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueTableStore';
 import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
 import {
 	AddVideoButton,
 	type AddVideoFormSubmitEvent,
 } from '@/features/media-player.play-queue/components/AddVideoButton';
-import { DeveloperToolsButton } from '@/features/media-player.play-queue/components/DeveloperToolsButton';
 import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
 import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
-import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
@@ -27,7 +25,7 @@ import { observer } from 'mobx-react-lite';
 import { type ReactElement, useCallback } from 'react';
 
 interface AddToPlayQueueButtonProps {
-	playQueue: IPlayQueueStore;
+	playQueue: IPlayQueueTableStore;
 }
 
 const AddToPlayQueueButton = observer(
@@ -45,7 +43,7 @@ const AddToPlayQueueButton = observer(
 );
 
 interface PlayQueueProps {
-	playQueue: IPlayQueueStore;
+	playQueue: IPlayQueueTableStore;
 }
 
 export const PlayQueue = observer(
@@ -137,12 +135,6 @@ export const PlayQueue = observer(
 					</EuiFlexItem>
 					<EuiFlexItem grow={true} />
 					<EuiFlexItem grow={false}>
-						{false && (
-							<DeveloperToolsButton
-								playQueue={playQueue as PlayQueueStore}
-							/>
-						)}
-
 						<AddVideoButton onSave={handleAddVideo} />
 					</EuiFlexItem>
 				</EuiFlexGroup>

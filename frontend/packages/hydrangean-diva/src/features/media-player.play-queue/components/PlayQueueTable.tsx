@@ -1,6 +1,6 @@
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
-import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
-import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import type { IPlayQueueTableRowStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueTableRowStore';
+import type { IPlayQueueTableStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueTableStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
@@ -33,7 +33,7 @@ import { type ReactElement, memo, useCallback, useMemo, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
 interface PlayQueueTableHeaderProps {
-	playQueue: IPlayQueueStore;
+	playQueue: IPlayQueueTableStore;
 }
 
 const PlayQueueTableHeader = observer(
@@ -71,7 +71,7 @@ const PlayQueueTableHeader = observer(
 );
 
 interface PlayQueueTableRowContextMenuProps {
-	item: IPlayQueueItemStore;
+	item: IPlayQueueTableRowStore;
 	closePopover: () => void;
 }
 
@@ -169,7 +169,7 @@ const PlayQueueTableRowContextMenu = memo(
 );
 
 interface PlayQueueTableRowPopoverProps {
-	item: IPlayQueueItemStore;
+	item: IPlayQueueTableRowStore;
 }
 
 const PlayQueueTableRowPopover = memo(
@@ -206,7 +206,7 @@ const PlayQueueTableRowPopover = memo(
 );
 
 interface PlayQueueTableRowActionsCellProps {
-	item: IPlayQueueItemStore;
+	item: IPlayQueueTableRowStore;
 }
 
 const PlayQueueTableRowActionsCell = observer(
@@ -242,7 +242,7 @@ const PlayQueueTableRowActionsCell = observer(
 );
 
 interface PlayQueueTableRowProps {
-	item: IPlayQueueItemStore;
+	item: IPlayQueueTableRowStore;
 }
 
 const PlayQueueTableRow = observer(
@@ -283,7 +283,7 @@ const PlayQueueTableRow = observer(
 );
 
 interface PlayQueueTableBodyProps {
-	playQueue: IPlayQueueStore;
+	playQueue: IPlayQueueTableStore;
 }
 
 const PlayQueueTableBody = observer(
@@ -303,7 +303,7 @@ const PlayQueueTableBody = observer(
 );
 
 interface PlayQueueTableProps {
-	playQueue: IPlayQueueStore;
+	playQueue: IPlayQueueTableStore;
 }
 
 export const PlayQueueTable = observer(
