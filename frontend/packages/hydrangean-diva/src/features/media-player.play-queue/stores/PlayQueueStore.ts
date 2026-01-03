@@ -16,7 +16,6 @@ import { action, computed, observable } from 'mobx';
 export class PlayQueueStore
 	implements IPlayQueueStore, LocalStorageStateStore<PlayQueueDto>
 {
-	interacted = false;
 	items: IPlayQueueItemStore[] = [];
 	currentId: number | undefined;
 	repeat = RepeatMode.Off;
@@ -24,7 +23,6 @@ export class PlayQueueStore
 
 	constructor(readonly observableStateProvider: IObservableStateProvider) {
 		observableStateProvider.makeObservable(this, {
-			interacted: observable,
 			items: observable,
 			currentId: observable,
 			repeat: observable,
@@ -48,7 +46,6 @@ export class PlayQueueStore
 			canPlaySelectedItemsNext: computed,
 			canRemoveSelectedItems: computed,
 			setItems: action,
-			interact: action,
 			clear: action.bound,
 			unselectAll: action,
 			selectAll: action,
@@ -196,13 +193,7 @@ export class PlayQueueStore
 		this.items = value;
 	}
 
-	interact(): void {
-		this.interacted = true;
-	}
-
 	clear(): void {
-		this.interact();
-
 		this.currentIndex = undefined;
 		this.items = [];
 	}
@@ -220,8 +211,6 @@ export class PlayQueueStore
 	}
 
 	setCurrentItem(item: IPlayQueueItemStore | undefined): void {
-		this.interact();
-
 		this.currentId = item?.id;
 	}
 
@@ -286,8 +275,6 @@ export class PlayQueueStore
 			return;
 		}
 
-		this.interact();
-
 		this.items.splice(currentIndex, 0, ...items);
 		this.currentIndex = currentIndex;
 	}
@@ -326,8 +313,6 @@ export class PlayQueueStore
 
 		// If the current item differs from the captured one, then it means that the current item was removed from the play queue.
 		if (this.currentItem !== currentItem) {
-			this.interact();
-
 			if (isLastItem) {
 				// Start over the playlist from the beginning.
 				await this.goToFirst();
@@ -385,8 +370,6 @@ export class PlayQueueStore
 			return;
 		}
 
-		this.interact();
-
 		this.currentIndex--;
 	}
 
@@ -398,8 +381,6 @@ export class PlayQueueStore
 		if (!this.hasNextItem) {
 			return;
 		}
-
-		this.interact();
 
 		this.currentIndex++;
 	}

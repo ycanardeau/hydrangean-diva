@@ -5,7 +5,6 @@ import { RepeatMode } from '@/features/media-player.play-queue.abstractions/inte
 import type { LocalStorageStateStore } from '@aigamo/route-sphere';
 
 export interface IPlayQueueStore extends LocalStorageStateStore<PlayQueueDto> {
-	readonly interacted: boolean;
 	readonly items: IPlayQueueItemStore[];
 	readonly repeat: RepeatMode;
 	readonly shuffle: boolean;

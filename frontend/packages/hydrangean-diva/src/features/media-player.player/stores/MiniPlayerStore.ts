@@ -7,17 +7,21 @@ import {
 import type { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
 import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
-import { action, computed } from 'mobx';
+import { action, computed, observable } from 'mobx';
 
 export class MiniPlayerStore implements IMiniPlayerStore {
+	interacted = false;
+
 	constructor(
 		observableStateProvider: IObservableStateProvider,
 		private readonly player: IPlayerStore,
 		private readonly playQueue: IPlayQueueStore,
 	) {
 		observableStateProvider.makeObservable(this, {
+			interacted: observable,
 			controller: computed,
 			currentItem: computed,
+			interact: action.bound,
 			onLoaded: action.bound,
 			onPlay: action.bound,
 			onPause: action.bound,
@@ -35,8 +39,12 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 		return this.playQueue.currentItem;
 	}
 
+	interact(): void {
+		this.interacted = true;
+	}
+
 	async onLoaded(): Promise<void> {
-		if (!this.playQueue.interacted) {
+		if (!this.interacted) {
 			return;
 		}
 

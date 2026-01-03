@@ -3,7 +3,7 @@ import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
 import { useMiniPlayer } from '@/features/media-player.player/contexts/MiniPlayerContext';
 import { NostalgicDiva, type PlayerOptions } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
-import { type ReactElement, useMemo } from 'react';
+import { type ReactElement, useLayoutEffect, useMemo } from 'react';
 
 export const MiniPlayer = observer((): ReactElement => {
 	const miniPlayer = useMiniPlayer();
@@ -18,6 +18,14 @@ export const MiniPlayer = observer((): ReactElement => {
 		}),
 		[miniPlayer],
 	);
+
+	useLayoutEffect(() => {
+		window.addEventListener('click', miniPlayer.interact, { once: true });
+
+		return (): void => {
+			window.removeEventListener('click', miniPlayer.interact);
+		};
+	}, [miniPlayer]);
 
 	return (
 		<div
