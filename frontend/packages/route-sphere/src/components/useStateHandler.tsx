@@ -1,15 +1,15 @@
 import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { isEqual, omitBy } from 'lodash-es';
 import { reaction } from 'mobx';
-import React from 'react';
+import { type MutableRefObject, useEffect, useRef } from 'react';
 
 export const useRestoreState = <TState,>(
-	popStateRef: React.MutableRefObject<boolean>,
+	popStateRef: MutableRefObject<boolean>,
 	deserializer: () => any,
 	stateValidator: (state: any) => state is TState,
 	stateSetter: (state: TState) => void,
 ): void => {
-	React.useEffect(() => {
+	useEffect(() => {
 		const state = deserializer();
 
 		if (stateValidator(state)) {
@@ -23,11 +23,11 @@ export const useRestoreState = <TState,>(
 };
 
 export const useHandleStateChange = <TState extends Partial<TState>>(
-	popStateRef: React.MutableRefObject<boolean>,
+	popStateRef: MutableRefObject<boolean>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
 	stateGetter: () => TState,
 ): void => {
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!onStateChange) return;
 
 		// Returns the disposer.
@@ -47,7 +47,7 @@ export const useHandleStateChange = <TState extends Partial<TState>>(
 	}, [stateGetter, onStateChange, popStateRef]);
 
 	// This is called when the page is first loaded.
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!onStateChange) return;
 
 		const keys = Object.keys(stateGetter()) as (keyof TState)[];
@@ -57,11 +57,11 @@ export const useHandleStateChange = <TState extends Partial<TState>>(
 };
 
 export const useSaveState = <TState,>(
-	popStateRef: React.MutableRefObject<boolean>,
+	popStateRef: MutableRefObject<boolean>,
 	stateGetter: () => TState,
 	serializer: (state: TState) => void,
 ): void => {
-	React.useEffect(() => {
+	useEffect(() => {
 		// Returns the disposer.
 		return reaction(stateGetter, (state) => {
 			if (popStateRef.current) return;
@@ -80,7 +80,7 @@ export const useStateHandler = <TState,>(
 	serializer: (state: TState) => void,
 ): void => {
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
-	const popStateRef = React.useRef(false);
+	const popStateRef = useRef(false);
 
 	useRestoreState(popStateRef, deserializer, stateValidator, stateSetter);
 
