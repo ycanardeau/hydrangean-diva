@@ -5,7 +5,7 @@ import type { StateValidateEvent } from './StateValidateEvent';
 export interface IStateStore<TState> {
 	state: TState;
 	validateState(state: unknown): state is TState;
-	onStateValidate?(event: StateValidateEvent<TState>): void;
-	onStateRestore?(event: StateRestoreEvent<TState>): void;
-	onStateChange?(event: StateChangeEvent<TState>): void;
+	onStateValidate?(event: StateValidateEvent<TState>): Promise<void>;
+	onStateRestore?(event: StateRestoreEvent<TState>): Promise<void>;
+	onStateChange?(event: StateChangeEvent<TState>): Promise<void>;
 }

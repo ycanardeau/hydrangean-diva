@@ -26,9 +26,9 @@ const useRestoreState = <TState,>(
 	options: IRestoreStateOptions<TState>,
 ): void => {
 	useEffect(() => {
-		void deserializer.deserialize().then((state) => {
+		void deserializer.deserialize().then(async (state) => {
 			if (validator(state)) {
-				options.onStateValidate?.({ state: state });
+				await options.onStateValidate?.({ state: state });
 
 				popStateRef.current = true;
 
@@ -36,7 +36,7 @@ const useRestoreState = <TState,>(
 
 				popStateRef.current = false;
 
-				options.onStateRestore?.({ state: state });
+				await options.onStateRestore?.({ state: state });
 			}
 		});
 	}, [deserializer, validator, popStateRef, setter, options]);
@@ -49,7 +49,7 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 ): void => {
 	useEffect(() => {
 		// Returns the disposer.
-		return reaction(getter.get, (state, previousState) => {
+		return reaction(getter.get, async (state, previousState) => {
 			if (!options.onStateChange) return;
 
 			// Compare the current and previous values.
@@ -62,7 +62,7 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 			const keys = Object.keys(diff) as (keyof TState)[];
 			console.assert(keys.length > 0);
 
-			options.onStateChange({
+			await options.onStateChange({
 				state: state,
 				previousState: previousState,
 				keys: keys,
@@ -80,7 +80,7 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 
 		const keys = Object.keys(state) as (keyof TState)[];
 
-		options.onStateChange({
+		void options.onStateChange({
 			state: state,
 			previousState: previousState,
 			keys: keys,

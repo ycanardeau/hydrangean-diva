@@ -3,12 +3,12 @@ import type { StateRestoreEvent } from '@/stores/StateRestoreEvent';
 import type { StateValidateEvent } from '@/stores/StateValidateEvent';
 
 export interface IRestoreStateOptions<TState> {
-	onStateValidate?: (event: StateValidateEvent<TState>) => void;
-	onStateRestore?: (event: StateRestoreEvent<TState>) => void;
+	onStateValidate?: (event: StateValidateEvent<TState>) => Promise<void>;
+	onStateRestore?: (event: StateRestoreEvent<TState>) => Promise<void>;
 }
 
 export interface IHandleStateChangeOptions<TState> {
-	onStateChange?: (event: StateChangeEvent<TState>) => void;
+	onStateChange?: (event: StateChangeEvent<TState>) => Promise<void>;
 }
 
 export type IStateHandlerOptions<TState> = IRestoreStateOptions<TState> &
