@@ -1,5 +1,5 @@
 import {
-	type LocationStateStore,
+	type IReactiveStateStore,
 	type StateChangeEvent,
 	useStateHandler,
 } from '@aigamo/route-sphere';
@@ -48,32 +48,32 @@ const useLocationStateHandler = <TState,>(
 };
 
 const useLocationStateSetter = <TState,>(
-	store: LocationStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): ((state: TState) => void) => {
 	return useCallback(
 		(state: TState) => {
-			store.locationState = state;
+			store.state = state;
 		},
 		[store],
 	);
 };
 
 const useLocationStateGetter = <TState,>(
-	store: LocationStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): (() => TState) => {
-	return useCallback(() => store.locationState, [store]);
+	return useCallback(() => store.state, [store]);
 };
 
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
 export const useLocationStateStore = <TState,>(
-	store: LocationStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): void => {
 	const stateSetter = useLocationStateSetter(store);
 	const stateGetter = useLocationStateGetter(store);
 	useLocationStateHandler(
-		store.validateLocationState,
+		store.validateState,
 		stateSetter,
-		store.onLocationStateChange,
+		store.onStateChange,
 		stateGetter,
 	);
 };

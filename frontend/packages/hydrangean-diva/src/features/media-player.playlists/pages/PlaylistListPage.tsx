@@ -67,7 +67,7 @@ interface PlaylistListPageBodyProps {
 
 const PlaylistListPageBody = observer(
 	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
-		useLocationStateStore(playlistList);
+		useLocationStateStore(playlistList.locationState);
 
 		const handleCreatePlaylist = useCallback(
 			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {

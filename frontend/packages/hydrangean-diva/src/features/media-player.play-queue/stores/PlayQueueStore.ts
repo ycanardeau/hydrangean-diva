@@ -9,25 +9,60 @@ import {
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { PlayQueueItemStore } from '@/features/media-player.play-queue/stores/PlayQueueItemStore';
-import type { LocalStorageStateStore } from '@aigamo/route-sphere';
+import type { IReactiveStateStore } from '@aigamo/route-sphere';
 import { pull } from 'lodash-es';
 import { action, computed, observable } from 'mobx';
 
-export class PlayQueueStore
-	implements IPlayQueueStore, LocalStorageStateStore<PlayQueueDto>
-{
+class PlayQueueLocalStorageStateStore implements IReactiveStateStore<PlayQueueDto> {
+	constructor(
+		observableStateProvider: IObservableStateProvider,
+		private readonly playQueue: PlayQueueStore,
+	) {
+		observableStateProvider.makeObservable(this, {
+			state: computed.struct,
+		});
+	}
+
+	get state(): PlayQueueDto {
+		return {
+			version: '1.0',
+			repeat: this.playQueue.repeat,
+			shuffle: this.playQueue.shuffle,
+			items: this.playQueue.items.map((item) => item.dto),
+			currentIndex: this.playQueue.currentIndex,
+		};
+	}
+	set state(value: PlayQueueDto) {
+		this.playQueue.repeat = value.repeat ?? RepeatMode.Off;
+		this.playQueue.shuffle = value.shuffle ?? false;
+		this.playQueue.items =
+			value.items?.map((item) => this.playQueue.createItem(item)) ?? [];
+		this.playQueue.currentIndex = value.currentIndex;
+	}
+
+	validateState(state: any): state is PlayQueueDto {
+		return getOrAddSchema(PlayQueueDtoSchema, 'PlayQueueDto')(state);
+	}
+}
+
+export class PlayQueueStore implements IPlayQueueStore {
+	readonly localStorageState: PlayQueueLocalStorageStateStore;
 	items: IPlayQueueItemStore[] = [];
 	currentId: number | undefined;
 	repeat = RepeatMode.Off;
 	shuffle = false;
 
 	constructor(readonly observableStateProvider: IObservableStateProvider) {
+		this.localStorageState = new PlayQueueLocalStorageStateStore(
+			observableStateProvider,
+			this,
+		);
+
 		observableStateProvider.makeObservable(this, {
 			items: observable,
 			currentId: observable,
 			repeat: observable,
 			shuffle: observable,
-			localStorageState: computed.struct,
 			isEmpty: computed,
 			canClear: computed,
 			currentItem: computed,
@@ -77,31 +112,6 @@ export class PlayQueueStore
 			videoId: dto.videoId,
 			title: dto.title,
 		});
-	}
-
-	get localStorageState(): PlayQueueDto {
-		return {
-			version: '1.0',
-			repeat: this.repeat,
-			shuffle: this.shuffle,
-			items: this.items.map((item) => item.dto),
-			currentIndex: this.currentIndex,
-		};
-	}
-	set localStorageState(value: PlayQueueDto) {
-		this.repeat = value.repeat ?? RepeatMode.Off;
-		this.shuffle = value.shuffle ?? false;
-		this.items = value.items?.map((item) => this.createItem(item)) ?? [];
-		this.currentIndex = value.currentIndex;
-	}
-
-	validateLocalStorageState(
-		localStorageState: any,
-	): localStorageState is PlayQueueDto {
-		return getOrAddSchema(
-			PlayQueueDtoSchema,
-			'PlayQueueDto',
-		)(localStorageState);
 	}
 
 	get isEmpty(): boolean {

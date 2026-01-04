@@ -2,9 +2,10 @@ import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abs
 import type { PlayQueueDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueDto';
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
-import type { LocalStorageStateStore } from '@aigamo/route-sphere';
+import type { IReactiveStateStore } from '@aigamo/route-sphere';
 
-export interface IPlayQueueStore extends LocalStorageStateStore<PlayQueueDto> {
+export interface IPlayQueueStore {
+	readonly localStorageState: IReactiveStateStore<PlayQueueDto>;
 	readonly items: IPlayQueueItemStore[];
 	readonly repeat: RepeatMode;
 	readonly shuffle: boolean;

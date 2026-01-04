@@ -7,14 +7,44 @@ import type { IObservableStateProvider } from '@/features/common/interfaces/IObs
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
 import type {
-	LocationStateStore,
+	IReactiveStateStore,
 	StateChangeEvent,
 } from '@aigamo/route-sphere';
 import { action, computed, observable, runInAction } from 'mobx';
 
 type PlaylistLocationState = Record<string, never>;
 
-export class PlaylistStore implements LocationStateStore<PlaylistLocationState> {
+class PlaylistLocationStateStore implements IReactiveStateStore<PlaylistLocationState> {
+	constructor(
+		observableStateProvider: IObservableStateProvider,
+		private readonly playlist: PlaylistStore,
+	) {
+		observableStateProvider.makeObservable(this, {
+			state: computed,
+			onStateChange: action.bound,
+		});
+	}
+
+	get state(): PlaylistLocationState {
+		return {};
+	}
+	set state(_value: PlaylistLocationState) {}
+
+	validateState(
+		_locationState: any,
+	): _locationState is PlaylistLocationState {
+		return true /* TODO: implement */;
+	}
+
+	onStateChange(
+		_event: StateChangeEvent<PlaylistLocationState>,
+	): Promise<void> {
+		return this.playlist.updateResults();
+	}
+}
+
+export class PlaylistStore {
+	readonly locationState: PlaylistLocationStateStore;
 	items: PlaylistItemStore[] = [];
 	loading = false;
 
@@ -24,10 +54,14 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
 		readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
 	) {
+		this.locationState = new PlaylistLocationStateStore(
+			observableStateProvider,
+			this,
+		);
+
 		observableStateProvider.makeObservable(this, {
 			items: observable,
 			loading: observable,
-			locationState: computed,
 			selectedItems: computed,
 			hasSelectedItems: computed,
 			selectedItemsOrAllItems: computed,
@@ -55,11 +89,6 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 		});
 	}
 
-	get locationState(): PlaylistLocationState {
-		return {};
-	}
-	set locationState(_value: PlaylistLocationState) {}
-
 	get selectedItems(): PlaylistItemStore[] {
 		return this.items.filter((item) => item.isSelected);
 	}
@@ -70,12 +99,6 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 
 	get selectedItemsOrAllItems(): PlaylistItemStore[] {
 		return this.hasSelectedItems ? this.selectedItems : this.items;
-	}
-
-	validateLocationState(
-		_locationState: any,
-	): _locationState is PlaylistLocationState {
-		return true /* TODO: implement */;
 	}
 
 	updateResults(): Promise<void> {
@@ -98,12 +121,6 @@ export class PlaylistStore implements LocationStateStore<PlaylistLocationState> 
 				}),
 			);
 	}
-
-	onLocationStateChange = (
-		_event: StateChangeEvent<PlaylistLocationState>,
-	): Promise<void> => {
-		return this.updateResults();
-	};
 
 	unselectAll(): void {
 		for (const item of this.items) {

@@ -1,4 +1,4 @@
-import type { LocalStorageStateStore } from '@/stores/LocalStorageStateStore';
+import type { IReactiveStateStore } from '@/stores/IReactiveStateStore';
 import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { useCallback } from 'react';
 
@@ -48,33 +48,33 @@ const useLocalStorageStateHandler = <TState,>(
 };
 
 const useLocalStorageStateSetter = <TState,>(
-	store: LocalStorageStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): ((state: TState) => void) => {
 	return useCallback(
 		(state: TState): void => {
-			store.localStorageState = state;
+			store.state = state;
 		},
 		[store],
 	);
 };
 
 const useLocalStorageStateGetter = <TState,>(
-	store: LocalStorageStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): (() => TState) => {
-	return useCallback((): TState => store.localStorageState, [store]);
+	return useCallback((): TState => store.state, [store]);
 };
 
 export const useLocalStorageStateStore = <TState,>(
 	key: string,
-	store: LocalStorageStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): void => {
 	const stateSetter = useLocalStorageStateSetter(store);
 	const stateGetter = useLocalStorageStateGetter(store);
 	useLocalStorageStateHandler(
 		key,
-		store.validateLocalStorageState,
+		store.validateState,
 		stateSetter,
-		store.onLocalStorageStateChange,
+		store.onStateChange,
 		stateGetter,
 	);
 };

@@ -4,14 +4,44 @@ import {
 } from '@/api';
 import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import type {
-	LocationStateStore,
+	IReactiveStateStore,
 	StateChangeEvent,
 } from '@aigamo/route-sphere';
 import { action, computed, observable, runInAction } from 'mobx';
 
 type PlaylistListLocationState = Record<string, never>;
 
-export class PlaylistListStore implements LocationStateStore<PlaylistListLocationState> {
+class PlaylistListLocationStateStore implements IReactiveStateStore<PlaylistListLocationState> {
+	constructor(
+		observableStateProvider: IObservableStateProvider,
+		private readonly playlistList: PlaylistListStore,
+	) {
+		observableStateProvider.makeObservable(this, {
+			state: computed,
+			onStateChange: action.bound,
+		});
+	}
+
+	get state(): PlaylistListLocationState {
+		return {};
+	}
+	set state(_value: PlaylistListLocationState) {}
+
+	validateState(
+		_locationState: any,
+	): _locationState is PlaylistListLocationState {
+		return true /* TODO: implement */;
+	}
+
+	onStateChange(
+		_event: StateChangeEvent<PlaylistListLocationState>,
+	): Promise<void> {
+		return this.playlistList.updateResults();
+	}
+}
+
+export class PlaylistListStore {
+	readonly locationState: PlaylistListLocationStateStore;
 	items: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto[] = [];
 	loading = false;
 
@@ -19,23 +49,16 @@ export class PlaylistListStore implements LocationStateStore<PlaylistListLocatio
 		observableStateProvider: IObservableStateProvider,
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
 	) {
+		this.locationState = new PlaylistListLocationStateStore(
+			observableStateProvider,
+			this,
+		);
+
 		observableStateProvider.makeObservable(this, {
 			items: observable,
 			loading: observable,
-			locationState: computed,
 			updateResults: action.bound,
 		});
-	}
-
-	get locationState(): PlaylistListLocationState {
-		return {};
-	}
-	set locationState(_value: PlaylistListLocationState) {}
-
-	validateLocationState(
-		_locationState: any,
-	): _locationState is PlaylistListLocationState {
-		return true /* TODO: implement */;
 	}
 
 	updateResults(): Promise<void> {
@@ -56,10 +79,4 @@ export class PlaylistListStore implements LocationStateStore<PlaylistListLocatio
 				}),
 			);
 	}
-
-	onLocationStateChange = (
-		_event: StateChangeEvent<PlaylistListLocationState>,
-	): Promise<void> => {
-		return this.updateResults();
-	};
 }

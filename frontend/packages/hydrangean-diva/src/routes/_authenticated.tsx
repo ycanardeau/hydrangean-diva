@@ -11,7 +11,7 @@ import type { ReactElement } from 'react';
 const RouteComponent = observer((): ReactElement => {
 	const playQueue = usePlayQueue();
 
-	useLocalStorageStateStore('PlayQueueStore', playQueue);
+	useLocalStorageStateStore('PlayQueueStore', playQueue.localStorageState);
 
 	return (
 		<>

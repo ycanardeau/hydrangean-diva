@@ -1,4 +1,4 @@
-import type { LocationStateStore } from '@/stores/LocationStateStore';
+import type { IReactiveStateStore } from '@/stores/IReactiveStateStore';
 import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { type ParsedQs, parse, stringify } from 'qs';
 import { useCallback } from 'react';
@@ -48,32 +48,32 @@ const useLocationStateHandler = <TState,>(
 };
 
 const useLocationStateSetter = <TState,>(
-	store: LocationStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): ((state: TState) => void) => {
 	return useCallback(
 		(state: TState): void => {
-			store.locationState = state;
+			store.state = state;
 		},
 		[store],
 	);
 };
 
 const useLocationStateGetter = <TState,>(
-	store: LocationStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): (() => TState) => {
-	return useCallback((): TState => store.locationState, [store]);
+	return useCallback((): TState => store.state, [store]);
 };
 
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
 export const useLocationStateStore = <TState,>(
-	store: LocationStateStore<TState>,
+	store: IReactiveStateStore<TState>,
 ): void => {
 	const stateSetter = useLocationStateSetter(store);
 	const stateGetter = useLocationStateGetter(store);
 	useLocationStateHandler(
-		store.validateLocationState,
+		store.validateState,
 		stateSetter,
-		store.onLocationStateChange,
+		store.onStateChange,
 		stateGetter,
 	);
 };

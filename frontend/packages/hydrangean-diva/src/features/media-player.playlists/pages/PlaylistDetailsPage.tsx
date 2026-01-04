@@ -293,7 +293,7 @@ interface PlaylistDetailsPageProps {
 
 export const PlaylistDetailsPage = observer(
 	({ playlist }: PlaylistDetailsPageProps): ReactElement => {
-		useLocationStateStore(playlist);
+		useLocationStateStore(playlist.locationState);
 
 		const { euiTheme } = useEuiTheme();
 

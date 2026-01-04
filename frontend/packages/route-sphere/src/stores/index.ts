@@ -1,3 +1,2 @@
-export * from './LocalStorageStateStore';
-export * from './LocationStateStore';
+export * from './IReactiveStateStore';
 export * from './StateChangeEvent';

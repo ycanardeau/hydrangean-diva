@@ -28,7 +28,7 @@ export const DeveloperToolsButton = observer(
 								isVirtualized
 							>
 								{JSON.stringify(
-									playQueue.localStorageState,
+									playQueue.localStorageState.state,
 									undefined,
 									2,
 								)}
