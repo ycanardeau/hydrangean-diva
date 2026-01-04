@@ -1,4 +1,3 @@
 export * from './ScrollToTop';
-export * from './useLocalStorageStateHandler';
-export * from './useLocationStateHandler';
+export * from './useLocalStorageState';
 export * from './useStateHandler';

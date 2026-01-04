@@ -1,13 +1,13 @@
 import { AppLink } from '@/common/components/AppLink';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { MobXObservableStateProvider } from '@/features/common';
-import { useLocationStateStore } from '@/features/common/components/useLocationStateHandler';
 import {
 	CreatePlaylistButton,
 	type CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
+import { useLocationState } from '@aigamo/route-sphere/tanstack-router';
 import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, memo, useCallback, useState } from 'react';
@@ -67,7 +67,7 @@ interface PlaylistListPageBodyProps {
 
 const PlaylistListPageBody = observer(
 	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
-		useLocationStateStore(playlistList.locationState);
+		useLocationState(playlistList.locationState);
 
 		const handleCreatePlaylist = useCallback(
 			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {

@@ -1,17 +1,16 @@
+import { useStateHandler } from '@/components/useStateHandler';
 import type { IReactiveStateStore } from '@/stores/IReactiveStateStore';
 import type { StateChangeEvent } from '@/stores/StateChangeEvent';
-import { type ParsedQs, parse, stringify } from 'qs';
+import { useLocation, useNavigate } from '@tanstack/react-router';
+import { type ParsedQs, parse } from 'qs';
 import { useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-
-import { useStateHandler } from './useStateHandler';
 
 const useLocationStateDeserializer = (): (() => ParsedQs) => {
 	const location = useLocation();
 
 	// Pass `location` as deps instead of `location.search`.
 	return useCallback(
-		(): ParsedQs => parse(location.search.slice(1)),
+		(): ParsedQs => parse(location.searchStr.slice(1)),
 		[location],
 	);
 };
@@ -21,8 +20,7 @@ const useLocationStateSerializer = <TState,>(): ((state: TState) => void) => {
 
 	return useCallback(
 		async (state: TState): Promise<void> => {
-			const newUrl = `?${stringify(state)}`;
-			await navigate(newUrl);
+			await navigate({ search: state as any /* FIXME */ });
 		},
 		[navigate],
 	);
@@ -51,7 +49,7 @@ const useLocationStateSetter = <TState,>(
 	store: IReactiveStateStore<TState>,
 ): ((state: TState) => void) => {
 	return useCallback(
-		(state: TState): void => {
+		(state: TState) => {
 			store.state = state;
 		},
 		[store],
@@ -61,11 +59,11 @@ const useLocationStateSetter = <TState,>(
 const useLocationStateGetter = <TState,>(
 	store: IReactiveStateStore<TState>,
 ): (() => TState) => {
-	return useCallback((): TState => store.state, [store]);
+	return useCallback(() => store.state, [store]);
 };
 
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
-export const useLocationStateStore = <TState,>(
+export const useLocationState = <TState,>(
 	store: IReactiveStateStore<TState>,
 ): void => {
 	const stateSetter = useLocationStateSetter(store);

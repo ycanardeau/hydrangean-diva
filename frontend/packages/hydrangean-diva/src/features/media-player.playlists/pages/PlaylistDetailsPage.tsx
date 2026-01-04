@@ -1,9 +1,9 @@
 import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
-import { useLocationStateStore } from '@/features/common/components/useLocationStateHandler';
 import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
+import { useLocationState } from '@aigamo/route-sphere/tanstack-router';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -293,7 +293,7 @@ interface PlaylistDetailsPageProps {
 
 export const PlaylistDetailsPage = observer(
 	({ playlist }: PlaylistDetailsPageProps): ReactElement => {
-		useLocationStateStore(playlist.locationState);
+		useLocationState(playlist.locationState);
 
 		const { euiTheme } = useEuiTheme();
 

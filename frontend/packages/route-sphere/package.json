@@ -12,6 +12,7 @@
 	"devDependencies": {
 		"@eslint/compat": "catalog:",
 		"@eslint/eslintrc": "catalog:",
+		"@tanstack/react-router": "catalog:",
 		"@trivago/prettier-plugin-sort-imports": "catalog:",
 		"@types/lodash-es": "catalog:",
 		"@types/node": "catalog:",
@@ -45,6 +46,7 @@
 		"vitest": "catalog:"
 	},
 	"peerDependencies": {
+		"@tanstack/react-router": "catalog:",
 		"lodash-es": "catalog:",
 		"mobx": "catalog:",
 		"mobx-react-lite": "^3.0.0 || ^4.0.0",
@@ -68,6 +70,26 @@
 			"require": {
 				"types": "./dist/index.d.ts",
 				"default": "./dist/index.cjs.js"
+			}
+		},
+		"./react-router": {
+			"import": {
+				"types": "./dist/react-router/index.d.ts",
+				"default": "./dist/react-router/index.es.js"
+			},
+			"require": {
+				"types": "./dist/react-router/index.d.ts",
+				"default": "./dist/react-router/index.cjs.js"
+			}
+		},
+		"./tanstack-router": {
+			"import": {
+				"types": "./dist/tanstack-router/index.d.ts",
+				"default": "./dist/tanstack-router/index.es.js"
+			},
+			"require": {
+				"types": "./dist/tanstack-router/index.d.ts",
+				"default": "./dist/tanstack-router/index.cjs.js"
 			}
 		}
 	},

@@ -64,7 +64,7 @@ const useLocalStorageStateGetter = <TState,>(
 	return useCallback((): TState => store.state, [store]);
 };
 
-export const useLocalStorageStateStore = <TState,>(
+export const useLocalStorageState = <TState,>(
 	key: string,
 	store: IReactiveStateStore<TState>,
 ): void => {
