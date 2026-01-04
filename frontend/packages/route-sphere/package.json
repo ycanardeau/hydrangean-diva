@@ -74,22 +74,22 @@
 		},
 		"./react-router": {
 			"import": {
-				"types": "./dist/react-router/index.d.ts",
-				"default": "./dist/react-router/index.es.js"
+				"types": "./dist/react-router.d.ts",
+				"default": "./dist/react-router.es.js"
 			},
 			"require": {
-				"types": "./dist/react-router/index.d.ts",
-				"default": "./dist/react-router/index.cjs.js"
+				"types": "./dist/react-router.d.ts",
+				"default": "./dist/react-router.cjs.js"
 			}
 		},
 		"./tanstack-router": {
 			"import": {
-				"types": "./dist/tanstack-router/index.d.ts",
-				"default": "./dist/tanstack-router/index.es.js"
+				"types": "./dist/tanstack-router.d.ts",
+				"default": "./dist/tanstack-router.es.js"
 			},
 			"require": {
-				"types": "./dist/tanstack-router/index.d.ts",
-				"default": "./dist/tanstack-router/index.cjs.js"
+				"types": "./dist/tanstack-router.d.ts",
+				"default": "./dist/tanstack-router.cjs.js"
 			}
 		}
 	},
