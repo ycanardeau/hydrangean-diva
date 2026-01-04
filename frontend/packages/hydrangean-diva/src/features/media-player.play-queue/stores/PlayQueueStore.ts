@@ -34,7 +34,7 @@ class PlayQueueLocalStorageStateStore implements IStateStore<PlayQueueDto> {
 		this.playQueue.currentIndex = value.currentIndex;
 	}
 
-	validateState(state: any): state is PlayQueueDto {
+	validateState(state: unknown): state is PlayQueueDto {
 		return getOrAddSchema(PlayQueueDtoSchema, 'PlayQueueDto')(state);
 	}
 }

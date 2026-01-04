@@ -2,6 +2,6 @@ import type { StateChangeEvent } from './StateChangeEvent';
 
 export interface IStateStore<TState> {
 	state: TState;
-	validateState(state: any): state is TState;
+	validateState(state: unknown): state is TState;
 	onStateChange?(event: StateChangeEvent<TState>): void;
 }

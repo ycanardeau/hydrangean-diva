@@ -27,7 +27,7 @@ class PlaylistLocationStateStore implements IStateStore<PlaylistLocationState> {
 	set state(_value: PlaylistLocationState) {}
 
 	validateState(
-		_locationState: any,
+		_locationState: unknown,
 	): _locationState is PlaylistLocationState {
 		return true /* TODO: implement */;
 	}
