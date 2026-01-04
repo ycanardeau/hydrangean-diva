@@ -3,7 +3,7 @@ import { isEqual, omitBy } from 'lodash-es';
 import { reaction } from 'mobx';
 import { type MutableRefObject, useEffect, useRef } from 'react';
 
-export const useRestoreState = <TState,>(
+const useRestoreState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
 	deserializer: () => any,
 	stateValidator: (state: any) => state is TState,
@@ -22,7 +22,7 @@ export const useRestoreState = <TState,>(
 	}, [deserializer, stateValidator, popStateRef, stateSetter]);
 };
 
-export const useHandleStateChange = <TState extends Partial<TState>>(
+const useHandleStateChange = <TState extends Partial<TState>>(
 	popStateRef: MutableRefObject<boolean>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
 	stateGetter: () => TState,
@@ -56,7 +56,7 @@ export const useHandleStateChange = <TState extends Partial<TState>>(
 	}, [stateGetter, onStateChange]);
 };
 
-export const useSaveState = <TState,>(
+const useSaveState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
 	stateGetter: () => TState,
 	serializer: (state: TState) => void,

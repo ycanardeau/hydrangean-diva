@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 
 import { useStateHandler } from './useStateHandler';
 
-export const useLocalStorageStateDeserializer = (key: string): (() => any) => {
+const useLocalStorageStateDeserializer = (key: string): (() => any) => {
 	return useCallback((): any => {
 		try {
 			return JSON.parse(
@@ -17,7 +17,7 @@ export const useLocalStorageStateDeserializer = (key: string): (() => any) => {
 	}, [key]);
 };
 
-export const useLocalStorageStateSerializer = <TState,>(
+const useLocalStorageStateSerializer = <TState,>(
 	key: string,
 ): ((state: TState) => void) => {
 	return useCallback(
@@ -28,7 +28,7 @@ export const useLocalStorageStateSerializer = <TState,>(
 	);
 };
 
-export const useLocalStorageStateHandler = <TState,>(
+const useLocalStorageStateHandler = <TState,>(
 	key: string,
 	stateValidator: (state: any) => state is TState,
 	stateSetter: (state: TState) => void,
@@ -47,7 +47,7 @@ export const useLocalStorageStateHandler = <TState,>(
 	);
 };
 
-export const useLocalStorageStateSetter = <TState,>(
+const useLocalStorageStateSetter = <TState,>(
 	store: LocalStorageStateStore<TState>,
 ): ((state: TState) => void) => {
 	return useCallback(
@@ -58,7 +58,7 @@ export const useLocalStorageStateSetter = <TState,>(
 	);
 };
 
-export const useLocalStorageStateGetter = <TState,>(
+const useLocalStorageStateGetter = <TState,>(
 	store: LocalStorageStateStore<TState>,
 ): (() => TState) => {
 	return useCallback((): TState => store.localStorageState, [store]);
