@@ -91,6 +91,8 @@ export const useLocalStorageState = <TState,>(
 	const accessor = useLocalStorageStateAccessor(store);
 	const options = useMemo(
 		() => ({
+			onStateValidate: store.onStateValidate,
+			onStateRestore: store.onStateRestore,
 			onStateChange: store.onStateChange,
 		}),
 		[store],

@@ -14,6 +14,7 @@ import type {
 } from './IStateCodec';
 import type {
 	IHandleStateChangeOptions,
+	IRestoreStateOptions,
 	IStateHandlerOptions,
 } from './IStateHandlerOptions';
 
@@ -22,18 +23,23 @@ const useRestoreState = <TState,>(
 	deserializer: IStateDeserializer /*<TState>*/,
 	validator: (state: unknown) => state is TState,
 	setter: IStateSetter<TState>,
+	options: IRestoreStateOptions<TState>,
 ): void => {
 	useEffect(() => {
 		const state = deserializer.deserialize();
 
 		if (validator(state)) {
+			options.onStateValidate?.({ state: state });
+
 			popStateRef.current = true;
 
 			setter.set(state);
 
 			popStateRef.current = false;
+
+			options.onStateRestore?.({ state: state });
 		}
-	}, [deserializer, validator, popStateRef, setter]);
+	}, [deserializer, validator, popStateRef, setter, options]);
 };
 
 const useHandleStateChange = <TState extends Partial<TState>>(
@@ -57,6 +63,8 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 			console.assert(keys.length > 0);
 
 			options.onStateChange({
+				state: state,
+				previousState: previousState,
 				keys: keys,
 				popState: popStateRef.current,
 			});
@@ -67,9 +75,14 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 	useEffect(() => {
 		if (!options.onStateChange) return;
 
-		const keys = Object.keys(getter.get()) as (keyof TState)[];
+		const state = getter.get();
+		const previousState = {} as TState;
+
+		const keys = Object.keys(state) as (keyof TState)[];
 
 		options.onStateChange({
+			state: state,
+			previousState: previousState,
 			keys: keys,
 			popState: true /* Always true. */,
 		});
@@ -100,7 +113,7 @@ export const useStateHandler = <TState,>(
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
 	const popStateRef = useRef(false);
 
-	useRestoreState(popStateRef, codec, validator, accessor);
+	useRestoreState(popStateRef, codec, validator, accessor, options);
 
 	// This must be called before `useSaveState`, so that state can be changed in the `onStateChange` callback.
 	useHandleStateChange(popStateRef, accessor, options);

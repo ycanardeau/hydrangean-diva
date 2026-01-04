@@ -85,6 +85,8 @@ export const useLocationState = <TState,>(store: IStateStore<TState>): void => {
 	const accessor = useLocationStateAccessor(store);
 	const options = useMemo(
 		() => ({
+			onStateValidate: store.onStateValidate,
+			onStateRestore: store.onStateRestore,
 			onStateChange: store.onStateChange,
 		}),
 		[store],
