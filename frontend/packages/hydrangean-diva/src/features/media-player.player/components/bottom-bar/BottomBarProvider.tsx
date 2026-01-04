@@ -1,4 +1,3 @@
-import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions';
 import { BottomBarContext } from '@/features/media-player.player/contexts/BottomBarContext';
 import { usePlayer } from '@/features/media-player.player/contexts/PlayerContext';
@@ -15,14 +14,7 @@ export const BottomBarProvider = ({
 	const player = usePlayer();
 	const playQueue = usePlayQueue();
 
-	const [bottomBar] = useState(
-		() =>
-			new BottomBarStore(
-				new MobXObservableStateProvider(),
-				player,
-				playQueue,
-			),
-	);
+	const [bottomBar] = useState(() => new BottomBarStore(player, playQueue));
 
 	return (
 		<BottomBarContext.Provider value={bottomBar}>

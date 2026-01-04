@@ -1,6 +1,5 @@
 import { AppLink } from '@/common/components/AppLink';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
-import { MobXObservableStateProvider } from '@/features/common';
 import {
 	CreatePlaylistButton,
 	type CreatePlaylistFormSubmitEvent,
@@ -98,11 +97,7 @@ const PlaylistListPageBody = observer(
 
 export const PlaylistListPage = memo((): ReactElement => {
 	const [playlistList] = useState(
-		() =>
-			new PlaylistListStore(
-				new MobXObservableStateProvider(),
-				mediaPlayerPlaylistsApi,
-			),
+		() => new PlaylistListStore(mediaPlayerPlaylistsApi),
 	);
 
 	return (

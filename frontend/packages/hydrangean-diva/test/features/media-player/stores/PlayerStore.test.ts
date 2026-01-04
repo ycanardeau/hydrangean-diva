@@ -1,11 +1,10 @@
-import { ObservableStateProvider } from '@/features/common/stores/ObservableStateProvider';
 import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let player: PlayerStore;
 
 beforeEach(() => {
-	player = new PlayerStore(new ObservableStateProvider());
+	player = new PlayerStore();
 });
 
 describe('constructor', () => {

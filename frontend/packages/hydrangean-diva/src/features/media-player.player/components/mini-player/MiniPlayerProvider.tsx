@@ -1,4 +1,3 @@
-import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions';
 import { MiniPlayerContext } from '@/features/media-player.player/contexts/MiniPlayerContext';
 import { usePlayer } from '@/features/media-player.player/contexts/PlayerContext';
@@ -15,14 +14,7 @@ export const MiniPlayerProvider = ({
 	const player = usePlayer();
 	const playQueue = usePlayQueue();
 
-	const [miniPlayer] = useState(
-		() =>
-			new MiniPlayerStore(
-				new MobXObservableStateProvider(),
-				player,
-				playQueue,
-			),
-	);
+	const [miniPlayer] = useState(() => new MiniPlayerStore(player, playQueue));
 
 	return (
 		<MiniPlayerContext.Provider value={miniPlayer}>

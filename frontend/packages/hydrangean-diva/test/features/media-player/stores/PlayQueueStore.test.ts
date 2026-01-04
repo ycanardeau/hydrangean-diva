@@ -1,4 +1,3 @@
-import { ObservableStateProvider } from '@/features/common/stores/ObservableStateProvider';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
@@ -12,7 +11,7 @@ let item2: IPlayQueueItemStore;
 let item3: IPlayQueueItemStore;
 
 beforeEach(() => {
-	playQueue = new PlayQueueStore(new ObservableStateProvider());
+	playQueue = new PlayQueueStore();
 
 	[item, item2, item3] = [
 		playQueue.createItem({

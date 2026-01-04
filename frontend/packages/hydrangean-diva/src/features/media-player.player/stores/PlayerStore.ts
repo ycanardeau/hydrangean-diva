@@ -1,64 +1,50 @@
-import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import {
 	type IPlayerController,
 	type TimeEvent,
 	nullPlayerController,
 } from '@aigamo/nostalgic-diva';
-import { action, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 export class PlayerStore implements IPlayerStore {
-	controller: IPlayerController = nullPlayerController;
-	playing = false;
-	percent = 0;
-	seeking = false;
+	@observable controller: IPlayerController = nullPlayerController;
+	@observable playing = false;
+	@observable percent = 0;
+	@observable seeking = false;
 
-	constructor(observableStateProvider: IObservableStateProvider) {
-		observableStateProvider.makeObservable(this, {
-			controller: observable,
-			playing: observable,
-			percent: observable,
-			seeking: observable,
-			setPlaying: action,
-			setPercent: action,
-			setSeeking: action,
-			onControllerChange: action.bound,
-			onPlay: action.bound,
-			onPause: action.bound,
-			onEnded: action.bound,
-			onTimeUpdate: action.bound,
-		});
+	constructor() {
+		makeObservable(this);
 	}
 
-	setPlaying(value: boolean): void {
+	@action.bound setPlaying(value: boolean): void {
 		this.playing = value;
 	}
 
-	setPercent(value: number): void {
+	@action.bound setPercent(value: number): void {
 		this.percent = value;
 	}
 
-	setSeeking(value: boolean): void {
+	@action.bound setSeeking(value: boolean): void {
 		this.seeking = value;
 	}
 
-	onControllerChange(value: IPlayerController): void {
+	@action.bound onControllerChange(value: IPlayerController): void {
 		this.controller = value;
 	}
 
-	onPlay(): void {
+	@action.bound onPlay(): void {
 		this.playing = true;
 	}
 
-	onPause(): void {
+	@action.bound onPause(): void {
 		this.playing = false;
 	}
 
-	onEnded(): void {
+	@action.bound onEnded(): void {
 		this.playing = false;
 	}
 
-	onTimeUpdate({ percent }: TimeEvent): void {
+	@action.bound onTimeUpdate({ percent }: TimeEvent): void {
 		if (percent !== undefined) {
 			if (!this.seeking) {
 				this.percent = percent;

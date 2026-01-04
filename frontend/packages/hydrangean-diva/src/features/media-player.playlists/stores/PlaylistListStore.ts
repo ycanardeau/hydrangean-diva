@@ -2,27 +2,26 @@ import {
 	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
 	MediaPlayerPlaylistsApi,
 } from '@/api';
-import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import type {
 	IReactiveStateStore,
 	StateChangeEvent,
 } from '@aigamo/route-sphere';
-import { action, computed, observable, runInAction } from 'mobx';
+import {
+	action,
+	computed,
+	makeObservable,
+	observable,
+	runInAction,
+} from 'mobx';
 
 type PlaylistListLocationState = Record<string, never>;
 
 class PlaylistListLocationStateStore implements IReactiveStateStore<PlaylistListLocationState> {
-	constructor(
-		observableStateProvider: IObservableStateProvider,
-		private readonly playlistList: PlaylistListStore,
-	) {
-		observableStateProvider.makeObservable(this, {
-			state: computed,
-			onStateChange: action.bound,
-		});
+	constructor(private readonly playlistList: PlaylistListStore) {
+		makeObservable(this);
 	}
 
-	get state(): PlaylistListLocationState {
+	@computed.struct get state(): PlaylistListLocationState {
 		return {};
 	}
 	set state(_value: PlaylistListLocationState) {}
@@ -33,7 +32,7 @@ class PlaylistListLocationStateStore implements IReactiveStateStore<PlaylistList
 		return true /* TODO: implement */;
 	}
 
-	onStateChange(
+	@action.bound onStateChange(
 		_event: StateChangeEvent<PlaylistListLocationState>,
 	): Promise<void> {
 		return this.playlistList.updateResults();
@@ -42,26 +41,19 @@ class PlaylistListLocationStateStore implements IReactiveStateStore<PlaylistList
 
 export class PlaylistListStore {
 	readonly locationState: PlaylistListLocationStateStore;
+	@observable
 	items: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto[] = [];
-	loading = false;
+	@observable loading = false;
 
 	constructor(
-		observableStateProvider: IObservableStateProvider,
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
 	) {
-		this.locationState = new PlaylistListLocationStateStore(
-			observableStateProvider,
-			this,
-		);
+		this.locationState = new PlaylistListLocationStateStore(this);
 
-		observableStateProvider.makeObservable(this, {
-			items: observable,
-			loading: observable,
-			updateResults: action.bound,
-		});
+		makeObservable(this);
 	}
 
-	updateResults(): Promise<void> {
+	@action.bound updateResults(): Promise<void> {
 		this.loading = true;
 
 		return this.mediaPlayerPlaylistsApi

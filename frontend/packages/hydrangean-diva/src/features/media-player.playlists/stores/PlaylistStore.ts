@@ -3,29 +3,28 @@ import {
 	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
 	MediaPlayerPlaylistsApi,
 } from '@/api';
-import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
 import type {
 	IReactiveStateStore,
 	StateChangeEvent,
 } from '@aigamo/route-sphere';
-import { action, computed, observable, runInAction } from 'mobx';
+import {
+	action,
+	computed,
+	makeObservable,
+	observable,
+	runInAction,
+} from 'mobx';
 
 type PlaylistLocationState = Record<string, never>;
 
 class PlaylistLocationStateStore implements IReactiveStateStore<PlaylistLocationState> {
-	constructor(
-		observableStateProvider: IObservableStateProvider,
-		private readonly playlist: PlaylistStore,
-	) {
-		observableStateProvider.makeObservable(this, {
-			state: computed,
-			onStateChange: action.bound,
-		});
+	constructor(private readonly playlist: PlaylistStore) {
+		makeObservable(this);
 	}
 
-	get state(): PlaylistLocationState {
+	@computed.struct get state(): PlaylistLocationState {
 		return {};
 	}
 	set state(_value: PlaylistLocationState) {}
@@ -36,7 +35,7 @@ class PlaylistLocationStateStore implements IReactiveStateStore<PlaylistLocation
 		return true /* TODO: implement */;
 	}
 
-	onStateChange(
+	@action.bound onStateChange(
 		_event: StateChangeEvent<PlaylistLocationState>,
 	): Promise<void> {
 		return this.playlist.updateResults();
@@ -45,42 +44,23 @@ class PlaylistLocationStateStore implements IReactiveStateStore<PlaylistLocation
 
 export class PlaylistStore {
 	readonly locationState: PlaylistLocationStateStore;
-	items: PlaylistItemStore[] = [];
-	loading = false;
+	@observable items: PlaylistItemStore[] = [];
+	@observable loading = false;
 
 	constructor(
 		private readonly playQueue: IPlayQueueStore,
-		private readonly observableStateProvider: IObservableStateProvider,
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
 		readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
 	) {
-		this.locationState = new PlaylistLocationStateStore(
-			observableStateProvider,
-			this,
-		);
+		this.locationState = new PlaylistLocationStateStore(this);
 
-		observableStateProvider.makeObservable(this, {
-			items: observable,
-			loading: observable,
-			selectedItems: computed,
-			hasSelectedItems: computed,
-			selectedItemsOrAllItems: computed,
-			updateResults: action.bound,
-			unselectAll: action.bound,
-			select: action.bound,
-			play: action.bound,
-			playSelectedItems: action.bound,
-			playNext: action.bound,
-			playSelectedItemsNext: action.bound,
-			addToPlayQueue: action.bound,
-			addSelectedItemsToPlayQueue: action.bound,
-		});
+		makeObservable(this);
 	}
 
 	createItem(
 		dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
 	): PlaylistItemStore {
-		return new PlaylistItemStore(this.observableStateProvider, this, {
+		return new PlaylistItemStore(this, {
 			id: dto.id,
 			url: dto.url,
 			type: dto.type,
@@ -89,19 +69,19 @@ export class PlaylistStore {
 		});
 	}
 
-	get selectedItems(): PlaylistItemStore[] {
+	@computed get selectedItems(): PlaylistItemStore[] {
 		return this.items.filter((item) => item.isSelected);
 	}
 
-	get hasSelectedItems(): boolean {
+	@computed get hasSelectedItems(): boolean {
 		return this.selectedItems.length > 0;
 	}
 
-	get selectedItemsOrAllItems(): PlaylistItemStore[] {
+	@computed get selectedItemsOrAllItems(): PlaylistItemStore[] {
 		return this.hasSelectedItems ? this.selectedItems : this.items;
 	}
 
-	updateResults(): Promise<void> {
+	@action.bound updateResults(): Promise<void> {
 		this.loading = true;
 
 		return this.mediaPlayerPlaylistsApi
@@ -122,13 +102,13 @@ export class PlaylistStore {
 			);
 	}
 
-	unselectAll(): void {
+	@action.bound unselectAll(): void {
 		for (const item of this.items) {
 			item.unselect();
 		}
 	}
 
-	select(items: PlaylistItemStore[]): void {
+	@action.bound select(items: PlaylistItemStore[]): void {
 		this.unselectAll();
 
 		for (const item of items) {
@@ -136,37 +116,37 @@ export class PlaylistStore {
 		}
 	}
 
-	play(items: PlaylistItemStore[]): void {
+	@action.bound play(items: PlaylistItemStore[]): void {
 		this.playQueue.clearAndSetItems(
 			items.map((item) => this.playQueue.createItem(item)),
 		);
 	}
 
-	playSelectedItems(): void {
+	@action.bound playSelectedItems(): void {
 		this.play(this.selectedItemsOrAllItems);
 
 		this.unselectAll();
 	}
 
-	playNext(items: PlaylistItemStore[]): Promise<void> {
+	@action.bound playNext(items: PlaylistItemStore[]): Promise<void> {
 		return this.playQueue.playNext(
 			items.map((item) => this.playQueue.createItem(item)),
 		);
 	}
 
-	async playSelectedItemsNext(): Promise<void> {
+	@action.bound async playSelectedItemsNext(): Promise<void> {
 		await this.playNext(this.selectedItemsOrAllItems);
 
 		this.unselectAll();
 	}
 
-	addToPlayQueue(items: PlaylistItemStore[]): Promise<void> {
+	@action.bound addToPlayQueue(items: PlaylistItemStore[]): Promise<void> {
 		return this.playQueue.addItems(
 			items.map((item) => this.playQueue.createItem(item)),
 		);
 	}
 
-	async addSelectedItemsToPlayQueue(): Promise<void> {
+	@action.bound async addSelectedItemsToPlayQueue(): Promise<void> {
 		await this.addToPlayQueue(this.selectedItemsOrAllItems);
 
 		this.unselectAll();

@@ -1,4 +1,3 @@
-import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import {
 	type IPlayQueueItemStore,
 	type IPlayQueueStore,
@@ -7,43 +6,31 @@ import {
 import type { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
 import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
-import { action, computed, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 export class MiniPlayerStore implements IMiniPlayerStore {
-	interacted = false;
+	@observable interacted = false;
 
 	constructor(
-		observableStateProvider: IObservableStateProvider,
 		private readonly player: IPlayerStore,
 		private readonly playQueue: IPlayQueueStore,
 	) {
-		observableStateProvider.makeObservable(this, {
-			interacted: observable,
-			controller: computed,
-			currentItem: computed,
-			interact: action.bound,
-			onLoaded: action.bound,
-			onPlay: action.bound,
-			onPause: action.bound,
-			onEnded: action.bound,
-			onTimeUpdate: action.bound,
-			onControllerChange: action.bound,
-		});
+		makeObservable(this);
 	}
 
-	get controller(): IPlayerController {
+	@computed get controller(): IPlayerController {
 		return this.player.controller;
 	}
 
-	get currentItem(): IPlayQueueItemStore | undefined {
+	@computed get currentItem(): IPlayQueueItemStore | undefined {
 		return this.playQueue.currentItem;
 	}
 
-	interact(): void {
+	@action.bound interact(): void {
 		this.interacted = true;
 	}
 
-	async onLoaded(): Promise<void> {
+	@action.bound async onLoaded(): Promise<void> {
 		if (!this.interacted) {
 			return;
 		}
@@ -51,15 +38,15 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 		await this.controller.play();
 	}
 
-	onPlay(): void {
+	@action.bound onPlay(): void {
 		this.player.onPlay();
 	}
 
-	onPause(): void {
+	@action.bound onPause(): void {
 		this.player.onPause();
 	}
 
-	async onEnded(): Promise<void> {
+	@action.bound async onEnded(): Promise<void> {
 		switch (this.playQueue.repeat) {
 			case RepeatMode.One:
 				await this.controller.setCurrentTime(0);
@@ -88,11 +75,11 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 		}
 	}
 
-	onTimeUpdate(event: TimeEvent): void {
+	@action.bound onTimeUpdate(event: TimeEvent): void {
 		this.player.onTimeUpdate(event);
 	}
 
-	onControllerChange(value: IPlayerController): void {
+	@action.bound onControllerChange(value: IPlayerController): void {
 		this.player.onControllerChange(value);
 	}
 }

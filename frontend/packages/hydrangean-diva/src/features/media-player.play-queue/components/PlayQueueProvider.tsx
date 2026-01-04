@@ -1,4 +1,3 @@
-import { MobXObservableStateProvider } from '@/features/common/stores/MobXObservableStateProvider';
 import { PlayQueueContext } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
@@ -12,9 +11,7 @@ interface PlayQueueProviderProps {
 export const PlayQueueProvider = ({
 	children,
 }: PlayQueueProviderProps): ReactElement => {
-	const [playQueue] = useState(
-		() => new PlayQueueStore(new MobXObservableStateProvider()),
-	);
+	const [playQueue] = useState(() => new PlayQueueStore());
 
 	const diva = useNostalgicDiva();
 

@@ -1,29 +1,21 @@
 import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto } from '@/api';
-import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
-import { action, computed, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 export class PlaylistItemStore {
 	static nextId = 1;
 
 	readonly id: number;
-	isSelected = false;
+	@observable isSelected = false;
 
 	constructor(
-		observableStateProvider: IObservableStateProvider,
 		private readonly playlist: PlaylistStore,
 		private readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
 	) {
 		this.id = PlaylistItemStore.nextId++;
 
-		observableStateProvider.makeObservable(this, {
-			isSelected: observable,
-			index: computed,
-			unselect: action.bound,
-			select: action.bound,
-			play: action.bound,
-		});
+		makeObservable(this);
 	}
 
 	get url(): string {
@@ -42,19 +34,19 @@ export class PlaylistItemStore {
 		return this.dto.title;
 	}
 
-	get index(): number {
+	@computed get index(): number {
 		return this.playlist.items.indexOf(this);
 	}
 
-	unselect(): void {
+	@action.bound unselect(): void {
 		this.isSelected = false;
 	}
 
-	select(): void {
+	@action.bound select(): void {
 		this.isSelected = true;
 	}
 
-	play(): void {
+	@action.bound play(): void {
 		throw new Error('Method not implemented.');
 	}
 }

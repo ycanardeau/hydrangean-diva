@@ -1,141 +1,111 @@
-import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import type { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import type { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
 import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import type { IPlayerController } from '@aigamo/nostalgic-diva';
-import { action, computed } from 'mobx';
+import { action, computed, makeObservable } from 'mobx';
 
 export class BottomBarStore implements IBottomBarStore {
 	constructor(
-		observableStateProvider: IObservableStateProvider,
 		private readonly player: IPlayerStore,
 		private readonly playQueue: IPlayQueueStore,
 	) {
-		observableStateProvider.makeObservable(this, {
-			controller: computed,
-			playing: computed,
-			percent: computed,
-			canSeek: computed,
-			currentItem: computed,
-			repeat: computed,
-			shuffle: computed,
-			canToggleRepeat: computed,
-			canToggleShuffle: computed,
-			canPlay: computed,
-			canPause: computed,
-			canPrevious: computed,
-			canNext: computed,
-			canSkipBack10: computed,
-			canSkipForward30: computed,
-			canRemoveFromPlayQueue: computed,
-			setPercent: action.bound,
-			setSeeking: action.bound,
-			toggleRepeat: action.bound,
-			toggleShuffle: action.bound,
-			play: action.bound,
-			pause: action.bound,
-			previous: action.bound,
-			next: action.bound,
-			skipBack10: action.bound,
-			skipForward30: action.bound,
-			removeFromPlayQueue: action.bound,
-		});
+		makeObservable(this);
 	}
 
-	get controller(): IPlayerController {
+	@computed get controller(): IPlayerController {
 		return this.player.controller;
 	}
 
-	get playing(): boolean {
+	@computed get playing(): boolean {
 		return this.player.playing;
 	}
 
-	get percent(): number {
+	@computed get percent(): number {
 		return this.player.percent;
 	}
 
-	get canSeek(): boolean {
+	@computed get canSeek(): boolean {
 		return (
 			!this.playQueue.isEmpty &&
 			this.controller.supports('setCurrentTime')
 		);
 	}
 
-	get currentItem(): IPlayQueueItemStore | undefined {
+	@computed get currentItem(): IPlayQueueItemStore | undefined {
 		return this.playQueue.currentItem;
 	}
 
-	get repeat(): RepeatMode {
+	@computed get repeat(): RepeatMode {
 		return this.playQueue.repeat;
 	}
 
-	get shuffle(): boolean {
+	@computed get shuffle(): boolean {
 		return this.playQueue.shuffle;
 	}
 
-	get canToggleRepeat(): boolean {
+	@computed get canToggleRepeat(): boolean {
 		return true;
 	}
 
-	get canToggleShuffle(): boolean {
+	@computed get canToggleShuffle(): boolean {
 		return false /* TODO */;
 	}
 
-	get canPlay(): boolean {
+	@computed get canPlay(): boolean {
 		return this.playQueue.canPlay && this.controller.supports('play');
 	}
 
-	get canPause(): boolean {
+	@computed get canPause(): boolean {
 		return this.playQueue.canPause && this.controller.supports('pause');
 	}
 
-	get canPrevious(): boolean {
+	@computed get canPrevious(): boolean {
 		return !this.playQueue.isEmpty;
 	}
 
-	get canNext(): boolean {
+	@computed get canNext(): boolean {
 		return this.playQueue.hasNextItem;
 	}
 
-	get canSkipBack10(): boolean {
+	@computed get canSkipBack10(): boolean {
 		return this.canSeek;
 	}
 
-	get canSkipForward30(): boolean {
+	@computed get canSkipForward30(): boolean {
 		return this.canSeek;
 	}
 
-	get canRemoveFromPlayQueue(): boolean {
+	@computed get canRemoveFromPlayQueue(): boolean {
 		return !this.playQueue.isEmpty;
 	}
 
-	setPercent(value: number): void {
+	@action.bound setPercent(value: number): void {
 		this.player.setPercent(value);
 	}
 
-	setSeeking(value: boolean): void {
+	@action.bound setSeeking(value: boolean): void {
 		this.player.setSeeking(value);
 	}
 
-	toggleRepeat(): void {
+	@action.bound toggleRepeat(): void {
 		this.playQueue.toggleRepeat();
 	}
 
-	toggleShuffle(): void {
+	@action.bound toggleShuffle(): void {
 		this.playQueue.toggleShuffle();
 	}
 
-	play(): Promise<void> {
+	@action.bound play(): Promise<void> {
 		return this.controller.play();
 	}
 
-	pause(): Promise<void> {
+	@action.bound pause(): Promise<void> {
 		return this.controller.pause();
 	}
 
-	async previous(): Promise<void> {
+	@action.bound async previous(): Promise<void> {
 		if (this.playQueue.hasPreviousItem) {
 			const currentTime = await this.controller.getCurrentTime();
 			if (currentTime === undefined || currentTime < 5) {
@@ -148,11 +118,11 @@ export class BottomBarStore implements IBottomBarStore {
 		}
 	}
 
-	next(): Promise<void> {
+	@action.bound next(): Promise<void> {
 		return this.playQueue.next();
 	}
 
-	async skipBack10(): Promise<void> {
+	@action.bound async skipBack10(): Promise<void> {
 		const currentTime = await this.controller.getCurrentTime();
 
 		if (currentTime !== undefined) {
@@ -160,7 +130,7 @@ export class BottomBarStore implements IBottomBarStore {
 		}
 	}
 
-	async skipForward30(): Promise<void> {
+	@action.bound async skipForward30(): Promise<void> {
 		const currentTime = await this.controller.getCurrentTime();
 
 		if (currentTime !== undefined) {
@@ -168,7 +138,7 @@ export class BottomBarStore implements IBottomBarStore {
 		}
 	}
 
-	async removeFromPlayQueue(): Promise<void> {
+	@action.bound async removeFromPlayQueue(): Promise<void> {
 		if (this.currentItem !== undefined) {
 			await this.playQueue.removeItems([this.currentItem]);
 		}

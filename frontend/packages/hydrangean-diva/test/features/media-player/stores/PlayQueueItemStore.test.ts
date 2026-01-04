@@ -1,4 +1,3 @@
-import { ObservableStateProvider } from '@/features/common/stores/ObservableStateProvider';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
@@ -8,7 +7,7 @@ let playQueue: PlayQueueStore;
 let playQueueItem: IPlayQueueItemStore;
 
 beforeEach(() => {
-	playQueue = new PlayQueueStore(new ObservableStateProvider());
+	playQueue = new PlayQueueStore();
 	playQueueItem = playQueue.createItem({
 		url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 		type: PlayerType.YouTube,

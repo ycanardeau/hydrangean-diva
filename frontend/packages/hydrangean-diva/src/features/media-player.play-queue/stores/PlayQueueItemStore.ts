@@ -1,54 +1,29 @@
-import type { IObservableStateProvider } from '@/features/common/interfaces/IObservableStateProvider';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { PlayerType } from '@aigamo/nostalgic-diva';
-import { action, computed, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 export class PlayQueueItemStore implements IPlayQueueItemStore {
 	static nextId = 1;
 
 	readonly id: number;
-	isSelected = false;
+	@observable isSelected = false;
 
 	constructor(
-		readonly observableStateProvider: IObservableStateProvider,
 		readonly playQueue: IPlayQueueStore,
 		readonly dto: PlayQueueItemDto,
 	) {
 		this.id = PlayQueueItemStore.nextId++;
 
-		observableStateProvider.makeObservable(this, {
-			isSelected: observable,
-			isCurrent: computed,
-			index: computed,
-			isFirst: computed,
-			isLast: computed,
-			canMoveToTop: computed,
-			canMoveToBottom: computed,
-			canRemoveToTop: computed,
-			canRemoveOthers: computed,
-			unselect: action,
-			select: action,
-			toggleSelected: action.bound,
-			play: action,
-			remove: action.bound,
-			playFirst: action.bound,
-			playNext: action.bound,
-			addToPlayQueue: action.bound,
-			moveToTop: action.bound,
-			moveToBottom: action.bound,
-			removeToTop: action.bound,
-			removeOthers: action.bound,
-		});
+		makeObservable(this);
 	}
 
 	static fromDto(
-		observableStateProvider: IObservableStateProvider,
 		playQueue: IPlayQueueStore,
 		dto: PlayQueueItemDto,
 	): IPlayQueueItemStore {
-		return new PlayQueueItemStore(observableStateProvider, playQueue, dto);
+		return new PlayQueueItemStore(playQueue, dto);
 	}
 
 	get url(): string {
@@ -67,35 +42,35 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 		return this.dto.title;
 	}
 
-	get isCurrent(): boolean {
+	@computed get isCurrent(): boolean {
 		return this.playQueue.currentItem === this;
 	}
 
-	get index(): number {
+	@computed get index(): number {
 		return this.playQueue.items.indexOf(this);
 	}
 
-	get isFirst(): boolean {
+	@computed get isFirst(): boolean {
 		return this.index === 0;
 	}
 
-	get isLast(): boolean {
+	@computed get isLast(): boolean {
 		return this.index === this.playQueue.items.length - 1;
 	}
 
-	get canMoveToTop(): boolean {
+	@computed get canMoveToTop(): boolean {
 		return !this.isFirst;
 	}
 
-	get canMoveToBottom(): boolean {
+	@computed get canMoveToBottom(): boolean {
 		return !this.isLast;
 	}
 
-	get canRemoveToTop(): boolean {
+	@computed get canRemoveToTop(): boolean {
 		return !this.isFirst;
 	}
 
-	get canRemoveOthers(): boolean {
+	@computed get canRemoveOthers(): boolean {
 		return this.playQueue.hasMultipleItems;
 	}
 
@@ -103,51 +78,51 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 		return this.playQueue.createItem(this.dto);
 	}
 
-	unselect(): void {
+	@action.bound unselect(): void {
 		this.isSelected = false;
 	}
 
-	select(): void {
+	@action.bound select(): void {
 		this.isSelected = true;
 	}
 
-	toggleSelected(): void {
+	@action.bound toggleSelected(): void {
 		this.isSelected = !this.isSelected;
 	}
 
-	play(): void {
+	@action.bound play(): void {
 		this.playQueue.setCurrentItem(this);
 	}
 
-	remove(): Promise<void> {
+	@action.bound remove(): Promise<void> {
 		return this.playQueue.removeItems([this]);
 	}
 
-	async playFirst(): Promise<void> {
+	@action.bound async playFirst(): Promise<void> {
 		await this.playQueue.playFirst([this.clone()]);
 	}
 
-	async playNext(): Promise<void> {
+	@action.bound async playNext(): Promise<void> {
 		await this.playQueue.playNext([this.clone()]);
 	}
 
-	async addToPlayQueue(): Promise<void> {
+	@action.bound async addToPlayQueue(): Promise<void> {
 		await this.playQueue.addItems([this.clone()]);
 	}
 
-	moveToTop(): void {
+	@action.bound moveToTop(): void {
 		this.playQueue.moveItem(this, 0);
 	}
 
-	moveToBottom(): void {
+	@action.bound moveToBottom(): void {
 		this.playQueue.moveItem(this, this.playQueue.items.length - 1);
 	}
 
-	removeToTop(): Promise<void> {
+	@action.bound removeToTop(): Promise<void> {
 		return this.playQueue.removeItemsAbove(this);
 	}
 
-	removeOthers(): Promise<void> {
+	@action.bound removeOthers(): Promise<void> {
 		return this.playQueue.removeOtherItems(this);
 	}
 }
