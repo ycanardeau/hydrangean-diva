@@ -1,2 +1,2 @@
-export * from './IReactiveStateStore';
+export * from './IStateStore';
 export * from './StateChangeEvent';

@@ -5,10 +5,7 @@ import {
 } from '@/api';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
-import type {
-	IReactiveStateStore,
-	StateChangeEvent,
-} from '@aigamo/route-sphere';
+import type { IStateStore, StateChangeEvent } from '@aigamo/route-sphere';
 import {
 	action,
 	computed,
@@ -19,7 +16,7 @@ import {
 
 type PlaylistLocationState = Record<string, never>;
 
-class PlaylistLocationStateStore implements IReactiveStateStore<PlaylistLocationState> {
+class PlaylistLocationStateStore implements IStateStore<PlaylistLocationState> {
 	constructor(private readonly playlist: PlaylistStore) {
 		makeObservable(this);
 	}

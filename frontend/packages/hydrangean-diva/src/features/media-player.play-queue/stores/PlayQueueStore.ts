@@ -8,11 +8,11 @@ import {
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { PlayQueueItemStore } from '@/features/media-player.play-queue/stores/PlayQueueItemStore';
-import type { IReactiveStateStore } from '@aigamo/route-sphere';
+import type { IStateStore } from '@aigamo/route-sphere';
 import { pull } from 'lodash-es';
 import { action, computed, makeObservable, observable } from 'mobx';
 
-class PlayQueueLocalStorageStateStore implements IReactiveStateStore<PlayQueueDto> {
+class PlayQueueLocalStorageStateStore implements IStateStore<PlayQueueDto> {
 	constructor(private readonly playQueue: PlayQueueStore) {
 		makeObservable(this);
 	}

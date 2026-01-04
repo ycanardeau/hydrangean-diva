@@ -2,10 +2,7 @@ import {
 	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
 	MediaPlayerPlaylistsApi,
 } from '@/api';
-import type {
-	IReactiveStateStore,
-	StateChangeEvent,
-} from '@aigamo/route-sphere';
+import type { IStateStore, StateChangeEvent } from '@aigamo/route-sphere';
 import {
 	action,
 	computed,
@@ -16,7 +13,7 @@ import {
 
 type PlaylistListLocationState = Record<string, never>;
 
-class PlaylistListLocationStateStore implements IReactiveStateStore<PlaylistListLocationState> {
+class PlaylistListLocationStateStore implements IStateStore<PlaylistListLocationState> {
 	constructor(private readonly playlistList: PlaylistListStore) {
 		makeObservable(this);
 	}
