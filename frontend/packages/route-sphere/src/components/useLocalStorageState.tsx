@@ -6,25 +6,30 @@ import type { IStateCodec } from './IStateCodec';
 import type { IStateHandlerOptions } from './IStateHandlerOptions';
 import { useStateHandler } from './useStateHandler';
 
-const useLocalStorageStateDeserializer = (key: string): (() => unknown) => {
-	return useCallback((): unknown => {
+const useLocalStorageStateDeserializer = (
+	key: string,
+): (() => Promise<unknown>) => {
+	return useCallback((): Promise<unknown> => {
 		try {
-			return JSON.parse(
-				window.localStorage.getItem(key) ?? JSON.stringify({}),
+			return Promise.resolve(
+				JSON.parse(
+					window.localStorage.getItem(key) ?? JSON.stringify({}),
+				),
 			);
 		} catch (error) {
 			console.error(error);
-			return {};
+			return Promise.resolve({});
 		}
 	}, [key]);
 };
 
 const useLocalStorageStateSerializer = <TState,>(
 	key: string,
-): ((state: TState) => void) => {
+): ((state: TState) => Promise<void>) => {
 	return useCallback(
-		(state: TState): void => {
+		(state: TState): Promise<void> => {
 			window.localStorage.setItem(key, JSON.stringify(state));
+			return Promise.resolve();
 		},
 		[key],
 	);

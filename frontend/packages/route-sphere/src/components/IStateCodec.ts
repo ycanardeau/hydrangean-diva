@@ -1,9 +1,9 @@
 export interface IStateDeserializer /*<TState>*/ {
-	deserialize: () => unknown;
+	deserialize: () => Promise<unknown>;
 }
 
 export interface IStateSerializer<TState> {
-	serialize: (state: TState) => void;
+	serialize: (state: TState) => Promise<unknown>;
 }
 
 export type IStateCodec<TState> = IStateSerializer<TState> &

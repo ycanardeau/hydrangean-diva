@@ -7,17 +7,20 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 import { type ParsedQs, parse } from 'qs';
 import { useCallback, useMemo } from 'react';
 
-const useLocationStateDeserializer = (): (() => ParsedQs) => {
+const useLocationStateDeserializer = (): (() => Promise<ParsedQs>) => {
 	const location = useLocation();
 
 	// Pass `location` as deps instead of `location.search`.
 	return useCallback(
-		(): ParsedQs => parse(location.searchStr.slice(1)),
+		(): Promise<ParsedQs> =>
+			Promise.resolve(parse(location.searchStr.slice(1))),
 		[location],
 	);
 };
 
-const useLocationStateSerializer = <TState,>(): ((state: TState) => void) => {
+const useLocationStateSerializer = <TState,>(): ((
+	state: TState,
+) => Promise<void>) => {
 	const navigate = useNavigate();
 
 	return useCallback(

@@ -7,17 +7,20 @@ import { type ParsedQs, parse, stringify } from 'qs';
 import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const useLocationStateDeserializer = (): (() => ParsedQs) => {
+const useLocationStateDeserializer = (): (() => Promise<ParsedQs>) => {
 	const location = useLocation();
 
 	// Pass `location` as deps instead of `location.search`.
 	return useCallback(
-		(): ParsedQs => parse(location.search.slice(1)),
+		(): Promise<ParsedQs> =>
+			Promise.resolve(parse(location.search.slice(1))),
 		[location],
 	);
 };
 
-const useLocationStateSerializer = <TState,>(): ((state: TState) => void) => {
+const useLocationStateSerializer = <TState,>(): ((
+	state: TState,
+) => Promise<void>) => {
 	const navigate = useNavigate();
 
 	return useCallback(

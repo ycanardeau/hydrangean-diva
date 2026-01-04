@@ -26,19 +26,19 @@ const useRestoreState = <TState,>(
 	options: IRestoreStateOptions<TState>,
 ): void => {
 	useEffect(() => {
-		const state = deserializer.deserialize();
+		void deserializer.deserialize().then((state) => {
+			if (validator(state)) {
+				options.onStateValidate?.({ state: state });
 
-		if (validator(state)) {
-			options.onStateValidate?.({ state: state });
+				popStateRef.current = true;
 
-			popStateRef.current = true;
+				setter.set(state);
 
-			setter.set(state);
+				popStateRef.current = false;
 
-			popStateRef.current = false;
-
-			options.onStateRestore?.({ state: state });
-		}
+				options.onStateRestore?.({ state: state });
+			}
+		});
 	}, [deserializer, validator, popStateRef, setter, options]);
 };
 
@@ -91,15 +91,15 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 
 const useSaveState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
-	getter: IStateGetter<TState>,
+	getter: IStateAccessor<TState>,
 	serializer: IStateSerializer<TState>,
 ): void => {
 	useEffect(() => {
 		// Returns the disposer.
-		return reaction(getter.get, (state) => {
+		return reaction(getter.get, async (state) => {
 			if (popStateRef.current) return;
 
-			serializer.serialize(state);
+			await serializer.serialize(state);
 		});
 	}, [getter, popStateRef, serializer]);
 };
