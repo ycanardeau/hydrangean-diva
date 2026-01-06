@@ -56,8 +56,7 @@ export interface IPlayerController extends IPlayerCommands {
 export class PlayerController<
 	TPlayer extends object,
 	TController extends PlayerControllerImpl<TPlayer>,
-> implements IPlayerController
-{
+> implements IPlayerController {
 	private static nextId = 1;
 
 	private readonly id: number;
@@ -119,6 +118,8 @@ export class PlayerController<
 	}
 
 	private createPlayerNotAttachedError(): Error {
+		this.error('player is not attached');
+
 		return new Error('player is not attached');
 	}
 

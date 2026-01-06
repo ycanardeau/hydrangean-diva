@@ -4,9 +4,9 @@ import type {
 	PlayerOptions,
 } from '@/controllers/PlayerController';
 
-export abstract class PlayerControllerImpl<TPlayer>
-	implements Partial<IPlayerCommands>
-{
+export abstract class PlayerControllerImpl<
+	TPlayer,
+> implements Partial<IPlayerCommands> {
 	constructor(
 		protected readonly logger: ILogger,
 		protected readonly player: TPlayer,
