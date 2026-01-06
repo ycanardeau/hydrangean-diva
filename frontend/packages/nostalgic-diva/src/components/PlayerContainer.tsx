@@ -12,6 +12,7 @@ import {
 	type MutableRefObject,
 	type ReactElement,
 	type ReactNode,
+	useCallback,
 	useEffect,
 	useRef,
 	useState,
@@ -68,11 +69,17 @@ export const PlayerContainer = <
 
 	const [player, setPlayer] = useState<TPlayer>();
 
-	const [controller, setController] =
+	const [controller, _setController] =
 		useState<IPlayerController>(nullPlayerController);
-	useEffect(() => {
-		onControllerChange?.(controller);
-	}, [controller, onControllerChange]);
+
+	const setController = useCallback(
+		(value: IPlayerController): void => {
+			_setController(value);
+
+			onControllerChange?.(value);
+		},
+		[onControllerChange],
+	);
 
 	useEffect(() => {
 		void (loadScript?.() ?? Promise.resolve())
@@ -103,7 +110,15 @@ export const PlayerContainer = <
 				.detach()
 				.finally(() => setController(nullPlayerController));
 		};
-	}, [logger, type, loadScript, player, options, controllerFactory]);
+	}, [
+		logger,
+		type,
+		loadScript,
+		player,
+		options,
+		controllerFactory,
+		setController,
+	]);
 
 	const previousVideoId = usePreviousDistinct(videoId);
 	useEffect(() => {
