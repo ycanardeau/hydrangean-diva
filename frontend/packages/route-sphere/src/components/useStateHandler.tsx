@@ -5,8 +5,8 @@ import { type MutableRefObject, useEffect, useRef } from 'react';
 
 const useRestoreState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
-	deserializer: () => any,
-	stateValidator: (state: any) => state is TState,
+	deserializer: () => unknown,
+	stateValidator: (state: unknown) => state is TState,
 	stateSetter: (state: TState) => void,
 ): void => {
 	useEffect(() => {
@@ -72,8 +72,8 @@ const useSaveState = <TState,>(
 };
 
 export const useStateHandler = <TState,>(
-	deserializer: () => any,
-	stateValidator: (state: any) => state is TState,
+	deserializer: () => unknown,
+	stateValidator: (state: unknown) => state is TState,
 	stateSetter: (state: TState) => void,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
 	stateGetter: () => TState,

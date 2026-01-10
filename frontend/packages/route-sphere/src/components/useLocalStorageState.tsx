@@ -4,8 +4,8 @@ import { useCallback } from 'react';
 
 import { useStateHandler } from './useStateHandler';
 
-const useLocalStorageStateDeserializer = (key: string): (() => any) => {
-	return useCallback((): any => {
+const useLocalStorageStateDeserializer = (key: string): (() => unknown) => {
+	return useCallback((): unknown => {
 		try {
 			return JSON.parse(
 				window.localStorage.getItem(key) ?? JSON.stringify({}),
@@ -30,7 +30,7 @@ const useLocalStorageStateSerializer = <TState,>(
 
 const useLocalStorageStateHandler = <TState,>(
 	key: string,
-	stateValidator: (state: any) => state is TState,
+	stateValidator: (state: unknown) => state is TState,
 	stateSetter: (state: TState) => void,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
 	stateGetter: () => TState,

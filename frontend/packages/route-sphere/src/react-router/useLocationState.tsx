@@ -29,7 +29,7 @@ const useLocationStateSerializer = <TState,>(): ((state: TState) => void) => {
 
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
 const useLocationStateHandler = <TState,>(
-	stateValidator: (state: any) => state is TState,
+	stateValidator: (state: unknown) => state is TState,
 	stateSetter: (state: TState) => void,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
 	stateGetter: () => TState,
