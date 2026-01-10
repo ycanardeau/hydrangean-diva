@@ -30,19 +30,19 @@ const useLocalStorageStateSerializer = <TState,>(
 
 const useLocalStorageStateHandler = <TState,>(
 	key: string,
-	stateValidator: (state: unknown) => state is TState,
-	stateSetter: (state: TState) => void,
+	validator: (state: unknown) => state is TState,
+	setter: (state: TState) => void,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	stateGetter: () => TState,
+	getter: () => TState,
 ): void => {
 	const deserializer = useLocalStorageStateDeserializer(key);
 	const serializer = useLocalStorageStateSerializer(key);
 	useStateHandler(
 		deserializer,
-		stateValidator,
-		stateSetter,
+		validator,
+		setter,
 		onStateChange,
-		stateGetter,
+		getter,
 		serializer,
 	);
 };
@@ -68,13 +68,13 @@ export const useLocalStorageState = <TState,>(
 	key: string,
 	store: IStateStore<TState>,
 ): void => {
-	const stateSetter = useLocalStorageStateSetter(store);
-	const stateGetter = useLocalStorageStateGetter(store);
+	const setter = useLocalStorageStateSetter(store);
+	const getter = useLocalStorageStateGetter(store);
 	useLocalStorageStateHandler(
 		key,
 		store.validateState,
-		stateSetter,
+		setter,
 		store.onStateChange,
-		stateGetter,
+		getter,
 	);
 };

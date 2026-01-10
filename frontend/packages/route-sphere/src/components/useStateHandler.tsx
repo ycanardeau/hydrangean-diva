@@ -6,32 +6,32 @@ import { type MutableRefObject, useEffect, useRef } from 'react';
 const useRestoreState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
 	deserializer: () => unknown,
-	stateValidator: (state: unknown) => state is TState,
-	stateSetter: (state: TState) => void,
+	validator: (state: unknown) => state is TState,
+	setter: (state: TState) => void,
 ): void => {
 	useEffect(() => {
 		const state = deserializer();
 
-		if (stateValidator(state)) {
+		if (validator(state)) {
 			popStateRef.current = true;
 
-			stateSetter(state);
+			setter(state);
 
 			popStateRef.current = false;
 		}
-	}, [deserializer, stateValidator, popStateRef, stateSetter]);
+	}, [deserializer, validator, popStateRef, setter]);
 };
 
 const useHandleStateChange = <TState extends Partial<TState>>(
 	popStateRef: MutableRefObject<boolean>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	stateGetter: () => TState,
+	getter: () => TState,
 ): void => {
 	useEffect(() => {
 		if (!onStateChange) return;
 
 		// Returns the disposer.
-		return reaction(stateGetter, (state, previousState) => {
+		return reaction(getter, (state, previousState) => {
 			// Compare the current and previous values.
 			const diff = omitBy(state, (v, k) =>
 				isEqual(previousState[k as keyof typeof previousState], v),
@@ -44,48 +44,48 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 
 			onStateChange({ keys: keys, popState: popStateRef.current });
 		});
-	}, [stateGetter, onStateChange, popStateRef]);
+	}, [getter, onStateChange, popStateRef]);
 
 	// This is called when the page is first loaded.
 	useEffect(() => {
 		if (!onStateChange) return;
 
-		const keys = Object.keys(stateGetter()) as (keyof TState)[];
+		const keys = Object.keys(getter()) as (keyof TState)[];
 
 		onStateChange({ keys: keys, popState: true /* Always true. */ });
-	}, [stateGetter, onStateChange]);
+	}, [getter, onStateChange]);
 };
 
 const useSaveState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
-	stateGetter: () => TState,
+	getter: () => TState,
 	serializer: (state: TState) => void,
 ): void => {
 	useEffect(() => {
 		// Returns the disposer.
-		return reaction(stateGetter, (state) => {
+		return reaction(getter, (state) => {
 			if (popStateRef.current) return;
 
 			serializer(state);
 		});
-	}, [stateGetter, popStateRef, serializer]);
+	}, [getter, popStateRef, serializer]);
 };
 
 export const useStateHandler = <TState,>(
 	deserializer: () => unknown,
-	stateValidator: (state: unknown) => state is TState,
-	stateSetter: (state: TState) => void,
+	validator: (state: unknown) => state is TState,
+	setter: (state: TState) => void,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	stateGetter: () => TState,
+	getter: () => TState,
 	serializer: (state: TState) => void,
 ): void => {
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
 	const popStateRef = useRef(false);
 
-	useRestoreState(popStateRef, deserializer, stateValidator, stateSetter);
+	useRestoreState(popStateRef, deserializer, validator, setter);
 
 	// This must be called before `useSaveState`, so that state can be changed in the `onStateChange` callback.
-	useHandleStateChange(popStateRef, onStateChange, stateGetter);
+	useHandleStateChange(popStateRef, onStateChange, getter);
 
-	useSaveState(popStateRef, stateGetter, serializer);
+	useSaveState(popStateRef, getter, serializer);
 };

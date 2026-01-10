@@ -28,19 +28,19 @@ const useLocationStateSerializer = <TState,>(): ((state: TState) => void) => {
 
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
 const useLocationStateHandler = <TState,>(
-	stateValidator: (state: unknown) => state is TState,
-	stateSetter: (state: TState) => void,
+	validator: (state: unknown) => state is TState,
+	setter: (state: TState) => void,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	stateGetter: () => TState,
+	getter: () => TState,
 ): void => {
 	const deserializer = useLocationStateDeserializer();
 	const serializer = useLocationStateSerializer();
 	useStateHandler(
 		deserializer,
-		stateValidator,
-		stateSetter,
+		validator,
+		setter,
 		onStateChange,
-		stateGetter,
+		getter,
 		serializer,
 	);
 };
@@ -64,12 +64,12 @@ const useLocationStateGetter = <TState,>(
 
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
 export const useLocationState = <TState,>(store: IStateStore<TState>): void => {
-	const stateSetter = useLocationStateSetter(store);
-	const stateGetter = useLocationStateGetter(store);
+	const setter = useLocationStateSetter(store);
+	const getter = useLocationStateGetter(store);
 	useLocationStateHandler(
 		store.validateState,
-		stateSetter,
+		setter,
 		store.onStateChange,
-		stateGetter,
+		getter,
 	);
 };
