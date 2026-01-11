@@ -57,6 +57,8 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 			console.assert(keys.length > 0);
 
 			options.onStateChange({
+				state: state,
+				previousState: previousState,
 				keys: keys,
 				popState: popStateRef.current,
 			});
@@ -67,9 +69,14 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 	useEffect(() => {
 		if (!options.onStateChange) return;
 
-		const keys = Object.keys(getter.get()) as (keyof TState)[];
+		const state = getter.get();
+		const previousState = {} as TState;
+
+		const keys = Object.keys(state) as (keyof TState)[];
 
 		options.onStateChange({
+			state: state,
+			previousState: previousState,
 			keys: keys,
 			popState: true /* Always true. */,
 		});
