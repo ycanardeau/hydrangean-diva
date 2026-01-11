@@ -1,6 +1,6 @@
 {
 	"name": "@aigamo/nostalgic-diva",
-	"version": "1.16.4",
+	"version": "1.16.5-0",
 	"type": "module",
 	"scripts": {
 		"clean": "rimraf ./dist",
