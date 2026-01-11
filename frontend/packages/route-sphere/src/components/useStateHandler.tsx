@@ -8,15 +8,20 @@ import type {
 	IStateGetter,
 	IStateSetter,
 } from './IStateAccessor';
+import type {
+	IStateCodec,
+	IStateDeserializer,
+	IStateSerializer,
+} from './IStateCodec';
 
 const useRestoreState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
-	deserializer: () => unknown,
+	deserializer: IStateDeserializer /*<TState>*/,
 	validator: (state: unknown) => state is TState,
 	setter: IStateSetter<TState>,
 ): void => {
 	useEffect(() => {
-		const state = deserializer();
+		const state = deserializer.deserialize();
 
 		if (validator(state)) {
 			popStateRef.current = true;
@@ -65,32 +70,31 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 const useSaveState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
 	getter: IStateGetter<TState>,
-	serializer: (state: TState) => void,
+	serializer: IStateSerializer<TState>,
 ): void => {
 	useEffect(() => {
 		// Returns the disposer.
 		return reaction(getter.get, (state) => {
 			if (popStateRef.current) return;
 
-			serializer(state);
+			serializer.serialize(state);
 		});
 	}, [getter, popStateRef, serializer]);
 };
 
 export const useStateHandler = <TState,>(
-	deserializer: () => unknown,
+	codec: IStateCodec<TState>,
 	validator: (state: unknown) => state is TState,
 	accessor: IStateAccessor<TState>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	serializer: (state: TState) => void,
 ): void => {
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
 	const popStateRef = useRef(false);
 
-	useRestoreState(popStateRef, deserializer, validator, accessor);
+	useRestoreState(popStateRef, codec, validator, accessor);
 
 	// This must be called before `useSaveState`, so that state can be changed in the `onStateChange` callback.
 	useHandleStateChange(popStateRef, onStateChange, accessor);
 
-	useSaveState(popStateRef, accessor, serializer);
+	useSaveState(popStateRef, accessor, codec);
 };

@@ -3,6 +3,7 @@ import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { useCallback, useMemo } from 'react';
 
 import type { IStateAccessor } from './IStateAccessor';
+import type { IStateCodec } from './IStateCodec';
 import { useStateHandler } from './useStateHandler';
 
 const useLocalStorageStateDeserializer = (key: string): (() => unknown) => {
@@ -29,21 +30,29 @@ const useLocalStorageStateSerializer = <TState,>(
 	);
 };
 
+const useLocalStorageStateCodec = <TState,>(
+	key: string,
+): IStateCodec<TState> => {
+	const deserializer = useLocalStorageStateDeserializer(key);
+	const serializer = useLocalStorageStateSerializer(key);
+	const codec = useMemo(
+		(): IStateCodec<TState> => ({
+			deserialize: deserializer,
+			serialize: serializer,
+		}),
+		[deserializer, serializer],
+	);
+	return codec;
+};
+
 const useLocalStorageStateHandler = <TState,>(
 	key: string,
 	validator: (state: unknown) => state is TState,
 	accessor: IStateAccessor<TState>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
 ): void => {
-	const deserializer = useLocalStorageStateDeserializer(key);
-	const serializer = useLocalStorageStateSerializer(key);
-	useStateHandler(
-		deserializer,
-		validator,
-		accessor,
-		onStateChange,
-		serializer,
-	);
+	const codec = useLocalStorageStateCodec(key);
+	useStateHandler(codec, validator, accessor, onStateChange);
 };
 
 const useLocalStorageStateGetter = <TState,>(
