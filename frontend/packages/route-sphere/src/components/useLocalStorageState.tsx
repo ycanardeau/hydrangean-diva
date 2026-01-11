@@ -1,7 +1,8 @@
 import type { IStateStore } from '@/stores/IStateStore';
 import type { StateChangeEvent } from '@/stores/StateChangeEvent';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
+import type { IStateAccessor } from './IStateAccessor';
 import { useStateHandler } from './useStateHandler';
 
 const useLocalStorageStateDeserializer = (key: string): (() => unknown) => {
@@ -31,20 +32,24 @@ const useLocalStorageStateSerializer = <TState,>(
 const useLocalStorageStateHandler = <TState,>(
 	key: string,
 	validator: (state: unknown) => state is TState,
-	setter: (state: TState) => void,
+	accessor: IStateAccessor<TState>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	getter: () => TState,
 ): void => {
 	const deserializer = useLocalStorageStateDeserializer(key);
 	const serializer = useLocalStorageStateSerializer(key);
 	useStateHandler(
 		deserializer,
 		validator,
-		setter,
+		accessor,
 		onStateChange,
-		getter,
 		serializer,
 	);
+};
+
+const useLocalStorageStateGetter = <TState,>(
+	store: IStateStore<TState>,
+): (() => TState) => {
+	return useCallback((): TState => store.state, [store]);
 };
 
 const useLocalStorageStateSetter = <TState,>(
@@ -58,23 +63,27 @@ const useLocalStorageStateSetter = <TState,>(
 	);
 };
 
-const useLocalStorageStateGetter = <TState,>(
+const useLocalStorageStateAccessor = <TState,>(
 	store: IStateStore<TState>,
-): (() => TState) => {
-	return useCallback((): TState => store.state, [store]);
+): IStateAccessor<TState> => {
+	const getter = useLocalStorageStateGetter(store);
+	const setter = useLocalStorageStateSetter(store);
+	const accessor = useMemo(
+		(): IStateAccessor<TState> => ({ get: getter, set: setter }),
+		[getter, setter],
+	);
+	return accessor;
 };
 
 export const useLocalStorageState = <TState,>(
 	key: string,
 	store: IStateStore<TState>,
 ): void => {
-	const setter = useLocalStorageStateSetter(store);
-	const getter = useLocalStorageStateGetter(store);
+	const accessor = useLocalStorageStateAccessor(store);
 	useLocalStorageStateHandler(
 		key,
 		store.validateState,
-		setter,
+		accessor,
 		store.onStateChange,
-		getter,
 	);
 };

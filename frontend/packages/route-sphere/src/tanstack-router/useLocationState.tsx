@@ -1,9 +1,10 @@
+import type { IStateAccessor } from '@/components/IStateAccessor';
 import { useStateHandler } from '@/components/useStateHandler';
 import type { IStateStore } from '@/stores/IStateStore';
 import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { type ParsedQs, parse } from 'qs';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 const useLocationStateDeserializer = (): (() => ParsedQs) => {
 	const location = useLocation();
@@ -29,20 +30,24 @@ const useLocationStateSerializer = <TState,>(): ((state: TState) => void) => {
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
 const useLocationStateHandler = <TState,>(
 	validator: (state: unknown) => state is TState,
-	setter: (state: TState) => void,
+	accessor: IStateAccessor<TState>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	getter: () => TState,
 ): void => {
 	const deserializer = useLocationStateDeserializer();
 	const serializer = useLocationStateSerializer();
 	useStateHandler(
 		deserializer,
 		validator,
-		setter,
+		accessor,
 		onStateChange,
-		getter,
 		serializer,
 	);
+};
+
+const useLocationStateGetter = <TState,>(
+	store: IStateStore<TState>,
+): (() => TState) => {
+	return useCallback(() => store.state, [store]);
 };
 
 const useLocationStateSetter = <TState,>(
@@ -56,20 +61,20 @@ const useLocationStateSetter = <TState,>(
 	);
 };
 
-const useLocationStateGetter = <TState,>(
+const useLocationStateAccessor = <TState,>(
 	store: IStateStore<TState>,
-): (() => TState) => {
-	return useCallback(() => store.state, [store]);
+): IStateAccessor<TState> => {
+	const getter = useLocationStateGetter(store);
+	const setter = useLocationStateSetter(store);
+	const accessor = useMemo(
+		(): IStateAccessor<TState> => ({ get: getter, set: setter }),
+		[getter, setter],
+	);
+	return accessor;
 };
 
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
 export const useLocationState = <TState,>(store: IStateStore<TState>): void => {
-	const setter = useLocationStateSetter(store);
-	const getter = useLocationStateGetter(store);
-	useLocationStateHandler(
-		store.validateState,
-		setter,
-		store.onStateChange,
-		getter,
-	);
+	const accessor = useLocationStateAccessor(store);
+	useLocationStateHandler(store.validateState, accessor, store.onStateChange);
 };

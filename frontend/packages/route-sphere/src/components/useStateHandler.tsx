@@ -3,11 +3,17 @@ import { isEqual, omitBy } from 'lodash-es';
 import { reaction } from 'mobx';
 import { type MutableRefObject, useEffect, useRef } from 'react';
 
+import type {
+	IStateAccessor,
+	IStateGetter,
+	IStateSetter,
+} from './IStateAccessor';
+
 const useRestoreState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
 	deserializer: () => unknown,
 	validator: (state: unknown) => state is TState,
-	setter: (state: TState) => void,
+	setter: IStateSetter<TState>,
 ): void => {
 	useEffect(() => {
 		const state = deserializer();
@@ -15,7 +21,7 @@ const useRestoreState = <TState,>(
 		if (validator(state)) {
 			popStateRef.current = true;
 
-			setter(state);
+			setter.set(state);
 
 			popStateRef.current = false;
 		}
@@ -25,13 +31,13 @@ const useRestoreState = <TState,>(
 const useHandleStateChange = <TState extends Partial<TState>>(
 	popStateRef: MutableRefObject<boolean>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	getter: () => TState,
+	getter: IStateGetter<TState>,
 ): void => {
 	useEffect(() => {
 		if (!onStateChange) return;
 
 		// Returns the disposer.
-		return reaction(getter, (state, previousState) => {
+		return reaction(getter.get, (state, previousState) => {
 			// Compare the current and previous values.
 			const diff = omitBy(state, (v, k) =>
 				isEqual(previousState[k as keyof typeof previousState], v),
@@ -50,7 +56,7 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 	useEffect(() => {
 		if (!onStateChange) return;
 
-		const keys = Object.keys(getter()) as (keyof TState)[];
+		const keys = Object.keys(getter.get()) as (keyof TState)[];
 
 		onStateChange({ keys: keys, popState: true /* Always true. */ });
 	}, [getter, onStateChange]);
@@ -58,12 +64,12 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 
 const useSaveState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
-	getter: () => TState,
+	getter: IStateGetter<TState>,
 	serializer: (state: TState) => void,
 ): void => {
 	useEffect(() => {
 		// Returns the disposer.
-		return reaction(getter, (state) => {
+		return reaction(getter.get, (state) => {
 			if (popStateRef.current) return;
 
 			serializer(state);
@@ -74,18 +80,17 @@ const useSaveState = <TState,>(
 export const useStateHandler = <TState,>(
 	deserializer: () => unknown,
 	validator: (state: unknown) => state is TState,
-	setter: (state: TState) => void,
+	accessor: IStateAccessor<TState>,
 	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
-	getter: () => TState,
 	serializer: (state: TState) => void,
 ): void => {
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
 	const popStateRef = useRef(false);
 
-	useRestoreState(popStateRef, deserializer, validator, setter);
+	useRestoreState(popStateRef, deserializer, validator, accessor);
 
 	// This must be called before `useSaveState`, so that state can be changed in the `onStateChange` callback.
-	useHandleStateChange(popStateRef, onStateChange, getter);
+	useHandleStateChange(popStateRef, onStateChange, accessor);
 
-	useSaveState(popStateRef, getter, serializer);
+	useSaveState(popStateRef, accessor, serializer);
 };
