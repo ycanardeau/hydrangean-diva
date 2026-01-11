@@ -1,8 +1,8 @@
 import type { IStateAccessor } from '@/components/IStateAccessor';
 import type { IStateCodec } from '@/components/IStateCodec';
+import type { IStateHandlerOptions } from '@/components/IStateHandlerOptions';
 import { useStateHandler } from '@/components/useStateHandler';
 import type { IStateStore } from '@/stores/IStateStore';
-import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { type ParsedQs, parse, stringify } from 'qs';
 import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -46,10 +46,10 @@ const useLocationStateCodec = <TState,>(): IStateCodec<TState> => {
 const useLocationStateHandler = <TState,>(
 	validator: (state: unknown) => state is TState,
 	accessor: IStateAccessor<TState>,
-	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
+	options: IStateHandlerOptions<TState>,
 ): void => {
 	const codec = useLocationStateCodec();
-	useStateHandler(codec, validator, accessor, onStateChange);
+	useStateHandler(codec, validator, accessor, options);
 };
 
 const useLocationStateGetter = <TState,>(
@@ -84,5 +84,11 @@ const useLocationStateAccessor = <TState,>(
 /** Updates a store that implements the {@link LocationStateStore} interface when a route changes, and vice versa. */
 export const useLocationState = <TState,>(store: IStateStore<TState>): void => {
 	const accessor = useLocationStateAccessor(store);
-	useLocationStateHandler(store.validateState, accessor, store.onStateChange);
+	const options = useMemo(
+		() => ({
+			onStateChange: store.onStateChange,
+		}),
+		[store],
+	);
+	useLocationStateHandler(store.validateState, accessor, options);
 };

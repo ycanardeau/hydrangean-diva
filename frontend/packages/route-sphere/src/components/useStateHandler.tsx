@@ -1,4 +1,3 @@
-import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { isEqual, omitBy } from 'lodash-es';
 import { reaction } from 'mobx';
 import { type MutableRefObject, useEffect, useRef } from 'react';
@@ -13,6 +12,10 @@ import type {
 	IStateDeserializer,
 	IStateSerializer,
 } from './IStateCodec';
+import type {
+	IHandleStateChangeOptions,
+	IStateHandlerOptions,
+} from './IStateHandlerOptions';
 
 const useRestoreState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
@@ -35,14 +38,14 @@ const useRestoreState = <TState,>(
 
 const useHandleStateChange = <TState extends Partial<TState>>(
 	popStateRef: MutableRefObject<boolean>,
-	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
 	getter: IStateGetter<TState>,
+	options: IHandleStateChangeOptions<TState>,
 ): void => {
 	useEffect(() => {
-		if (!onStateChange) return;
-
 		// Returns the disposer.
 		return reaction(getter.get, (state, previousState) => {
+			if (!options.onStateChange) return;
+
 			// Compare the current and previous values.
 			const diff = omitBy(state, (v, k) =>
 				isEqual(previousState[k as keyof typeof previousState], v),
@@ -53,18 +56,24 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 			const keys = Object.keys(diff) as (keyof TState)[];
 			console.assert(keys.length > 0);
 
-			onStateChange({ keys: keys, popState: popStateRef.current });
+			options.onStateChange({
+				keys: keys,
+				popState: popStateRef.current,
+			});
 		});
-	}, [getter, onStateChange, popStateRef]);
+	}, [getter, popStateRef, options]);
 
 	// This is called when the page is first loaded.
 	useEffect(() => {
-		if (!onStateChange) return;
+		if (!options.onStateChange) return;
 
 		const keys = Object.keys(getter.get()) as (keyof TState)[];
 
-		onStateChange({ keys: keys, popState: true /* Always true. */ });
-	}, [getter, onStateChange]);
+		options.onStateChange({
+			keys: keys,
+			popState: true /* Always true. */,
+		});
+	}, [getter, options]);
 };
 
 const useSaveState = <TState,>(
@@ -86,7 +95,7 @@ export const useStateHandler = <TState,>(
 	codec: IStateCodec<TState>,
 	validator: (state: unknown) => state is TState,
 	accessor: IStateAccessor<TState>,
-	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
+	options: IStateHandlerOptions<TState>,
 ): void => {
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
 	const popStateRef = useRef(false);
@@ -94,7 +103,7 @@ export const useStateHandler = <TState,>(
 	useRestoreState(popStateRef, codec, validator, accessor);
 
 	// This must be called before `useSaveState`, so that state can be changed in the `onStateChange` callback.
-	useHandleStateChange(popStateRef, onStateChange, accessor);
+	useHandleStateChange(popStateRef, accessor, options);
 
 	useSaveState(popStateRef, accessor, codec);
 };

@@ -1,9 +1,9 @@
 import type { IStateStore } from '@/stores/IStateStore';
-import type { StateChangeEvent } from '@/stores/StateChangeEvent';
 import { useCallback, useMemo } from 'react';
 
 import type { IStateAccessor } from './IStateAccessor';
 import type { IStateCodec } from './IStateCodec';
+import type { IStateHandlerOptions } from './IStateHandlerOptions';
 import { useStateHandler } from './useStateHandler';
 
 const useLocalStorageStateDeserializer = (key: string): (() => unknown) => {
@@ -49,10 +49,10 @@ const useLocalStorageStateHandler = <TState,>(
 	key: string,
 	validator: (state: unknown) => state is TState,
 	accessor: IStateAccessor<TState>,
-	onStateChange: ((event: StateChangeEvent<TState>) => void) | undefined,
+	options: IStateHandlerOptions<TState>,
 ): void => {
 	const codec = useLocalStorageStateCodec(key);
-	useStateHandler(codec, validator, accessor, onStateChange);
+	useStateHandler(codec, validator, accessor, options);
 };
 
 const useLocalStorageStateGetter = <TState,>(
@@ -89,10 +89,11 @@ export const useLocalStorageState = <TState,>(
 	store: IStateStore<TState>,
 ): void => {
 	const accessor = useLocalStorageStateAccessor(store);
-	useLocalStorageStateHandler(
-		key,
-		store.validateState,
-		accessor,
-		store.onStateChange,
+	const options = useMemo(
+		() => ({
+			onStateChange: store.onStateChange,
+		}),
+		[store],
 	);
+	useLocalStorageStateHandler(key, store.validateState, accessor, options);
 };
