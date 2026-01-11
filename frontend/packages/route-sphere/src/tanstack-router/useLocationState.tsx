@@ -3,18 +3,17 @@ import type { IStateCodec } from '@/components/IStateCodec';
 import type { IStateHandlerOptions } from '@/components/IStateHandlerOptions';
 import { useStateHandler } from '@/components/useStateHandler';
 import type { IStateStore } from '@/stores/IStateStore';
-import { useLocation, useNavigate } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { type ParsedQs, parse } from 'qs';
 import { useCallback, useMemo } from 'react';
 
+import { useStableLocation } from './useStableLocation';
+
 const useLocationStateDeserializer = (): (() => ParsedQs) => {
-	const location = useLocation();
+	const location = useStableLocation();
 
 	// Pass `location` as deps instead of `location.search`.
-	return useCallback(
-		(): ParsedQs => parse(location.searchStr.slice(1)),
-		[location],
-	);
+	return useCallback((): ParsedQs => parse(location.slice(1)), [location]);
 };
 
 const useLocationStateSerializer = <TState,>(): ((state: TState) => void) => {
