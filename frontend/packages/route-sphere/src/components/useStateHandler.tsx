@@ -14,6 +14,8 @@ import type {
 } from './IStateCodec';
 import type {
 	IHandleStateChangeOptions,
+	IRestoreStateOptions,
+	ISaveStateOptions,
 	IStateHandlerOptions,
 } from './IStateHandlerOptions';
 
@@ -22,6 +24,7 @@ const useRestoreState = <TState,>(
 	deserializer: IStateDeserializer /*<TState>*/,
 	validator: (state: unknown) => state is TState,
 	setter: IStateSetter<TState>,
+	options: IRestoreStateOptions<TState>,
 ): void => {
 	useEffect(() => {
 		const state = deserializer.deserialize();
@@ -32,8 +35,10 @@ const useRestoreState = <TState,>(
 			setter.set(state);
 
 			popStateRef.current = false;
+
+			options.onStateRestore?.({ state: state });
 		}
-	}, [deserializer, validator, popStateRef, setter]);
+	}, [deserializer, validator, popStateRef, setter, options]);
 };
 
 const useHandleStateChange = <TState extends Partial<TState>>(
@@ -87,6 +92,7 @@ const useSaveState = <TState,>(
 	popStateRef: MutableRefObject<boolean>,
 	getter: IStateGetter<TState>,
 	serializer: IStateSerializer<TState>,
+	options: ISaveStateOptions<TState>,
 ): void => {
 	useEffect(() => {
 		// Returns the disposer.
@@ -94,8 +100,10 @@ const useSaveState = <TState,>(
 			if (popStateRef.current) return;
 
 			serializer.serialize(state);
+
+			options.onStateSave?.({ state: state });
 		});
-	}, [getter, popStateRef, serializer]);
+	}, [getter, popStateRef, serializer, options]);
 };
 
 export const useStateHandler = <TState,>(
@@ -107,10 +115,10 @@ export const useStateHandler = <TState,>(
 	// Whether currently processing popstate. This is to prevent adding the previous state to history.
 	const popStateRef = useRef(false);
 
-	useRestoreState(popStateRef, codec, validator, accessor);
+	useRestoreState(popStateRef, codec, validator, accessor, options);
 
 	// This must be called before `useSaveState`, so that state can be changed in the `onStateChange` callback.
 	useHandleStateChange(popStateRef, accessor, options);
 
-	useSaveState(popStateRef, accessor, codec);
+	useSaveState(popStateRef, accessor, codec, options);
 };
