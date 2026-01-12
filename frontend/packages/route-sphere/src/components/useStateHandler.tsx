@@ -1,6 +1,6 @@
 import { isEqual, omitBy } from 'lodash-es';
 import { reaction } from 'mobx';
-import { type MutableRefObject, useEffect, useRef } from 'react';
+import { type MutableRefObject, useCallback, useEffect, useRef } from 'react';
 
 import type {
 	IStateAccessor,
@@ -41,9 +41,8 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 	getter: IStateGetter<TState>,
 	options: IHandleStateChangeOptions<TState>,
 ): void => {
-	useEffect(() => {
-		// Returns the disposer.
-		return reaction(getter.get, (state, previousState) => {
+	const handleStateChange = useCallback(
+		(state: TState, previousState: TState): void => {
 			if (!options.onStateChange) return;
 
 			// Compare the current and previous values.
@@ -62,25 +61,26 @@ const useHandleStateChange = <TState extends Partial<TState>>(
 				keys: keys,
 				popState: popStateRef.current,
 			});
-		});
-	}, [getter, popStateRef, options]);
+		},
+		[popStateRef, options],
+	);
+
+	useEffect(() => {
+		// Returns the disposer.
+		return reaction(getter.get, handleStateChange);
+	}, [getter, handleStateChange]);
 
 	// This is called when the page is first loaded.
 	useEffect(() => {
-		if (!options.onStateChange) return;
-
 		const state = getter.get();
 		const previousState = {} as TState;
 
-		const keys = Object.keys(state) as (keyof TState)[];
+		popStateRef.current = true;
 
-		options.onStateChange({
-			state: state,
-			previousState: previousState,
-			keys: keys,
-			popState: true /* Always true. */,
-		});
-	}, [getter, options]);
+		handleStateChange(state, previousState);
+
+		popStateRef.current = false;
+	}, [getter, popStateRef, handleStateChange]);
 };
 
 const useSaveState = <TState,>(
