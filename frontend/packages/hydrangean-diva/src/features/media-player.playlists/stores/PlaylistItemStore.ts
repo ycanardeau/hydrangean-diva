@@ -1,4 +1,4 @@
-import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto } from '@/api';
+import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto } from '@/api/models/HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, makeObservable, observable } from 'mobx';

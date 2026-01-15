@@ -1,8 +1,6 @@
-import {
-	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
-	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
-	MediaPlayerPlaylistsApi,
-} from '@/api';
+import type { MediaPlayerPlaylistsApi } from '@/api/apis/MediaPlayerPlaylistsApi';
+import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api/models/HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto';
+import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto } from '@/api/models/HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
 import type { IStateStore, StateChangeEvent } from '@aigamo/route-sphere';

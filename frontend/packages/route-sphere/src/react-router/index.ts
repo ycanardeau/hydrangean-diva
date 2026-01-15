@@ -1,1 +1,1 @@
-export * from './useLocationState';
+export * from '@/react-router/useLocationState';

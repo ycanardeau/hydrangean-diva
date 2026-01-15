@@ -1,1 +1,1 @@
-export * from './findVideoService';
+export * from '@/services/findVideoService';

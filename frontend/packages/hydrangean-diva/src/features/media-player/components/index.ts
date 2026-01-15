@@ -1,1 +1,1 @@
-export * from './HydrangeanDivaProvider';
+export * from '@/features/media-player/components/HydrangeanDivaProvider';

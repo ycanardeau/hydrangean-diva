@@ -1,6 +1,7 @@
-import { HydrangeanDivaProvider } from '@/features';
 import { Compose } from '@/features/common/components/Compose';
+import { HydrangeanDivaProvider } from '@/features/media-player/components/HydrangeanDivaProvider';
 import '@/icons';
+import '@/nprogress.css';
 import { routeTree } from '@/routeTree.gen';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
@@ -11,8 +12,6 @@ import {
 } from '@tanstack/react-router';
 import NProgress from 'nprogress';
 import type { ReactElement, ReactNode } from 'react';
-
-import './nprogress.css';
 
 // https://elastic.github.io/eui/#/utilities/provider
 const euiCache = createCache({

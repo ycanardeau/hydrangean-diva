@@ -1,8 +1,6 @@
-import {
-	type IPlayQueueItemStore,
-	type IPlayQueueStore,
-	RepeatMode,
-} from '@/features/media-player.play-queue.abstractions';
+import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
+import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import type { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
 import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';

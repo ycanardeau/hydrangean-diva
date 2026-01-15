@@ -1,4 +1,4 @@
-import { usePlayQueue } from '@/features/media-player.play-queue.abstractions';
+import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { BottomBarContext } from '@/features/media-player.player/contexts/BottomBarContext';
 import { usePlayer } from '@/features/media-player.player/contexts/PlayerContext';
 import { BottomBarStore } from '@/features/media-player.player/stores/BottomBarStore';

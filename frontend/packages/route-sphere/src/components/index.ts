@@ -1,3 +1,3 @@
-export * from './ScrollToTop';
-export * from './useLocalStorageState';
-export * from './useStateHandler';
+export * from '@/components/ScrollToTop';
+export * from '@/components/useLocalStorageState';
+export * from '@/components/useStateHandler';

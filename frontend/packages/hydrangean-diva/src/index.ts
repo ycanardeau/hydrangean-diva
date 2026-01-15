@@ -1,1 +1,2 @@
-export * from './features';
+/* eslint-disable import/no-internal-modules */
+export * from '@/features';

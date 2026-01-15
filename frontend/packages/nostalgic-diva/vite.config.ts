@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
+// eslint-disable-next-line no-restricted-imports
 import pkg from './package.json' with { type: 'json' };
 
 // https://vitejs.dev/config/

@@ -1,1 +1,1 @@
-export * from './useLocationState';
+export * from '@/tanstack-router/useLocationState';

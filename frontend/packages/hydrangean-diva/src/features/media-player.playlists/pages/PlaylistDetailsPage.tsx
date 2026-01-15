@@ -1,4 +1,4 @@
-import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api';
+import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api/models/HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
 import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';

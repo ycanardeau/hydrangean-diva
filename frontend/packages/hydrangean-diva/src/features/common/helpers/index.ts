@@ -1,1 +1,1 @@
-export * from './bottomBarHeight';
+export * from '@/features/common/helpers/bottomBarHeight';

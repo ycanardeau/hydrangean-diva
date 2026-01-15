@@ -1,7 +1,5 @@
-import {
-	type HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
-	MediaPlayerPlaylistsApi,
-} from '@/api';
+import type { MediaPlayerPlaylistsApi } from '@/api/apis/MediaPlayerPlaylistsApi';
+import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api/models/HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto';
 import type { IStateStore, StateChangeEvent } from '@aigamo/route-sphere';
 import {
 	action,

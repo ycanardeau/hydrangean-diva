@@ -1,3 +1,3 @@
-export * from './NostalgicDiva';
-export * from './NostalgicDivaProvider';
-export * from './defineNostalgicDiva';
+export * from '@/components/NostalgicDiva';
+export * from '@/components/NostalgicDivaProvider';
+export * from '@/components/defineNostalgicDiva';

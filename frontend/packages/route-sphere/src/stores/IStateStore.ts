@@ -1,6 +1,6 @@
-import type { StateChangeEvent } from './StateChangeEvent';
-import type { StateRestoreEvent } from './StateRestoreEvent';
-import type { StateSaveEvent } from './StateSaveEvent';
+import type { StateChangeEvent } from '@/stores/StateChangeEvent';
+import type { StateRestoreEvent } from '@/stores/StateRestoreEvent';
+import type { StateSaveEvent } from '@/stores/StateSaveEvent';
 
 export interface IStateStore<TState> {
 	state: TState;

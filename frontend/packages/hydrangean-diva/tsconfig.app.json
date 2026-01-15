@@ -14,5 +14,5 @@
 		"experimentalDecorators": true,
 		"jsxImportSource": "@emotion/react"
 	},
-	"include": ["src"]
+	"include": ["src", "test"]
 }

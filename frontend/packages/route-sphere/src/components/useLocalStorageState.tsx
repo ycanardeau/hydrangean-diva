@@ -1,10 +1,9 @@
+import type { IStateAccessor } from '@/components/IStateAccessor';
+import type { IStateCodec } from '@/components/IStateCodec';
+import type { IStateHandlerOptions } from '@/components/IStateHandlerOptions';
+import { useStateHandler } from '@/components/useStateHandler';
 import type { IStateStore } from '@/stores/IStateStore';
 import { useCallback, useMemo } from 'react';
-
-import type { IStateAccessor } from './IStateAccessor';
-import type { IStateCodec } from './IStateCodec';
-import type { IStateHandlerOptions } from './IStateHandlerOptions';
-import { useStateHandler } from './useStateHandler';
 
 const useLocalStorageStateDeserializer = (key: string): (() => unknown) => {
 	return useCallback((): unknown => {

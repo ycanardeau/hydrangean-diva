@@ -65,6 +65,30 @@ module.exports = {
 				'@typescript-eslint/no-explicit-any': 'off',
 				'@typescript-eslint/no-empty-function': 'off',
 				'@typescript-eslint/no-floating-promises': 'error',
+				'no-restricted-imports': [
+					'error',
+					{
+						patterns: [
+							{
+								group: ['./*', '../*'],
+								message:
+									'Relative imports are not allowed. Use absolute imports.',
+							},
+						],
+					},
+				],
+				'import/no-internal-modules': [
+					'error',
+					{
+						forbid: [
+							'**/index',
+							'**/index.ts',
+							'**/index.tsx',
+							'**/index.js',
+							'**/index.jsx',
+						],
+					},
+				],
 				'boundaries/element-types': [
 					2,
 					{
