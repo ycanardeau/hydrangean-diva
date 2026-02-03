@@ -1,14 +1,11 @@
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { PlayQueueDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueDto';
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
-import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import type { IStateStore } from '@aigamo/route-sphere';
 
 export interface IPlayQueueStore {
 	readonly localStorageState: IStateStore<PlayQueueDto>;
 	readonly items: IPlayQueueItemStore[];
-	readonly repeat: RepeatMode;
-	readonly shuffle: boolean;
 	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore;
 	readonly isEmpty: boolean;
 	readonly canClear: boolean;
@@ -42,8 +39,6 @@ export interface IPlayQueueStore {
 	removeSelectedItems(): Promise<void>;
 	removeItemsAbove(item: IPlayQueueItemStore): Promise<void>;
 	removeOtherItems(item: IPlayQueueItemStore): Promise<void>;
-	toggleRepeat(): void;
-	toggleShuffle(): void;
 	previous(): Promise<void>;
 	next(): Promise<void>;
 }

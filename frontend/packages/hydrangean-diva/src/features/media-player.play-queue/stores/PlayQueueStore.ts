@@ -6,7 +6,6 @@ import {
 	PlayQueueDtoSchema,
 } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueDto';
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
-import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { PlayQueueItemStore } from '@/features/media-player.play-queue/stores/PlayQueueItemStore';
 import type { IStateStore } from '@aigamo/route-sphere';
 import { pull } from 'lodash-es';
@@ -20,15 +19,11 @@ class PlayQueueLocalStorageStateStore implements IStateStore<PlayQueueDto> {
 	@computed.struct get state(): PlayQueueDto {
 		return {
 			version: '1.0',
-			repeat: this.playQueue.repeat,
-			shuffle: this.playQueue.shuffle,
 			items: this.playQueue.items.map((item) => item.dto),
 			currentIndex: this.playQueue.currentIndex,
 		};
 	}
 	set state(value: PlayQueueDto) {
-		this.playQueue.repeat = value.repeat ?? RepeatMode.Off;
-		this.playQueue.shuffle = value.shuffle ?? false;
 		this.playQueue.items =
 			value.items?.map((item) => this.playQueue.createItem(item)) ?? [];
 		this.playQueue.currentIndex = value.currentIndex;
@@ -43,8 +38,6 @@ export class PlayQueueStore implements IPlayQueueStore {
 	readonly localStorageState: PlayQueueLocalStorageStateStore;
 	@observable items: IPlayQueueItemStore[] = [];
 	@observable currentId: number | undefined;
-	@observable repeat = RepeatMode.Off;
-	@observable shuffle = false;
 
 	constructor() {
 		this.localStorageState = new PlayQueueLocalStorageStateStore(this);
@@ -304,24 +297,6 @@ export class PlayQueueStore implements IPlayQueueStore {
 		return this.removeItems(
 			this.items.filter((_, index) => index < itemIndex),
 		);
-	}
-
-	@action.bound toggleRepeat(): void {
-		switch (this.repeat) {
-			case RepeatMode.Off:
-				this.repeat = RepeatMode.All;
-				break;
-			case RepeatMode.All:
-				this.repeat = RepeatMode.One;
-				break;
-			case RepeatMode.One:
-				this.repeat = RepeatMode.Off;
-				break;
-		}
-	}
-
-	@action.bound toggleShuffle(): void {
-		this.shuffle = !this.shuffle;
 	}
 
 	@action.bound async previous(): Promise<void> {

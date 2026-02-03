@@ -1,16 +1,70 @@
+import { getOrAddSchema } from '@/features/common/stores/getOrAddSchema';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
-import type { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
+import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import type { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
 import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import type { IPlayerController } from '@aigamo/nostalgic-diva';
-import { action, computed, makeObservable } from 'mobx';
+import type { IStateStore } from '@aigamo/route-sphere';
+import type { JSONSchemaType } from 'ajv';
+import { action, computed, makeObservable, observable } from 'mobx';
+
+interface BottomBarLocalStorageState {
+	repeat?: RepeatMode;
+	shuffle?: boolean;
+}
+
+export const BottomBarLocalStorageStateSchema: JSONSchemaType<BottomBarLocalStorageState> =
+	{
+		type: 'object',
+		properties: {
+			repeat: {
+				type: 'string',
+				enum: Object.values(RepeatMode),
+				nullable: true,
+			},
+			shuffle: {
+				type: 'boolean',
+				nullable: true,
+			},
+		},
+	};
+
+class BottomBarLocalStorageStateStore implements IStateStore<BottomBarLocalStorageState> {
+	constructor(private readonly bottomBar: BottomBarStore) {
+		makeObservable(this);
+	}
+
+	@computed.struct get state(): BottomBarLocalStorageState {
+		return {
+			repeat: this.bottomBar.repeat,
+			shuffle: this.bottomBar.shuffle,
+		};
+	}
+	set state(value: BottomBarLocalStorageState) {
+		this.bottomBar.repeat = value.repeat ?? RepeatMode.Off;
+		this.bottomBar.shuffle = value.shuffle ?? false;
+	}
+
+	validateState(state: unknown): state is BottomBarLocalStorageState {
+		return getOrAddSchema(
+			BottomBarLocalStorageStateSchema,
+			'BottomBarLocalStorageState',
+		)(state);
+	}
+}
 
 export class BottomBarStore implements IBottomBarStore {
+	readonly localStorageState: BottomBarLocalStorageStateStore;
+	@observable repeat = RepeatMode.Off;
+	@observable shuffle = false;
+
 	constructor(
 		private readonly player: IPlayerStore,
 		private readonly playQueue: IPlayQueueStore,
 	) {
+		this.localStorageState = new BottomBarLocalStorageStateStore(this);
+
 		makeObservable(this);
 	}
 
@@ -35,14 +89,6 @@ export class BottomBarStore implements IBottomBarStore {
 
 	@computed get currentItem(): IPlayQueueItemStore | undefined {
 		return this.playQueue.currentItem;
-	}
-
-	@computed get repeat(): RepeatMode {
-		return this.playQueue.repeat;
-	}
-
-	@computed get shuffle(): boolean {
-		return this.playQueue.shuffle;
 	}
 
 	@computed get canToggleRepeat(): boolean {
@@ -90,11 +136,21 @@ export class BottomBarStore implements IBottomBarStore {
 	}
 
 	@action.bound toggleRepeat(): void {
-		this.playQueue.toggleRepeat();
+		switch (this.repeat) {
+			case RepeatMode.Off:
+				this.repeat = RepeatMode.All;
+				break;
+			case RepeatMode.All:
+				this.repeat = RepeatMode.One;
+				break;
+			case RepeatMode.One:
+				this.repeat = RepeatMode.Off;
+				break;
+		}
 	}
 
 	@action.bound toggleShuffle(): void {
-		this.playQueue.toggleShuffle();
+		this.shuffle = !this.shuffle;
 	}
 
 	@action.bound play(): Promise<void> {

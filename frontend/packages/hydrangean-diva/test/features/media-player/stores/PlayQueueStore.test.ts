@@ -1,5 +1,4 @@
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
-import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { PlayerType } from '@aigamo/nostalgic-diva';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -39,8 +38,6 @@ describe('constructor', () => {
 	it('should construct PlayQueueStore', () => {
 		expect(playQueue.items.length).toBe(0);
 		expect(playQueue.currentId).toBeUndefined();
-		expect(playQueue.repeat).toBe(RepeatMode.Off);
-		expect(playQueue.shuffle).toBe(false);
 	});
 });
 
@@ -615,66 +612,6 @@ describe('removeItemsAbove', () => {
 
 		expect(playQueue.items.length).toBe(1);
 		expect(playQueue.items).toStrictEqual([item3]);
-	});
-});
-
-describe('toggleRepeat', () => {
-	it('should set repeat to RepeatMode.All when repeat is RepeatMode.Off', () => {
-		expect(playQueue.repeat).toBe(RepeatMode.Off);
-
-		playQueue.toggleRepeat();
-
-		expect(playQueue.repeat).toBe(RepeatMode.All);
-	});
-
-	it('should set repeat to RepeatMode.One when repeat is RepeatMode.All', () => {
-		expect(playQueue.repeat).toBe(RepeatMode.Off);
-
-		playQueue.toggleRepeat();
-
-		expect(playQueue.repeat).toBe(RepeatMode.All);
-
-		playQueue.toggleRepeat();
-
-		expect(playQueue.repeat).toBe(RepeatMode.One);
-	});
-
-	it('should set repeat to RepeatMode.Off when repeat is RepeatMode.One', () => {
-		expect(playQueue.repeat).toBe(RepeatMode.Off);
-
-		playQueue.toggleRepeat();
-
-		expect(playQueue.repeat).toBe(RepeatMode.All);
-
-		playQueue.toggleRepeat();
-
-		expect(playQueue.repeat).toBe(RepeatMode.One);
-
-		playQueue.toggleRepeat();
-
-		expect(playQueue.repeat).toBe(RepeatMode.Off);
-	});
-});
-
-describe('toggleShuffle', () => {
-	it('should set shuffle to true when shuffle is false', () => {
-		expect(playQueue.shuffle).toBe(false);
-
-		playQueue.toggleShuffle();
-
-		expect(playQueue.shuffle).toBe(true);
-	});
-
-	it('should set shuffle to false when shuffle is true', () => {
-		expect(playQueue.shuffle).toBe(false);
-
-		playQueue.toggleShuffle();
-
-		expect(playQueue.shuffle).toBe(true);
-
-		playQueue.toggleShuffle();
-
-		expect(playQueue.shuffle).toBe(false);
 	});
 });
 

@@ -1,6 +1,7 @@
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
+import type { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
 import type { IMiniPlayerStore } from '@/features/media-player.player/interfaces/IMiniPlayerStore';
 import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
 import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
@@ -12,6 +13,7 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 	constructor(
 		private readonly player: IPlayerStore,
 		private readonly playQueue: IPlayQueueStore,
+		private readonly bottomBar: IBottomBarStore,
 	) {
 		makeObservable(this);
 	}
@@ -45,7 +47,7 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 	}
 
 	@action.bound async onEnded(): Promise<void> {
-		switch (this.playQueue.repeat) {
+		switch (this.bottomBar.repeat) {
 			case RepeatMode.One:
 				await this.controller.setCurrentTime(0);
 				break;
@@ -53,7 +55,7 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 			case RepeatMode.Off:
 			case RepeatMode.All:
 				if (this.playQueue.isLastItem) {
-					switch (this.playQueue.repeat) {
+					switch (this.bottomBar.repeat) {
 						case RepeatMode.Off:
 							this.player.onEnded();
 							break;

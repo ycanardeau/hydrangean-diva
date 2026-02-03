@@ -1,4 +1,5 @@
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
+import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
 import { MiniPlayerContext } from '@/features/media-player.player/contexts/MiniPlayerContext';
 import { usePlayer } from '@/features/media-player.player/contexts/PlayerContext';
 import { MiniPlayerStore } from '@/features/media-player.player/stores/MiniPlayerStore';
@@ -13,8 +14,11 @@ export const MiniPlayerProvider = ({
 }: MiniPlayerProviderProps): ReactElement => {
 	const player = usePlayer();
 	const playQueue = usePlayQueue();
+	const bottomBar = useBottomBar();
 
-	const [miniPlayer] = useState(() => new MiniPlayerStore(player, playQueue));
+	const [miniPlayer] = useState(
+		() => new MiniPlayerStore(player, playQueue, bottomBar),
+	);
 
 	return (
 		<MiniPlayerContext.Provider value={miniPlayer}>
