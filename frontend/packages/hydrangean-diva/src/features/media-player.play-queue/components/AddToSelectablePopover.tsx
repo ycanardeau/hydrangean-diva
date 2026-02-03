@@ -1,4 +1,3 @@
-import { mediaPlayerPlaylistsApi } from '@/features/media-player.play-queue/helpers/mediaPlayerPlaylistsApi';
 import {
 	EuiButton,
 	EuiPopover,
@@ -26,16 +25,16 @@ export const AddToSelectablePopover = ({
 	);
 
 	useEffect(() => {
-		void mediaPlayerPlaylistsApi
-			.mediaPlayerPlaylistsGet()
-			.then((response) =>
-				setOptions(
-					response.items.map((item) => ({
-						key: item.id,
-						label: item.name,
-					})),
-				),
-			);
+		void Promise.resolve({
+			items: [] as { id: string; name: string }[],
+		}).then((response) =>
+			setOptions(
+				response.items.map((item) => ({
+					key: item.id,
+					label: item.name,
+				})),
+			),
+		);
 	}, []);
 
 	return (
