@@ -4,9 +4,11 @@ import {
 	CreatePlaylistButton,
 	type CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
-import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
-import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
-import { useLocationState } from '@aigamo/route-sphere/tanstack-router';
+import {
+	PlaylistListItemStore,
+	PlaylistListStore,
+} from '@/features/media-player.playlists/stores/PlaylistListStore';
+import { useLocalStorageState } from '@aigamo/route-sphere';
 import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, memo, useCallback, useState } from 'react';
@@ -54,7 +56,6 @@ const PlaylistListTable = observer(
 				]}
 				rowProps={{}}
 				cellProps={{}}
-				loading={playlistList.loading}
 			/>
 		);
 	},
@@ -66,18 +67,16 @@ interface PlaylistListPageBodyProps {
 
 const PlaylistListPageBody = observer(
 	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
-		useLocationState(playlistList.locationState);
+		useLocalStorageState(
+			'PlaylistListStore',
+			playlistList.localStorageState,
+		);
 
 		const handleCreatePlaylist = useCallback(
 			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {
-				await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsPost({
-					hydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest:
-						{
-							name: e.name,
-						},
-				});
-
-				await playlistList.updateResults();
+				await playlistList.addItem(
+					new PlaylistListItemStore(crypto.randomUUID(), e.name),
+				);
 			},
 			[playlistList],
 		);
@@ -96,9 +95,7 @@ const PlaylistListPageBody = observer(
 );
 
 export const PlaylistListPage = memo((): ReactElement => {
-	const [playlistList] = useState(
-		() => new PlaylistListStore(mediaPlayerPlaylistsApi),
-	);
+	const [playlistList] = useState(() => new PlaylistListStore());
 
 	return (
 		<>
