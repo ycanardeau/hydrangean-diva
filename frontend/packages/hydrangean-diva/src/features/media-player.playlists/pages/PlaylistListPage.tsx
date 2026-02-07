@@ -1,18 +1,17 @@
 import { AppLink } from '@/common/components/AppLink';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
-import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
 import {
 	CreatePlaylistButton,
 	type CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
+import { usePlaylistList } from '@/features/media-player.playlists/contexts/PlaylistListContext';
 import {
 	PlaylistListItemStore,
 	PlaylistListStore,
 } from '@/features/media-player.playlists/stores/PlaylistListStore';
-import { useLocalStorageState } from '@aigamo/route-sphere';
 import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import { type ReactElement, memo, useCallback, useState } from 'react';
+import { type ReactElement, memo, useCallback } from 'react';
 
 const PlaylistListPageHeader = (): ReactElement => {
 	return (
@@ -68,11 +67,6 @@ interface PlaylistListPageBodyProps {
 
 const PlaylistListPageBody = observer(
 	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
-		useLocalStorageState(
-			localStorageStateKeys.playlistList,
-			playlistList.localStorageState,
-		);
-
 		const handleCreatePlaylist = useCallback(
 			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {
 				await playlistList.addItem(
@@ -96,7 +90,7 @@ const PlaylistListPageBody = observer(
 );
 
 export const PlaylistListPage = memo((): ReactElement => {
-	const [playlistList] = useState(() => new PlaylistListStore());
+	const playlistList = usePlaylistList();
 
 	return (
 		<>
