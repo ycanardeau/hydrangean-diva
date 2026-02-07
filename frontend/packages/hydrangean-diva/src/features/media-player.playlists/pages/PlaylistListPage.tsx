@@ -1,5 +1,6 @@
 import { AppLink } from '@/common/components/AppLink';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
+import { storeKeys } from '@/features/common/stores/storeKeys';
 import {
 	CreatePlaylistButton,
 	type CreatePlaylistFormSubmitEvent,
@@ -68,7 +69,7 @@ interface PlaylistListPageBodyProps {
 const PlaylistListPageBody = observer(
 	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
 		useLocalStorageState(
-			'PlaylistListStore',
+			storeKeys.playlistList,
 			playlistList.localStorageState,
 		);
 
