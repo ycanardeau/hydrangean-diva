@@ -5,7 +5,9 @@ import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonEmpty,
 	EuiContextMenu,
+	type EuiContextMenuItemIcon,
 	type EuiContextMenuPanelDescriptor,
+	type EuiContextMenuPanelItemDescriptor,
 	EuiFlexGroup,
 	EuiIcon,
 	EuiPopover,
@@ -23,48 +25,63 @@ const PlayQueueItemContextMenu = memo(
 	({ item, closePopover }: PlayQueueItemContextMenuProps): ReactElement => {
 		const diva = useNostalgicDiva();
 
+		const createItem = useCallback(
+			({
+				name,
+				icon,
+				onClick,
+			}: {
+				name: string;
+				icon: EuiContextMenuItemIcon;
+				onClick: (event: React.MouseEvent<Element, MouseEvent>) => void;
+			}): EuiContextMenuPanelItemDescriptor => ({
+				name: name,
+				icon: icon,
+				onClick: async (e): Promise<void> => {
+					closePopover();
+
+					onClick(e);
+				},
+			}),
+			[closePopover],
+		);
+
 		const panels = useMemo(
 			(): EuiContextMenuPanelDescriptor[] => [
 				{
 					id: 0,
 					items: [
-						{
+						createItem({
 							name: 'Open in new tab' /* LOC */,
 							icon: <EuiIcon type={OpenRegular} />,
 							onClick: async (): Promise<void> => {
-								closePopover();
-
 								await diva.pause();
 
 								window.open(item.dto.url, '_blank');
 							},
-						},
-						{
+						}),
+						createItem({
 							name: 'Copy link address' /* LOC */,
 							icon: <EuiIcon type="" />,
 							onClick: async (): Promise<void> => {
-								closePopover();
-
 								await navigator.clipboard.writeText(
 									item.dto.url,
 								);
 							},
-						},
-						{
+						}),
+						createItem({
 							name: 'Copy link text' /* LOC */,
 							icon: <EuiIcon type="" />,
 							onClick: async (): Promise<void> => {
-								closePopover();
-
 								await navigator.clipboard.writeText(
 									item.dto.title,
 								);
 							},
-						},
+						}),
 					],
 				},
 			],
-			[closePopover, diva, item],
+			[createItem, diva, item],
 		);
 
 		return <EuiContextMenu initialPanelId={0} panels={panels} />;
