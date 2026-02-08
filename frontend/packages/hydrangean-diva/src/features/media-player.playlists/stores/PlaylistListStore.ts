@@ -78,6 +78,10 @@ export class PlaylistListStore {
 		return new PlaylistListItemStore(this, crypto.randomUUID(), name);
 	}
 
+	@action.bound setItems(value: PlaylistListItemStore[]): void {
+		this.items = value;
+	}
+
 	@action.bound async addItem(item: PlaylistListItemStore): Promise<void> {
 		this.items.push(item);
 	}

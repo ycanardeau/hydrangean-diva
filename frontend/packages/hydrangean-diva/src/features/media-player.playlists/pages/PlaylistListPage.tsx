@@ -1,12 +1,12 @@
-import { AppLink } from '@/common/components/AppLink';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import {
 	CreatePlaylistButton,
 	type CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
+import { PlaylistListTable } from '@/features/media-player.playlists/components/PlaylistListTable';
 import { usePlaylistList } from '@/features/media-player.playlists/contexts/PlaylistListContext';
 import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
-import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
+import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, memo, useCallback } from 'react';
 
@@ -22,41 +22,6 @@ const PlaylistListPageHeader = (): ReactElement => {
 		/>
 	);
 };
-
-interface PlaylistListTableProps {
-	playlistList: PlaylistListStore;
-}
-
-const PlaylistListTable = observer(
-	({ playlistList }: PlaylistListTableProps): ReactElement => {
-		return (
-			<EuiBasicTable
-				responsiveBreakpoint={false}
-				items={playlistList.items}
-				itemId="id"
-				rowHeader="name"
-				columns={[
-					{
-						field: 'name',
-						name: 'Name' /* LOC */,
-						render: (_, item) => (
-							<AppLink
-								linkProps={{
-									to: '/playlists/$playlistId',
-									params: { playlistId: item.id },
-								}}
-							>
-								{item.name}
-							</AppLink>
-						),
-					},
-				]}
-				rowProps={{}}
-				cellProps={{}}
-			/>
-		);
-	},
-);
 
 interface PlaylistListPageBodyProps {
 	playlistList: PlaylistListStore;
