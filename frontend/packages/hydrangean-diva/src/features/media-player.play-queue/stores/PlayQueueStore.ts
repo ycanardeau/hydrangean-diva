@@ -1,6 +1,7 @@
 import { getOrAddSchema } from '@/features/common/stores/getOrAddSchema';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import type { IPlayQueueTableStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueTableStore';
 import {
 	type PlayQueueDto,
 	PlayQueueDtoSchema,
@@ -34,7 +35,7 @@ class PlayQueueLocalStorageStateStore implements IStateStore<PlayQueueDto> {
 	}
 }
 
-export class PlayQueueStore implements IPlayQueueStore {
+export class PlayQueueStore implements IPlayQueueStore, IPlayQueueTableStore {
 	readonly localStorageState: PlayQueueLocalStorageStateStore;
 	@observable items: IPlayQueueItemStore[] = [];
 	@observable currentId: number | undefined;
