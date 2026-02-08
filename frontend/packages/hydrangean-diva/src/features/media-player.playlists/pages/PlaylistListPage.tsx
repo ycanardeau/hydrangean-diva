@@ -5,10 +5,7 @@ import {
 	type CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
 import { usePlaylistList } from '@/features/media-player.playlists/contexts/PlaylistListContext';
-import {
-	PlaylistListItemStore,
-	PlaylistListStore,
-} from '@/features/media-player.playlists/stores/PlaylistListStore';
+import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, memo, useCallback } from 'react';
@@ -69,9 +66,7 @@ const PlaylistListPageBody = observer(
 	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
 		const handleCreatePlaylist = useCallback(
 			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {
-				await playlistList.addItem(
-					new PlaylistListItemStore(crypto.randomUUID(), e.name),
-				);
+				await playlistList.addItem(playlistList.createItem(e.name));
 			},
 			[playlistList],
 		);

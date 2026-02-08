@@ -1,4 +1,5 @@
 import type { IStateStore } from '@aigamo/route-sphere';
+import { pull } from 'lodash-es';
 import { action, computed, makeObservable, observable } from 'mobx';
 
 interface PlaylistListLocalStorageState {
@@ -24,7 +25,12 @@ class PlaylistListLocalStorageStateStore implements IStateStore<PlaylistListLoca
 	set state(value: PlaylistListLocalStorageState) {
 		this.playlistList.items =
 			value.items?.map(
-				(item) => new PlaylistListItemStore(item.id, item.name),
+				(item) =>
+					new PlaylistListItemStore(
+						this.playlistList,
+						item.id,
+						item.name,
+					),
 			) ?? [];
 	}
 
@@ -37,11 +43,23 @@ export class PlaylistListItemStore {
 	@observable id: string;
 	@observable name: string;
 
-	constructor(id: string, name: string) {
+	constructor(
+		private readonly playlistList: PlaylistListStore,
+		id: string,
+		name: string,
+	) {
 		makeObservable(this);
 
 		this.id = id;
 		this.name = name;
+	}
+
+	@action.bound async rename(name: string): Promise<void> {
+		this.name = name;
+	}
+
+	@action.bound remove(): Promise<void> {
+		return this.playlistList.removeItem(this);
 	}
 }
 
@@ -56,7 +74,15 @@ export class PlaylistListStore {
 		this.localStorageState = new PlaylistListLocalStorageStateStore(this);
 	}
 
+	createItem(name: string): PlaylistListItemStore {
+		return new PlaylistListItemStore(this, crypto.randomUUID(), name);
+	}
+
 	@action.bound async addItem(item: PlaylistListItemStore): Promise<void> {
 		this.items.push(item);
+	}
+
+	@action.bound async removeItem(item: PlaylistListItemStore): Promise<void> {
+		pull(this.items, item);
 	}
 }

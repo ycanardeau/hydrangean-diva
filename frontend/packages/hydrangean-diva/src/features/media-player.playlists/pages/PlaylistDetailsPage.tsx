@@ -1,4 +1,5 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
+import type { PlaylistListItemStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -14,21 +15,24 @@ import {
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { DeleteRegular, RenameRegular } from '@fluentui/react-icons';
+import { useRouter } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, useCallback, useState } from 'react';
 
 interface RenamePlaylistModalProps {
+	playlistListItem: PlaylistListItemStore;
 	onCancel: () => void;
-	onSave: () => Promise<void>;
+	onSave: (e: { name: string }) => Promise<void>;
 }
 
 const RenamePlaylistModal = ({
+	playlistListItem,
 	onCancel,
 	onSave,
 }: RenamePlaylistModalProps): ReactElement => {
 	const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
 
-	const [name, setName] = useState('');
+	const [name, setName] = useState(playlistListItem.name);
 	const [loading, setLoading] = useState(false);
 
 	return (
@@ -49,7 +53,7 @@ const RenamePlaylistModal = ({
 						try {
 							setLoading(true);
 
-							await onSave();
+							await onSave({ name: name });
 						} finally {
 							setLoading(false);
 						}
@@ -85,17 +89,24 @@ const RenamePlaylistModal = ({
 };
 
 interface RenameButtonProps {
-	onSave: () => Promise<void>;
+	playlistListItem: PlaylistListItemStore;
+	onSave: (e: { name: string }) => Promise<void>;
 }
 
-const RenameButton = ({ onSave }: RenameButtonProps): ReactElement => {
+const RenameButton = ({
+	playlistListItem,
+	onSave,
+}: RenameButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
 
-	const handleSave = useCallback(async (): Promise<void> => {
-		await onSave();
+	const handleSave = useCallback(
+		async (e: { name: string }): Promise<void> => {
+			await onSave(e);
 
-		setModalOpen(false);
-	}, [onSave]);
+			setModalOpen(false);
+		},
+		[onSave],
+	);
 
 	return (
 		<>
@@ -108,6 +119,7 @@ const RenameButton = ({ onSave }: RenameButtonProps): ReactElement => {
 
 			{isModalOpen && (
 				<RenamePlaylistModal
+					playlistListItem={playlistListItem}
 					onCancel={(): void => setModalOpen(false)}
 					onSave={handleSave}
 				/>
@@ -117,11 +129,13 @@ const RenameButton = ({ onSave }: RenameButtonProps): ReactElement => {
 };
 
 interface DeletePlaylistConfirmModalProps {
+	playlistListItem: PlaylistListItemStore;
 	onCancel: () => void;
 	onSave: () => Promise<void>;
 }
 
 const DeletePlaylistConfirmModal = ({
+	playlistListItem,
 	onCancel,
 	onSave,
 }: DeletePlaylistConfirmModalProps): ReactElement => {
@@ -148,7 +162,8 @@ const DeletePlaylistConfirmModal = ({
 			isLoading={loading}
 		>
 			<p>
-				Are you sure you want to delete this playlist? If you delete '{}
+				Are you sure you want to delete this playlist? If you delete '
+				{playlistListItem.name}
 				', you won't be able to recover it.{/* LOC */}
 			</p>
 		</EuiConfirmModal>
@@ -156,10 +171,14 @@ const DeletePlaylistConfirmModal = ({
 };
 
 interface DeleteButtonProps {
+	playlistListItem: PlaylistListItemStore;
 	onSave: () => Promise<void>;
 }
 
-const DeleteButton = ({ onSave }: DeleteButtonProps): ReactElement => {
+const DeleteButton = ({
+	playlistListItem,
+	onSave,
+}: DeleteButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	const handleSave = useCallback(async (): Promise<void> => {
@@ -179,6 +198,7 @@ const DeleteButton = ({ onSave }: DeleteButtonProps): ReactElement => {
 
 			{isModalOpen && (
 				<DeletePlaylistConfirmModal
+					playlistListItem={playlistListItem}
 					onCancel={(): void => setModalOpen(false)}
 					onSave={handleSave}
 				/>
@@ -188,17 +208,50 @@ const DeleteButton = ({ onSave }: DeleteButtonProps): ReactElement => {
 };
 
 interface PlaylistDetailsPageProps {
-	playlistId: string;
+	playlistListItem: PlaylistListItemStore;
 }
 
 export const PlaylistDetailsPage = observer(
-	({ playlistId }: PlaylistDetailsPageProps): ReactElement => {
+	({ playlistListItem }: PlaylistDetailsPageProps): ReactElement => {
+		const router = useRouter();
+
+		const handleRenamePlaylist = useCallback(
+			async (e: { name: string }): Promise<void> => {
+				await playlistListItem.rename(e.name);
+			},
+			[playlistListItem],
+		);
+
+		const handleDeletePlaylist = useCallback(async (): Promise<void> => {
+			await router.navigate({ to: '/playlists' });
+
+			await playlistListItem.remove();
+		}, [playlistListItem, router]);
+
 		return (
 			<>
 				<AppPageTemplateHeader
+					pageTitle={playlistListItem.name}
+					breadcrumbs={[
+						{
+							text: 'Playlists' /* LOC */,
+							linkProps: {
+								to: '/playlists',
+							},
+						},
+						{
+							text: playlistListItem.name,
+						},
+					]}
 					rightSideItems={[
-						<RenameButton onSave={async () => {}} />,
-						<DeleteButton onSave={async () => {}} />,
+						<RenameButton
+							playlistListItem={playlistListItem}
+							onSave={handleRenamePlaylist}
+						/>,
+						<DeleteButton
+							playlistListItem={playlistListItem}
+							onSave={handleDeletePlaylist}
+						/>,
 					]}
 				/>
 			</>
