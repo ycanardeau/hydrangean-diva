@@ -1,6 +1,4 @@
-import { featureFlags } from '@/features/common/helpers/featureFlags';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
-import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
 import { DeveloperToolsButton } from '@/features/media-player.play-queue/components/DeveloperToolsButton';
 import type { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
@@ -16,7 +14,7 @@ import {
 	DismissRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { type ReactElement, useCallback } from 'react';
+import { type ReactElement } from 'react';
 
 interface AddToPlayQueueButtonProps {
 	playQueue: IPlayQueueStore;
@@ -44,9 +42,6 @@ export const PlayQueueCommandBar = observer(
 	({ playQueue }: PlayQueueCommandBarProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
 
-		const handleAddToPlaylist =
-			useCallback(async (): Promise<void> => {}, []);
-
 		return (
 			<EuiFlexGroup
 				alignItems="center"
@@ -68,12 +63,6 @@ export const PlayQueueCommandBar = observer(
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
 					<AddToPlayQueueButton playQueue={playQueue} />
-				</EuiFlexItem>
-				<EuiFlexItem grow={false}>
-					<AddToSelectablePopover
-						disabled={!featureFlags.mediaPlayer.enablePlaylists}
-						onAddToPlaylist={handleAddToPlaylist}
-					/>
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
 					<EuiButton
