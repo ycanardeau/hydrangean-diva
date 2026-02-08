@@ -7,7 +7,9 @@ import {
 	EuiButtonIcon,
 	EuiCheckbox,
 	EuiContextMenu,
+	type EuiContextMenuItemIcon,
 	type EuiContextMenuPanelDescriptor,
+	type EuiContextMenuPanelItemDescriptor,
 	EuiIcon,
 	EuiLink,
 	EuiPopover,
@@ -80,88 +82,84 @@ const PlayQueueTableRowContextMenu = memo(
 		item,
 		closePopover,
 	}: PlayQueueTableRowContextMenuProps): ReactElement => {
+		const createItem = useCallback(
+			({
+				name,
+				icon,
+				disabled,
+				onClick,
+			}: {
+				name: string;
+				icon: EuiContextMenuItemIcon;
+				disabled?: boolean;
+				onClick: (event: React.MouseEvent<Element, MouseEvent>) => void;
+			}): EuiContextMenuPanelItemDescriptor => ({
+				name: name,
+				icon: icon,
+				disabled: disabled,
+				onClick: async (e): Promise<void> => {
+					closePopover();
+
+					onClick(e);
+				},
+			}),
+			[closePopover],
+		);
+
 		const panels = useMemo(
 			(): EuiContextMenuPanelDescriptor[] => [
 				{
 					id: 0,
 					items: [
-						{
+						createItem({
 							name: 'Play first' /* LOC */,
 							icon: <EuiIcon type="" />,
-							onClick: async (): Promise<void> => {
-								closePopover();
-
-								await item.playFirst();
-							},
-						},
-						{
+							onClick: item.playFirst,
+						}),
+						createItem({
 							name: 'Play next' /* LOC */,
 							icon: <EuiIcon type="" />,
-							onClick: async (): Promise<void> => {
-								closePopover();
-
-								await item.playNext();
-							},
-						},
-						{
+							onClick: item.playNext,
+						}),
+						createItem({
 							name: 'Add to play queue' /* LOC */,
 							icon: <EuiIcon type={AddRegular} />,
-							onClick: async (): Promise<void> => {
-								closePopover();
-
-								await item.addToPlayQueue();
-							},
-						},
+							onClick: item.addToPlayQueue,
+						}),
 						{
 							isSeparator: true,
 						},
-						{
+						createItem({
 							name: 'Move to the top' /* LOC */,
 							icon: <EuiIcon type={ArrowUploadRegular} />,
-							onClick: async (): Promise<void> => {
-								closePopover();
-
-								item.moveToTop();
-							},
+							onClick: item.moveToTop,
 							disabled: !item.canMoveToTop,
-						},
-						{
+						}),
+						createItem({
 							name: 'Move to the bottom' /* LOC */,
 							icon: <EuiIcon type={ArrowDownloadRegular} />,
-							onClick: async (): Promise<void> => {
-								closePopover();
-
-								item.moveToBottom();
-							},
+							onClick: item.moveToBottom,
 							disabled: !item.canMoveToBottom,
-						},
+						}),
 						{
 							isSeparator: true,
 						},
-						{
+						createItem({
 							name: 'Remove to the top' /* LOC */,
 							icon: <EuiIcon type="" />,
-							onClick: async (): Promise<void> => {
-								closePopover();
-
-								await item.removeToTop();
-							},
+							onClick: item.removeToTop,
 							disabled: !item.canRemoveToTop,
-						},
-						{
+						}),
+						createItem({
 							name: 'Remove others' /* LOC */,
 							icon: <EuiIcon type="" />,
-							onClick: async (): Promise<void> => {
-								closePopover();
-
-								await item.removeOthers();
-							},
+							onClick: item.removeOthers,
 							disabled: !item.canRemoveOthers,
-						},
+						}),
 					],
 				},
 			],
-			[closePopover, item],
+			[createItem, item],
 		);
 
 		return <EuiContextMenu initialPanelId={0} panels={panels} />;
