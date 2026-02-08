@@ -1,7 +1,6 @@
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
-import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonEmpty,
 	EuiContextMenu,
@@ -23,8 +22,6 @@ interface PlayQueueItemContextMenuProps {
 
 const PlayQueueItemContextMenu = memo(
 	({ item, closePopover }: PlayQueueItemContextMenuProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
 		const createItem = useCallback(
 			({
 				name,
@@ -55,8 +52,6 @@ const PlayQueueItemContextMenu = memo(
 							name: 'Open in new tab' /* LOC */,
 							icon: <EuiIcon type={OpenRegular} />,
 							onClick: async (): Promise<void> => {
-								await diva.pause();
-
 								window.open(item.dto.url, '_blank');
 							},
 						}),
@@ -81,7 +76,7 @@ const PlayQueueItemContextMenu = memo(
 					],
 				},
 			],
-			[createItem, diva, item],
+			[createItem, item],
 		);
 
 		return <EuiContextMenu initialPanelId={0} panels={panels} />;

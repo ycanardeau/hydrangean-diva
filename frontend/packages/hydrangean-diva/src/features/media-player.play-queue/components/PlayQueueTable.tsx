@@ -245,10 +245,8 @@ interface PlayQueueTableRowProps {
 
 const PlayQueueTableRow = observer(
 	({ item }: PlayQueueTableRowProps): ReactElement => {
-		const diva = useNostalgicDiva();
-
 		return (
-			<EuiTableRow key={item.id} isSelected={item.isCurrent}>
+			<EuiTableRow isSelected={item.isCurrent}>
 				<EuiTableRowCellCheckbox>
 					<EuiCheckbox
 						id={item.id.toString() /* TODO */}
@@ -265,12 +263,7 @@ const PlayQueueTableRow = observer(
 					/>
 				</EuiTableRowCell>
 				<EuiTableRowCell>
-					<EuiLink
-						href={item.url}
-						target="_blank"
-						external
-						onClick={(): Promise<void> => diva.pause()}
-					>
+					<EuiLink href={item.url} target="_blank" external>
 						{item.title}
 					</EuiLink>
 				</EuiTableRowCell>

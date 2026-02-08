@@ -1,5 +1,9 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
+import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
+import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
 import type { PlaylistListItemStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
+import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
+import { useLocalStorageState } from '@aigamo/route-sphere';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -12,6 +16,7 @@ import {
 	EuiModalFooter,
 	EuiModalHeader,
 	EuiModalHeaderTitle,
+	EuiPageTemplate,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { DeleteRegular, RenameRegular } from '@fluentui/react-icons';
@@ -213,6 +218,14 @@ interface PlaylistDetailsPageProps {
 
 export const PlaylistDetailsPage = observer(
 	({ playlistListItem }: PlaylistDetailsPageProps): ReactElement => {
+		const localStorageStateKey = localStorageStateKeys.playlist(
+			playlistListItem.id,
+		);
+
+		const [playlist] = useState(() => new PlaylistStore());
+
+		useLocalStorageState(localStorageStateKey, playlist.localStorageState);
+
 		const router = useRouter();
 
 		const handleRenamePlaylist = useCallback(
@@ -225,8 +238,10 @@ export const PlaylistDetailsPage = observer(
 		const handleDeletePlaylist = useCallback(async (): Promise<void> => {
 			await router.navigate({ to: '/playlists' });
 
+			window.localStorage.removeItem(localStorageStateKey);
+
 			await playlistListItem.remove();
-		}, [playlistListItem, router]);
+		}, [playlistListItem, router, localStorageStateKey]);
 
 		return (
 			<>
@@ -254,6 +269,14 @@ export const PlaylistDetailsPage = observer(
 						/>,
 					]}
 				/>
+
+				<EuiPageTemplate.Section>
+					{playlist.isEmpty ? (
+						<></>
+					) : (
+						<PlaylistTable playlist={playlist} />
+					)}
+				</EuiPageTemplate.Section>
 			</>
 		);
 	},
