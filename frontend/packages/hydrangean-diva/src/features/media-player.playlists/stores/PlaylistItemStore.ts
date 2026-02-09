@@ -46,6 +46,34 @@ export class PlaylistItemStore implements IPlaylistItemStore {
 		return false; /* TODO */
 	}
 
+	@computed get index(): number {
+		return this.playlist.items.indexOf(this);
+	}
+
+	@computed get isFirst(): boolean {
+		return this.index === 0;
+	}
+
+	@computed get isLast(): boolean {
+		return this.index === this.playlist.items.length - 1;
+	}
+
+	@computed get canMoveToTop(): boolean {
+		return !this.isFirst;
+	}
+
+	@computed get canMoveToBottom(): boolean {
+		return !this.isLast;
+	}
+
+	@computed get canRemoveToTop(): boolean {
+		return !this.isFirst;
+	}
+
+	@computed get canRemoveOthers(): boolean {
+		return this.playlist.hasMultipleItems;
+	}
+
 	@action.bound unselect(): void {
 		this.isSelected = false;
 	}
@@ -56,5 +84,44 @@ export class PlaylistItemStore implements IPlaylistItemStore {
 
 	@action.bound toggleSelected(): void {
 		this.isSelected = !this.isSelected;
+	}
+
+	@action.bound play(): void {
+		// TODO
+	}
+
+	@action.bound remove(): Promise<void> {
+		return this.playlist.removeItems([this]);
+	}
+
+	@action.bound playFirst(): Promise<void> {
+		// TODO
+		return Promise.resolve();
+	}
+
+	@action.bound playNext(): Promise<void> {
+		// TODO
+		return Promise.resolve();
+	}
+
+	@action.bound addToPlayQueue(): Promise<void> {
+		// TODO
+		return Promise.resolve();
+	}
+
+	@action.bound moveToTop(): void {
+		this.playlist.moveItem(this, 0);
+	}
+
+	@action.bound moveToBottom(): void {
+		this.playlist.moveItem(this, this.playlist.items.length - 1);
+	}
+
+	@action.bound removeToTop(): Promise<void> {
+		return this.playlist.removeItemsAbove(this);
+	}
+
+	@action.bound removeOthers(): Promise<void> {
+		return this.playlist.removeOtherItems(this);
 	}
 }

@@ -8,6 +8,7 @@ import type { IPlaylistStore } from '@/features/media-player.playlists/interface
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
 import type { IStateStore } from '@aigamo/route-sphere';
 import type { JSONSchemaType } from 'ajv';
+import { pull } from 'lodash-es';
 import { action, computed, makeObservable, observable } from 'mobx';
 
 interface PlaylistLocalStorageState {
@@ -78,6 +79,10 @@ export class PlaylistStore implements IPlaylistStore {
 		return this.items.length === 0;
 	}
 
+	@computed get hasMultipleItems(): boolean {
+		return this.items.length > 1;
+	}
+
 	@computed get selectedItems(): IPlaylistItemStore[] {
 		return this.items.filter((item) => item.isSelected);
 	}
@@ -100,5 +105,34 @@ export class PlaylistStore implements IPlaylistStore {
 		for (const item of this.items) {
 			item.select();
 		}
+	}
+
+	@action.bound moveItem(item: IPlaylistItemStore, index: number): void {
+		const element = this.items.splice(this.items.indexOf(item), 1)[0];
+		this.items.splice(index, 0, element);
+	}
+
+	@action.bound async removeItems(
+		items: IPlaylistItemStore[],
+	): Promise<void> {
+		pull(this.items, ...items);
+	}
+
+	@action.bound async removeOtherItems(
+		item: IPlaylistItemStore,
+	): Promise<void> {
+		const itemId = item.id;
+		return this.removeItems(
+			this.items.filter((item) => item.id !== itemId),
+		);
+	}
+
+	@action.bound async removeItemsAbove(
+		item: IPlaylistItemStore,
+	): Promise<void> {
+		const itemIndex = this.items.indexOf(item);
+		return this.removeItems(
+			this.items.filter((_, index) => index < itemIndex),
+		);
 	}
 }
