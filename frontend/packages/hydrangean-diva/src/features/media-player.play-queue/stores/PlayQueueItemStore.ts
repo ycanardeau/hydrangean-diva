@@ -17,9 +17,9 @@ export class PlayQueueItemStore
 		readonly playQueue: IPlayQueueStore,
 		readonly dto: PlayQueueItemDto,
 	) {
-		this.id = PlayQueueItemStore.nextId++;
-
 		makeObservable(this);
+
+		this.id = PlayQueueItemStore.nextId++;
 	}
 
 	static fromDto(

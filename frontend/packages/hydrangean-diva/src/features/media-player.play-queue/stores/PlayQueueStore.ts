@@ -41,9 +41,9 @@ export class PlayQueueStore implements IPlayQueueStore, IPlayQueueTableStore {
 	@observable currentId: number | undefined;
 
 	constructor() {
-		this.localStorageState = new PlayQueueLocalStorageStateStore(this);
-
 		makeObservable(this);
+
+		this.localStorageState = new PlayQueueLocalStorageStateStore(this);
 	}
 
 	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore {

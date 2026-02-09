@@ -47,9 +47,9 @@ export class PlaylistStore {
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
 		readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto,
 	) {
-		this.locationState = new PlaylistLocationStateStore(this);
-
 		makeObservable(this);
+
+		this.locationState = new PlaylistLocationStateStore(this);
 	}
 
 	createItem(

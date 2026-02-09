@@ -13,9 +13,9 @@ export class PlaylistItemStore {
 		private readonly playlist: PlaylistStore,
 		private readonly dto: HydrangeanDivaMediaPlayerContractsPlaylistsDtosTrackDto,
 	) {
-		this.id = PlaylistItemStore.nextId++;
-
 		makeObservable(this);
+
+		this.id = PlaylistItemStore.nextId++;
 	}
 
 	get url(): string {

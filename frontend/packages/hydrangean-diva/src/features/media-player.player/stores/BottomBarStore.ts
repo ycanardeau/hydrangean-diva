@@ -63,9 +63,9 @@ export class BottomBarStore implements IBottomBarStore {
 		private readonly player: IPlayerStore,
 		private readonly playQueue: IPlayQueueStore,
 	) {
-		this.localStorageState = new BottomBarLocalStorageStateStore(this);
-
 		makeObservable(this);
+
+		this.localStorageState = new BottomBarLocalStorageStateStore(this);
 	}
 
 	@computed get controller(): IPlayerController {

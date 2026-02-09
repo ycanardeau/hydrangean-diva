@@ -43,9 +43,9 @@ export class PlaylistListStore {
 	constructor(
 		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
 	) {
-		this.locationState = new PlaylistListLocationStateStore(this);
-
 		makeObservable(this);
+
+		this.locationState = new PlaylistListLocationStateStore(this);
 	}
 
 	@action.bound updateResults(): Promise<void> {
