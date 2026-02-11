@@ -1,7 +1,6 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
-import { PlayQueue } from '@/features/media-player.play-queue/components/PlayQueue';
-import { EuiPageTemplate } from '@elastic/eui';
+import { PlayQueueSection } from '@/features/media-player.play-queue/components/PlayQueueSection';
 import type { ReactElement } from 'react';
 
 export const PlayQueuePage = (): ReactElement => {
@@ -14,9 +13,7 @@ export const PlayQueuePage = (): ReactElement => {
 				rightSideItems={[]}
 			/>
 
-			<EuiPageTemplate.Section>
-				<PlayQueue playQueue={playQueue} />
-			</EuiPageTemplate.Section>
+			<PlayQueueSection playQueue={playQueue} />
 		</>
 	);
 };

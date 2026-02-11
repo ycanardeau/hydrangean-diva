@@ -15,6 +15,7 @@ import {
 	EuiEmptyPrompt,
 	EuiFlexGroup,
 	EuiFlexItem,
+	EuiPageTemplate,
 	EuiSpacer,
 	useEuiTheme,
 } from '@elastic/eui';
@@ -44,12 +45,12 @@ const AddToPlayQueueButton = observer(
 	},
 );
 
-interface PlayQueueProps {
+interface PlayQueueSectionProps {
 	playQueue: IPlayQueueStore;
 }
 
-export const PlayQueue = observer(
-	({ playQueue }: PlayQueueProps): ReactElement => {
+export const PlayQueueSection = observer(
+	({ playQueue }: PlayQueueSectionProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
 
 		const handleAddToPlaylist =
@@ -89,7 +90,7 @@ export const PlayQueue = observer(
 		);
 
 		return (
-			<>
+			<EuiPageTemplate.Section>
 				<EuiFlexGroup
 					alignItems="center"
 					gutterSize="m"
@@ -171,7 +172,7 @@ export const PlayQueue = observer(
 				) : (
 					<PlayQueueTable playQueue={playQueue} />
 				)}
-			</>
+			</EuiPageTemplate.Section>
 		);
 	},
 );
