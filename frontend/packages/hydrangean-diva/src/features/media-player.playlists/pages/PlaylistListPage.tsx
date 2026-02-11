@@ -1,15 +1,14 @@
-import { AppLink } from '@/common/components/AppLink';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import {
 	CreatePlaylistButton,
 	type CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
-import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
+import { PlaylistListTable } from '@/features/media-player.playlists/components/PlaylistListTable';
+import { usePlaylistList } from '@/features/media-player.playlists/contexts/PlaylistListContext';
 import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
-import { useLocationState } from '@aigamo/route-sphere/tanstack-router';
-import { EuiBasicTable, EuiPageTemplate, EuiSpacer } from '@elastic/eui';
+import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import { type ReactElement, memo, useCallback, useState } from 'react';
+import { type ReactElement, memo, useCallback } from 'react';
 
 const PlaylistListPageHeader = (): ReactElement => {
 	return (
@@ -24,60 +23,15 @@ const PlaylistListPageHeader = (): ReactElement => {
 	);
 };
 
-interface PlaylistListTableProps {
-	playlistList: PlaylistListStore;
-}
-
-const PlaylistListTable = observer(
-	({ playlistList }: PlaylistListTableProps): ReactElement => {
-		return (
-			<EuiBasicTable
-				responsiveBreakpoint={false}
-				items={playlistList.items}
-				itemId="id"
-				rowHeader="name"
-				columns={[
-					{
-						field: 'name',
-						name: 'Name' /* LOC */,
-						render: (_, item) => (
-							<AppLink
-								linkProps={{
-									to: '/playlists/$playlistId',
-									params: { playlistId: item.id },
-								}}
-							>
-								{item.name}
-							</AppLink>
-						),
-					},
-				]}
-				rowProps={{}}
-				cellProps={{}}
-				loading={playlistList.loading}
-			/>
-		);
-	},
-);
-
 interface PlaylistListPageBodyProps {
 	playlistList: PlaylistListStore;
 }
 
 const PlaylistListPageBody = observer(
 	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
-		useLocationState(playlistList.locationState);
-
 		const handleCreatePlaylist = useCallback(
 			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {
-				await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsPost({
-					hydrangeanDivaMediaPlayerEndpointsPlaylistsCreatePlaylistRequest:
-						{
-							name: e.name,
-						},
-				});
-
-				await playlistList.updateResults();
+				await playlistList.addItem(playlistList.createItem(e.name));
 			},
 			[playlistList],
 		);
@@ -96,9 +50,7 @@ const PlaylistListPageBody = observer(
 );
 
 export const PlaylistListPage = memo((): ReactElement => {
-	const [playlistList] = useState(
-		() => new PlaylistListStore(mediaPlayerPlaylistsApi),
-	);
+	const playlistList = usePlaylistList();
 
 	return (
 		<>

@@ -1,16 +1,10 @@
-import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api/models/HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto';
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
-import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
-import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
-import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
-import { useLocationState } from '@aigamo/route-sphere/tanstack-router';
+import type { PlaylistListItemStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import {
 	EuiButton,
 	EuiButtonEmpty,
 	EuiConfirmModal,
 	EuiFieldText,
-	EuiFlexGroup,
-	EuiFlexItem,
 	EuiForm,
 	EuiFormRow,
 	EuiModal,
@@ -18,90 +12,27 @@ import {
 	EuiModalFooter,
 	EuiModalHeader,
 	EuiModalHeaderTitle,
-	EuiPageTemplate,
-	EuiSpacer,
-	useEuiTheme,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
-import {
-	AddRegular,
-	DeleteRegular,
-	DismissRegular,
-	PlayRegular,
-	RenameRegular,
-} from '@fluentui/react-icons';
+import { DeleteRegular, RenameRegular } from '@fluentui/react-icons';
 import { useRouter } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, useCallback, useState } from 'react';
 
-interface PlayAllButtonProps {
-	playlist: PlaylistStore;
-}
-
-const PlayAllButton = ({ playlist }: PlayAllButtonProps): ReactElement => {
-	return (
-		<EuiButton
-			iconType={PlayRegular}
-			fill
-			onClick={playlist.playSelectedItems}
-		>
-			Play{/* LOC */}
-		</EuiButton>
-	);
-};
-
-interface PlayNextButtonProps {
-	playlist: PlaylistStore;
-}
-
-const PlayNextButton = ({ playlist }: PlayNextButtonProps): ReactElement => {
-	return (
-		<EuiButton onClick={playlist.playSelectedItemsNext}>
-			Play next{/* LOC */}
-		</EuiButton>
-	);
-};
-
-interface AddToPlayQueueButtonProps {
-	playlist: PlaylistStore;
-}
-
-const AddToPlayQueueButton = ({
-	playlist,
-}: AddToPlayQueueButtonProps): ReactElement => {
-	return (
-		<EuiButton
-			iconType={AddRegular}
-			onClick={playlist.addSelectedItemsToPlayQueue}
-		>
-			Add to play queue{/* LOC */}
-		</EuiButton>
-	);
-};
-
-const RemoveButton = (): ReactElement => {
-	return <EuiButton iconType={DismissRegular}>Remove{/* LOC */}</EuiButton>;
-};
-
-interface RenamePlaylistFormSubmitEvent {
-	id: string;
-	name: string;
-}
-
 interface RenamePlaylistModalProps {
-	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
+	playlistListItem: PlaylistListItemStore;
 	onCancel: () => void;
-	onSave: (e: RenamePlaylistFormSubmitEvent) => Promise<void>;
+	onSave: (e: { name: string }) => Promise<void>;
 }
 
 const RenamePlaylistModal = ({
-	playlist,
+	playlistListItem,
 	onCancel,
 	onSave,
 }: RenamePlaylistModalProps): ReactElement => {
 	const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
 
-	const [name, setName] = useState(playlist.name);
+	const [name, setName] = useState(playlistListItem.name);
 	const [loading, setLoading] = useState(false);
 
 	return (
@@ -122,10 +53,7 @@ const RenamePlaylistModal = ({
 						try {
 							setLoading(true);
 
-							await onSave({
-								id: playlist.id,
-								name: name,
-							});
+							await onSave({ name: name });
 						} finally {
 							setLoading(false);
 						}
@@ -161,18 +89,18 @@ const RenamePlaylistModal = ({
 };
 
 interface RenameButtonProps {
-	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
-	onSave: (e: RenamePlaylistFormSubmitEvent) => Promise<void>;
+	playlistListItem: PlaylistListItemStore;
+	onSave: (e: { name: string }) => Promise<void>;
 }
 
 const RenameButton = ({
-	playlist,
+	playlistListItem,
 	onSave,
 }: RenameButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	const handleSave = useCallback(
-		async (e: RenamePlaylistFormSubmitEvent): Promise<void> => {
+		async (e: { name: string }): Promise<void> => {
 			await onSave(e);
 
 			setModalOpen(false);
@@ -191,7 +119,7 @@ const RenameButton = ({
 
 			{isModalOpen && (
 				<RenamePlaylistModal
-					playlist={playlist}
+					playlistListItem={playlistListItem}
 					onCancel={(): void => setModalOpen(false)}
 					onSave={handleSave}
 				/>
@@ -200,18 +128,14 @@ const RenameButton = ({
 	);
 };
 
-interface DeletePlaylistFormSubmitEvent {
-	id: string;
-}
-
 interface DeletePlaylistConfirmModalProps {
-	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
+	playlistListItem: PlaylistListItemStore;
 	onCancel: () => void;
-	onSave: (e: DeletePlaylistFormSubmitEvent) => Promise<void>;
+	onSave: () => Promise<void>;
 }
 
 const DeletePlaylistConfirmModal = ({
-	playlist,
+	playlistListItem,
 	onCancel,
 	onSave,
 }: DeletePlaylistConfirmModalProps): ReactElement => {
@@ -221,13 +145,11 @@ const DeletePlaylistConfirmModal = ({
 		try {
 			setLoading(true);
 
-			await onSave({
-				id: playlist.id,
-			});
+			await onSave();
 		} finally {
 			setLoading(false);
 		}
-	}, [playlist, onSave]);
+	}, [onSave]);
 
 	return (
 		<EuiConfirmModal
@@ -241,31 +163,29 @@ const DeletePlaylistConfirmModal = ({
 		>
 			<p>
 				Are you sure you want to delete this playlist? If you delete '
-				{playlist.name}', you won't be able to recover it.{/* LOC */}
+				{playlistListItem.name}
+				', you won't be able to recover it.{/* LOC */}
 			</p>
 		</EuiConfirmModal>
 	);
 };
 
 interface DeleteButtonProps {
-	playlist: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto;
-	onSave: (e: DeletePlaylistFormSubmitEvent) => Promise<void>;
+	playlistListItem: PlaylistListItemStore;
+	onSave: () => Promise<void>;
 }
 
 const DeleteButton = ({
-	playlist,
+	playlistListItem,
 	onSave,
 }: DeleteButtonProps): ReactElement => {
 	const [isModalOpen, setModalOpen] = useState(false);
 
-	const handleSave = useCallback(
-		async (e: DeletePlaylistFormSubmitEvent): Promise<void> => {
-			await onSave(e);
+	const handleSave = useCallback(async (): Promise<void> => {
+		await onSave();
 
-			setModalOpen(false);
-		},
-		[onSave],
-	);
+		setModalOpen(false);
+	}, [onSave]);
 
 	return (
 		<>
@@ -278,7 +198,7 @@ const DeleteButton = ({
 
 			{isModalOpen && (
 				<DeletePlaylistConfirmModal
-					playlist={playlist}
+					playlistListItem={playlistListItem}
 					onCancel={(): void => setModalOpen(false)}
 					onSave={handleSave}
 				/>
@@ -288,47 +208,30 @@ const DeleteButton = ({
 };
 
 interface PlaylistDetailsPageProps {
-	playlist: PlaylistStore;
+	playlistListItem: PlaylistListItemStore;
 }
 
 export const PlaylistDetailsPage = observer(
-	({ playlist }: PlaylistDetailsPageProps): ReactElement => {
-		useLocationState(playlist.locationState);
-
-		const { euiTheme } = useEuiTheme();
-
+	({ playlistListItem }: PlaylistDetailsPageProps): ReactElement => {
 		const router = useRouter();
 
 		const handleRenamePlaylist = useCallback(
-			async (e: RenamePlaylistFormSubmitEvent): Promise<void> => {
-				await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdRenamePost({
-					id: e.id,
-					hydrangeanDivaMediaPlayerEndpointsPlaylistsRenamePlaylistRequest:
-						{
-							name: e.name,
-						},
-				});
-
-				await router.invalidate();
+			async (e: { name: string }): Promise<void> => {
+				await playlistListItem.rename(e.name);
 			},
-			[router],
+			[playlistListItem],
 		);
 
-		const handleDeletePlaylist = useCallback(
-			async (e: DeletePlaylistFormSubmitEvent): Promise<void> => {
-				await mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdDelete({
-					id: e.id,
-				});
+		const handleDeletePlaylist = useCallback(async (): Promise<void> => {
+			await router.navigate({ to: '/playlists' });
 
-				await router.navigate({ to: '/playlists' });
-			},
-			[router],
-		);
+			await playlistListItem.remove();
+		}, [playlistListItem, router]);
 
 		return (
 			<>
 				<AppPageTemplateHeader
-					pageTitle={playlist.dto.name}
+					pageTitle={playlistListItem.name}
 					breadcrumbs={[
 						{
 							text: 'Playlists' /* LOC */,
@@ -337,59 +240,20 @@ export const PlaylistDetailsPage = observer(
 							},
 						},
 						{
-							text: playlist.dto.name,
+							text: playlistListItem.name,
 						},
 					]}
-					description={`${0} items`}
 					rightSideItems={[
 						<RenameButton
-							playlist={playlist.dto}
+							playlistListItem={playlistListItem}
 							onSave={handleRenamePlaylist}
 						/>,
 						<DeleteButton
-							playlist={playlist.dto}
+							playlistListItem={playlistListItem}
 							onSave={handleDeletePlaylist}
 						/>,
 					]}
 				/>
-
-				<EuiPageTemplate.Section>
-					<EuiFlexGroup
-						alignItems="center"
-						gutterSize="m"
-						style={{
-							position: 'sticky',
-							top: 48,
-							zIndex: 998,
-							background: euiTheme.colors.backgroundBasePlain,
-						}}
-					>
-						<EuiFlexItem grow={false}>
-							<PlayAllButton playlist={playlist} />
-						</EuiFlexItem>
-						<EuiFlexItem grow={false}>
-							<PlayNextButton playlist={playlist} />
-						</EuiFlexItem>
-						<EuiFlexItem grow={false}>
-							<AddToPlayQueueButton playlist={playlist} />
-						</EuiFlexItem>
-						<EuiFlexItem grow={false}>
-							<RemoveButton />
-						</EuiFlexItem>
-					</EuiFlexGroup>
-
-					<EuiSpacer
-						size="l"
-						style={{
-							position: 'sticky',
-							top: 48 + 40,
-							zIndex: 998,
-							background: euiTheme.colors.backgroundBasePlain,
-						}}
-					/>
-
-					<PlaylistTable playlist={playlist} />
-				</EuiPageTemplate.Section>
 			</>
 		);
 	},

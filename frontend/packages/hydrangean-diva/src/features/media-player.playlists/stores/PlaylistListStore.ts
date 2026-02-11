@@ -1,69 +1,92 @@
-import type { MediaPlayerPlaylistsApi } from '@/api/apis/MediaPlayerPlaylistsApi';
-import type { HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto } from '@/api/models/HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto';
-import type { IStateStore, StateChangeEvent } from '@aigamo/route-sphere';
-import {
-	action,
-	computed,
-	makeObservable,
-	observable,
-	runInAction,
-} from 'mobx';
+import type { IStateStore } from '@aigamo/route-sphere';
+import { pull } from 'lodash-es';
+import { action, computed, makeObservable, observable } from 'mobx';
 
-type PlaylistListLocationState = Record<string, never>;
+interface PlaylistListLocalStorageState {
+	items?: {
+		id: string;
+		name: string;
+	}[];
+}
 
-class PlaylistListLocationStateStore implements IStateStore<PlaylistListLocationState> {
+class PlaylistListLocalStorageStateStore implements IStateStore<PlaylistListLocalStorageState> {
 	constructor(private readonly playlistList: PlaylistListStore) {
 		makeObservable(this);
 	}
 
-	@computed.struct get state(): PlaylistListLocationState {
-		return {};
+	@computed.struct get state(): PlaylistListLocalStorageState {
+		return {
+			items: this.playlistList.items.map((item) => ({
+				id: item.id,
+				name: item.name,
+			})),
+		};
 	}
-	set state(_value: PlaylistListLocationState) {}
+	set state(value: PlaylistListLocalStorageState) {
+		this.playlistList.items =
+			value.items?.map(
+				(item) =>
+					new PlaylistListItemStore(
+						this.playlistList,
+						item.id,
+						item.name,
+					),
+			) ?? [];
+	}
 
-	validateState(
-		_locationState: unknown,
-	): _locationState is PlaylistListLocationState {
+	validateState(state: unknown): state is PlaylistListLocalStorageState {
 		return true /* TODO: implement */;
 	}
+}
 
-	@action.bound onStateChange(
-		_event: StateChangeEvent<PlaylistListLocationState>,
-	): Promise<void> {
-		return this.playlistList.updateResults();
+export class PlaylistListItemStore {
+	@observable id: string;
+	@observable name: string;
+
+	constructor(
+		private readonly playlistList: PlaylistListStore,
+		id: string,
+		name: string,
+	) {
+		makeObservable(this);
+
+		this.id = id;
+		this.name = name;
+	}
+
+	@action.bound async rename(name: string): Promise<void> {
+		this.name = name;
+	}
+
+	@action.bound remove(): Promise<void> {
+		return this.playlistList.removeItem(this);
 	}
 }
 
 export class PlaylistListStore {
-	readonly locationState: PlaylistListLocationStateStore;
+	readonly localStorageState: PlaylistListLocalStorageStateStore;
 	@observable
-	items: HydrangeanDivaMediaPlayerContractsPlaylistsDtosPlaylistDto[] = [];
-	@observable loading = false;
+	items: PlaylistListItemStore[] = [];
 
-	constructor(
-		private readonly mediaPlayerPlaylistsApi: MediaPlayerPlaylistsApi,
-	) {
+	constructor() {
 		makeObservable(this);
 
-		this.locationState = new PlaylistListLocationStateStore(this);
+		this.localStorageState = new PlaylistListLocalStorageStateStore(this);
 	}
 
-	@action.bound updateResults(): Promise<void> {
-		this.loading = true;
+	createItem(name: string): PlaylistListItemStore {
+		return new PlaylistListItemStore(this, crypto.randomUUID(), name);
+	}
 
-		return this.mediaPlayerPlaylistsApi
-			.mediaPlayerPlaylistsGet()
-			.then((response) =>
-				runInAction(() => {
-					const { items } = response;
+	@action.bound setItems(value: PlaylistListItemStore[]): void {
+		this.items = value;
+	}
 
-					this.items = items;
-				}),
-			)
-			.finally(() =>
-				runInAction(() => {
-					this.loading = false;
-				}),
-			);
+	@action.bound async addItem(item: PlaylistListItemStore): Promise<void> {
+		this.items.push(item);
+	}
+
+	@action.bound async removeItem(item: PlaylistListItemStore): Promise<void> {
+		pull(this.items, item);
 	}
 }

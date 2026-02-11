@@ -3,6 +3,7 @@ import { PlayQueueProvider } from '@/features/media-player.play-queue/components
 import { PlayerProvider } from '@/features/media-player.player/components/PlayerProvider';
 import { BottomBarProvider } from '@/features/media-player.player/components/bottom-bar/BottomBarProvider';
 import { MiniPlayerProvider } from '@/features/media-player.player/components/mini-player/MiniPlayerProvider';
+import { PlaylistListProvider } from '@/features/media-player.playlists/components/PlaylistListProvider';
 import {
 	NostalgicDivaProvider,
 	type NostalgicDivaProviderProps,
@@ -26,6 +27,7 @@ export const HydrangeanDivaProvider = ({
 					PlayQueueProvider,
 					MiniPlayerProvider,
 					BottomBarProvider,
+					PlaylistListProvider,
 				]}
 			>
 				{children}

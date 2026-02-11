@@ -1,31 +1,24 @@
-import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
-import { mediaPlayerPlaylistsApi } from '@/features/media-player.playlists/helpers/mediaPlayerPlaylistsApi';
+import { usePlaylistList } from '@/features/media-player.playlists/contexts/PlaylistListContext';
 import { PlaylistDetailsPage } from '@/features/media-player.playlists/pages/PlaylistDetailsPage';
-import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import { createFileRoute } from '@tanstack/react-router';
-import { type ReactElement, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { type ReactElement } from 'react';
 
-const RouteComponent = (): ReactElement => {
-	const playQueue = usePlayQueue();
+const RouteComponent = observer((): ReactElement => {
+	const { playlistId } = Route.useParams();
 
-	const loaderData = Route.useLoaderData();
-
-	const [playlist] = useState(
-		() =>
-			new PlaylistStore(
-				playQueue,
-				mediaPlayerPlaylistsApi,
-				loaderData.playlist,
-			),
+	const playlistList = usePlaylistList();
+	const playlistListItem = playlistList.items.find(
+		(item) => item.id === playlistId,
 	);
 
-	return <PlaylistDetailsPage playlist={playlist} />;
-};
+	if (playlistListItem === undefined) {
+		throw new Error('Playlist not found'); // TODO: 404 page
+	}
+
+	return <PlaylistDetailsPage playlistListItem={playlistListItem} />;
+});
 
 export const Route = createFileRoute('/_authenticated/playlists/$playlistId/')({
-	loader: (context) =>
-		mediaPlayerPlaylistsApi.mediaPlayerPlaylistsIdGet({
-			id: context.params.playlistId,
-		}),
 	component: RouteComponent,
 });
