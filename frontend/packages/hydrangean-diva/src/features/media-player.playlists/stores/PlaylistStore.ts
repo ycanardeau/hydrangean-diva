@@ -45,7 +45,8 @@ class PlaylistLocalStorageStateStore implements IStateStore<PlaylistLocalStorage
 	}
 	set state(value: PlaylistLocalStorageState) {
 		this.playlist.items =
-			value.items?.map((item) => this.playlist.createItem(item)) ?? [];
+			value.items?.map((item) => this.playlist.createItemFromDto(item)) ??
+			[];
 	}
 
 	validateState(state: unknown): state is PlaylistLocalStorageState {
@@ -66,7 +67,7 @@ export class PlaylistStore implements IPlaylistStore {
 		this.localStorageState = new PlaylistLocalStorageStateStore(this);
 	}
 
-	createItem(dto: PlayQueueItemDto): IPlaylistItemStore {
+	createItemFromDto(dto: PlayQueueItemDto): IPlaylistItemStore {
 		return PlaylistItemStore.fromDto(this, {
 			url: dto.url,
 			type: dto.type,
@@ -77,6 +78,10 @@ export class PlaylistStore implements IPlaylistStore {
 
 	@computed get isEmpty(): boolean {
 		return this.items.length === 0;
+	}
+
+	@computed get canClear(): boolean {
+		return !this.isEmpty;
 	}
 
 	@computed get hasMultipleItems(): boolean {
@@ -91,8 +96,32 @@ export class PlaylistStore implements IPlaylistStore {
 		return this.selectedItems.length === this.items.length;
 	}
 
+	@computed get hasSelectedItems(): boolean {
+		return this.selectedItems.length > 0;
+	}
+
+	@computed get selectedItemsOrAllItems(): IPlaylistItemStore[] {
+		return this.hasSelectedItems ? this.selectedItems : this.items;
+	}
+
+	@computed get canAddSelectedItems(): boolean {
+		return !this.isEmpty && this.hasSelectedItems;
+	}
+
+	@computed get canPlaySelectedItemsNext(): boolean {
+		return !this.isEmpty && this.hasSelectedItems;
+	}
+
+	@computed get canRemoveSelectedItems(): boolean {
+		return !this.isEmpty && this.hasSelectedItems;
+	}
+
 	@action.bound setItems(value: IPlaylistItemStore[]): void {
 		this.items = value;
+	}
+
+	@action.bound clear(): void {
+		this.items = [];
 	}
 
 	@action.bound unselectAll(): void {
@@ -107,6 +136,22 @@ export class PlaylistStore implements IPlaylistStore {
 		}
 	}
 
+	@action.bound async playSelectedItemsNext(): Promise<void> {
+		// TODO
+
+		this.unselectAll();
+	}
+
+	@action.bound async addSelectedItems(): Promise<void> {
+		// TODO
+
+		this.unselectAll();
+	}
+
+	@action.bound async addItems(items: IPlaylistItemStore[]): Promise<void> {
+		this.items.push(...items);
+	}
+
 	@action.bound moveItem(item: IPlaylistItemStore, index: number): void {
 		const element = this.items.splice(this.items.indexOf(item), 1)[0];
 		this.items.splice(index, 0, element);
@@ -116,6 +161,12 @@ export class PlaylistStore implements IPlaylistStore {
 		items: IPlaylistItemStore[],
 	): Promise<void> {
 		pull(this.items, ...items);
+	}
+
+	@action.bound async removeSelectedItems(): Promise<void> {
+		await this.removeItems(this.selectedItemsOrAllItems);
+
+		this.unselectAll();
 	}
 
 	@action.bound async removeOtherItems(
@@ -134,5 +185,11 @@ export class PlaylistStore implements IPlaylistStore {
 		return this.removeItems(
 			this.items.filter((_, index) => index < itemIndex),
 		);
+	}
+
+	@action.bound addItemFromDto(dto: PlayQueueItemDto): Promise<void> {
+		const item = this.createItemFromDto(dto);
+
+		return this.addItems([item]);
 	}
 }

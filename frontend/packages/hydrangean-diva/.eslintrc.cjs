@@ -125,6 +125,7 @@ module.exports = {
 								allow: [
 									'@aigamo.hydrangean-diva/common',
 									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+									'@aigamo.hydrangean-diva/media-player.play-queue',
 								],
 							},
 						],

@@ -1,5 +1,5 @@
-import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
+import type { IPlaylistStore } from '@/features/media-player.playlists/interfaces/IPlaylistStore';
 import {
 	EuiButton,
 	EuiFlexGroup,
@@ -14,17 +14,17 @@ import {
 import { observer } from 'mobx-react-lite';
 import { type ReactElement } from 'react';
 
-interface AddToPlayQueueButtonProps {
-	playQueue: IPlayQueueStore;
+interface AddToPlaylistButtonProps {
+	playlist: IPlaylistStore;
 }
 
-const AddToPlayQueueButton = observer(
-	({ playQueue }: AddToPlayQueueButtonProps): ReactElement => {
+const AddToPlaylistButton = observer(
+	({ playlist }: AddToPlaylistButtonProps): ReactElement => {
 		return (
 			<EuiButton
 				iconType={AddRegular}
-				onClick={playQueue.addSelectedItems}
-				disabled={!playQueue.canAddSelectedItems}
+				onClick={playlist.addSelectedItems}
+				disabled={!playlist.canAddSelectedItems}
 			>
 				Add to play queue{/* LOC */}
 			</EuiButton>
@@ -32,12 +32,12 @@ const AddToPlayQueueButton = observer(
 	},
 );
 
-interface PlayQueueCommandBarProps {
-	playQueue: IPlayQueueStore;
+interface PlaylistCommandBarProps {
+	playlist: IPlaylistStore;
 }
 
-export const PlayQueueCommandBar = observer(
-	({ playQueue }: PlayQueueCommandBarProps): ReactElement => {
+export const PlaylistCommandBar = observer(
+	({ playlist }: PlaylistCommandBarProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
 
 		return (
@@ -53,20 +53,20 @@ export const PlayQueueCommandBar = observer(
 			>
 				<EuiFlexItem grow={false}>
 					<EuiButton
-						disabled={!playQueue.canPlaySelectedItemsNext}
-						onClick={playQueue.playSelectedItemsNext}
+						disabled={!playlist.canPlaySelectedItemsNext}
+						onClick={playlist.playSelectedItemsNext}
 					>
 						Play next{/* LOC */}
 					</EuiButton>
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
-					<AddToPlayQueueButton playQueue={playQueue} />
+					<AddToPlaylistButton playlist={playlist} />
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
 					<EuiButton
 						iconType={DismissRegular}
-						onClick={playQueue.removeSelectedItems}
-						disabled={!playQueue.canRemoveSelectedItems}
+						onClick={playlist.removeSelectedItems}
+						disabled={!playlist.canRemoveSelectedItems}
 					>
 						Remove{/* LOC */}
 					</EuiButton>
@@ -74,15 +74,15 @@ export const PlayQueueCommandBar = observer(
 				<EuiFlexItem grow={false}>
 					<EuiButton
 						iconType={DeleteRegular}
-						onClick={playQueue.clear}
-						disabled={!playQueue.canClear}
+						onClick={playlist.clear}
+						disabled={!playlist.canClear}
 					>
 						Clear{/* LOC */}
 					</EuiButton>
 				</EuiFlexItem>
 				<EuiFlexItem grow={true} />
 				<EuiFlexItem grow={false}>
-					<AddVideoButton onSave={playQueue.addItemFromDto} />
+					<AddVideoButton onSave={playlist.addItemFromDto} />
 				</EuiFlexItem>
 			</EuiFlexGroup>
 		);
