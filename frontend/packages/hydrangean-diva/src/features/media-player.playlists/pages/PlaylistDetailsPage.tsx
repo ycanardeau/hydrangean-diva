@@ -1,6 +1,6 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
-import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
+import { PlaylistSection } from '@/features/media-player.playlists/components/PlaylistSection';
 import type { PlaylistListItemStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import { useLocalStorageState } from '@aigamo/route-sphere';
@@ -16,7 +16,6 @@ import {
 	EuiModalFooter,
 	EuiModalHeader,
 	EuiModalHeaderTitle,
-	EuiPageTemplate,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
 import { DeleteRegular, RenameRegular } from '@fluentui/react-icons';
@@ -270,13 +269,7 @@ export const PlaylistDetailsPage = observer(
 					]}
 				/>
 
-				<EuiPageTemplate.Section>
-					{playlist.isEmpty ? (
-						<></>
-					) : (
-						<PlaylistTable playlist={playlist} />
-					)}
-				</EuiPageTemplate.Section>
+				<PlaylistSection playlist={playlist} />
 			</>
 		);
 	},
