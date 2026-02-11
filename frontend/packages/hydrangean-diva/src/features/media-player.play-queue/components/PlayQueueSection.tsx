@@ -1,15 +1,11 @@
 import { featureFlags } from '@/features/common/helpers/featureFlags';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
+import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
-import {
-	AddVideoButton,
-	type AddVideoFormSubmitEvent,
-} from '@/features/media-player.play-queue/components/AddVideoButton';
+import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
 import { DeveloperToolsButton } from '@/features/media-player.play-queue/components/DeveloperToolsButton';
 import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
-import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
-import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiEmptyPrompt,
@@ -57,32 +53,8 @@ export const PlayQueueSection = observer(
 			useCallback(async (): Promise<void> => {}, []);
 
 		const handleAddVideo = useCallback(
-			async (e: AddVideoFormSubmitEvent): Promise<void> => {
-				const videoService = findVideoService(e.url);
-				if (videoService === undefined) {
-					return;
-				}
-
-				const videoId = videoService.extractVideoId(e.url);
-				if (videoId === undefined) {
-					return;
-				}
-
-				const response = await fetch(
-					`https://noembed.com/embed?url=${encodeURIComponent(
-						e.url,
-					)}`,
-				);
-				const jsonData = await response.json();
-
-				const item = playQueue.createItem({
-					url: e.url,
-					type: videoService.type,
-					videoId: videoId,
-					title:
-						e.title ||
-						(isNoembedResult(jsonData) ? jsonData.title : videoId),
-				});
+			async (e: PlayQueueItemDto): Promise<void> => {
+				const item = playQueue.createItem(e);
 
 				await playQueue.addItems([item]);
 			},

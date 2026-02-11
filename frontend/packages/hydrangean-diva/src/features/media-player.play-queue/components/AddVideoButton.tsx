@@ -1,3 +1,6 @@
+import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
+import { isNoembedResult } from '@/features/media-player.play-queue/helpers/isNoembedResult';
+import { findVideoService } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -14,7 +17,7 @@ import {
 import { AddRegular } from '@fluentui/react-icons';
 import { type ReactElement, memo, useCallback, useState } from 'react';
 
-export interface AddVideoFormSubmitEvent {
+interface AddVideoFormSubmitEvent {
 	url: string;
 	title: string;
 }
@@ -94,7 +97,7 @@ const AddVideoModal = ({
 };
 
 interface AddVideoButtonProps {
-	onSave: (e: AddVideoFormSubmitEvent) => Promise<void>;
+	onSave: (e: PlayQueueItemDto) => Promise<void>;
 }
 
 export const AddVideoButton = memo(
@@ -103,7 +106,29 @@ export const AddVideoButton = memo(
 
 		const handleSave = useCallback(
 			async (e: AddVideoFormSubmitEvent): Promise<void> => {
-				await onSave(e);
+				const videoService = findVideoService(e.url);
+				if (videoService === undefined) {
+					return;
+				}
+
+				const videoId = videoService.extractVideoId(e.url);
+				if (videoId === undefined) {
+					return;
+				}
+
+				const response = await fetch(
+					`https://noembed.com/embed?url=${encodeURIComponent(e.url)}`,
+				);
+				const jsonData = await response.json();
+
+				await onSave({
+					url: e.url,
+					type: videoService.type,
+					videoId: videoId,
+					title:
+						e.title ||
+						(isNoembedResult(jsonData) ? jsonData.title : videoId),
+				});
 
 				setModalOpen(false);
 			},
