@@ -1,6 +1,5 @@
 import { featureFlags } from '@/features/common/helpers/featureFlags';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
-import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
 import { DeveloperToolsButton } from '@/features/media-player.play-queue/components/DeveloperToolsButton';
@@ -47,15 +46,6 @@ export const PlayQueueCommandBar = observer(
 
 		const handleAddToPlaylist =
 			useCallback(async (): Promise<void> => {}, []);
-
-		const handleAddVideo = useCallback(
-			async (e: PlayQueueItemDto): Promise<void> => {
-				const item = playQueue.createItem(e);
-
-				await playQueue.addItems([item]);
-			},
-			[playQueue],
-		);
 
 		return (
 			<EuiFlexGroup
@@ -111,7 +101,7 @@ export const PlayQueueCommandBar = observer(
 						/>
 					)}
 
-					<AddVideoButton onSave={handleAddVideo} />
+					<AddVideoButton onSave={playQueue.addItemFromDto} />
 				</EuiFlexItem>
 			</EuiFlexGroup>
 		);

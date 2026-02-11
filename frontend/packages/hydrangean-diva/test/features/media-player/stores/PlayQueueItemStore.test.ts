@@ -8,7 +8,7 @@ let playQueueItem: IPlayQueueItemStore;
 
 beforeEach(() => {
 	playQueue = new PlayQueueStore();
-	playQueueItem = playQueue.createItem({
+	playQueueItem = playQueue.createItemFromDto({
 		url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 		type: PlayerType.YouTube,
 		videoId: 'jUe7dDLGpv8',

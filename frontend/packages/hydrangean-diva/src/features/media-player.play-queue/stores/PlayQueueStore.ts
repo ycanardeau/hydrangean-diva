@@ -26,7 +26,9 @@ class PlayQueueLocalStorageStateStore implements IStateStore<PlayQueueDto> {
 	}
 	set state(value: PlayQueueDto) {
 		this.playQueue.items =
-			value.items?.map((item) => this.playQueue.createItem(item)) ?? [];
+			value.items?.map((item) =>
+				this.playQueue.createItemFromDto(item),
+			) ?? [];
 		this.playQueue.currentIndex = value.currentIndex;
 	}
 
@@ -46,7 +48,7 @@ export class PlayQueueStore implements IPlayQueueStore, IPlayQueueTableStore {
 		this.localStorageState = new PlayQueueLocalStorageStateStore(this);
 	}
 
-	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore {
+	createItemFromDto(dto: PlayQueueItemDto): IPlayQueueItemStore {
 		return PlayQueueItemStore.fromDto(this, {
 			url: dto.url,
 			type: dto.type,
@@ -322,5 +324,11 @@ export class PlayQueueStore implements IPlayQueueStore, IPlayQueueTableStore {
 		}
 
 		this.currentIndex++;
+	}
+
+	@action.bound addItemFromDto(dto: PlayQueueItemDto): Promise<void> {
+		const item = this.createItemFromDto(dto);
+
+		return this.addItems([item]);
 	}
 }

@@ -78,7 +78,7 @@ export class PlayQueueItemStore
 	}
 
 	clone(): IPlayQueueItemStore {
-		return this.playQueue.createItem(this.dto);
+		return this.playQueue.createItemFromDto(this.dto);
 	}
 
 	@action.bound unselect(): void {

@@ -6,7 +6,7 @@ import type { IStateStore } from '@aigamo/route-sphere';
 export interface IPlayQueueStore {
 	readonly localStorageState: IStateStore<PlayQueueDto>;
 	readonly items: IPlayQueueItemStore[];
-	createItem(dto: PlayQueueItemDto): IPlayQueueItemStore;
+	createItemFromDto(dto: PlayQueueItemDto): IPlayQueueItemStore;
 	readonly isEmpty: boolean;
 	readonly canClear: boolean;
 	readonly currentItem: IPlayQueueItemStore | undefined;
@@ -41,4 +41,5 @@ export interface IPlayQueueStore {
 	removeOtherItems(item: IPlayQueueItemStore): Promise<void>;
 	previous(): Promise<void>;
 	next(): Promise<void>;
+	addItemFromDto(dto: PlayQueueItemDto): Promise<void>;
 }

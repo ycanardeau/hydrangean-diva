@@ -13,19 +13,19 @@ beforeEach(() => {
 	playQueue = new PlayQueueStore();
 
 	[item, item2, item3] = [
-		playQueue.createItem({
+		playQueue.createItemFromDto({
 			url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 			type: PlayerType.YouTube,
 			videoId: 'jUe7dDLGpv8',
 			title: '2nd Album「Hydrangean Diva」/Nejishiki【Trailer】 - YouTube',
 		}),
-		playQueue.createItem({
+		playQueue.createItemFromDto({
 			url: 'https://www.youtube.com/watch?v=bGdtvUQ9OAs',
 			type: PlayerType.YouTube,
 			videoId: 'bGdtvUQ9OAs',
 			title: '3rd Album「nostalgic diva」Nejishiki【Trailer】 /3rd Album「nostalgic diva」/ねじ式【クロスフェード】 - YouTube',
 		}),
-		playQueue.createItem({
+		playQueue.createItemFromDto({
 			url: 'https://www.nicovideo.jp/watch/sm23384530',
 			type: PlayerType.Niconico,
 			videoId: 'sm23384530',
@@ -47,7 +47,7 @@ describe('isEmpty', () => {
 	});
 
 	it('should return false when play queue is not empty', () => {
-		const item = playQueue.createItem({
+		const item = playQueue.createItemFromDto({
 			url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
 			type: PlayerType.YouTube,
 			videoId: 'jUe7dDLGpv8',

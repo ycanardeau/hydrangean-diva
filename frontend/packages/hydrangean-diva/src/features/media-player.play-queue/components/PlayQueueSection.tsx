@@ -1,5 +1,4 @@
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
-import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
 import { PlayQueueCommandBar } from '@/features/media-player.play-queue/components/PlayQueueCommandBar';
 import { PlayQueueTable } from '@/features/media-player.play-queue/components/PlayQueueTable';
@@ -10,7 +9,7 @@ import {
 	useEuiTheme,
 } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
-import { type ReactElement, useCallback } from 'react';
+import { type ReactElement } from 'react';
 
 interface PlayQueueSectionProps {
 	playQueue: IPlayQueueStore;
@@ -19,15 +18,6 @@ interface PlayQueueSectionProps {
 export const PlayQueueSection = observer(
 	({ playQueue }: PlayQueueSectionProps): ReactElement => {
 		const { euiTheme } = useEuiTheme();
-
-		const handleAddVideo = useCallback(
-			async (e: PlayQueueItemDto): Promise<void> => {
-				const item = playQueue.createItem(e);
-
-				await playQueue.addItems([item]);
-			},
-			[playQueue],
-		);
 
 		return (
 			<EuiPageTemplate.Section>
@@ -52,7 +42,9 @@ export const PlayQueueSection = observer(
 								content.
 							</p>
 						}
-						actions={<AddVideoButton onSave={handleAddVideo} />}
+						actions={
+							<AddVideoButton onSave={playQueue.addItemFromDto} />
+						}
 					/>
 				) : (
 					<PlayQueueTable playQueue={playQueue} />
