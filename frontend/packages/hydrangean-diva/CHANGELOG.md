@@ -1,3 +1,10 @@
+## 0.0.1-alpha.47 (2026-02-13)
+
+### 🧱 Updated Dependencies
+
+- Updated @aigamo/nostalgic-diva to 1.16.5
+- Updated @aigamo/route-sphere to 2.2.0
+
 ## 0.0.1-alpha.46 (2026-01-12)
 
 ### 🧱 Updated Dependencies
