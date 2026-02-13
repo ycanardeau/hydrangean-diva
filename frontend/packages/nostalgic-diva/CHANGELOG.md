@@ -1,3 +1,7 @@
+## 1.16.6 (2026-02-13)
+
+This was a version bump only for @aigamo/nostalgic-diva to align it with other projects, there were no code changes.
+
 ## 1.16.5 (2026-02-13)
 
 This was a version bump only for @aigamo/nostalgic-diva to align it with other projects, there were no code changes.
