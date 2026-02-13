@@ -9,11 +9,11 @@ export interface IPlayQueueItemStore {
 	readonly type: PlayerType;
 	readonly videoId: string;
 	readonly title: string;
-	readonly isCurrent: boolean;
 	readonly canMoveToTop: boolean;
 	readonly canMoveToBottom: boolean;
 	readonly canRemoveToTop: boolean;
 	readonly canRemoveOthers: boolean;
+	readonly isCurrent: boolean;
 	clone(): IPlayQueueItemStore;
 	unselect(): void;
 	select(): void;
