@@ -23,4 +23,5 @@ export interface IPlaylistStore {
 	removeItemsAbove(item: IPlaylistItemStore): Promise<void>;
 	removeOtherItems(item: IPlaylistItemStore): Promise<void>;
 	addItemFromDto(dto: PlayQueueItemDto): Promise<void>;
+	playAll(): Promise<void>;
 }

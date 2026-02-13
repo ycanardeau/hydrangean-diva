@@ -1,4 +1,5 @@
 import { getOrAddSchema } from '@/features/common/stores/getOrAddSchema';
+import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import {
 	type PlayQueueItemDto,
 	PlayQueueItemDtoSchema,
@@ -61,14 +62,14 @@ export class PlaylistStore implements IPlaylistStore {
 	readonly localStorageState: PlaylistLocalStorageStateStore;
 	@observable items: IPlaylistItemStore[] = [];
 
-	constructor() {
+	constructor(private readonly playQueue: IPlayQueueStore) {
 		makeObservable(this);
 
 		this.localStorageState = new PlaylistLocalStorageStateStore(this);
 	}
 
 	createItemFromDto(dto: PlayQueueItemDto): IPlaylistItemStore {
-		return PlaylistItemStore.fromDto(this, {
+		return PlaylistItemStore.fromDto(this.playQueue, this, {
 			url: dto.url,
 			type: dto.type,
 			videoId: dto.videoId,
@@ -129,13 +130,21 @@ export class PlaylistStore implements IPlaylistStore {
 	}
 
 	@action.bound async playSelectedItemsNext(): Promise<void> {
-		// TODO
+		await this.playQueue.playNext(
+			this.selectedItemsOrAllItems.map((item) =>
+				this.playQueue.createItemFromDto(item.dto),
+			),
+		);
 
 		this.unselectAll();
 	}
 
 	@action.bound async addSelectedItems(): Promise<void> {
-		// TODO
+		await this.playQueue.addItems(
+			this.selectedItemsOrAllItems.map((item) =>
+				this.playQueue.createItemFromDto(item.dto),
+			),
+		);
 
 		this.unselectAll();
 	}
@@ -183,5 +192,14 @@ export class PlaylistStore implements IPlaylistStore {
 		const item = this.createItemFromDto(dto);
 
 		return this.addItems([item]);
+	}
+
+	@action.bound playAll(): Promise<void> {
+		this.playQueue.clearAndSetItems(
+			this.items.map((item) =>
+				this.playQueue.createItemFromDto(item.dto),
+			),
+		);
+		return Promise.resolve();
 	}
 }

@@ -90,24 +90,25 @@ export class PlayQueueItemStore implements IPlayQueueItemStore {
 		this.isSelected = !this.isSelected;
 	}
 
-	@action.bound play(): void {
+	@action.bound play(): Promise<void> {
 		this.playQueue.setCurrentItem(this);
+		return Promise.resolve();
 	}
 
 	@action.bound remove(): Promise<void> {
 		return this.playQueue.removeItems([this]);
 	}
 
-	@action.bound async playFirst(): Promise<void> {
-		await this.playQueue.playFirst([this.clone()]);
+	@action.bound playFirst(): Promise<void> {
+		return this.playQueue.playFirst([this.clone()]);
 	}
 
-	@action.bound async playNext(): Promise<void> {
-		await this.playQueue.playNext([this.clone()]);
+	@action.bound playNext(): Promise<void> {
+		return this.playQueue.playNext([this.clone()]);
 	}
 
-	@action.bound async addToPlayQueue(): Promise<void> {
-		await this.playQueue.addItems([this.clone()]);
+	@action.bound addToPlayQueue(): Promise<void> {
+		return this.playQueue.addItems([this.clone()]);
 	}
 
 	@action.bound moveToTop(): void {

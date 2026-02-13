@@ -1,5 +1,6 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
+import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { PlaylistSection } from '@/features/media-player.playlists/components/PlaylistSection';
 import type { PlaylistListItemStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
@@ -237,14 +238,13 @@ export const PlaylistDetailsPage = observer(
 			playlistListItem.id,
 		);
 
-		const [playlist] = useState(() => new PlaylistStore());
+		const playQueue = usePlayQueue();
+
+		const [playlist] = useState(() => new PlaylistStore(playQueue));
 
 		useLocalStorageState(localStorageStateKey, playlist.localStorageState);
 
 		const router = useRouter();
-
-		const handleClickPlayAllButton =
-			useCallback(async (): Promise<void> => {}, []);
 
 		const handleClickRenameButton = useCallback(
 			async (e: { name: string }): Promise<void> => {
@@ -277,7 +277,7 @@ export const PlaylistDetailsPage = observer(
 						},
 					]}
 					rightSideItems={[
-						<PlayAllButton onClick={handleClickPlayAllButton} />,
+						<PlayAllButton onClick={playlist.playAll} />,
 						<RenameButton
 							playlistListItem={playlistListItem}
 							onSave={handleClickRenameButton}

@@ -17,7 +17,7 @@ export interface IPlaylistItemStore {
 	unselect(): void;
 	select(): void;
 	toggleSelected(): void;
-	play(): void;
+	play(): Promise<void>;
 	remove(): Promise<void>;
 	playFirst(): Promise<void>;
 	playNext(): Promise<void>;

@@ -1,3 +1,4 @@
+import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
 import type { IPlaylistItemStore } from '@/features/media-player.playlists/interfaces/IPlaylistItemStore';
 import type { IPlaylistStore } from '@/features/media-player.playlists/interfaces/IPlaylistStore';
@@ -11,6 +12,7 @@ export class PlaylistItemStore implements IPlaylistItemStore {
 	@observable isSelected = false;
 
 	constructor(
+		readonly playQueue: IPlayQueueStore,
 		readonly playlist: IPlaylistStore,
 		readonly dto: PlayQueueItemDto,
 	) {
@@ -20,10 +22,11 @@ export class PlaylistItemStore implements IPlaylistItemStore {
 	}
 
 	static fromDto(
+		playQueue: IPlayQueueStore,
 		playlist: IPlaylistStore,
 		dto: PlayQueueItemDto,
 	): IPlaylistItemStore {
-		return new PlaylistItemStore(playlist, dto);
+		return new PlaylistItemStore(playQueue, playlist, dto);
 	}
 
 	get url(): string {
@@ -86,8 +89,11 @@ export class PlaylistItemStore implements IPlaylistItemStore {
 		this.isSelected = !this.isSelected;
 	}
 
-	@action.bound play(): void {
-		// TODO
+	@action.bound play(): Promise<void> {
+		this.playQueue.clearAndSetItems([
+			this.playQueue.createItemFromDto(this.dto),
+		]);
+		return Promise.resolve();
 	}
 
 	@action.bound remove(): Promise<void> {
@@ -95,18 +101,21 @@ export class PlaylistItemStore implements IPlaylistItemStore {
 	}
 
 	@action.bound playFirst(): Promise<void> {
-		// TODO
-		return Promise.resolve();
+		return this.playQueue.playFirst([
+			this.playQueue.createItemFromDto(this.dto),
+		]);
 	}
 
 	@action.bound playNext(): Promise<void> {
-		// TODO
-		return Promise.resolve();
+		return this.playQueue.playNext([
+			this.playQueue.createItemFromDto(this.dto),
+		]);
 	}
 
 	@action.bound addToPlayQueue(): Promise<void> {
-		// TODO
-		return Promise.resolve();
+		return this.playQueue.addItems([
+			this.playQueue.createItemFromDto(this.dto),
+		]);
 	}
 
 	@action.bound moveToTop(): void {
