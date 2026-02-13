@@ -1,5 +1,5 @@
 import { featureFlags } from '@/features/common/helpers/featureFlags';
-import type { IPlayQueueCommandBarStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueCommandBarStore';
+import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { AddToSelectablePopover } from '@/features/media-player.play-queue/components/AddToSelectablePopover';
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
 import { DeveloperToolsButton } from '@/features/media-player.play-queue/components/DeveloperToolsButton';
@@ -19,7 +19,7 @@ import { observer } from 'mobx-react-lite';
 import { type ReactElement, useCallback } from 'react';
 
 interface AddToPlayQueueButtonProps {
-	playQueue: IPlayQueueCommandBarStore;
+	playQueue: IPlayQueueStore;
 }
 
 const AddToPlayQueueButton = observer(
@@ -37,7 +37,7 @@ const AddToPlayQueueButton = observer(
 );
 
 interface PlayQueueCommandBarProps {
-	playQueue: IPlayQueueCommandBarStore;
+	playQueue: IPlayQueueStore;
 }
 
 export const PlayQueueCommandBar = observer(
