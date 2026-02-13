@@ -1,5 +1,5 @@
 export const featureFlags = {
 	mediaPlayer: {
-		enablePlaylists: process.env.NODE_ENV !== 'production',
+		enablePlaylists: true,
 	},
 } as const;
