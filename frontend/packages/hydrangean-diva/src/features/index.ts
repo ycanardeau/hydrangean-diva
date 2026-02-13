@@ -4,3 +4,4 @@ export * from '@/features/media-player';
 export * from '@/features/media-player.play-queue.abstractions';
 export * from '@/features/media-player.play-queue';
 export * from '@/features/media-player.player';
+export * from '@/features/media-player.playlists';
