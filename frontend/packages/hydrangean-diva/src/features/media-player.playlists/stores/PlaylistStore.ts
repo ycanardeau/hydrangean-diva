@@ -80,10 +80,6 @@ export class PlaylistStore implements IPlaylistStore {
 		return this.items.length === 0;
 	}
 
-	@computed get canClear(): boolean {
-		return !this.isEmpty;
-	}
-
 	@computed get hasMultipleItems(): boolean {
 		return this.items.length > 1;
 	}
@@ -118,10 +114,6 @@ export class PlaylistStore implements IPlaylistStore {
 
 	@action.bound setItems(value: IPlaylistItemStore[]): void {
 		this.items = value;
-	}
-
-	@action.bound clear(): void {
-		this.items = [];
 	}
 
 	@action.bound unselectAll(): void {

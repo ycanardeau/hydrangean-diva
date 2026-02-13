@@ -6,11 +6,7 @@ import {
 	EuiFlexItem,
 	useEuiTheme,
 } from '@elastic/eui';
-import {
-	AddRegular,
-	DeleteRegular,
-	DismissRegular,
-} from '@fluentui/react-icons';
+import { AddRegular, DismissRegular } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement } from 'react';
 
@@ -69,15 +65,6 @@ export const PlaylistCommandBar = observer(
 						disabled={!playlist.canRemoveSelectedItems}
 					>
 						Remove{/* LOC */}
-					</EuiButton>
-				</EuiFlexItem>
-				<EuiFlexItem grow={false}>
-					<EuiButton
-						iconType={DeleteRegular}
-						onClick={playlist.clear}
-						disabled={!playlist.canClear}
-					>
-						Clear{/* LOC */}
 					</EuiButton>
 				</EuiFlexItem>
 				<EuiFlexItem grow={true} />

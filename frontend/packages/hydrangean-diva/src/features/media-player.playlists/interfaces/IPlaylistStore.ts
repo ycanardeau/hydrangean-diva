@@ -5,7 +5,6 @@ export interface IPlaylistStore {
 	readonly items: IPlaylistItemStore[];
 	createItemFromDto(dto: PlayQueueItemDto): IPlaylistItemStore;
 	readonly isEmpty: boolean;
-	readonly canClear: boolean;
 	readonly hasMultipleItems: boolean;
 	readonly selectedItems: IPlaylistItemStore[];
 	readonly allItemsSelected: boolean;
@@ -13,7 +12,6 @@ export interface IPlaylistStore {
 	readonly canPlaySelectedItemsNext: boolean;
 	readonly canRemoveSelectedItems: boolean;
 	setItems(value: IPlaylistItemStore[]): void;
-	clear(): void;
 	unselectAll(): void;
 	selectAll(): void;
 	playSelectedItemsNext(): Promise<void>;
