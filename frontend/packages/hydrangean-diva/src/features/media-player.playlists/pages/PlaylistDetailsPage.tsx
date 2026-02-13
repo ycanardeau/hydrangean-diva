@@ -18,10 +18,26 @@ import {
 	EuiModalHeaderTitle,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
-import { DeleteRegular, RenameRegular } from '@fluentui/react-icons';
+import {
+	DeleteRegular,
+	PlayRegular,
+	RenameRegular,
+} from '@fluentui/react-icons';
 import { useRouter } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, useCallback, useState } from 'react';
+
+interface PlayAllButtonProps {
+	onClick: () => Promise<void>;
+}
+
+const PlayAllButton = ({ onClick }: PlayAllButtonProps): ReactElement => {
+	return (
+		<EuiButton onClick={onClick} iconType={PlayRegular} fill>
+			Play all{/* LOC */}
+		</EuiButton>
+	);
+};
 
 interface RenamePlaylistModalProps {
 	playlistListItem: PlaylistListItemStore;
@@ -227,14 +243,17 @@ export const PlaylistDetailsPage = observer(
 
 		const router = useRouter();
 
-		const handleRenamePlaylist = useCallback(
+		const handleClickPlayAllButton =
+			useCallback(async (): Promise<void> => {}, []);
+
+		const handleClickRenameButton = useCallback(
 			async (e: { name: string }): Promise<void> => {
 				await playlistListItem.rename(e.name);
 			},
 			[playlistListItem],
 		);
 
-		const handleDeletePlaylist = useCallback(async (): Promise<void> => {
+		const handleClickDeleteButton = useCallback(async (): Promise<void> => {
 			await router.navigate({ to: '/playlists' });
 
 			window.localStorage.removeItem(localStorageStateKey);
@@ -258,13 +277,14 @@ export const PlaylistDetailsPage = observer(
 						},
 					]}
 					rightSideItems={[
+						<PlayAllButton onClick={handleClickPlayAllButton} />,
 						<RenameButton
 							playlistListItem={playlistListItem}
-							onSave={handleRenamePlaylist}
+							onSave={handleClickRenameButton}
 						/>,
 						<DeleteButton
 							playlistListItem={playlistListItem}
-							onSave={handleDeletePlaylist}
+							onSave={handleClickDeleteButton}
 						/>,
 					]}
 				/>
