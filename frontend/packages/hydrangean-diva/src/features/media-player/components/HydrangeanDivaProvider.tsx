@@ -25,8 +25,8 @@ export const HydrangeanDivaProvider = ({
 				components={[
 					PlayerProvider,
 					PlayQueueProvider,
-					MiniPlayerProvider,
 					BottomBarProvider,
+					MiniPlayerProvider,
 					PlaylistListProvider,
 				]}
 			>
