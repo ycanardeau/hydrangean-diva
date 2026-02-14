@@ -1,41 +1,128 @@
+import { usePlaylistList } from '@/features/media-player.playlists.abstractions/contexts/PlaylistListContext';
 import {
 	EuiButton,
+	EuiContextMenuItem,
+	EuiContextMenuPanel,
+	EuiHorizontalRule,
+	EuiIcon,
+	EuiPanel,
 	EuiPopover,
-	EuiPopoverFooter,
-	EuiPopoverTitle,
 	EuiSelectable,
 	type EuiSelectableOption,
 } from '@elastic/eui';
-import { AddRegular } from '@fluentui/react-icons';
+import { AddRegular, NavigationPlayRegular } from '@fluentui/react-icons';
+import { observer } from 'mobx-react-lite';
 import { type ReactElement, useEffect, useState } from 'react';
+
+interface AddToSelectableProps {
+	closePopover: () => void;
+}
+
+const AddToSelectable = observer(
+	({ closePopover }: AddToSelectableProps): ReactElement => {
+		const playlistList = usePlaylistList();
+
+		const [options, setOptions] = useState<
+			EuiSelectableOption[] | 'loading'
+		>('loading');
+
+		useEffect(() => {
+			void Promise.resolve({
+				items: playlistList.items,
+			}).then((response) =>
+				setOptions(
+					response.items.map((item) => ({
+						key: item.id,
+						label: item.name,
+					})),
+				),
+			);
+		}, [playlistList]);
+
+		return (
+			<EuiSelectable
+				searchable
+				searchProps={{
+					compressed: true,
+				}}
+				options={options === 'loading' ? undefined : options}
+				isLoading={options === 'loading'}
+				onChange={async (
+					_option,
+					_event,
+					changedOption,
+				): Promise<void> => {
+					closePopover();
+
+					// TODO: await onAddToPlaylist(changedOption);
+				}}
+				singleSelection
+			>
+				{(list, search) => (
+					<>
+						{search}
+						{list}
+					</>
+				)}
+			</EuiSelectable>
+		);
+	},
+);
+
+interface AddToPlayQueueContextMenuItemProps {
+	closePopover: () => void;
+}
+
+const AddToPlayQueueContextMenuItem = ({
+	closePopover,
+}: AddToPlayQueueContextMenuItemProps): ReactElement => {
+	const handleClick = async (): Promise<void> => {
+		closePopover();
+	};
+
+	return (
+		<EuiContextMenuItem
+			icon={<EuiIcon type={NavigationPlayRegular} />}
+			size="s"
+			onClick={handleClick}
+		>
+			Play queue
+		</EuiContextMenuItem>
+	);
+};
+
+interface AddToNewPlaylistContextMenuItemProps {
+	closePopover: () => void;
+}
+
+const AddToNewPlaylistContextMenuItem = ({
+	closePopover,
+}: AddToNewPlaylistContextMenuItemProps): ReactElement => {
+	const handleClick = async (): Promise<void> => {
+		closePopover();
+	};
+
+	return (
+		<EuiContextMenuItem
+			icon={<EuiIcon type={AddRegular} />}
+			size="s"
+			onClick={handleClick}
+		>
+			New playlist
+		</EuiContextMenuItem>
+	);
+};
 
 interface AddToSelectablePopoverProps {
 	disabled: boolean;
-	onAddToPlaylist: (option: EuiSelectableOption) => Promise<void>;
 }
 
 export const AddToSelectablePopover = ({
 	disabled,
-	onAddToPlaylist,
 }: AddToSelectablePopoverProps): ReactElement => {
 	const [isPopoverOpen, setPopoverOpen] = useState(false);
 
-	const [options, setOptions] = useState<EuiSelectableOption[] | 'loading'>(
-		'loading',
-	);
-
-	useEffect(() => {
-		void Promise.resolve({
-			items: [] as { id: string; name: string }[],
-		}).then((response) =>
-			setOptions(
-				response.items.map((item) => ({
-					key: item.id,
-					label: item.name,
-				})),
-			),
-		);
-	}, []);
+	const closePopover = (): void => setPopoverOpen(false);
 
 	return (
 		<EuiPopover
@@ -50,40 +137,19 @@ export const AddToSelectablePopover = ({
 				</EuiButton>
 			}
 			isOpen={isPopoverOpen}
-			closePopover={(): void => setPopoverOpen(false)}
+			closePopover={closePopover}
 		>
-			<EuiSelectable
-				searchable
-				searchProps={{
-					compressed: true,
-				}}
-				options={options === 'loading' ? undefined : options}
-				isLoading={options === 'loading'}
-				onChange={async (
-					_option,
-					_event,
-					changedOption,
-				): Promise<void> => {
-					setPopoverOpen(false);
+			<EuiContextMenuPanel>
+				<AddToPlayQueueContextMenuItem closePopover={closePopover} />
 
-					await onAddToPlaylist(changedOption);
-				}}
-				singleSelection
-			>
-				{(list, search) => (
-					<div style={{ width: 240 }}>
-						<EuiPopoverTitle paddingSize="s">
-							{search}
-						</EuiPopoverTitle>
-						{list}
-						<EuiPopoverFooter paddingSize="s">
-							<EuiButton size="s" fullWidth iconType={AddRegular}>
-								New playlist{/* LOC */}
-							</EuiButton>
-						</EuiPopoverFooter>
-					</div>
-				)}
-			</EuiSelectable>
+				<EuiHorizontalRule margin="none" />
+
+				<AddToNewPlaylistContextMenuItem closePopover={closePopover} />
+
+				<EuiPanel paddingSize="s">
+					<AddToSelectable closePopover={closePopover} />
+				</EuiPanel>
+			</EuiContextMenuPanel>
 		</EuiPopover>
 	);
 };
