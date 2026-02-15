@@ -49,6 +49,11 @@ module.exports = {
 						pattern: 'src/features/media-player.play-queue/**',
 					},
 					{
+						type: '@aigamo.hydrangean-diva/media-player.player.abstractions',
+						pattern:
+							'src/features/media-player.player.abstractions/**',
+					},
+					{
 						type: '@aigamo.hydrangean-diva/media-player.player',
 						pattern: 'src/features/media-player.player/**',
 					},
@@ -119,9 +124,14 @@ module.exports = {
 								],
 							},
 							{
+								from: '@aigamo.hydrangean-diva/media-player.player.abstractions',
+								allow: [],
+							},
+							{
 								from: '@aigamo.hydrangean-diva/media-player.player',
 								allow: [
 									'@aigamo.hydrangean-diva/common',
+									'@aigamo.hydrangean-diva/media-player.player.abstractions',
 									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
 								],
 							},

@@ -1,4 +1,4 @@
-import { PlayerContext } from '@/features/media-player.player/contexts/PlayerContext';
+import { PlayerContext } from '@/features/media-player.player.abstractions/contexts/PlayerContext';
 import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
 import { type ReactElement, type ReactNode, useState } from 'react';
 

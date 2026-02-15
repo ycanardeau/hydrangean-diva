@@ -1,4 +1,4 @@
-import type { IPlayerStore } from '@/features/media-player.player/interfaces/IPlayerStore';
+import type { IPlayerStore } from '@/features/media-player.player.abstractions/interfaces/IPlayerStore';
 import {
 	type IPlayerController,
 	type TimeEvent,
