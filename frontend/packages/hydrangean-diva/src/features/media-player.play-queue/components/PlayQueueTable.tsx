@@ -220,7 +220,7 @@ const PlayQueueTableRowActionsCell = observer(
 						if (item.isCurrent) {
 							await diva.setCurrentTime(0);
 						} else {
-							item.play();
+							await item.play();
 						}
 					}}
 				>

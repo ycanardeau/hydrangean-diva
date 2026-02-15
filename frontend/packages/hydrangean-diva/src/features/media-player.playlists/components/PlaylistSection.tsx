@@ -1,6 +1,6 @@
+import type { IPlaylistStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistStore';
 import { PlaylistCommandBar } from '@/features/media-player.playlists/components/PlaylistCommandBar';
 import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
-import type { IPlaylistStore } from '@/features/media-player.playlists/interfaces/IPlaylistStore';
 import { EuiPageTemplate, EuiSpacer, useEuiTheme } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement } from 'react';

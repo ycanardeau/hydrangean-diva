@@ -1,11 +1,11 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
+import { usePlaylistList } from '@/features/media-player.playlists.abstractions/contexts/PlaylistListContext';
+import type { IPlaylistListStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListStore';
 import {
 	CreatePlaylistButton,
 	type CreatePlaylistFormSubmitEvent,
 } from '@/features/media-player.playlists/components/CreatePlaylistButton';
 import { PlaylistListTable } from '@/features/media-player.playlists/components/PlaylistListTable';
-import { usePlaylistList } from '@/features/media-player.playlists/contexts/PlaylistListContext';
-import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, memo, useCallback } from 'react';
@@ -24,7 +24,7 @@ const PlaylistListPageHeader = (): ReactElement => {
 };
 
 interface PlaylistListPageBodyProps {
-	playlistList: PlaylistListStore;
+	playlistList: IPlaylistListStore;
 }
 
 const PlaylistListPageBody = observer(

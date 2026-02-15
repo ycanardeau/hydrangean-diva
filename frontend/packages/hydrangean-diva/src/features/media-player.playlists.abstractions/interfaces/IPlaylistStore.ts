@@ -1,5 +1,5 @@
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
-import type { IPlaylistItemStore } from '@/features/media-player.playlists/interfaces/IPlaylistItemStore';
+import type { IPlaylistItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistItemStore';
 
 export interface IPlaylistStore {
 	readonly items: IPlaylistItemStore[];

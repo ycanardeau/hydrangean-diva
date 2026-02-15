@@ -1,5 +1,5 @@
 import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
-import { PlaylistListContext } from '@/features/media-player.playlists/contexts/PlaylistListContext';
+import { PlaylistListContext } from '@/features/media-player.playlists.abstractions/contexts/PlaylistListContext';
 import { PlaylistListStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import { useLocalStorageState } from '@aigamo/route-sphere';
 import { type ReactElement, type ReactNode, useState } from 'react';

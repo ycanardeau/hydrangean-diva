@@ -4,8 +4,8 @@ import {
 	type PlayQueueItemDto,
 	PlayQueueItemDtoSchema,
 } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
-import type { IPlaylistItemStore } from '@/features/media-player.playlists/interfaces/IPlaylistItemStore';
-import type { IPlaylistStore } from '@/features/media-player.playlists/interfaces/IPlaylistStore';
+import type { IPlaylistItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistItemStore';
+import type { IPlaylistStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistStore';
 import { PlaylistItemStore } from '@/features/media-player.playlists/stores/PlaylistItemStore';
 import type { IStateStore } from '@aigamo/route-sphere';
 import type { JSONSchemaType } from 'ajv';

@@ -1,3 +1,6 @@
+import type { IPlaylistListItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListItemStore';
+import type { IPlaylistListStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListStore';
+import { PlaylistListItemStore } from '@/features/media-player.playlists/stores/PlaylistListItemStore';
 import type { IStateStore } from '@aigamo/route-sphere';
 import { pull } from 'lodash-es';
 import { action, computed, makeObservable, observable } from 'mobx';
@@ -39,34 +42,10 @@ class PlaylistListLocalStorageStateStore implements IStateStore<PlaylistListLoca
 	}
 }
 
-export class PlaylistListItemStore {
-	@observable id: string;
-	@observable name: string;
-
-	constructor(
-		private readonly playlistList: PlaylistListStore,
-		id: string,
-		name: string,
-	) {
-		makeObservable(this);
-
-		this.id = id;
-		this.name = name;
-	}
-
-	@action.bound async rename(name: string): Promise<void> {
-		this.name = name;
-	}
-
-	@action.bound remove(): Promise<void> {
-		return this.playlistList.removeItem(this);
-	}
-}
-
-export class PlaylistListStore {
+export class PlaylistListStore implements IPlaylistListStore {
 	readonly localStorageState: PlaylistListLocalStorageStateStore;
 	@observable
-	items: PlaylistListItemStore[] = [];
+	items: IPlaylistListItemStore[] = [];
 
 	constructor() {
 		makeObservable(this);
@@ -74,19 +53,21 @@ export class PlaylistListStore {
 		this.localStorageState = new PlaylistListLocalStorageStateStore(this);
 	}
 
-	createItem(name: string): PlaylistListItemStore {
+	createItem(name: string): IPlaylistListItemStore {
 		return new PlaylistListItemStore(this, crypto.randomUUID(), name);
 	}
 
-	@action.bound setItems(value: PlaylistListItemStore[]): void {
+	@action.bound setItems(value: IPlaylistListItemStore[]): void {
 		this.items = value;
 	}
 
-	@action.bound async addItem(item: PlaylistListItemStore): Promise<void> {
+	@action.bound async addItem(item: IPlaylistListItemStore): Promise<void> {
 		this.items.push(item);
 	}
 
-	@action.bound async removeItem(item: PlaylistListItemStore): Promise<void> {
+	@action.bound async removeItem(
+		item: IPlaylistListItemStore,
+	): Promise<void> {
 		pull(this.items, item);
 	}
 }

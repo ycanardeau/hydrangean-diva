@@ -1,6 +1,6 @@
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
-import type { IPlaylistItemStore } from '@/features/media-player.playlists/interfaces/IPlaylistItemStore';
-import type { IPlaylistStore } from '@/features/media-player.playlists/interfaces/IPlaylistStore';
+import type { IPlaylistItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistItemStore';
+import type { IPlaylistStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistStore';
 import {
 	EuiButton,
 	EuiButtonIcon,

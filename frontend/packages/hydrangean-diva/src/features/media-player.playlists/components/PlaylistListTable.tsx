@@ -1,8 +1,6 @@
 import { AppLink } from '@/common/components/AppLink';
-import type {
-	PlaylistListItemStore,
-	PlaylistListStore,
-} from '@/features/media-player.playlists/stores/PlaylistListStore';
+import type { IPlaylistListItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListItemStore';
+import type { IPlaylistListStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListStore';
 import {
 	EuiTable,
 	EuiTableHeader,
@@ -15,7 +13,7 @@ import type { ReactElement } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
 interface PlaylistListTableHeaderProps {
-	playlistList: PlaylistListStore;
+	playlistList: IPlaylistListStore;
 }
 
 const PlaylistListTableHeader = observer(
@@ -29,7 +27,7 @@ const PlaylistListTableHeader = observer(
 );
 
 interface PlaylistListTableRowProps {
-	item: PlaylistListItemStore;
+	item: IPlaylistListItemStore;
 }
 
 const PlaylistListTableRow = observer(
@@ -52,7 +50,7 @@ const PlaylistListTableRow = observer(
 );
 
 interface PlaylistListTableBodyProps {
-	playlistList: PlaylistListStore;
+	playlistList: IPlaylistListStore;
 }
 
 const PlaylistListTableBody = observer(
@@ -72,7 +70,7 @@ const PlaylistListTableBody = observer(
 );
 
 interface PlaylistListTableProps {
-	playlistList: PlaylistListStore;
+	playlistList: IPlaylistListStore;
 }
 
 export const PlaylistListTable = observer(

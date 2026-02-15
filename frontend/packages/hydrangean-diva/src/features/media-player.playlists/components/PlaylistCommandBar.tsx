@@ -1,5 +1,5 @@
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
-import type { IPlaylistStore } from '@/features/media-player.playlists/interfaces/IPlaylistStore';
+import type { IPlaylistStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistStore';
 import {
 	EuiButton,
 	EuiFlexGroup,

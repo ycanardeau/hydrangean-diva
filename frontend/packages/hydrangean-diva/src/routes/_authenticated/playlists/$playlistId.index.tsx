@@ -1,4 +1,4 @@
-import { usePlaylistList } from '@/features/media-player.playlists/contexts/PlaylistListContext';
+import { usePlaylistList } from '@/features/media-player.playlists.abstractions/contexts/PlaylistListContext';
 import { PlaylistDetailsPage } from '@/features/media-player.playlists/pages/PlaylistDetailsPage';
 import { createFileRoute } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';

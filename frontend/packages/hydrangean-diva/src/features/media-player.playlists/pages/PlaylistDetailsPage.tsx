@@ -1,8 +1,8 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
+import type { IPlaylistListItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListItemStore';
 import { PlaylistSection } from '@/features/media-player.playlists/components/PlaylistSection';
-import type { PlaylistListItemStore } from '@/features/media-player.playlists/stores/PlaylistListStore';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import { useLocalStorageState } from '@aigamo/route-sphere';
 import {
@@ -41,7 +41,7 @@ const PlayAllButton = ({ onClick }: PlayAllButtonProps): ReactElement => {
 };
 
 interface RenamePlaylistModalProps {
-	playlistListItem: PlaylistListItemStore;
+	playlistListItem: IPlaylistListItemStore;
 	onCancel: () => void;
 	onSave: (e: { name: string }) => Promise<void>;
 }
@@ -110,7 +110,7 @@ const RenamePlaylistModal = ({
 };
 
 interface RenameButtonProps {
-	playlistListItem: PlaylistListItemStore;
+	playlistListItem: IPlaylistListItemStore;
 	onSave: (e: { name: string }) => Promise<void>;
 }
 
@@ -150,7 +150,7 @@ const RenameButton = ({
 };
 
 interface DeletePlaylistConfirmModalProps {
-	playlistListItem: PlaylistListItemStore;
+	playlistListItem: IPlaylistListItemStore;
 	onCancel: () => void;
 	onSave: () => Promise<void>;
 }
@@ -192,7 +192,7 @@ const DeletePlaylistConfirmModal = ({
 };
 
 interface DeleteButtonProps {
-	playlistListItem: PlaylistListItemStore;
+	playlistListItem: IPlaylistListItemStore;
 	onSave: () => Promise<void>;
 }
 
@@ -229,7 +229,7 @@ const DeleteButton = ({
 };
 
 interface PlaylistDetailsPageProps {
-	playlistListItem: PlaylistListItemStore;
+	playlistListItem: IPlaylistListItemStore;
 }
 
 export const PlaylistDetailsPage = observer(

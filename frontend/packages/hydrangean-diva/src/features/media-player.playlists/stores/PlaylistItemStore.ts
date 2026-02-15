@@ -1,7 +1,7 @@
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstractions/interfaces/PlayQueueItemDto';
-import type { IPlaylistItemStore } from '@/features/media-player.playlists/interfaces/IPlaylistItemStore';
-import type { IPlaylistStore } from '@/features/media-player.playlists/interfaces/IPlaylistStore';
+import type { IPlaylistItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistItemStore';
+import type { IPlaylistStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistStore';
 import type { PlayerType } from '@aigamo/nostalgic-diva';
 import { action, computed, makeObservable, observable } from 'mobx';
 
