@@ -1,8 +1,8 @@
 import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
+import { BottomBarContext } from '@/features/media-player.bottom-bar.abstractions/contexts/BottomBarContext';
+import { BottomBarStore } from '@/features/media-player.bottom-bar/stores/BottomBarStore';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { usePlayer } from '@/features/media-player.player.abstractions/contexts/PlayerContext';
-import { BottomBarContext } from '@/features/media-player.player/contexts/BottomBarContext';
-import { BottomBarStore } from '@/features/media-player.player/stores/BottomBarStore';
 import { useLocalStorageState } from '@aigamo/route-sphere';
 import { type ReactElement, type ReactNode, useState } from 'react';
 

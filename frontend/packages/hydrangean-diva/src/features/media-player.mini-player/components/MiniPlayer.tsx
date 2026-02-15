@@ -1,6 +1,6 @@
 import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
 import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
-import { useMiniPlayer } from '@/features/media-player.player/contexts/MiniPlayerContext';
+import { useMiniPlayer } from '@/features/media-player.mini-player.abstractions/contexts/MiniPlayerContext';
 import { NostalgicDiva, type PlayerOptions } from '@aigamo/nostalgic-diva';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, useLayoutEffect, useMemo } from 'react';

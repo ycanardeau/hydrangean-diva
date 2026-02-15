@@ -1,6 +1,6 @@
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
+import { useBottomBar } from '@/features/media-player.bottom-bar.abstractions/contexts/BottomBarContext';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
-import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
 import {
 	EuiButtonEmpty,
 	EuiContextMenu,

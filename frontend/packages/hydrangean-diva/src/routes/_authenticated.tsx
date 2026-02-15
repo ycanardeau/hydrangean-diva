@@ -1,8 +1,8 @@
+import { BottomBar } from '@/features/media-player.bottom-bar/components/BottomBar';
 import { Header } from '@/features/media-player.header/components/Header';
+import { MiniPlayer } from '@/features/media-player.mini-player/components/MiniPlayer';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
-import { MediaPlayerLayout } from '@/features/media-player.player/components/MediaPlayerLayout';
-import { BottomBar } from '@/features/media-player.player/components/bottom-bar/BottomBar';
-import { MiniPlayer } from '@/features/media-player.player/components/mini-player/MiniPlayer';
+import { MediaPlayerLayout } from '@/features/media-player/components/MediaPlayerLayout';
 import { Outlet, createFileRoute } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import type { ReactElement } from 'react';

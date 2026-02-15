@@ -1,7 +1,7 @@
-import { BottomBarCenterControls } from '@/features/media-player.player/components/bottom-bar/BottomBarCenterControls';
-import { BottomBarLeftControls } from '@/features/media-player.player/components/bottom-bar/BottomBarLeftControls';
-import { BottomBarRightControls } from '@/features/media-player.player/components/bottom-bar/BottomBarRightControls';
-import { SeekBar } from '@/features/media-player.player/components/bottom-bar/SeekBar';
+import { BottomBarCenterControls } from '@/features/media-player.bottom-bar/components/BottomBarCenterControls';
+import { BottomBarLeftControls } from '@/features/media-player.bottom-bar/components/BottomBarLeftControls';
+import { BottomBarRightControls } from '@/features/media-player.bottom-bar/components/BottomBarRightControls';
+import { SeekBar } from '@/features/media-player.bottom-bar/components/SeekBar';
 import { EuiBottomBar, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type MouseEventHandler, type ReactElement } from 'react';

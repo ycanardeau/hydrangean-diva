@@ -58,6 +58,24 @@ module.exports = {
 						pattern: 'src/features/media-player.player/**',
 					},
 					{
+						type: '@aigamo.hydrangean-diva/media-player.bottom-bar.abstractions',
+						pattern:
+							'src/features/media-player.bottom-bar.abstractions/**',
+					},
+					{
+						type: '@aigamo.hydrangean-diva/media-player.bottom-bar',
+						pattern: 'src/features/media-player.bottom-bar/**',
+					},
+					{
+						type: '@aigamo.hydrangean-diva/media-player.mini-player.abstractions',
+						pattern:
+							'src/features/media-player.mini-player.abstractions/**',
+					},
+					{
+						type: '@aigamo.hydrangean-diva/media-player.mini-player',
+						pattern: 'src/features/media-player.mini-player/**',
+					},
+					{
 						type: '@aigamo.hydrangean-diva/media-player.playlists.abstractions',
 						pattern:
 							'src/features/media-player.playlists.abstractions/**',
@@ -65,6 +83,10 @@ module.exports = {
 					{
 						type: '@aigamo.hydrangean-diva/media-player.playlists',
 						pattern: 'src/features/media-player.playlists/**',
+					},
+					{
+						type: '@aigamo.hydrangean-diva/media-player',
+						pattern: 'src/features/media-player/**',
 					},
 				],
 			},
@@ -136,6 +158,37 @@ module.exports = {
 								],
 							},
 							{
+								from: '@aigamo.hydrangean-diva/media-player.bottom-bar.abstractions',
+								allow: [
+									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+								],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player.bottom-bar',
+								allow: [
+									'@aigamo.hydrangean-diva/common',
+									'@aigamo.hydrangean-diva/media-player.bottom-bar.abstractions',
+									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+									'@aigamo.hydrangean-diva/media-player.player.abstractions',
+								],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player.mini-player.abstractions',
+								allow: [
+									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+								],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player.mini-player',
+								allow: [
+									'@aigamo.hydrangean-diva/common',
+									'@aigamo.hydrangean-diva/media-player.bottom-bar.abstractions',
+									'@aigamo.hydrangean-diva/media-player.mini-player.abstractions',
+									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+									'@aigamo.hydrangean-diva/media-player.player.abstractions',
+								],
+							},
+							{
 								from: '@aigamo.hydrangean-diva/media-player.playlists.abstractions',
 								allow: [
 									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
@@ -148,6 +201,18 @@ module.exports = {
 									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
 									'@aigamo.hydrangean-diva/media-player.play-queue',
 									'@aigamo.hydrangean-diva/media-player.playlists.abstractions',
+								],
+							},
+							{
+								from: '@aigamo.hydrangean-diva/media-player',
+								allow: [
+									'@aigamo.hydrangean-diva/common',
+									'@aigamo.hydrangean-diva/media-player.bottom-bar',
+									'@aigamo.hydrangean-diva/media-player.mini-player',
+									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
+									'@aigamo.hydrangean-diva/media-player.play-queue',
+									'@aigamo.hydrangean-diva/media-player.player',
+									'@aigamo.hydrangean-diva/media-player.playlists',
 								],
 							},
 						],

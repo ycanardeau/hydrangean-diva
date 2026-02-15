@@ -1,4 +1,4 @@
-import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
+import { useBottomBar } from '@/features/media-player.bottom-bar.abstractions/contexts/BottomBarContext';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonIcon,

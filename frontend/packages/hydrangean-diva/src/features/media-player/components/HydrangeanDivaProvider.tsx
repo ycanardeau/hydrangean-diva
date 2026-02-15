@@ -1,8 +1,8 @@
 import { Compose } from '@/features/common/components/Compose';
+import { BottomBarProvider } from '@/features/media-player.bottom-bar/components/BottomBarProvider';
+import { MiniPlayerProvider } from '@/features/media-player.mini-player/components/MiniPlayerProvider';
 import { PlayQueueProvider } from '@/features/media-player.play-queue/components/PlayQueueProvider';
 import { PlayerProvider } from '@/features/media-player.player/components/PlayerProvider';
-import { BottomBarProvider } from '@/features/media-player.player/components/bottom-bar/BottomBarProvider';
-import { MiniPlayerProvider } from '@/features/media-player.player/components/mini-player/MiniPlayerProvider';
 import { PlaylistListProvider } from '@/features/media-player.playlists/components/PlaylistListProvider';
 import {
 	NostalgicDivaProvider,

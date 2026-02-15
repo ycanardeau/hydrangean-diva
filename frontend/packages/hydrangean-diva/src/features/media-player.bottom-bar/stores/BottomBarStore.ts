@@ -1,9 +1,9 @@
 import { getOrAddSchema } from '@/features/common/stores/getOrAddSchema';
+import type { IBottomBarStore } from '@/features/media-player.bottom-bar.abstractions/interfaces/IBottomBarStore';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import type { IPlayerStore } from '@/features/media-player.player.abstractions/interfaces/IPlayerStore';
-import type { IBottomBarStore } from '@/features/media-player.player/interfaces/IBottomBarStore';
 import type { IPlayerController } from '@aigamo/nostalgic-diva';
 import type { IStateStore } from '@aigamo/route-sphere';
 import type { JSONSchemaType } from 'ajv';

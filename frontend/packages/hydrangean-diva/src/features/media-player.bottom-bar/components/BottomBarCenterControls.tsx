@@ -1,5 +1,5 @@
+import { useBottomBar } from '@/features/media-player.bottom-bar.abstractions/contexts/BottomBarContext';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
-import { useBottomBar } from '@/features/media-player.player/contexts/BottomBarContext';
 import { EuiButtonIcon, EuiFlexGroup, type IconType } from '@elastic/eui';
 import {
 	ArrowRepeat1Filled,
