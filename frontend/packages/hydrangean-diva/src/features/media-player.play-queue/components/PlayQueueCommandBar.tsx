@@ -14,6 +14,23 @@ import {
 import { observer } from 'mobx-react-lite';
 import { type ReactElement } from 'react';
 
+interface PlayNextButtonProps {
+	playQueue: IPlayQueueStore;
+}
+
+const PlayNextButton = observer(
+	({ playQueue }: PlayNextButtonProps): ReactElement => {
+		return (
+			<EuiButton
+				disabled={!playQueue.canPlaySelectedItemsNext}
+				onClick={playQueue.playSelectedItemsNext}
+			>
+				Play next{/* LOC */}
+			</EuiButton>
+		);
+	},
+);
+
 interface AddToPlayQueueButtonProps {
 	playQueue: IPlayQueueStore;
 }
@@ -52,12 +69,7 @@ export const PlayQueueCommandBar = observer(
 				}}
 			>
 				<EuiFlexItem grow={false}>
-					<EuiButton
-						disabled={!playQueue.canPlaySelectedItemsNext}
-						onClick={playQueue.playSelectedItemsNext}
-					>
-						Play next{/* LOC */}
-					</EuiButton>
+					<PlayNextButton playQueue={playQueue} />
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
 					<AddToPlayQueueButton playQueue={playQueue} />

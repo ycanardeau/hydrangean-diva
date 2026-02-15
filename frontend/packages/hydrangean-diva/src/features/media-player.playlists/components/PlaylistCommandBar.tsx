@@ -10,6 +10,23 @@ import { AddRegular, DismissRegular } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement } from 'react';
 
+interface PlayNextButtonProps {
+	playlist: IPlaylistStore;
+}
+
+const PlayNextButton = observer(
+	({ playlist }: PlayNextButtonProps): ReactElement => {
+		return (
+			<EuiButton
+				disabled={!playlist.canPlaySelectedItemsNext}
+				onClick={playlist.playSelectedItemsNext}
+			>
+				Play next{/* LOC */}
+			</EuiButton>
+		);
+	},
+);
+
 interface AddToPlaylistButtonProps {
 	playlist: IPlaylistStore;
 }
@@ -48,12 +65,7 @@ export const PlaylistCommandBar = observer(
 				}}
 			>
 				<EuiFlexItem grow={false}>
-					<EuiButton
-						disabled={!playlist.canPlaySelectedItemsNext}
-						onClick={playlist.playSelectedItemsNext}
-					>
-						Play next{/* LOC */}
-					</EuiButton>
+					<PlayNextButton playlist={playlist} />
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
 					<AddToPlaylistButton playlist={playlist} />
