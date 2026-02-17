@@ -1,36 +1,17 @@
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
+import { PlayQueueCommandBarAddToPlayQueueButton } from '@/features/media-player.play-queue/components/PlayQueueCommandBarAddToPlayQueueButton';
+import { PlayQueueCommandBarPlayNextButton } from '@/features/media-player.play-queue/components/PlayQueueCommandBarPlayNextButton';
+import { PlayQueueCommandBarRemoveButton } from '@/features/media-player.play-queue/components/PlayQueueCommandBarRemoveButton';
 import {
 	EuiButton,
 	EuiFlexGroup,
 	EuiFlexItem,
 	useEuiTheme,
 } from '@elastic/eui';
-import {
-	AddRegular,
-	DeleteRegular,
-	DismissRegular,
-} from '@fluentui/react-icons';
+import { DeleteRegular } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement } from 'react';
-
-interface AddToPlayQueueButtonProps {
-	playQueue: IPlayQueueStore;
-}
-
-const AddToPlayQueueButton = observer(
-	({ playQueue }: AddToPlayQueueButtonProps): ReactElement => {
-		return (
-			<EuiButton
-				iconType={AddRegular}
-				onClick={playQueue.addSelectedItems}
-				disabled={!playQueue.canAddSelectedItems}
-			>
-				Add to play queue{/* LOC */}
-			</EuiButton>
-		);
-	},
-);
 
 interface PlayQueueCommandBarProps {
 	playQueue: IPlayQueueStore;
@@ -52,24 +33,15 @@ export const PlayQueueCommandBar = observer(
 				}}
 			>
 				<EuiFlexItem grow={false}>
-					<EuiButton
-						disabled={!playQueue.canPlaySelectedItemsNext}
-						onClick={playQueue.playSelectedItemsNext}
-					>
-						Play next{/* LOC */}
-					</EuiButton>
+					<PlayQueueCommandBarPlayNextButton selection={playQueue} />
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
-					<AddToPlayQueueButton playQueue={playQueue} />
+					<PlayQueueCommandBarAddToPlayQueueButton
+						selection={playQueue}
+					/>
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
-					<EuiButton
-						iconType={DismissRegular}
-						onClick={playQueue.removeSelectedItems}
-						disabled={!playQueue.canRemoveSelectedItems}
-					>
-						Remove{/* LOC */}
-					</EuiButton>
+					<PlayQueueCommandBarRemoveButton selection={playQueue} />
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
 					<EuiButton

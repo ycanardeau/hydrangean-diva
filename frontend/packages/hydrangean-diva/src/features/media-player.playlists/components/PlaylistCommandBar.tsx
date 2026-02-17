@@ -1,32 +1,11 @@
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
+import { PlayQueueCommandBarAddToPlayQueueButton } from '@/features/media-player.play-queue/components/PlayQueueCommandBarAddToPlayQueueButton';
+import { PlayQueueCommandBarPlayNextButton } from '@/features/media-player.play-queue/components/PlayQueueCommandBarPlayNextButton';
+import { PlayQueueCommandBarRemoveButton } from '@/features/media-player.play-queue/components/PlayQueueCommandBarRemoveButton';
 import type { IPlaylistStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistStore';
-import {
-	EuiButton,
-	EuiFlexGroup,
-	EuiFlexItem,
-	useEuiTheme,
-} from '@elastic/eui';
-import { AddRegular, DismissRegular } from '@fluentui/react-icons';
+import { EuiFlexGroup, EuiFlexItem, useEuiTheme } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement } from 'react';
-
-interface AddToPlaylistButtonProps {
-	playlist: IPlaylistStore;
-}
-
-const AddToPlaylistButton = observer(
-	({ playlist }: AddToPlaylistButtonProps): ReactElement => {
-		return (
-			<EuiButton
-				iconType={AddRegular}
-				onClick={playlist.addSelectedItems}
-				disabled={!playlist.canAddSelectedItems}
-			>
-				Add to play queue{/* LOC */}
-			</EuiButton>
-		);
-	},
-);
 
 interface PlaylistCommandBarProps {
 	playlist: IPlaylistStore;
@@ -48,24 +27,15 @@ export const PlaylistCommandBar = observer(
 				}}
 			>
 				<EuiFlexItem grow={false}>
-					<EuiButton
-						disabled={!playlist.canPlaySelectedItemsNext}
-						onClick={playlist.playSelectedItemsNext}
-					>
-						Play next{/* LOC */}
-					</EuiButton>
+					<PlayQueueCommandBarPlayNextButton selection={playlist} />
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
-					<AddToPlaylistButton playlist={playlist} />
+					<PlayQueueCommandBarAddToPlayQueueButton
+						selection={playlist}
+					/>
 				</EuiFlexItem>
 				<EuiFlexItem grow={false}>
-					<EuiButton
-						iconType={DismissRegular}
-						onClick={playlist.removeSelectedItems}
-						disabled={!playlist.canRemoveSelectedItems}
-					>
-						Remove{/* LOC */}
-					</EuiButton>
+					<PlayQueueCommandBarRemoveButton selection={playlist} />
 				</EuiFlexItem>
 				<EuiFlexItem grow={true} />
 				<EuiFlexItem grow={false}>

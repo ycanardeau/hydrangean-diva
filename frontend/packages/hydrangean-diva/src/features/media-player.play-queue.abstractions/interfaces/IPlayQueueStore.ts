@@ -19,9 +19,6 @@ export interface IPlayQueueStore {
 	readonly selectedItems: IPlayQueueItemStore[];
 	readonly allItemsSelected: boolean;
 	readonly selectedItemsOrAllItems: IPlayQueueItemStore[];
-	readonly canAddSelectedItems: boolean;
-	readonly canPlaySelectedItemsNext: boolean;
-	readonly canRemoveSelectedItems: boolean;
 	setItems(value: IPlayQueueItemStore[]): void;
 	clear(): void;
 	unselectAll(): void;
@@ -29,14 +26,11 @@ export interface IPlayQueueStore {
 	setCurrentItem(item: IPlayQueueItemStore | undefined): void;
 	clearAndSetItems(items: IPlayQueueItemStore[]): void;
 	playNext(items: IPlayQueueItemStore[]): Promise<void>;
-	playSelectedItemsNext(): Promise<void>;
 	addItems(items: IPlayQueueItemStore[]): Promise<void>;
-	addSelectedItems(): Promise<void>;
 	playFirst(items: IPlayQueueItemStore[]): Promise<void>;
 	moveItem(item: IPlayQueueItemStore, index: number): void;
 	goToFirst(): Promise<void>;
 	removeItems(items: IPlayQueueItemStore[]): Promise<void>;
-	removeSelectedItems(): Promise<void>;
 	removeItemsAbove(item: IPlayQueueItemStore): Promise<void>;
 	removeOtherItems(item: IPlayQueueItemStore): Promise<void>;
 	previous(): Promise<void>;
