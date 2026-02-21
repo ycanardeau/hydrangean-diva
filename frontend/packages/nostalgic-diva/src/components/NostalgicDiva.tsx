@@ -1,9 +1,9 @@
 import { useNostalgicDiva } from '@/components/NostalgicDivaProvider';
 import type { PlayerProps } from '@/components/PlayerContainer';
 import { LogLevel } from '@/controllers/Logger';
-import {
-	type IPlayerController,
-	type PlayerOptions,
+import type {
+	IPlayerController,
+	PlayerOptions,
 	PlayerType,
 } from '@/controllers/PlayerController';
 import { findVideoService } from '@/services/findVideoService';

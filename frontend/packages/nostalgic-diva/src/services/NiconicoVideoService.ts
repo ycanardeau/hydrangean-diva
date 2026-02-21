@@ -1,11 +1,10 @@
-import { PlayerType } from '@/controllers/PlayerController';
 import { VideoService } from '@/services/VideoService';
 
 const MATCH_URL_NICONICO = /(?:www\.|)?nicovideo\.jp\/watch\/(\w+)$/;
 
-export class NiconicoVideoService extends VideoService<PlayerType.Niconico> {
+export class NiconicoVideoService extends VideoService {
 	constructor() {
-		super(PlayerType.Niconico);
+		super('Niconico');
 	}
 
 	canPlay(url: string): boolean {

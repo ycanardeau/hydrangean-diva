@@ -1,4 +1,4 @@
-import { PlayerType } from '@aigamo/nostalgic-diva';
+import type { PlayerType } from '@aigamo/nostalgic-diva';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -11,25 +11,24 @@ import {
 import { PlayRegular } from '@fluentui/react-icons';
 import type { ReactElement } from 'react';
 
-type ThirdPartyPlayerType = Exclude<PlayerType, PlayerType.Audio>;
+type ThirdPartyPlayerType = Exclude<PlayerType, 'Audio'>;
 
 const domainNames: Record<ThirdPartyPlayerType, string> = {
-	[PlayerType.Dailymotion]: 'dailymotion.com',
-	[PlayerType.Niconico]: 'nicovideo.jp',
-	[PlayerType.SoundCloud]: 'soundcloud.com',
-	[PlayerType.Twitch]: 'twitch.tv',
-	[PlayerType.Vimeo]: 'vimeo.com',
-	[PlayerType.YouTube]: 'youtube.com',
+	Dailymotion: 'dailymotion.com',
+	Niconico: 'nicovideo.jp',
+	SoundCloud: 'soundcloud.com',
+	Twitch: 'twitch.tv',
+	Vimeo: 'vimeo.com',
+	YouTube: 'youtube.com',
 };
 
 const termsOfServiceUrls: Record<ThirdPartyPlayerType, string> = {
-	[PlayerType.Dailymotion]: 'https://legal.dailymotion.com/en/terms-of-use/',
-	[PlayerType.Niconico]:
-		'https://account.nicovideo.jp/rules/account?language=en-us',
-	[PlayerType.SoundCloud]: 'https://soundcloud.com/terms-of-use',
-	[PlayerType.Twitch]: 'https://legal.twitch.com/legal/terms-of-service/',
-	[PlayerType.Vimeo]: 'https://vimeo.com/terms/',
-	[PlayerType.YouTube]: 'https://www.youtube.com/t/terms',
+	Dailymotion: 'https://legal.dailymotion.com/en/terms-of-use/',
+	Niconico: 'https://account.nicovideo.jp/rules/account?language=en-us',
+	SoundCloud: 'https://soundcloud.com/terms-of-use',
+	Twitch: 'https://legal.twitch.com/legal/terms-of-service/',
+	Vimeo: 'https://vimeo.com/terms/',
+	YouTube: 'https://www.youtube.com/t/terms',
 };
 
 interface CookieConsentPanelProps {

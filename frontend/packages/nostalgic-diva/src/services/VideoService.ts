@@ -1,7 +1,7 @@
-import { PlayerType } from '@/controllers/PlayerController';
+import type { PlayerType } from '@/controllers/PlayerController';
 
-export abstract class VideoService<TPlayerType extends PlayerType> {
-	protected constructor(readonly type: TPlayerType) {}
+export abstract class VideoService {
+	protected constructor(readonly type: PlayerType) {}
 
 	abstract canPlay(url: string): boolean;
 

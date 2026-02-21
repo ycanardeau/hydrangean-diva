@@ -1,4 +1,4 @@
-import { PlayerType } from '@aigamo/nostalgic-diva';
+import type { PlayerType } from '@aigamo/nostalgic-diva';
 import type { JSONSchemaType } from 'ajv';
 
 export interface PlayQueueItemDto {

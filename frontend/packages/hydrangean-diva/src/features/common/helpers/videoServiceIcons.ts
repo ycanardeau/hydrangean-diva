@@ -1,4 +1,4 @@
-import { PlayerType } from '@aigamo/nostalgic-diva';
+import type { PlayerType } from '@aigamo/nostalgic-diva';
 
 export const videoServiceIcons: Record<PlayerType, string> = {
 	Audio: '' /* TODO */,

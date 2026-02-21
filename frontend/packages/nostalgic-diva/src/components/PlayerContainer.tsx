@@ -5,7 +5,7 @@ import {
 	type IPlayerController,
 	PlayerController,
 	type PlayerOptions,
-	PlayerType,
+	type PlayerType,
 } from '@/controllers/PlayerController';
 import { PlayerControllerImpl } from '@/controllers/PlayerControllerImpl';
 import {

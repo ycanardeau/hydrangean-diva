@@ -1,19 +1,14 @@
 import { type ILogger, LogLevel } from '@/controllers/Logger';
 import { PlayerControllerImpl } from '@/controllers/PlayerControllerImpl';
 
-export enum PlayerType {
-	'Audio' = 'Audio',
-	'Dailymotion' = 'Dailymotion',
-	'Niconico' = 'Niconico',
-	'SoundCloud' = 'SoundCloud',
-	'Twitch' = 'Twitch',
-	'Vimeo' = 'Vimeo',
-	'YouTube' = 'YouTube',
-}
-
-export function validatePlayerType(value: string): value is PlayerType {
-	return PlayerType[value as keyof typeof PlayerType] !== undefined;
-}
+export type PlayerType =
+	| 'Audio'
+	| 'Dailymotion'
+	| 'Niconico'
+	| 'SoundCloud'
+	| 'Twitch'
+	| 'Vimeo'
+	| 'YouTube';
 
 export interface LoadedEvent {
 	id: string;
