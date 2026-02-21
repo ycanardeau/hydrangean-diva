@@ -16,15 +16,17 @@ import {
 	useCallback,
 } from 'react';
 
-const players: Record<PlayerType, ElementType<PlayerProps>> = {
-	Audio: lazy(() => import('./AudioPlayer')),
-	Dailymotion: lazy(() => import('./DailymotionPlayer')),
-	Niconico: lazy(() => import('./NiconicoPlayer')),
-	SoundCloud: lazy(() => import('./SoundCloudPlayer')),
-	Twitch: lazy(() => import('./TwitchPlayer')),
-	Vimeo: lazy(() => import('./VimeoPlayer')),
-	YouTube: lazy(() => import('./YouTubePlayer')),
-};
+export const players: Map<PlayerType, ElementType<PlayerProps>> = new Map(
+	Object.entries({
+		Audio: lazy(() => import('./AudioPlayer')),
+		Dailymotion: lazy(() => import('./DailymotionPlayer')),
+		Niconico: lazy(() => import('./NiconicoPlayer')),
+		SoundCloud: lazy(() => import('./SoundCloudPlayer')),
+		Twitch: lazy(() => import('./TwitchPlayer')),
+		Vimeo: lazy(() => import('./VimeoPlayer')),
+		YouTube: lazy(() => import('./YouTubePlayer')),
+	}),
+);
 
 export interface NostalgicDivaProps {
 	src: string;
@@ -50,6 +52,22 @@ function getTypeAndVideoId(
 	return { type: type, videoId: videoId };
 }
 
+const EmptyPlayer = memo((): ReactElement => {
+	return (
+		<div style={{ width: '100%', height: '100%' }}>
+			<iframe
+				src="about:blank"
+				title="about:blank"
+				style={{
+					width: '100%',
+					height: '100%',
+					border: 0,
+				}}
+			/>
+		</div>
+	);
+});
+
 export const NostalgicDiva = memo(
 	({
 		src,
@@ -71,24 +89,23 @@ export const NostalgicDiva = memo(
 
 		const typeAndVideoId = getTypeAndVideoId(src);
 		if (typeAndVideoId === undefined) {
-			return (
-				<div style={{ width: '100%', height: '100%' }}>
-					<iframe
-						src="about:blank"
-						title="about:blank"
-						style={{
-							width: '100%',
-							height: '100%',
-							border: 0,
-						}}
-					/>
-				</div>
+			diva.logger.log(
+				LogLevel.Warning,
+				`Failed to extract type and videoId from src: "${src}". Returning EmptyPlayer.`,
 			);
+			return <EmptyPlayer />;
 		}
 
 		const { type, videoId } = typeAndVideoId;
 
-		const Player = players[type];
+		const Player = players.get(type);
+		if (Player === undefined) {
+			diva.logger.log(
+				LogLevel.Warning,
+				`No player found for type "${type}" (videoId: "${videoId}"). Returning EmptyPlayer.`,
+			);
+			return <EmptyPlayer />;
+		}
 
 		return (
 			<Suspense fallback={null}>
