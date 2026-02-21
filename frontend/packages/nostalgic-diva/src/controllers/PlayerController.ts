@@ -8,7 +8,8 @@ export type PlayerType =
 	| 'SoundCloud'
 	| 'Twitch'
 	| 'Vimeo'
-	| 'YouTube';
+	| 'YouTube'
+	| (string & {});
 
 export interface LoadedEvent {
 	id: string;
