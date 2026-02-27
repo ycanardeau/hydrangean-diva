@@ -8,9 +8,9 @@
 		"release": "nx release --skip-publish"
 	},
 	"devDependencies": {
-		"@nx/js": "22.3.3",
+		"@nx/js": "22.5.3",
 		"@trivago/prettier-plugin-sort-imports": "catalog:",
-		"nx": "22.3.3",
+		"nx": "22.5.3",
 		"prettier": "catalog:"
 	}
 }
