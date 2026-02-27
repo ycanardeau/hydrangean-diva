@@ -1,8 +1,6 @@
-import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
 import { PlayQueueContext } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
-import { useLocalStorageState } from '@aigamo/route-sphere';
 import { reaction } from 'mobx';
 import { type ReactElement, type ReactNode, useEffect, useState } from 'react';
 
@@ -14,11 +12,6 @@ export const PlayQueueProvider = ({
 	children,
 }: PlayQueueProviderProps): ReactElement => {
 	const [playQueue] = useState(() => new PlayQueueStore());
-
-	useLocalStorageState(
-		localStorageStateKeys.playQueue,
-		playQueue.localStorageState,
-	);
 
 	const diva = useNostalgicDiva();
 
