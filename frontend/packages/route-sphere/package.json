@@ -1,6 +1,6 @@
 {
 	"name": "@aigamo/route-sphere",
-	"version": "2.2.5",
+	"version": "2.2.6-0",
 	"type": "module",
 	"scripts": {
 		"clean": "rimraf ./dist",
