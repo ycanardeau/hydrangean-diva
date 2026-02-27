@@ -1,3 +1,7 @@
+## 2.2.6 (2026-02-27)
+
+This was a version bump only for @aigamo/route-sphere to align it with other projects, there were no code changes.
+
 ## 2.2.6-1 (2026-02-27)
 
 This was a version bump only for @aigamo/route-sphere to align it with other projects, there were no code changes.
