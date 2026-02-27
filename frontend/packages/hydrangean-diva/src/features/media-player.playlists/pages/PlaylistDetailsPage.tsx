@@ -4,6 +4,7 @@ import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/co
 import type { IPlaylistListItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListItemStore';
 import { PlaylistSection } from '@/features/media-player.playlists/components/PlaylistSection';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
+import { useLocalStorageState } from '@aigamo/route-sphere';
 import {
 	EuiButton,
 	EuiButtonEmpty,
@@ -240,6 +241,8 @@ export const PlaylistDetailsPage = observer(
 		const playQueue = usePlayQueue();
 
 		const [playlist] = useState(() => new PlaylistStore(playQueue));
+
+		useLocalStorageState(localStorageStateKey, playlist.localStorageState);
 
 		const router = useRouter();
 

@@ -1,7 +1,9 @@
+import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
 import { BottomBarContext } from '@/features/media-player.bottom-bar.abstractions/contexts/BottomBarContext';
 import { BottomBarStore } from '@/features/media-player.bottom-bar/stores/BottomBarStore';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import { usePlayer } from '@/features/media-player.player.abstractions/contexts/PlayerContext';
+import { useLocalStorageState } from '@aigamo/route-sphere';
 import { type ReactElement, type ReactNode, useState } from 'react';
 
 interface BottomBarProviderProps {
@@ -15,6 +17,11 @@ export const BottomBarProvider = ({
 	const playQueue = usePlayQueue();
 
 	const [bottomBar] = useState(() => new BottomBarStore(player, playQueue));
+
+	useLocalStorageState(
+		localStorageStateKeys.bottomBar,
+		bottomBar.localStorageState,
+	);
 
 	return (
 		<BottomBarContext.Provider value={bottomBar}>
