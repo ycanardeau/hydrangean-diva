@@ -1,6 +1,5 @@
 import { Compose } from '@/features/common/components/Compose';
 import { HydrangeanDivaProvider } from '@/features/media-player/components/HydrangeanDivaProvider';
-import '@/icons';
 import '@/nprogress.css';
 import { routeTree } from '@/routeTree.gen';
 import { EuiProvider } from '@elastic/eui';
