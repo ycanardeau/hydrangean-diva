@@ -82,7 +82,7 @@ export const PlayQueueCommandBar = observer(
 				</EuiFlexItem>
 				<EuiFlexItem grow={true} />
 				<EuiFlexItem grow={false}>
-					<AddVideoButton onSave={playQueue.addItemFromDto} />
+					<AddVideoButton onFulfilled={playQueue.addItemFromDto} />
 				</EuiFlexItem>
 			</EuiFlexGroup>
 		);

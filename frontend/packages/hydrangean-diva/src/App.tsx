@@ -9,6 +9,7 @@ import {
 	createHashHistory,
 	createRouter,
 } from '@tanstack/react-router';
+import EasyModal from 'ez-modal-react';
 import NProgress from 'nprogress';
 import type { ReactElement, ReactNode } from 'react';
 
@@ -59,7 +60,13 @@ const AppProvider = ({ children }: AppProviderProps): ReactElement => {
 
 const App = (): ReactElement => {
 	return (
-		<Compose components={[AppProvider, HydrangeanDivaProvider]}>
+		<Compose
+			components={[
+				AppProvider,
+				EasyModal.Provider,
+				HydrangeanDivaProvider,
+			]}
+		>
 			<RouterProvider router={router} />
 		</Compose>
 	);

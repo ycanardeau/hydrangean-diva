@@ -2,29 +2,19 @@ import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader
 import { localStorageStateKeys } from '@/features/common/stores/localStorageStateKeys';
 import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
 import type { IPlaylistListItemStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListItemStore';
+import { DeletePlaylistConfirmModal } from '@/features/media-player.playlists/components/DeletePlaylistConfirmModal';
 import { PlaylistSection } from '@/features/media-player.playlists/components/PlaylistSection';
+import { RenamePlaylistModal } from '@/features/media-player.playlists/components/RenamePlaylistModal';
 import { PlaylistStore } from '@/features/media-player.playlists/stores/PlaylistStore';
 import { useLocalStorageState } from '@aigamo/route-sphere';
-import {
-	EuiButton,
-	EuiButtonEmpty,
-	EuiConfirmModal,
-	EuiFieldText,
-	EuiForm,
-	EuiFormRow,
-	EuiModal,
-	EuiModalBody,
-	EuiModalFooter,
-	EuiModalHeader,
-	EuiModalHeaderTitle,
-	useGeneratedHtmlId,
-} from '@elastic/eui';
+import { EuiButton } from '@elastic/eui';
 import {
 	DeleteRegular,
 	PlayRegular,
 	RenameRegular,
 } from '@fluentui/react-icons';
 import { useRouter } from '@tanstack/react-router';
+import EasyModal from 'ez-modal-react';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, useCallback, useState } from 'react';
 
@@ -40,191 +30,45 @@ const PlayAllButton = ({ onClick }: PlayAllButtonProps): ReactElement => {
 	);
 };
 
-interface RenamePlaylistModalProps {
-	playlistListItem: IPlaylistListItemStore;
-	onCancel: () => void;
-	onSave: (e: { name: string }) => Promise<void>;
-}
-
-const RenamePlaylistModal = ({
-	playlistListItem,
-	onCancel,
-	onSave,
-}: RenamePlaylistModalProps): ReactElement => {
-	const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
-
-	const [name, setName] = useState(playlistListItem.name);
-	const [loading, setLoading] = useState(false);
-
-	return (
-		<EuiModal onClose={onCancel} initialFocus="[name=name]">
-			<EuiModalHeader>
-				<EuiModalHeaderTitle>
-					Rename playlist{/* LOC */}
-				</EuiModalHeaderTitle>
-			</EuiModalHeader>
-
-			<EuiModalBody>
-				<EuiForm
-					id={modalFormId}
-					component="form"
-					onSubmit={async (e): Promise<void> => {
-						e.preventDefault();
-
-						try {
-							setLoading(true);
-
-							await onSave({ name: name });
-						} finally {
-							setLoading(false);
-						}
-					}}
-				>
-					<EuiFormRow label="Name">
-						<EuiFieldText
-							name="name"
-							value={name}
-							onChange={(e): void => setName(e.target.value)}
-						/>
-					</EuiFormRow>
-				</EuiForm>
-			</EuiModalBody>
-
-			<EuiModalFooter>
-				<EuiButtonEmpty onClick={onCancel}>
-					Cancel{/* LOC */}
-				</EuiButtonEmpty>
-
-				<EuiButton
-					type="submit"
-					form={modalFormId}
-					fill
-					disabled={name.trim().length === 0}
-					isLoading={loading}
-				>
-					Rename{/* LOC */}
-				</EuiButton>
-			</EuiModalFooter>
-		</EuiModal>
-	);
-};
-
 interface RenameButtonProps {
 	playlistListItem: IPlaylistListItemStore;
-	onSave: (e: { name: string }) => Promise<void>;
+	onFulfilled: (value: string) => Promise<void>;
 }
 
 const RenameButton = ({
 	playlistListItem,
-	onSave,
+	onFulfilled,
 }: RenameButtonProps): ReactElement => {
-	const [isModalOpen, setModalOpen] = useState(false);
-
-	const handleSave = useCallback(
-		async (e: { name: string }): Promise<void> => {
-			await onSave(e);
-
-			setModalOpen(false);
-		},
-		[onSave],
-	);
+	const handleClick = (): Promise<void> =>
+		EasyModal.show(RenamePlaylistModal, {
+			playlistListItem: playlistListItem,
+		}).then(onFulfilled);
 
 	return (
-		<>
-			<EuiButton
-				onClick={(): void => setModalOpen(true)}
-				iconType={RenameRegular}
-			>
-				Rename{/* LOC */}
-			</EuiButton>
-
-			{isModalOpen && (
-				<RenamePlaylistModal
-					playlistListItem={playlistListItem}
-					onCancel={(): void => setModalOpen(false)}
-					onSave={handleSave}
-				/>
-			)}
-		</>
-	);
-};
-
-interface DeletePlaylistConfirmModalProps {
-	playlistListItem: IPlaylistListItemStore;
-	onCancel: () => void;
-	onSave: () => Promise<void>;
-}
-
-const DeletePlaylistConfirmModal = ({
-	playlistListItem,
-	onCancel,
-	onSave,
-}: DeletePlaylistConfirmModalProps): ReactElement => {
-	const [loading, setLoading] = useState(false);
-
-	const handleConfirm = useCallback(async (): Promise<void> => {
-		try {
-			setLoading(true);
-
-			await onSave();
-		} finally {
-			setLoading(false);
-		}
-	}, [onSave]);
-
-	return (
-		<EuiConfirmModal
-			title="Delete playlist permanently?" /* LOC */
-			onCancel={onCancel}
-			onConfirm={handleConfirm}
-			cancelButtonText="Cancel" /* LOC */
-			confirmButtonText="Delete" /* LOC */
-			buttonColor="danger"
-			isLoading={loading}
-		>
-			<p>
-				Are you sure you want to delete this playlist? If you delete '
-				{playlistListItem.name}
-				', you won't be able to recover it.{/* LOC */}
-			</p>
-		</EuiConfirmModal>
+		<EuiButton onClick={handleClick} iconType={RenameRegular}>
+			Rename{/* LOC */}
+		</EuiButton>
 	);
 };
 
 interface DeleteButtonProps {
 	playlistListItem: IPlaylistListItemStore;
-	onSave: () => Promise<void>;
+	onFulfilled: () => Promise<void>;
 }
 
 const DeleteButton = ({
 	playlistListItem,
-	onSave,
+	onFulfilled,
 }: DeleteButtonProps): ReactElement => {
-	const [isModalOpen, setModalOpen] = useState(false);
-
-	const handleSave = useCallback(async (): Promise<void> => {
-		await onSave();
-
-		setModalOpen(false);
-	}, [onSave]);
+	const handleClick = (): Promise<void> =>
+		EasyModal.show(DeletePlaylistConfirmModal, {
+			playlistListItem: playlistListItem,
+		}).then(onFulfilled);
 
 	return (
-		<>
-			<EuiButton
-				onClick={(): void => setModalOpen(true)}
-				iconType={DeleteRegular}
-			>
-				Delete{/* LOC */}
-			</EuiButton>
-
-			{isModalOpen && (
-				<DeletePlaylistConfirmModal
-					playlistListItem={playlistListItem}
-					onCancel={(): void => setModalOpen(false)}
-					onSave={handleSave}
-				/>
-			)}
-		</>
+		<EuiButton onClick={handleClick} iconType={DeleteRegular}>
+			Delete{/* LOC */}
+		</EuiButton>
 	);
 };
 
@@ -247,8 +91,8 @@ export const PlaylistDetailsPage = observer(
 		const router = useRouter();
 
 		const handleClickRenameButton = useCallback(
-			async (e: { name: string }): Promise<void> => {
-				await playlistListItem.rename(e.name);
+			async (value: string): Promise<void> => {
+				await playlistListItem.rename(value);
 			},
 			[playlistListItem],
 		);
@@ -280,11 +124,11 @@ export const PlaylistDetailsPage = observer(
 						<PlayAllButton onClick={playlist.playAll} />,
 						<RenameButton
 							playlistListItem={playlistListItem}
-							onSave={handleClickRenameButton}
+							onFulfilled={handleClickRenameButton}
 						/>,
 						<DeleteButton
 							playlistListItem={playlistListItem}
-							onSave={handleClickDeleteButton}
+							onFulfilled={handleClickDeleteButton}
 						/>,
 					]}
 				/>

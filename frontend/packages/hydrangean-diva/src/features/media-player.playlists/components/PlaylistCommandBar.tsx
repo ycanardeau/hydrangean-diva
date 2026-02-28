@@ -69,7 +69,7 @@ export const PlaylistCommandBar = observer(
 				</EuiFlexItem>
 				<EuiFlexItem grow={true} />
 				<EuiFlexItem grow={false}>
-					<AddVideoButton onSave={playlist.addItemFromDto} />
+					<AddVideoButton onFulfilled={playlist.addItemFromDto} />
 				</EuiFlexItem>
 			</EuiFlexGroup>
 		);

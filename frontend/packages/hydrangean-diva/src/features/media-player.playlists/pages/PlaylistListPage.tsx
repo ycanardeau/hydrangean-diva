@@ -1,10 +1,7 @@
 import { AppPageTemplateHeader } from '@/common/components/AppPageTemplateHeader';
 import { usePlaylistList } from '@/features/media-player.playlists.abstractions/contexts/PlaylistListContext';
 import type { IPlaylistListStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistListStore';
-import {
-	CreatePlaylistButton,
-	type CreatePlaylistFormSubmitEvent,
-} from '@/features/media-player.playlists/components/CreatePlaylistButton';
+import { CreatePlaylistButton } from '@/features/media-player.playlists/components/CreatePlaylistButton';
 import { PlaylistListTable } from '@/features/media-player.playlists/components/PlaylistListTable';
 import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
@@ -30,15 +27,15 @@ interface PlaylistListPageBodyProps {
 const PlaylistListPageBody = observer(
 	({ playlistList }: PlaylistListPageBodyProps): ReactElement => {
 		const handleCreatePlaylist = useCallback(
-			async (e: CreatePlaylistFormSubmitEvent): Promise<void> => {
-				await playlistList.addItem(playlistList.createItem(e.name));
+			async (value: string): Promise<void> => {
+				await playlistList.addItem(playlistList.createItem(value));
 			},
 			[playlistList],
 		);
 
 		return (
 			<EuiPageTemplate.Section>
-				<CreatePlaylistButton onSave={handleCreatePlaylist}>
+				<CreatePlaylistButton onFulfilled={handleCreatePlaylist}>
 					New playlist{/* LOC */}
 				</CreatePlaylistButton>
 

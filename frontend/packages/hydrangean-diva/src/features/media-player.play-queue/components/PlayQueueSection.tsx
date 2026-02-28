@@ -43,7 +43,9 @@ export const PlayQueueSection = observer(
 							</p>
 						}
 						actions={
-							<AddVideoButton onSave={playQueue.addItemFromDto} />
+							<AddVideoButton
+								onFulfilled={playQueue.addItemFromDto}
+							/>
 						}
 					/>
 				) : (
