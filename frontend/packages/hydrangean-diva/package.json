@@ -23,6 +23,7 @@
 		"@tanstack/react-router": "catalog:",
 		"@tanstack/react-router-devtools": "catalog:",
 		"ajv": "catalog:",
+		"ez-modal-react": "^1.0.5",
 		"lodash-es": "catalog:",
 		"mobx": "catalog:",
 		"mobx-react-lite": "catalog:",
