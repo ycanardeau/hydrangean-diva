@@ -1,6 +1,11 @@
 import { useBottomBar } from '@/features/media-player.bottom-bar.abstractions/contexts/BottomBarContext';
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
-import { EuiButtonIcon, EuiFlexGroup, type IconType } from '@elastic/eui';
+import {
+	EuiButtonIcon,
+	EuiFlexGroup,
+	EuiHideFor,
+	type IconType,
+} from '@elastic/eui';
 import {
 	ArrowRepeat1Filled,
 	ArrowRepeatAllFilled,
@@ -181,13 +186,21 @@ export const BottomBarCenterControls = observer((): ReactElement => {
 			justifyContent="center"
 			alignItems="center"
 		>
-			<ShuffleButton />
+			<EuiHideFor sizes={['xs']}>
+				<ShuffleButton />
+			</EuiHideFor>
 			<PreviousButton />
-			<SkipBack10Button />
+			<EuiHideFor sizes={['xs']}>
+				<SkipBack10Button />
+			</EuiHideFor>
 			{bottomBar.playing ? <PauseButton /> : <PlayButton />}
-			<SkipForward30Button />
+			<EuiHideFor sizes={['xs']}>
+				<SkipForward30Button />
+			</EuiHideFor>
 			<NextButton />
-			<RepeatButton />
+			<EuiHideFor sizes={['xs']}>
+				<RepeatButton />
+			</EuiHideFor>
 		</EuiFlexGroup>
 	);
 });
