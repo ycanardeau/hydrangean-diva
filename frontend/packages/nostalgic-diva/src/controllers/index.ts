@@ -1,5 +1,6 @@
 export * from '@/controllers/AudioPlayerController';
 export * from '@/controllers/DailymotionPlayerController';
+export * from '@/controllers/Logger';
 export * from '@/controllers/NiconicoPlayerController';
 export * from '@/controllers/NullPlayerController';
 export * from '@/controllers/PlayerController';
