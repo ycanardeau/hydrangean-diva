@@ -9,6 +9,9 @@ import {
 	type EuiContextMenuItemIcon,
 	type EuiContextMenuPanelDescriptor,
 	type EuiContextMenuPanelItemDescriptor,
+	EuiFlexGroup,
+	EuiFlexItem,
+	EuiHideFor,
 	EuiIcon,
 	EuiLink,
 	EuiPopover,
@@ -16,6 +19,7 @@ import {
 	EuiTableHeader,
 	EuiTableHeaderCell,
 	EuiTableHeaderCellCheckbox,
+	EuiTableHeaderMobile,
 	EuiTableRow,
 	EuiTableRowCell,
 	EuiTableRowCellCheckbox,
@@ -39,24 +43,48 @@ interface PlaylistTableHeaderProps {
 const PlaylistTableHeader = observer(
 	({ playlist }: PlaylistTableHeaderProps): ReactElement => {
 		return (
-			<EuiTableHeader>
-				<EuiTableHeaderCellCheckbox>
-					<EuiCheckbox
-						id="" // TODO
-						checked={playlist.allItemsSelected}
-						onChange={(e): void => {
-							if (e.target.checked) {
-								playlist.selectAll();
-							} else {
-								playlist.unselectAll();
-							}
-						}}
-					/>
-				</EuiTableHeaderCellCheckbox>
-				<EuiTableHeaderCell width={24} />
-				<EuiTableHeaderCell>Title{/* LOC */}</EuiTableHeaderCell>
-				<EuiTableHeaderCell />
-			</EuiTableHeader>
+			<>
+				<EuiTableHeaderMobile>
+					<EuiFlexGroup
+						responsive={false}
+						justifyContent="spaceBetween"
+						alignItems="baseline"
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="" // TODO
+								checked={playlist.allItemsSelected}
+								onChange={(e): void => {
+									if (e.target.checked) {
+										playlist.selectAll();
+									} else {
+										playlist.unselectAll();
+									}
+								}}
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+				</EuiTableHeaderMobile>
+
+				<EuiTableHeader>
+					<EuiTableHeaderCellCheckbox>
+						<EuiCheckbox
+							id="" // TODO
+							checked={playlist.allItemsSelected}
+							onChange={(e): void => {
+								if (e.target.checked) {
+									playlist.selectAll();
+								} else {
+									playlist.unselectAll();
+								}
+							}}
+						/>
+					</EuiTableHeaderCellCheckbox>
+					<EuiTableHeaderCell width={24} />
+					<EuiTableHeaderCell>Title{/* LOC */}</EuiTableHeaderCell>
+					<EuiTableHeaderCell />
+				</EuiTableHeader>
+			</>
 		);
 	},
 );
@@ -77,11 +105,13 @@ const PlaylistTableRowContextMenu = memo(
 				icon,
 				disabled,
 				onClick,
+				className,
 			}: {
 				name: string;
 				icon: EuiContextMenuItemIcon;
 				disabled?: boolean;
 				onClick: (event: React.MouseEvent<Element, MouseEvent>) => void;
+				className?: string;
 			}): EuiContextMenuPanelItemDescriptor => ({
 				name: name,
 				icon: icon,
@@ -91,6 +121,7 @@ const PlaylistTableRowContextMenu = memo(
 
 					onClick(e);
 				},
+				className: className,
 			}),
 			[closePopover],
 		);
@@ -100,6 +131,12 @@ const PlaylistTableRowContextMenu = memo(
 				{
 					id: 0,
 					items: [
+						createItem({
+							name: 'Play' /* LOC */,
+							icon: <EuiIcon type={PlayRegular} />,
+							onClick: item.play,
+							className: 'eui-showFor--xs--flex',
+						}),
 						createItem({
 							name: 'Play first' /* LOC */,
 							icon: <EuiIcon type="" />,
@@ -133,6 +170,12 @@ const PlaylistTableRowContextMenu = memo(
 						{
 							isSeparator: true,
 						},
+						createItem({
+							name: 'Remove' /* LOC */,
+							icon: <EuiIcon type={DismissRegular} />,
+							onClick: item.remove,
+							className: 'eui-showFor--xs--flex',
+						}),
 						createItem({
 							name: 'Remove to the top' /* LOC */,
 							icon: <EuiIcon type="" />,
@@ -200,16 +243,22 @@ const PlaylistTableRowActionsCell = observer(
 	({ item }: PlaylistTableRowActionsCellProps): ReactElement => {
 		return (
 			<EuiTableRowCell textOnly={false} hasActions align="right">
-				<EuiButton iconType={PlayRegular} size="s" onClick={item.play}>
-					Play{/* LOC */}
-				</EuiButton>
-				<EuiButton
-					iconType={DismissRegular}
-					size="s"
-					onClick={item.remove}
-				>
-					Remove{/* LOC */}
-				</EuiButton>
+				<EuiHideFor sizes={['xs']}>
+					<EuiButton
+						iconType={PlayRegular}
+						size="s"
+						onClick={item.play}
+					>
+						Play{/* LOC */}
+					</EuiButton>
+					<EuiButton
+						iconType={DismissRegular}
+						size="s"
+						onClick={item.remove}
+					>
+						Remove{/* LOC */}
+					</EuiButton>
+				</EuiHideFor>
 				<PlaylistTableRowPopover item={item} />
 			</EuiTableRowCell>
 		);
@@ -223,7 +272,7 @@ interface PlaylistTableRowProps {
 const PlaylistTableRow = observer(
 	({ item }: PlaylistTableRowProps): ReactElement => {
 		return (
-			<EuiTableRow isSelected={item.isCurrent}>
+			<EuiTableRow isSelected={item.isCurrent} hasSelection hasActions>
 				<EuiTableRowCellCheckbox>
 					<EuiCheckbox
 						id={item.id.toString() /* TODO */}
@@ -239,7 +288,13 @@ const PlaylistTableRow = observer(
 						alt={item.type /* TODO */}
 					/>
 				</EuiTableRowCell>
-				<EuiTableRowCell>
+				<EuiTableRowCell
+					mobileOptions={{
+						header: false,
+						enlarge: true,
+						width: '100%',
+					}}
+				>
 					<EuiLink href={item.url} target="_blank" external>
 						{item.title}
 					</EuiLink>

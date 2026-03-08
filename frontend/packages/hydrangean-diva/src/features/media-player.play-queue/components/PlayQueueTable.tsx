@@ -10,6 +10,9 @@ import {
 	type EuiContextMenuItemIcon,
 	type EuiContextMenuPanelDescriptor,
 	type EuiContextMenuPanelItemDescriptor,
+	EuiFlexGroup,
+	EuiFlexItem,
+	EuiHideFor,
 	EuiIcon,
 	EuiLink,
 	EuiPopover,
@@ -17,6 +20,7 @@ import {
 	EuiTableHeader,
 	EuiTableHeaderCell,
 	EuiTableHeaderCellCheckbox,
+	EuiTableHeaderMobile,
 	EuiTableRow,
 	EuiTableRowCell,
 	EuiTableRowCellCheckbox,
@@ -43,31 +47,55 @@ const PlayQueueTableHeader = observer(
 		const { euiTheme } = useEuiTheme();
 
 		return (
-			<EuiTableHeader
-				style={{
-					position: 'sticky',
-					top: 48 + 40 + 24,
-					zIndex: 998,
-					background: euiTheme.colors.backgroundBasePlain,
-				}}
-			>
-				<EuiTableHeaderCellCheckbox>
-					<EuiCheckbox
-						id="" // TODO
-						checked={playQueue.allItemsSelected}
-						onChange={(e): void => {
-							if (e.target.checked) {
-								playQueue.selectAll();
-							} else {
-								playQueue.unselectAll();
-							}
-						}}
-					/>
-				</EuiTableHeaderCellCheckbox>
-				<EuiTableHeaderCell width={24} />
-				<EuiTableHeaderCell>Title{/* LOC */}</EuiTableHeaderCell>
-				<EuiTableHeaderCell />
-			</EuiTableHeader>
+			<>
+				<EuiTableHeaderMobile>
+					<EuiFlexGroup
+						responsive={false}
+						justifyContent="spaceBetween"
+						alignItems="baseline"
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="" // TODO
+								checked={playQueue.allItemsSelected}
+								onChange={(e): void => {
+									if (e.target.checked) {
+										playQueue.selectAll();
+									} else {
+										playQueue.unselectAll();
+									}
+								}}
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+				</EuiTableHeaderMobile>
+
+				<EuiTableHeader
+					style={{
+						position: 'sticky',
+						top: 48 + 40 + 24,
+						zIndex: 998,
+						background: euiTheme.colors.backgroundBasePlain,
+					}}
+				>
+					<EuiTableHeaderCellCheckbox>
+						<EuiCheckbox
+							id="" // TODO
+							checked={playQueue.allItemsSelected}
+							onChange={(e): void => {
+								if (e.target.checked) {
+									playQueue.selectAll();
+								} else {
+									playQueue.unselectAll();
+								}
+							}}
+						/>
+					</EuiTableHeaderCellCheckbox>
+					<EuiTableHeaderCell width={24} />
+					<EuiTableHeaderCell>Title{/* LOC */}</EuiTableHeaderCell>
+					<EuiTableHeaderCell />
+				</EuiTableHeader>
+			</>
 		);
 	},
 );
@@ -77,7 +105,7 @@ interface PlayQueueTableRowContextMenuProps {
 	closePopover: () => void;
 }
 
-const PlayQueueTableRowContextMenu = memo(
+const PlayQueueTableRowContextMenu = observer(
 	({
 		item,
 		closePopover,
@@ -88,11 +116,13 @@ const PlayQueueTableRowContextMenu = memo(
 				icon,
 				disabled,
 				onClick,
+				className,
 			}: {
 				name: string;
 				icon: EuiContextMenuItemIcon;
 				disabled?: boolean;
 				onClick: (event: React.MouseEvent<Element, MouseEvent>) => void;
+				className?: string;
 			}): EuiContextMenuPanelItemDescriptor => ({
 				name: name,
 				icon: icon,
@@ -102,6 +132,7 @@ const PlayQueueTableRowContextMenu = memo(
 
 					onClick(e);
 				},
+				className: className,
 			}),
 			[closePopover],
 		);
@@ -111,6 +142,12 @@ const PlayQueueTableRowContextMenu = memo(
 				{
 					id: 0,
 					items: [
+						createItem({
+							name: 'Play' /* LOC */,
+							icon: <EuiIcon type={PlayRegular} />,
+							onClick: item.play,
+							className: 'eui-showFor--xs--flex',
+						}),
 						createItem({
 							name: 'Play first' /* LOC */,
 							icon: <EuiIcon type="" />,
@@ -144,6 +181,12 @@ const PlayQueueTableRowContextMenu = memo(
 						{
 							isSeparator: true,
 						},
+						createItem({
+							name: 'Remove' /* LOC */,
+							icon: <EuiIcon type={DismissRegular} />,
+							onClick: item.remove,
+							className: 'eui-showFor--xs--flex',
+						}),
 						createItem({
 							name: 'Remove to the top' /* LOC */,
 							icon: <EuiIcon type="" />,
@@ -213,26 +256,28 @@ const PlayQueueTableRowActionsCell = observer(
 
 		return (
 			<EuiTableRowCell textOnly={false} hasActions align="right">
-				<EuiButton
-					iconType={PlayRegular}
-					size="s"
-					onClick={async (): Promise<void> => {
-						if (item.isCurrent) {
-							await diva.setCurrentTime(0);
-						} else {
-							await item.play();
-						}
-					}}
-				>
-					Play{/* LOC */}
-				</EuiButton>
-				<EuiButton
-					iconType={DismissRegular}
-					size="s"
-					onClick={item.remove}
-				>
-					Remove{/* LOC */}
-				</EuiButton>
+				<EuiHideFor sizes={['xs']}>
+					<EuiButton
+						iconType={PlayRegular}
+						size="s"
+						onClick={async (): Promise<void> => {
+							if (item.isCurrent) {
+								await diva.setCurrentTime(0);
+							} else {
+								await item.play();
+							}
+						}}
+					>
+						Play{/* LOC */}
+					</EuiButton>
+					<EuiButton
+						iconType={DismissRegular}
+						size="s"
+						onClick={item.remove}
+					>
+						Remove{/* LOC */}
+					</EuiButton>
+				</EuiHideFor>
 				<PlayQueueTableRowPopover item={item} />
 			</EuiTableRowCell>
 		);
@@ -246,7 +291,7 @@ interface PlayQueueTableRowProps {
 const PlayQueueTableRow = observer(
 	({ item }: PlayQueueTableRowProps): ReactElement => {
 		return (
-			<EuiTableRow isSelected={item.isCurrent}>
+			<EuiTableRow isSelected={item.isCurrent} hasSelection hasActions>
 				<EuiTableRowCellCheckbox>
 					<EuiCheckbox
 						id={item.id.toString() /* TODO */}
@@ -262,7 +307,13 @@ const PlayQueueTableRow = observer(
 						alt={item.type /* TODO */}
 					/>
 				</EuiTableRowCell>
-				<EuiTableRowCell>
+				<EuiTableRowCell
+					mobileOptions={{
+						header: false,
+						enlarge: true,
+						width: '100%',
+					}}
+				>
 					<EuiLink href={item.url} target="_blank" external>
 						{item.title}
 					</EuiLink>

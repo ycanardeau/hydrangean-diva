@@ -138,7 +138,7 @@ const NextButton = observer((): ReactElement => {
 	);
 });
 
-const repeatIconTypes: Record<RepeatMode, IconType> = {
+export const repeatIconTypes: Record<RepeatMode, IconType> = {
 	[RepeatMode.Off]: ArrowRepeatAllOffFilled,
 	[RepeatMode.All]: ArrowRepeatAllFilled,
 	[RepeatMode.One]: ArrowRepeat1Filled,

@@ -1,9 +1,13 @@
 import { useBottomBar } from '@/features/media-player.bottom-bar.abstractions/contexts/BottomBarContext';
+import { repeatIconTypes } from '@/features/media-player.bottom-bar/components/BottomBarCenterControls';
+import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
 import {
 	EuiButtonIcon,
 	EuiContextMenu,
+	type EuiContextMenuItemIcon,
 	type EuiContextMenuPanelDescriptor,
+	type EuiContextMenuPanelItemDescriptor,
 	EuiFlexGroup,
 	EuiFormRow,
 	EuiIcon,
@@ -12,6 +16,8 @@ import {
 } from '@elastic/eui';
 import type { _SingleRangeChangeEvent } from '@elastic/eui/src/components/form/range/types';
 import {
+	ArrowShuffleFilled,
+	ArrowShuffleOffFilled,
 	DismissRegular,
 	MoreHorizontalFilled,
 	NavigationPlayRegular,
@@ -169,34 +175,6 @@ const MoreOptionsContextMenu = observer(
 
 		const diva = useNostalgicDiva();
 
-		const handleClickSkipBack10 = useCallback(async () => {
-			await bottomBar.skipBack10();
-
-			closePopover();
-		}, [bottomBar, closePopover]);
-
-		const handleClickSkipForward30 = useCallback(async () => {
-			await bottomBar.skipForward30();
-
-			closePopover();
-		}, [bottomBar, closePopover]);
-
-		const handleClickPlaybackRate = useCallback(
-			async (playbackRate: number): Promise<void> => {
-				await diva.setPlaybackRate(playbackRate);
-
-				closePopover();
-			},
-			[diva, closePopover],
-		);
-
-		const handleClickRemoveFromPlayQueue =
-			useCallback(async (): Promise<void> => {
-				await bottomBar.removeFromPlayQueue();
-
-				closePopover();
-			}, [bottomBar, closePopover]);
-
 		const [playbackRate, setPlaybackRate] = useState<number>();
 
 		const handleClickSpeed = useCallback(async (): Promise<void> => {
@@ -204,6 +182,35 @@ const MoreOptionsContextMenu = observer(
 				.getPlaybackRate()
 				.then((playbackRate) => setPlaybackRate(playbackRate));
 		}, [bottomBar]);
+
+		const createItem = useCallback(
+			({
+				name,
+				icon,
+				onClick,
+				disabled,
+				className,
+			}: {
+				name: string;
+				icon: EuiContextMenuItemIcon;
+				onClick: () => void;
+				disabled: boolean;
+				className?: string;
+			}): EuiContextMenuPanelItemDescriptor => {
+				return {
+					name: name,
+					icon: icon,
+					onClick: async (): Promise<void> => {
+						closePopover();
+
+						onClick();
+					},
+					disabled: disabled,
+					className: className,
+				};
+			},
+			[closePopover],
+		);
 
 		const panels = useMemo(
 			(): EuiContextMenuPanelDescriptor[] => [
@@ -220,55 +227,81 @@ const MoreOptionsContextMenu = observer(
 									'getPlaybackRate',
 								),
 						},
-						{
+						createItem({
 							name: 'Skip back 10 seconds' /* LOC */,
 							icon: <EuiIcon type={SkipBack10Regular} />,
-							onClick: handleClickSkipBack10,
+							onClick: bottomBar.skipBack10,
 							disabled: !bottomBar.canSkipBack10,
-						},
-						{
+						}),
+						createItem({
 							name: 'Skip forward 30 seconds' /* LOC */,
 							icon: <EuiIcon type={SkipForward30Regular} />,
-							onClick: handleClickSkipForward30,
+							onClick: bottomBar.skipForward30,
 							disabled: !bottomBar.canSkipForward30,
-						},
+						}),
+						createItem({
+							name: `Shuffle: ${bottomBar.shuffle ? 'On' : 'Off'}` /* LOC */,
+							icon: (
+								<EuiIcon
+									type={
+										bottomBar.shuffle
+											? ArrowShuffleFilled
+											: ArrowShuffleOffFilled
+									}
+								/>
+							),
+							onClick: bottomBar.toggleShuffle,
+							disabled: !bottomBar.canToggleShuffle,
+							className: 'eui-showFor--xs--flex',
+						}),
+						createItem({
+							name: `Repeat: ${
+								bottomBar.repeat === RepeatMode.All
+									? 'All'
+									: bottomBar.repeat === RepeatMode.One
+										? 'One'
+										: 'Off'
+							}` /* LOC */,
+							icon: (
+								<EuiIcon
+									type={repeatIconTypes[bottomBar.repeat]}
+								/>
+							),
+							onClick: bottomBar.toggleRepeat,
+							disabled: !bottomBar.canToggleRepeat,
+							className: 'eui-showFor--xs--flex',
+						}),
 						{
 							isSeparator: true,
 						},
-						{
+						createItem({
 							name: 'Remove from play queue' /* LOC */,
 							icon: <EuiIcon type={DismissRegular} />,
-							onClick: handleClickRemoveFromPlayQueue,
+							onClick: bottomBar.removeFromPlayQueue,
 							disabled: !bottomBar.canRemoveFromPlayQueue,
-						},
+						}),
 					],
 				},
 				{
 					id: 1,
 					title: 'Speed' /* LOC */,
 					items: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map(
-						(value) => ({
-							name: value.toString(),
-							onClick: (): Promise<void> =>
-								handleClickPlaybackRate(value),
-							icon: value === playbackRate ? 'check' : 'empty',
-							disabled:
-								!bottomBar.controller.supports(
-									'setPlaybackRate',
-								),
-						}),
+						(value) =>
+							createItem({
+								name: value.toString(),
+								onClick: (): Promise<void> =>
+									diva.setPlaybackRate(value),
+								icon:
+									value === playbackRate ? 'check' : 'empty',
+								disabled:
+									!bottomBar.controller.supports(
+										'setPlaybackRate',
+									),
+							}),
 					),
 				},
 			],
-			[
-				bottomBar,
-				handleClickSpeed,
-				handleClickSkipBack10,
-				handleClickSkipForward30,
-				handleClickRemoveFromPlayQueue,
-				handleClickPlaybackRate,
-				playbackRate,
-			],
+			[bottomBar, createItem, handleClickSpeed, diva, playbackRate],
 		);
 
 		return <EuiContextMenu initialPanelId={0} panels={panels} />;
