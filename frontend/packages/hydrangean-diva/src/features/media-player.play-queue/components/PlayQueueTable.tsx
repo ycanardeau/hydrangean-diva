@@ -256,7 +256,7 @@ const PlayQueueTableRow = observer(
 				</EuiTableRowCellCheckbox>
 				<EuiTableRowCell textOnly={false}>
 					<img
-						src={videoServiceIcons[item.type]}
+						src={videoServiceIcons.get(item.type)}
 						width={16}
 						height={16}
 						alt={item.type /* TODO */}

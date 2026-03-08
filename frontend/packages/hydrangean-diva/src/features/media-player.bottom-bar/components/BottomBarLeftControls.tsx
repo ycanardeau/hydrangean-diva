@@ -98,7 +98,7 @@ const PlayQueueItemPopover = memo(
 			<EuiPopover
 				button={
 					<EuiButtonEmpty
-						iconType={videoServiceIcons[item.type]}
+						iconType={videoServiceIcons.get(item.type)}
 						size="s"
 						onClick={togglePopover}
 					>
