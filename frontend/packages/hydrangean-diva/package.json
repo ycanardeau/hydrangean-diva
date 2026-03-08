@@ -1,6 +1,6 @@
 {
 	"name": "@aigamo/hydrangean-diva",
-	"version": "0.0.1-alpha.59",
+	"version": "0.0.1-alpha.60",
 	"type": "module",
 	"scripts": {
 		"dev": "vite --config vite.config.app.ts",
