@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, esmExternalRequirePlugin } from 'vite';
 import dts from 'vite-plugin-dts';
 
 // eslint-disable-next-line no-restricted-imports
@@ -20,6 +20,12 @@ export default defineConfig({
 			insertTypesEntry: true,
 		}),
 		react(),
+		esmExternalRequirePlugin({
+			external: [
+				...Object.keys(pkg.peerDependencies ?? []),
+				...Object.keys(pkg.dependencies ?? []),
+			],
+		}),
 	],
 	build: {
 		lib: {
