@@ -169,7 +169,7 @@ catalogs:
       specifier: ^4.5.4
       version: 4.5.4
     vite-plugin-externalize-deps:
-      specifier: 0.10.0
+      specifier: ^0.10.0
       version: 0.10.0
     vite-plugin-pwa:
       specifier: ^1.2.0
