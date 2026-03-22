@@ -8,7 +8,6 @@
 		"build:watch": "pnpm build --watch",
 		"lint": "eslint ."
 	},
-	"dependencies": {},
 	"devDependencies": {
 		"@eslint/compat": "catalog:",
 		"@eslint/eslintrc": "catalog:",
@@ -43,6 +42,7 @@
 		"rimraf": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-dts": "catalog:",
+		"vite-plugin-externalize-deps": "catalog:",
 		"vitest": "catalog:"
 	},
 	"peerDependencies": {

@@ -2,9 +2,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-
-// eslint-disable-next-line no-restricted-imports
-import pkg from './package.json' with { type: 'json' };
+import { externalizeDeps } from 'vite-plugin-externalize-deps';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,6 +18,7 @@ export default defineConfig({
 			insertTypesEntry: true,
 		}),
 		react(),
+		externalizeDeps(),
 	],
 	build: {
 		lib: {
@@ -33,12 +32,6 @@ export default defineConfig({
 			},
 			formats: ['es', 'cjs'],
 			fileName: (format, entryName) => `${entryName}.${format}.js`,
-		},
-		rollupOptions: {
-			external: [
-				...Object.keys(pkg.peerDependencies ?? []),
-				...Object.keys(pkg.dependencies ?? []),
-			],
 		},
 		sourcemap: true,
 	},
