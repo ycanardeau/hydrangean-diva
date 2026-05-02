@@ -12,7 +12,6 @@ catalog:
   '@eslint/compat': ^2.0.0
   '@eslint/eslintrc': ^3.3.3
   '@fluentui/react-icons': ^2.0.319
-  '@openapitools/openapi-generator-cli': ^2.30.0
   '@tanstack/react-router': ^1.144.0
   '@tanstack/react-router-devtools': ^1.144.0
   '@tanstack/router-plugin': ^1.145.2
