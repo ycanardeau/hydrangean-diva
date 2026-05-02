@@ -55,7 +55,7 @@ catalog:
   rimraf: ^6.1.2
   sortablejs: ^1.15.6
   utility-types: ^3.11.0
-  vite: ^7.3.1
+  vite: ^7.3.2
   vite-plugin-dts: ^4.5.4
   vite-plugin-externalize-deps: ^0.10.0
   vite-plugin-pwa: ^1.2.0
