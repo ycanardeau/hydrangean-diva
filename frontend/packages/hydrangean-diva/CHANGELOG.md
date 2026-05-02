@@ -1,3 +1,7 @@
+## 0.0.1-alpha.65 (2026-05-02)
+
+This was a version bump only for @aigamo/hydrangean-diva to align it with other projects, there were no code changes.
+
 ## 0.0.1-alpha.64 (2026-03-22)
 
 ### 🧱 Updated Dependencies
