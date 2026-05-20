@@ -5,11 +5,9 @@ import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstrac
 import { RepeatMode } from '@/features/media-player.play-queue.abstractions/interfaces/RepeatMode';
 import type { IPlayerStore } from '@/features/media-player.player.abstractions/interfaces/IPlayerStore';
 import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable } from 'mobx';
 
 export class MiniPlayerStore implements IMiniPlayerStore {
-	@observable interacted = false;
-
 	constructor(
 		private readonly player: IPlayerStore,
 		private readonly playQueue: IPlayQueueStore,
@@ -18,16 +16,16 @@ export class MiniPlayerStore implements IMiniPlayerStore {
 		makeObservable(this);
 	}
 
+	@computed get interacted(): boolean {
+		return this.playQueue.interacted;
+	}
+
 	@computed get controller(): IPlayerController {
 		return this.player.controller;
 	}
 
 	@computed get currentItem(): IPlayQueueItemStore | undefined {
 		return this.playQueue.currentItem;
-	}
-
-	@action.bound interact(): void {
-		this.interacted = true;
 	}
 
 	@action.bound async onLoaded(): Promise<void> {

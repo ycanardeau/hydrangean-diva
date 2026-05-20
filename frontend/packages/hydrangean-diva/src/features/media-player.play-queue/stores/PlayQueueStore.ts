@@ -37,6 +37,7 @@ class PlayQueueLocalStorageStateStore implements IStateStore<PlayQueueDto> {
 }
 
 export class PlayQueueStore implements IPlayQueueStore {
+	@observable interacted = false;
 	readonly localStorageState: PlayQueueLocalStorageStateStore;
 	@observable items: IPlayQueueItemStore[] = [];
 	@observable currentId: number | undefined;
@@ -145,7 +146,13 @@ export class PlayQueueStore implements IPlayQueueStore {
 		this.items = value;
 	}
 
+	@action.bound interact(): void {
+		this.interacted = true;
+	}
+
 	@action.bound clear(): void {
+		this.interact();
+
 		this.currentIndex = undefined;
 		this.items = [];
 	}
@@ -163,6 +170,8 @@ export class PlayQueueStore implements IPlayQueueStore {
 	}
 
 	@action.bound setCurrentItem(item: IPlayQueueItemStore | undefined): void {
+		this.interact();
+
 		this.currentId = item?.id;
 	}
 
@@ -227,6 +236,8 @@ export class PlayQueueStore implements IPlayQueueStore {
 			return;
 		}
 
+		this.interact();
+
 		this.items.splice(currentIndex, 0, ...items);
 		this.currentIndex = currentIndex;
 	}
@@ -267,6 +278,8 @@ export class PlayQueueStore implements IPlayQueueStore {
 
 		// If the current item differs from the captured one, then it means that the current item was removed from the play queue.
 		if (this.currentItem !== currentItem) {
+			this.interact();
+
 			if (isLastItem) {
 				// Start over the playlist from the beginning.
 				await this.goToFirst();
@@ -310,6 +323,8 @@ export class PlayQueueStore implements IPlayQueueStore {
 			return;
 		}
 
+		this.interact();
+
 		this.currentIndex--;
 	}
 
@@ -321,6 +336,8 @@ export class PlayQueueStore implements IPlayQueueStore {
 		if (!this.hasNextItem) {
 			return;
 		}
+
+		this.interact();
 
 		this.currentIndex++;
 	}

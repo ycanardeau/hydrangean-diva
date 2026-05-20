@@ -4,7 +4,6 @@ import type { IPlayerController, TimeEvent } from '@aigamo/nostalgic-diva';
 export interface IMiniPlayerStore {
 	readonly controller: IPlayerController;
 	readonly currentItem: IPlayQueueItemStore | undefined;
-	interact(): void;
 	onLoaded(): Promise<void>;
 	onPlay(): void;
 	onPause(): void;

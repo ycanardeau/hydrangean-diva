@@ -4,6 +4,7 @@ import type { PlayQueueItemDto } from '@/features/media-player.play-queue.abstra
 import type { IStateStore } from '@aigamo/route-sphere';
 
 export interface IPlayQueueStore {
+	readonly interacted: boolean;
 	readonly localStorageState: IStateStore<PlayQueueDto>;
 	readonly items: IPlayQueueItemStore[];
 	createItemFromDto(dto: PlayQueueItemDto): IPlayQueueItemStore;
