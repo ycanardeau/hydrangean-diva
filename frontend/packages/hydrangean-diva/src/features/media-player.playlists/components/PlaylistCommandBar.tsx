@@ -1,3 +1,4 @@
+import { headerHeight } from '@/features/common/helpers/headerHeight';
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
 import type { IPlaylistStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistStore';
 import {
@@ -150,7 +151,7 @@ export const PlaylistCommandBar = observer(
 				responsive={false}
 				style={{
 					position: 'sticky',
-					top: 48,
+					top: headerHeight,
 					zIndex: 998,
 					background: euiTheme.colors.backgroundBasePlain,
 				}}

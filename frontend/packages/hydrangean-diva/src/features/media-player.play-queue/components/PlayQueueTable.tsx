@@ -1,3 +1,6 @@
+import { commandBarHeight } from '@/features/common/helpers/commandBarHeight';
+import { commandBarSpacerHeight } from '@/features/common/helpers/commandBarSpacerHeight';
+import { headerHeight } from '@/features/common/helpers/headerHeight';
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
@@ -35,7 +38,15 @@ import {
 	PlayRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { type ReactElement, memo, useCallback, useMemo, useState } from 'react';
+import {
+	type ReactElement,
+	memo,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
 interface PlayQueueTableHeaderProps {
@@ -73,7 +84,10 @@ const PlayQueueTableHeader = observer(
 				<EuiTableHeader
 					style={{
 						position: 'sticky',
-						top: 48 + 40 + 24,
+						top:
+							headerHeight +
+							commandBarHeight +
+							commandBarSpacerHeight,
 						zIndex: 998,
 						background: euiTheme.colors.backgroundBasePlain,
 					}}
@@ -290,6 +304,41 @@ interface PlayQueueTableRowProps {
 
 const PlayQueueTableRow = observer(
 	({ item }: PlayQueueTableRowProps): ReactElement => {
+		// EuiTableRow does not forward a ref, so we anchor to a native element
+		// inside the row and walk up to the <tr> when scrolling into view.
+		const iconRef = useRef<HTMLImageElement>(null);
+
+		const { isCurrent } = item;
+		useEffect(() => {
+			if (!isCurrent) {
+				return;
+			}
+
+			const row = iconRef.current?.closest<HTMLTableRowElement>('tr');
+			if (!row) {
+				return;
+			}
+
+			// scrollIntoView ignores the fixed header and bottom bar, so offset
+			// the row with scroll margins to keep it clear of both.
+			const columnHeader = row.closest('table')?.querySelector('thead');
+			const columnHeaderBottom =
+				columnHeader?.getBoundingClientRect().bottom ?? 0;
+			const bottomBar = document.querySelector('.euiBottomBar');
+			const bottomBarHeight = bottomBar
+				? window.innerHeight - bottomBar.getBoundingClientRect().top
+				: 0;
+
+			// The header, command bar, and spacer form the sticky stack above
+			// the table; the column header itself is hidden on mobile.
+			row.style.scrollMarginTop = `${Math.max(
+				columnHeaderBottom,
+				headerHeight + commandBarHeight + commandBarSpacerHeight,
+			)}px`;
+			row.style.scrollMarginBottom = `${bottomBarHeight}px`;
+			row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+		}, [isCurrent]);
+
 		return (
 			<EuiTableRow isSelected={item.isCurrent} hasSelection hasActions>
 				<EuiTableRowCellCheckbox>
@@ -301,6 +350,7 @@ const PlayQueueTableRow = observer(
 				</EuiTableRowCellCheckbox>
 				<EuiTableRowCell textOnly={false}>
 					<img
+						ref={iconRef}
 						src={videoServiceIcons.get(item.type)}
 						width={16}
 						height={16}

@@ -1,3 +1,5 @@
+import { commandBarHeight } from '@/features/common/helpers/commandBarHeight';
+import { headerHeight } from '@/features/common/helpers/headerHeight';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
 import { AddVideoButton } from '@/features/media-player.play-queue/components/AddVideoButton';
 import { PlayQueueCommandBar } from '@/features/media-player.play-queue/components/PlayQueueCommandBar';
@@ -27,7 +29,7 @@ export const PlayQueueSection = observer(
 					size="l"
 					style={{
 						position: 'sticky',
-						top: 48 + 40,
+						top: headerHeight + commandBarHeight,
 						zIndex: 998,
 						background: euiTheme.colors.backgroundBasePlain,
 					}}

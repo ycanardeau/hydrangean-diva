@@ -1,3 +1,5 @@
+import { commandBarHeight } from '@/features/common/helpers/commandBarHeight';
+import { headerHeight } from '@/features/common/helpers/headerHeight';
 import type { IPlaylistStore } from '@/features/media-player.playlists.abstractions/interfaces/IPlaylistStore';
 import { PlaylistCommandBar } from '@/features/media-player.playlists/components/PlaylistCommandBar';
 import { PlaylistTable } from '@/features/media-player.playlists/components/PlaylistTable';
@@ -21,7 +23,7 @@ export const PlaylistSection = observer(
 					size="l"
 					style={{
 						position: 'sticky',
-						top: 48 + 40,
+						top: headerHeight + commandBarHeight,
 						zIndex: 998,
 						background: euiTheme.colors.backgroundBasePlain,
 					}}
