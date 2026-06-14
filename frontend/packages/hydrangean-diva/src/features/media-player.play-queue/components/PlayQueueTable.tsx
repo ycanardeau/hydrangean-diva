@@ -38,7 +38,15 @@ import {
 	PlayRegular,
 } from '@fluentui/react-icons';
 import { observer } from 'mobx-react-lite';
-import { type ReactElement, memo, useCallback, useMemo, useState } from 'react';
+import {
+	type ReactElement,
+	memo,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
 interface PlayQueueTableHeaderProps {
@@ -296,6 +304,22 @@ interface PlayQueueTableRowProps {
 
 const PlayQueueTableRow = observer(
 	({ item }: PlayQueueTableRowProps): ReactElement => {
+		// EuiTableRow does not forward a ref, so we anchor to a native element
+		// inside the row and walk up to the <tr> when scrolling into view.
+		const iconRef = useRef<HTMLImageElement>(null);
+
+		const { isCurrent } = item;
+		useEffect(() => {
+			if (isCurrent) {
+				// Centering keeps the row clear of the fixed header and bottom
+				// bar without depending on their exact heights.
+				iconRef.current?.closest('tr')?.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center',
+				});
+			}
+		}, [isCurrent]);
+
 		return (
 			<EuiTableRow isSelected={item.isCurrent} hasSelection hasActions>
 				<EuiTableRowCellCheckbox>
@@ -307,6 +331,7 @@ const PlayQueueTableRow = observer(
 				</EuiTableRowCellCheckbox>
 				<EuiTableRowCell textOnly={false}>
 					<img
+						ref={iconRef}
 						src={videoServiceIcons.get(item.type)}
 						width={16}
 						height={16}
