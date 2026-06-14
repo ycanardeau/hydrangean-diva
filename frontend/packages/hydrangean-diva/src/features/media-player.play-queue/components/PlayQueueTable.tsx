@@ -1,3 +1,6 @@
+import { commandBarHeight } from '@/features/common/helpers/commandBarHeight';
+import { commandBarSpacerHeight } from '@/features/common/helpers/commandBarSpacerHeight';
+import { headerHeight } from '@/features/common/helpers/headerHeight';
 import { videoServiceIcons } from '@/features/common/helpers/videoServiceIcons';
 import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueStore';
@@ -73,7 +76,10 @@ const PlayQueueTableHeader = observer(
 				<EuiTableHeader
 					style={{
 						position: 'sticky',
-						top: 48 + 40 + 24,
+						top:
+							headerHeight +
+							commandBarHeight +
+							commandBarSpacerHeight,
 						zIndex: 998,
 						background: euiTheme.colors.backgroundBasePlain,
 					}}
