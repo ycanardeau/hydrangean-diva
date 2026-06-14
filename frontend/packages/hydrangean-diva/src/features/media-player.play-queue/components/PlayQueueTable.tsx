@@ -310,33 +310,14 @@ const PlayQueueTableRow = observer(
 
 		const { isCurrent } = item;
 		useEffect(() => {
-			if (!isCurrent) {
-				return;
+			if (isCurrent) {
+				// Centering keeps the row clear of the fixed header and bottom
+				// bar without depending on their exact heights.
+				iconRef.current?.closest('tr')?.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center',
+				});
 			}
-
-			const row = iconRef.current?.closest<HTMLTableRowElement>('tr');
-			if (!row) {
-				return;
-			}
-
-			// scrollIntoView ignores the fixed header and bottom bar, so offset
-			// the row with scroll margins to keep it clear of both.
-			const columnHeader = row.closest('table')?.querySelector('thead');
-			const columnHeaderBottom =
-				columnHeader?.getBoundingClientRect().bottom ?? 0;
-			const bottomBar = document.querySelector('.euiBottomBar');
-			const bottomBarHeight = bottomBar
-				? window.innerHeight - bottomBar.getBoundingClientRect().top
-				: 0;
-
-			// The header, command bar, and spacer form the sticky stack above
-			// the table; the column header itself is hidden on mobile.
-			row.style.scrollMarginTop = `${Math.max(
-				columnHeaderBottom,
-				headerHeight + commandBarHeight + commandBarSpacerHeight,
-			)}px`;
-			row.style.scrollMarginBottom = `${bottomBarHeight}px`;
-			row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 		}, [isCurrent]);
 
 		return (
