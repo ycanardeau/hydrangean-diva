@@ -2,6 +2,7 @@ import { AudioVideoService } from '@/services/AudioVideoService';
 import { DailymotionVideoService } from '@/services/DailymotionVideoService';
 import { NiconicoVideoService } from '@/services/NiconicoVideoService';
 import { SoundCloudVideoService } from '@/services/SoundCloudVideoService';
+import { SpotifyVideoService } from '@/services/SpotifyVideoService';
 import { TwitchVideoService } from '@/services/TwitchVideoService';
 import type { VideoService } from '@/services/VideoService';
 import { VimeoVideoService } from '@/services/VimeoVideoService';
@@ -13,6 +14,7 @@ export const videoServices: VideoService[] = [
 	new VimeoVideoService(),
 	new DailymotionVideoService(),
 	new SoundCloudVideoService(),
+	new SpotifyVideoService(),
 	new AudioVideoService(),
 	new NiconicoVideoService(),
 ];

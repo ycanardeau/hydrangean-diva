@@ -6,6 +6,7 @@ export type PlayerType =
 	| 'Dailymotion'
 	| 'Niconico'
 	| 'SoundCloud'
+	| 'Spotify'
 	| 'Twitch'
 	| 'Vimeo'
 	| 'YouTube'

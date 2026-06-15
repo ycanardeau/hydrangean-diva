@@ -22,6 +22,7 @@ export const players: Map<PlayerType, ElementType<PlayerProps>> = new Map(
 		Dailymotion: lazy(() => import('./DailymotionPlayer')),
 		Niconico: lazy(() => import('./NiconicoPlayer')),
 		SoundCloud: lazy(() => import('./SoundCloudPlayer')),
+		Spotify: lazy(() => import('./SpotifyPlayer')),
 		Twitch: lazy(() => import('./TwitchPlayer')),
 		Vimeo: lazy(() => import('./VimeoPlayer')),
 		YouTube: lazy(() => import('./YouTubePlayer')),

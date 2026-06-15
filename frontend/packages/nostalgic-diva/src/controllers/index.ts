@@ -6,6 +6,7 @@ export * from '@/controllers/NullPlayerController';
 export * from '@/controllers/PlayerController';
 export * from '@/controllers/PlayerControllerImpl';
 export * from '@/controllers/SoundCloudPlayerController';
+export * from '@/controllers/SpotifyPlayerController';
 export * from '@/controllers/TwitchPlayerController';
 export * from '@/controllers/VimeoPlayerController';
 export * from '@/controllers/YouTubePlayerController';

@@ -905,3 +905,56 @@ declare namespace Twitch {
 		): void;
 	}
 }
+
+// https://developer.spotify.com/documentation/embeds/references/iframe-api
+declare namespace Spotify {
+	interface PlaybackUpdateData {
+		playingURI: string;
+		isPaused: boolean;
+		isBuffering: boolean;
+		// `duration` and `position` are reported in milliseconds.
+		duration: number;
+		position: number;
+	}
+
+	interface EmbedControllerOptions {
+		uri: string;
+		width?: string | number;
+		height?: string | number;
+	}
+
+	interface EmbedController {
+		loadUri(uri: string): void;
+		play(): void;
+		// `play` is unreliable (it can no-op on some content); `resume` both
+		// starts and resumes playback, so it is preferred.
+		resume(): void;
+		pause(): void;
+		togglePlay(): void;
+		restart(): void;
+		seek(seconds: number): void;
+		destroy(): void;
+		addListener(eventName: 'ready', listener: () => void): void;
+		addListener(
+			eventName: 'playback_started',
+			listener: (e: { data: { playingURI: string } }) => void,
+		): void;
+		addListener(
+			eventName: 'playback_update',
+			listener: (e: { data: PlaybackUpdateData }) => void,
+		): void;
+		addListener(eventName: string, listener: (e: any) => void): void;
+	}
+
+	interface IFrameAPI {
+		createController(
+			element: HTMLElement,
+			options: EmbedControllerOptions,
+			callback: (controller: EmbedController) => void,
+		): void;
+	}
+}
+
+interface Window {
+	onSpotifyIframeApiReady?: (IFrameAPI: Spotify.IFrameAPI) => void;
+}

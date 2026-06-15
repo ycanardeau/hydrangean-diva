@@ -125,7 +125,7 @@ export const PlayerContainer = <
 		// If `previousVideoId` is undefined, then it means that the video has already been loaded by either
 		// 1. `<audio>`s `src` attribute (e.g. `AudioPlayer`),
 		// 2. `<iframe>`'s `src` attribute (e.g. `NiconicoPlayer`, `SoundCloudPlayer` and `VimeoPlayer`), or
-		// 3. the `attach` method of the player API (e.g. `YouTubePlayer`).
+		// 3. the `attach` method of the player API (e.g. `YouTubePlayer` and `SpotifyPlayer`).
 		if (previousVideoId === undefined) {
 			return;
 		}
