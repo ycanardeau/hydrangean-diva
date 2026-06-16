@@ -1,0 +1,47 @@
+import type { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import type { PlayQueueDto } from '@/features/media-player/interfaces/PlayQueueDto';
+import type { PlayQueueItemDto } from '@/features/media-player/interfaces/PlayQueueItemDto';
+import type { IStateStore } from '@aigamo/route-sphere';
+
+export interface IPlayQueueStore {
+	readonly interacted: boolean;
+	readonly localStorageState: IStateStore<PlayQueueDto>;
+	readonly items: IPlayQueueItemStore[];
+	createItemFromDto(dto: PlayQueueItemDto): IPlayQueueItemStore;
+	readonly isEmpty: boolean;
+	readonly canClear: boolean;
+	readonly currentItem: IPlayQueueItemStore | undefined;
+	readonly canPlay: boolean;
+	readonly canPause: boolean;
+	readonly hasMultipleItems: boolean;
+	readonly currentIndex: number | undefined;
+	readonly hasPreviousItem: boolean;
+	readonly hasNextItem: boolean;
+	readonly isLastItem: boolean;
+	readonly selectedItems: IPlayQueueItemStore[];
+	readonly allItemsSelected: boolean;
+	readonly selectedItemsOrAllItems: IPlayQueueItemStore[];
+	readonly canAddSelectedItems: boolean;
+	readonly canPlaySelectedItemsNext: boolean;
+	readonly canRemoveSelectedItems: boolean;
+	setItems(value: IPlayQueueItemStore[]): void;
+	clear(): void;
+	unselectAll(): void;
+	selectAll(): void;
+	setCurrentItem(item: IPlayQueueItemStore | undefined): void;
+	clearAndSetItems(items: IPlayQueueItemStore[]): void;
+	playNext(items: IPlayQueueItemStore[]): Promise<void>;
+	playSelectedItemsNext(): Promise<void>;
+	addItems(items: IPlayQueueItemStore[]): Promise<void>;
+	addSelectedItems(): Promise<void>;
+	playFirst(items: IPlayQueueItemStore[]): Promise<void>;
+	moveItem(item: IPlayQueueItemStore, index: number): void;
+	goToFirst(): Promise<void>;
+	removeItems(items: IPlayQueueItemStore[]): Promise<void>;
+	removeSelectedItems(): Promise<void>;
+	removeItemsAbove(item: IPlayQueueItemStore): Promise<void>;
+	removeOtherItems(item: IPlayQueueItemStore): Promise<void>;
+	previous(): Promise<void>;
+	next(): Promise<void>;
+	addItemFromDto(dto: PlayQueueItemDto): Promise<void>;
+}

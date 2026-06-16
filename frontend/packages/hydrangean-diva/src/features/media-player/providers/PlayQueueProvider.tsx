@@ -1,0 +1,48 @@
+import { PlayQueueContext } from '@/features/media-player/contexts/PlayQueueContext';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
+import { localStorageStateKeys } from '@/shared/stores/localStorageStateKeys';
+import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
+import { useLocalStorageState } from '@aigamo/route-sphere';
+import { reaction } from 'mobx';
+import { type ReactElement, type ReactNode, useEffect, useState } from 'react';
+
+interface PlayQueueProviderProps {
+	children?: ReactNode;
+}
+
+export const PlayQueueProvider = ({
+	children,
+}: PlayQueueProviderProps): ReactElement => {
+	const [playQueue] = useState(() => new PlayQueueStore());
+
+	useLocalStorageState(
+		localStorageStateKeys.playQueue,
+		playQueue.localStorageState,
+	);
+
+	const diva = useNostalgicDiva();
+
+	useEffect(() => {
+		return reaction(
+			() => playQueue.currentItem,
+			async (currentItem, previousItem) => {
+				if (currentItem === undefined || previousItem === undefined) {
+					return;
+				}
+
+				if (
+					currentItem.type === previousItem.type &&
+					currentItem.videoId === previousItem.videoId
+				) {
+					await diva.setCurrentTime(0);
+				}
+			},
+		);
+	}, [playQueue, diva]);
+
+	return (
+		<PlayQueueContext.Provider value={playQueue}>
+			{children}
+		</PlayQueueContext.Provider>
+	);
+};

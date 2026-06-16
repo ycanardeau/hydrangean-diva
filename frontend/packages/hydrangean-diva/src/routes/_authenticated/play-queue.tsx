@@ -1,4 +1,4 @@
-import { PlayQueuePage } from '@/features/media-player.play-queue/pages/PlayQueuePage';
+import { PlayQueuePage } from '@/features/media-player/pages/PlayQueuePage';
 import { createFileRoute } from '@tanstack/react-router';
 import type { ReactElement } from 'react';
 

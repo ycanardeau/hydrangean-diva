@@ -1,6 +1,6 @@
-import { bottomBarHeight } from '@/features/common/helpers/bottomBarHeight';
-import { miniPlayerSize } from '@/features/common/helpers/miniPlayerSize';
-import { usePlayQueue } from '@/features/media-player.play-queue.abstractions/contexts/PlayQueueContext';
+import { usePlayQueue } from '@/features/media-player/contexts/PlayQueueContext';
+import { bottomBarHeight } from '@/features/media-player/helpers/bottomBarHeight';
+import { miniPlayerSize } from '@/features/media-player/helpers/miniPlayerSize';
 import { EuiPageTemplate, EuiSpacer } from '@elastic/eui';
 import { observer } from 'mobx-react-lite';
 import { type ReactElement, type ReactNode } from 'react';

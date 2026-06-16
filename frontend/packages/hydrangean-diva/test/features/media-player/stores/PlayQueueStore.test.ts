@@ -1,5 +1,5 @@
-import type { IPlayQueueItemStore } from '@/features/media-player.play-queue.abstractions/interfaces/IPlayQueueItemStore';
-import { PlayQueueStore } from '@/features/media-player.play-queue/stores/PlayQueueStore';
+import type { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
+import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let playQueue: PlayQueueStore;

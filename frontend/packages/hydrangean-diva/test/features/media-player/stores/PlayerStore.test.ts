@@ -1,4 +1,4 @@
-import { PlayerStore } from '@/features/media-player.player/stores/PlayerStore';
+import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let player: PlayerStore;

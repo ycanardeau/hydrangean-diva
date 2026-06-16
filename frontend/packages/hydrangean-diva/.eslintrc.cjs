@@ -21,8 +21,6 @@ module.exports = {
 			extends: [
 				'plugin:@typescript-eslint/recommended',
 				'plugin:prettier/recommended',
-				'react-app',
-				'plugin:boundaries/recommended',
 			],
 			settings: {
 				'import/resolver': {
@@ -30,63 +28,19 @@ module.exports = {
 						alwaysTryTypes: true,
 					},
 				},
+				// Architectural layers. Order matters: the first matching
+				// descriptor wins. `feature` captures the feature folder name so
+				// that a feature may only import from itself (see rules below).
 				'boundaries/elements': [
+					{ type: 'app', mode: 'full', pattern: 'src/*.{ts,tsx}' },
+					{ type: 'shared', mode: 'folder', pattern: 'src/shared' },
+					{ type: 'layout', mode: 'folder', pattern: 'src/layout' },
+					{ type: 'routes', mode: 'folder', pattern: 'src/routes' },
 					{
-						type: '@aigamo.hydrangean-diva/common',
-						pattern: 'src/features/common/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.header',
-						pattern: 'src/features/media-player.header/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-						pattern:
-							'src/features/media-player.play-queue.abstractions/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.play-queue',
-						pattern: 'src/features/media-player.play-queue/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.player.abstractions',
-						pattern:
-							'src/features/media-player.player.abstractions/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.player',
-						pattern: 'src/features/media-player.player/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.bottom-bar.abstractions',
-						pattern:
-							'src/features/media-player.bottom-bar.abstractions/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.bottom-bar',
-						pattern: 'src/features/media-player.bottom-bar/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.mini-player.abstractions',
-						pattern:
-							'src/features/media-player.mini-player.abstractions/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.mini-player',
-						pattern: 'src/features/media-player.mini-player/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.playlists.abstractions',
-						pattern:
-							'src/features/media-player.playlists.abstractions/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player.playlists',
-						pattern: 'src/features/media-player.playlists/**',
-					},
-					{
-						type: '@aigamo.hydrangean-diva/media-player',
-						pattern: 'src/features/media-player/**',
+						type: 'feature',
+						mode: 'folder',
+						pattern: 'src/features/(*)',
+						capture: ['feature'],
 					},
 				],
 			},
@@ -121,99 +75,66 @@ module.exports = {
 						],
 					},
 				],
-				'boundaries/element-types': [
+				// Enforce the dependency direction between layers.
+				// app -> anything; layout/routes -> features + shared;
+				// a feature -> shared + itself only; shared -> shared.
+				'boundaries/dependencies': [
 					2,
 					{
 						default: 'disallow',
 						rules: [
 							{
-								from: '@aigamo.hydrangean-diva/common',
-								disallow: ['*'],
+								from: { type: 'app' },
+								allow: {
+									to: {
+										type: [
+											'app',
+											'layout',
+											'routes',
+											'feature',
+											'shared',
+										],
+									},
+								},
 							},
 							{
-								from: '@aigamo.hydrangean-diva/media-player.header',
-								allow: ['@aigamo.hydrangean-diva/common'],
+								from: { type: 'layout' },
+								allow: {
+									to: {
+										type: ['layout', 'feature', 'shared'],
+									},
+								},
 							},
 							{
-								from: '@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-								allow: [],
+								from: { type: 'routes' },
+								allow: {
+									to: {
+										type: [
+											'routes',
+											'layout',
+											'feature',
+											'shared',
+										],
+									},
+								},
 							},
 							{
-								from: '@aigamo.hydrangean-diva/media-player.play-queue',
-								allow: [
-									'@aigamo.hydrangean-diva/common',
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-								],
+								from: { type: 'feature' },
+								allow: {
+									to: [
+										{ type: 'shared' },
+										{
+											type: 'feature',
+											captured: {
+												feature: '{{ from.captured.feature }}',
+											},
+										},
+									],
+								},
 							},
 							{
-								from: '@aigamo.hydrangean-diva/media-player.player.abstractions',
-								allow: [],
-							},
-							{
-								from: '@aigamo.hydrangean-diva/media-player.player',
-								allow: [
-									'@aigamo.hydrangean-diva/common',
-									'@aigamo.hydrangean-diva/media-player.player.abstractions',
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-								],
-							},
-							{
-								from: '@aigamo.hydrangean-diva/media-player.bottom-bar.abstractions',
-								allow: [
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-								],
-							},
-							{
-								from: '@aigamo.hydrangean-diva/media-player.bottom-bar',
-								allow: [
-									'@aigamo.hydrangean-diva/common',
-									'@aigamo.hydrangean-diva/media-player.bottom-bar.abstractions',
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-									'@aigamo.hydrangean-diva/media-player.player.abstractions',
-								],
-							},
-							{
-								from: '@aigamo.hydrangean-diva/media-player.mini-player.abstractions',
-								allow: [
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-								],
-							},
-							{
-								from: '@aigamo.hydrangean-diva/media-player.mini-player',
-								allow: [
-									'@aigamo.hydrangean-diva/common',
-									'@aigamo.hydrangean-diva/media-player.bottom-bar.abstractions',
-									'@aigamo.hydrangean-diva/media-player.mini-player.abstractions',
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-									'@aigamo.hydrangean-diva/media-player.player.abstractions',
-								],
-							},
-							{
-								from: '@aigamo.hydrangean-diva/media-player.playlists.abstractions',
-								allow: [
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-								],
-							},
-							{
-								from: '@aigamo.hydrangean-diva/media-player.playlists',
-								allow: [
-									'@aigamo.hydrangean-diva/common',
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-									'@aigamo.hydrangean-diva/media-player.play-queue',
-									'@aigamo.hydrangean-diva/media-player.playlists.abstractions',
-								],
-							},
-							{
-								from: '@aigamo.hydrangean-diva/media-player',
-								allow: [
-									'@aigamo.hydrangean-diva/common',
-									'@aigamo.hydrangean-diva/media-player.bottom-bar',
-									'@aigamo.hydrangean-diva/media-player.mini-player',
-									'@aigamo.hydrangean-diva/media-player.play-queue.abstractions',
-									'@aigamo.hydrangean-diva/media-player.play-queue',
-									'@aigamo.hydrangean-diva/media-player.player',
-									'@aigamo.hydrangean-diva/media-player.playlists',
-								],
+								from: { type: 'shared' },
+								allow: { to: { type: 'shared' } },
 							},
 						],
 					},

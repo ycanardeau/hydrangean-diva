@@ -1,7 +1,7 @@
-import { Compose } from '@/features/common/components/Compose';
-import { HydrangeanDivaProvider } from '@/features/media-player/components/HydrangeanDivaProvider';
+import { HydrangeanDivaProvider } from '@/features/media-player/providers/HydrangeanDivaProvider';
 import '@/nprogress.css';
 import { routeTree } from '@/routeTree.gen';
+import { Compose } from '@/shared/components/Compose';
 import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
 import {
@@ -33,7 +33,9 @@ NProgress.configure({ showSpinner: false });
 
 // https://github.com/TanStack/router/discussions/549#discussioncomment-12855219
 router.subscribe('onBeforeLoad', ({ fromLocation, pathChanged }) => {
-	fromLocation && pathChanged && NProgress.start();
+	if (fromLocation && pathChanged) {
+		NProgress.start();
+	}
 });
 router.subscribe('onLoad', () => {
 	NProgress.done();

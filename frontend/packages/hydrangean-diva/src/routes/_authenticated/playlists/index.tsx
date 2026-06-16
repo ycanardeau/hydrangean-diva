@@ -1,4 +1,4 @@
-import { PlaylistListPage } from '@/features/media-player.playlists/pages/PlaylistListPage';
+import { PlaylistListPage } from '@/features/media-player/pages/PlaylistListPage';
 import { createFileRoute } from '@tanstack/react-router';
 import type { ReactElement } from 'react';
 

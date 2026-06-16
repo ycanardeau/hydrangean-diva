@@ -1,2 +1,2 @@
 /* eslint-disable import/no-internal-modules */
-export * from '@/features';
+export * from '@/features/media-player';
