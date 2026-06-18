@@ -5,6 +5,7 @@ export * from '@/features/media-player/components/PlayQueueSection';
 export * from '@/features/media-player/contexts/PlayQueueContext';
 export * from '@/features/media-player/contexts/PlaylistListContext';
 export * from '@/features/media-player/helpers/bottomBarHeight';
+export * from '@/features/media-player/helpers/findVideoService';
 export * from '@/features/media-player/helpers/videoServiceIcons';
 export * from '@/features/media-player/interfaces/IBottomBarStore';
 export * from '@/features/media-player/interfaces/IMiniPlayerStore';
