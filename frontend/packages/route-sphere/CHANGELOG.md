@@ -1,3 +1,7 @@
+## 0.0.1-alpha.71 (2026-06-18)
+
+This was a version bump only for @aigamo/route-sphere to align it with other projects, there were no code changes.
+
 ## 0.0.1-alpha.70 (2026-06-15)
 
 This was a version bump only for @aigamo/route-sphere to align it with other projects, there were no code changes.
