@@ -4,6 +4,7 @@ export interface IPlayerStore {
 	readonly controller: IPlayerController;
 	readonly playing: boolean;
 	readonly percent: number;
+	readonly duration: number;
 	setPercent(value: number): void;
 	setSeeking(value: boolean): void;
 	onControllerChange(value: IPlayerController): void;

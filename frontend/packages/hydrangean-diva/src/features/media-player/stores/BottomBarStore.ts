@@ -80,6 +80,14 @@ export class BottomBarStore implements IBottomBarStore {
 		return this.player.percent;
 	}
 
+	@computed get duration(): number {
+		return this.player.duration;
+	}
+
+	@computed get remainingTime(): number {
+		return this.player.duration * (1 - this.player.percent);
+	}
+
 	@computed get canSeek(): boolean {
 		return (
 			!this.playQueue.isEmpty &&

@@ -6,6 +6,8 @@ export interface IBottomBarStore {
 	readonly controller: IPlayerController;
 	readonly playing: boolean;
 	readonly percent: number;
+	readonly duration: number;
+	readonly remainingTime: number;
 	readonly canSeek: boolean;
 	readonly currentItem: IPlayQueueItemStore | undefined;
 	readonly repeat: RepeatMode;
