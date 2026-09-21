@@ -4,6 +4,6 @@
 		"changelog": {
 			"projectChangelogs": true
 		},
-		"projects": ["hydrangean-diva", "nostalgic-diva", "route-sphere"]
+		"projects": ["catalog", "hydrangean-diva", "nostalgic-diva", "route-sphere"]
 	}
 }
