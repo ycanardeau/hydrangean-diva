@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"clean": "rimraf ./dist",
-		"build": "pnpm clean && tsgo -b && vite build",
+		"build": "pnpm clean && tsc -b && vite build",
 		"build:watch": "pnpm build --watch",
 		"lint": "eslint ."
 	},
@@ -20,7 +20,8 @@
 		"@types/react-dom": "catalog:",
 		"@typescript-eslint/eslint-plugin": "catalog:",
 		"@typescript-eslint/parser": "catalog:",
-		"@typescript/native-preview": "catalog:",
+		"@typescript/typescript6": "catalog:",
+		"typescript": "catalog:",
 		"@vitejs/plugin-react": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config-prettier": "catalog:",

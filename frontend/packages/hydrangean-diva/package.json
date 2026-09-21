@@ -4,8 +4,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite --config vite.config.app.ts",
-		"build": "tsgo -b && vite build",
-		"build:app": "tsgo -b && vite build --config vite.config.app.ts",
+		"build": "tsc -b && vite build",
+		"build:app": "tsc -b && vite build --config vite.config.app.ts",
 		"lint": "eslint .",
 		"preview": "vite preview --config vite.config.app.ts",
 		"test": "vitest --environment=jsdom"
@@ -49,7 +49,8 @@
 		"@types/react-dom": "catalog:",
 		"@typescript-eslint/eslint-plugin": "catalog:",
 		"@typescript-eslint/parser": "catalog:",
-		"@typescript/native-preview": "catalog:",
+		"@typescript/typescript6": "catalog:",
+		"typescript": "catalog:",
 		"@vite-pwa/assets-generator": "catalog:",
 		"@vitejs/plugin-react": "catalog:",
 		"eslint": "catalog:",
