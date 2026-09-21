@@ -3,18 +3,22 @@
 	"version": "0.0.1-alpha.72",
 	"type": "module",
 	"description": "Shared pnpm catalog for @aigamo projects, generated from hydrangean-diva's pnpm-workspace.yaml.",
+	"bin": {
+		"aigamo-sync-catalog": "sync-catalog.mjs"
+	},
 	"scripts": {
 		"build": "node build.mjs",
 		"prepack": "node build.mjs"
 	},
 	"files": [
-		"catalog.json"
+		"catalog.json",
+		"sync-catalog.mjs"
 	],
 	"exports": {
 		".": "./catalog.json",
 		"./catalog.json": "./catalog.json"
 	},
-	"devDependencies": {
+	"dependencies": {
 		"yaml": "^2.5.0"
 	},
 	"license": "MIT",
