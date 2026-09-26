@@ -47,4 +47,4 @@ script it yourself.
 pnpm --filter @aigamo/catalog build
 ```
 
-Runs automatically on `prepack`, so a publish always ships the current catalog.
+The publish workflow runs `pnpm build` before `nx release publish`, so a publish always ships the current catalog.

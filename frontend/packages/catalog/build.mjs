@@ -2,7 +2,8 @@
 // published as @aigamo/catalog and consumed by other repos.
 //
 // Source of truth: frontend/pnpm-workspace.yaml — this file only snapshots it.
-// Runs on `pnpm build` and automatically on `prepack` (i.e. before publish).
+// Runs on `pnpm build`. Not a `prepack` hook: lifecycle output would corrupt
+// the `pnpm publish --json` output that `nx release publish` parses.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';

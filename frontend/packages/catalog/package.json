@@ -7,8 +7,7 @@
 		"aigamo-sync-catalog": "sync-catalog.mjs"
 	},
 	"scripts": {
-		"build": "node build.mjs",
-		"prepack": "node build.mjs"
+		"build": "node build.mjs"
 	},
 	"files": [
 		"catalog.json",

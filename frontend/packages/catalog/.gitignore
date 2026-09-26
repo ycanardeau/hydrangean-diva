@@ -1,2 +1,2 @@
-# Generated from ../../pnpm-workspace.yaml by build.mjs (runs on prepack).
+# Generated from ../../pnpm-workspace.yaml by build.mjs (runs on `pnpm build`).
 catalog.json
