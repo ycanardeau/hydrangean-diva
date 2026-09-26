@@ -1,6 +1,6 @@
 {
 	"name": "@aigamo/catalog",
-	"version": "0.0.1-alpha.73",
+	"version": "0.0.1-alpha.74",
 	"type": "module",
 	"description": "Shared pnpm catalog for @aigamo projects, generated from hydrangean-diva's pnpm-workspace.yaml.",
 	"bin": {
