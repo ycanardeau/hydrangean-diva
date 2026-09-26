@@ -10,7 +10,7 @@
 	"devDependencies": {
 		"@nx/js": "22.5.3",
 		"@trivago/prettier-plugin-sort-imports": "catalog:",
-		"nx": "22.5.3",
+		"nx": "22.7.7",
 		"prettier": "catalog:"
 	}
 }
