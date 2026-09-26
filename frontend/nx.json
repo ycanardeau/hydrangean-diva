@@ -4,6 +4,12 @@
 		"changelog": {
 			"projectChangelogs": true
 		},
-		"projects": ["catalog", "hydrangean-diva", "nostalgic-diva", "route-sphere"]
-	}
+		"projects": [
+			"catalog",
+			"hydrangean-diva",
+			"nostalgic-diva",
+			"route-sphere"
+		]
+	},
+	"analytics": false
 }
