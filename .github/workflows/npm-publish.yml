@@ -39,6 +39,17 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Run unit tests
+        run: pnpm -r --if-present test --run
+
+      - name: Install Playwright browser
+        working-directory: ./frontend/packages/nostalgic-diva
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        working-directory: ./frontend/packages/nostalgic-diva
+        run: pnpm test:e2e
+
       - name: Publish packages
         run: pnpm nx release publish
         env:

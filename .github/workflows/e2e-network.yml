@@ -1,0 +1,54 @@
+# Plays real YouTube, Niconico, SoundCloud, Spotify and Vimeo embeds.
+# Not run on pushes or pull requests, since it depends on third-party sites;
+# runs weekly instead to catch platforms changing or breaking their embeds.
+name: E2E tests (third-party players)
+
+on:
+  schedule:
+    # Mondays at 00:00 UTC
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: "./frontend/packages/nostalgic-diva"
+
+jobs:
+  e2e-network:
+    name: E2E tests (third-party players)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "pnpm"
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        run: pnpm test:e2e:network
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-network-results
+          path: ./frontend/packages/nostalgic-diva/test-results
+          retention-days: 7
