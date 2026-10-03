@@ -14,6 +14,10 @@ export interface IPlaylistStore {
 	setItems(value: IPlaylistItemStore[]): void;
 	unselectAll(): void;
 	selectAll(): void;
+	toggleItemSelected(
+		item: IPlaylistItemStore,
+		extendSelection?: boolean,
+	): void;
 	playSelectedItemsNext(): Promise<void>;
 	addItems(items: IPlaylistItemStore[]): Promise<void>;
 	addSelectedItems(): Promise<void>;

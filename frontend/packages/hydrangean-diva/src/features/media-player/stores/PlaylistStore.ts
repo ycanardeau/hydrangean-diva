@@ -61,6 +61,8 @@ class PlaylistLocalStorageStateStore implements IStateStore<PlaylistLocalStorage
 export class PlaylistStore implements IPlaylistStore {
 	readonly localStorageState: PlaylistLocalStorageStateStore;
 	@observable items: IPlaylistItemStore[] = [];
+	// The item last toggled, from which Shift+click extends the selection.
+	private selectionAnchor: IPlaylistItemStore | undefined;
 
 	constructor(private readonly playQueue: IPlayQueueStore) {
 		makeObservable(this);
@@ -127,6 +129,36 @@ export class PlaylistStore implements IPlaylistStore {
 		for (const item of this.items) {
 			item.select();
 		}
+	}
+
+	@action.bound toggleItemSelected(
+		item: IPlaylistItemStore,
+		extendSelection = false,
+	): void {
+		const anchorIndex =
+			this.selectionAnchor !== undefined
+				? this.items.indexOf(this.selectionAnchor)
+				: -1;
+
+		if (extendSelection && anchorIndex !== -1) {
+			// Apply the new state of the item to the whole range.
+			const isSelected = !item.isSelected;
+			const index = this.items.indexOf(item);
+			for (const rangeItem of this.items.slice(
+				Math.min(anchorIndex, index),
+				Math.max(anchorIndex, index) + 1,
+			)) {
+				if (isSelected) {
+					rangeItem.select();
+				} else {
+					rangeItem.unselect();
+				}
+			}
+		} else {
+			item.toggleSelected();
+		}
+
+		this.selectionAnchor = item;
 	}
 
 	@action.bound async playSelectedItemsNext(): Promise<void> {

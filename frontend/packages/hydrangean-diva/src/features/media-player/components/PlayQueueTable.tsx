@@ -299,11 +299,12 @@ const PlayQueueTableRowActionsCell = observer(
 );
 
 interface PlayQueueTableRowProps {
+	playQueue: IPlayQueueStore;
 	item: IPlayQueueItemStore;
 }
 
 const PlayQueueTableRow = observer(
-	({ item }: PlayQueueTableRowProps): ReactElement => {
+	({ playQueue, item }: PlayQueueTableRowProps): ReactElement => {
 		// EuiTableRow does not forward a ref, so we anchor to a native element
 		// inside the row and walk up to the <tr> when scrolling into view.
 		const iconRef = useRef<HTMLImageElement>(null);
@@ -326,7 +327,13 @@ const PlayQueueTableRow = observer(
 					<EuiCheckbox
 						id={item.id.toString() /* TODO */}
 						checked={item.isSelected}
-						onChange={item.toggleSelected}
+						onChange={(e): void =>
+							playQueue.toggleItemSelected(
+								item,
+								e.nativeEvent instanceof MouseEvent &&
+									e.nativeEvent.shiftKey,
+							)
+						}
 					/>
 				</EuiTableRowCellCheckbox>
 				<EuiTableRowCell textOnly={false}>
@@ -368,7 +375,11 @@ const PlayQueueTableBody = observer(
 				setList={(items): void => playQueue.setItems(items)}
 			>
 				{playQueue.items.map((item) => (
-					<PlayQueueTableRow key={item.id} item={item} />
+					<PlayQueueTableRow
+						key={item.id}
+						playQueue={playQueue}
+						item={item}
+					/>
 				))}
 			</ReactSortable>
 		);

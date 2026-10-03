@@ -43,10 +43,10 @@ const AuthenticatedPlaylistsPlaylistIdIndexRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/play-queue': typeof AuthenticatedPlayQueueRoute
   '/': typeof AuthenticatedIndexRoute
-  '/playlists': typeof AuthenticatedPlaylistsIndexRoute
-  '/playlists/$playlistId': typeof AuthenticatedPlaylistsPlaylistIdIndexRoute
+  '/play-queue': typeof AuthenticatedPlayQueueRoute
+  '/playlists/': typeof AuthenticatedPlaylistsIndexRoute
+  '/playlists/$playlistId/': typeof AuthenticatedPlaylistsPlaylistIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/play-queue': typeof AuthenticatedPlayQueueRoute
@@ -64,7 +64,7 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/play-queue' | '/' | '/playlists' | '/playlists/$playlistId'
+  fullPaths: '/' | '/play-queue' | '/playlists/' | '/playlists/$playlistId/'
   fileRoutesByTo: FileRoutesByTo
   to: '/play-queue' | '/' | '/playlists' | '/playlists/$playlistId'
   id:
@@ -85,7 +85,7 @@ declare module '@tanstack/react-router' {
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -106,14 +106,14 @@ declare module '@tanstack/react-router' {
     '/_authenticated/playlists/': {
       id: '/_authenticated/playlists/'
       path: '/playlists'
-      fullPath: '/playlists'
+      fullPath: '/playlists/'
       preLoaderRoute: typeof AuthenticatedPlaylistsIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/playlists/$playlistId/': {
       id: '/_authenticated/playlists/$playlistId/'
       path: '/playlists/$playlistId'
-      fullPath: '/playlists/$playlistId'
+      fullPath: '/playlists/$playlistId/'
       preLoaderRoute: typeof AuthenticatedPlaylistsPlaylistIdIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }

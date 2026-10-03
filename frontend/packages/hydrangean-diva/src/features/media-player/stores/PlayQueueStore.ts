@@ -40,6 +40,8 @@ export class PlayQueueStore implements IPlayQueueStore {
 	@observable interacted = false;
 	readonly localStorageState: PlayQueueLocalStorageStateStore;
 	@observable items: IPlayQueueItemStore[] = [];
+	// The item last toggled, from which Shift+click extends the selection.
+	private selectionAnchor: IPlayQueueItemStore | undefined;
 	@observable currentId: number | undefined;
 
 	constructor() {
@@ -167,6 +169,36 @@ export class PlayQueueStore implements IPlayQueueStore {
 		for (const item of this.items) {
 			item.select();
 		}
+	}
+
+	@action.bound toggleItemSelected(
+		item: IPlayQueueItemStore,
+		extendSelection = false,
+	): void {
+		const anchorIndex =
+			this.selectionAnchor !== undefined
+				? this.items.indexOf(this.selectionAnchor)
+				: -1;
+
+		if (extendSelection && anchorIndex !== -1) {
+			// Apply the new state of the item to the whole range.
+			const isSelected = !item.isSelected;
+			const index = this.items.indexOf(item);
+			for (const rangeItem of this.items.slice(
+				Math.min(anchorIndex, index),
+				Math.max(anchorIndex, index) + 1,
+			)) {
+				if (isSelected) {
+					rangeItem.select();
+				} else {
+					rangeItem.unselect();
+				}
+			}
+		} else {
+			item.toggleSelected();
+		}
+
+		this.selectionAnchor = item;
 	}
 
 	@action.bound setCurrentItem(item: IPlayQueueItemStore | undefined): void {

@@ -266,18 +266,25 @@ const PlaylistTableRowActionsCell = observer(
 );
 
 interface PlaylistTableRowProps {
+	playlist: IPlaylistStore;
 	item: IPlaylistItemStore;
 }
 
 const PlaylistTableRow = observer(
-	({ item }: PlaylistTableRowProps): ReactElement => {
+	({ playlist, item }: PlaylistTableRowProps): ReactElement => {
 		return (
 			<EuiTableRow isSelected={item.isCurrent} hasSelection hasActions>
 				<EuiTableRowCellCheckbox>
 					<EuiCheckbox
 						id={item.id.toString() /* TODO */}
 						checked={item.isSelected}
-						onChange={item.toggleSelected}
+						onChange={(e): void =>
+							playlist.toggleItemSelected(
+								item,
+								e.nativeEvent instanceof MouseEvent &&
+									e.nativeEvent.shiftKey,
+							)
+						}
 					/>
 				</EuiTableRowCellCheckbox>
 				<EuiTableRowCell textOnly={false}>
@@ -318,7 +325,11 @@ const PlaylistTableBody = observer(
 				setList={(items): void => playlist.setItems(items)}
 			>
 				{playlist.items.map((item) => (
-					<PlaylistTableRow key={item.id} item={item} />
+					<PlaylistTableRow
+						key={item.id}
+						playlist={playlist}
+						item={item}
+					/>
 				))}
 			</ReactSortable>
 		);

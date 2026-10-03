@@ -545,6 +545,48 @@ describe('moveItem', () => {
 	});
 });
 
+describe('toggleItemSelected', () => {
+	it('should toggle the item', () => {
+		playQueue.setItems([item, item2, item3]);
+
+		playQueue.toggleItemSelected(item);
+		playQueue.toggleItemSelected(item3);
+
+		expect(playQueue.selectedItems).toStrictEqual([item, item3]);
+
+		playQueue.toggleItemSelected(item);
+
+		expect(playQueue.selectedItems).toStrictEqual([item3]);
+	});
+
+	it('should select the range from the last toggled item', () => {
+		playQueue.setItems([item, item2, item3]);
+
+		playQueue.toggleItemSelected(item3);
+		playQueue.toggleItemSelected(item, true);
+
+		expect(playQueue.selectedItems).toStrictEqual([item, item2, item3]);
+	});
+
+	it('should unselect the range when the item gets unselected', () => {
+		playQueue.setItems([item, item2, item3]);
+		playQueue.selectAll();
+
+		playQueue.toggleItemSelected(item);
+		playQueue.toggleItemSelected(item2, true);
+
+		expect(playQueue.selectedItems).toStrictEqual([item3]);
+	});
+
+	it('should toggle the item when there is no last toggled item', () => {
+		playQueue.setItems([item, item2, item3]);
+
+		playQueue.toggleItemSelected(item2, true);
+
+		expect(playQueue.selectedItems).toStrictEqual([item2]);
+	});
+});
+
 describe('removeItems', () => {
 	it('should remove items', async () => {
 		playQueue.setItems([item, item2, item3]);

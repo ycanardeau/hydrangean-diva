@@ -28,6 +28,10 @@ export interface IPlayQueueStore {
 	clear(): void;
 	unselectAll(): void;
 	selectAll(): void;
+	toggleItemSelected(
+		item: IPlayQueueItemStore,
+		extendSelection?: boolean,
+	): void;
 	setCurrentItem(item: IPlayQueueItemStore | undefined): void;
 	clearAndSetItems(items: IPlayQueueItemStore[]): void;
 	playNext(items: IPlayQueueItemStore[]): Promise<void>;
