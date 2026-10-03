@@ -6,7 +6,8 @@
 		"clean": "rimraf ./dist",
 		"build": "pnpm clean && tsc -b && vite build",
 		"build:watch": "pnpm build --watch",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"test": "vitest --environment=jsdom"
 	},
 	"devDependencies": {
 		"@eslint/compat": "catalog:",
@@ -29,6 +30,7 @@
 		"eslint-plugin-prettier": "catalog:",
 		"eslint-plugin-react": "catalog:",
 		"eslint-plugin-react-hooks": "catalog:",
+		"jsdom": "catalog:",
 		"prettier": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
