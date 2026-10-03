@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>nostalgic-diva e2e (web component)</title>
+	</head>
+	<body>
+		<script type="module">
+			import { defineNostalgicDiva } from '@/components/defineNostalgicDiva';
+
+			defineNostalgicDiva();
+
+			window.elementEvents = [];
+			const element = document.createElement('nostalgic-diva');
+			for (const type of ['loaded', 'play', 'pause', 'ended']) {
+				element.addEventListener(type, () =>
+					window.elementEvents.push(type),
+				);
+			}
+			element.src = new URLSearchParams(location.search).get('src');
+			document.body.appendChild(element);
+			window.element = element;
+		</script>
+	</body>
+</html>

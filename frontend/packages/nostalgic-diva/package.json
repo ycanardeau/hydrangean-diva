@@ -7,11 +7,14 @@
 		"build": "pnpm clean && tsc -b && vite build",
 		"build:watch": "pnpm build --watch",
 		"lint": "eslint .",
-		"test": "vitest --environment=jsdom"
+		"test": "vitest --environment=jsdom",
+		"test:e2e": "playwright test --project=chromium",
+		"test:e2e:network": "playwright test --project=network"
 	},
 	"devDependencies": {
 		"@eslint/compat": "catalog:",
 		"@eslint/eslintrc": "catalog:",
+		"@playwright/test": "catalog:",
 		"@trivago/prettier-plugin-sort-imports": "catalog:",
 		"@types/node": "catalog:",
 		"@types/react": "catalog:",
