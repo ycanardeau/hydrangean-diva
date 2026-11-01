@@ -139,8 +139,8 @@ catalogs:
       specifier: ^15.8.1
       version: 15.8.1
     qs:
-      specifier: ^6.16.0
-      version: 6.16.0
+      specifier: ^6.16.1
+      version: 6.17.1
     react:
       specifier: ^18.3.1
       version: 18.3.1
@@ -271,7 +271,7 @@ importers:
         version: 15.8.1
       qs:
         specifier: 'catalog:'
-        version: 6.16.0
+        version: 6.17.1
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -575,7 +575,7 @@ importers:
         version: 3.9.8
       qs:
         specifier: 'catalog:'
-        version: 6.16.0
+        version: 6.17.1
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -5380,8 +5380,8 @@ packages:
     resolution: {integrity: sha512-+Owyggi9IxT1ePKGafcI87ubSmxol6smwJ+RAHDQlx9+9cPwFWDiKFFCPuWhr9ignlGpZ9vDQLw67N4dcTVFEA==}
     engines: {node: '>=20'}
 
-  qs@6.16.0:
-    resolution: {integrity: sha512-h6fhOIaRrID2CbEY2fqs+7t+UXZo+MLAnU5gRIq85uFtdiUPCdsApMlHhXogKVM4HM2DVbIjGNTTYH2OcmP1vA==}
+  qs@6.17.1:
+    resolution: {integrity: sha512-jd3COkaKVgGUW+ZHyEHCG9bH7RoaaiWuMgzsIBjUMVjLAaWGWpoUAVwljVvBHxRu/2qEHnadLGZrkutYUBPQJA==}
     engines: {node: '>=0.6'}
 
   quansync@0.2.11:
@@ -14139,7 +14139,7 @@ snapshots:
     dependencies:
       hookified: 2.2.0
 
-  qs@6.16.0:
+  qs@6.17.1:
     dependencies:
       es-define-property: 1.0.1
       side-channel: 1.1.1
