@@ -5716,8 +5716,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  serialize-javascript@7.1.1:
-    resolution: {integrity: sha512-k3CMsaIvvdSwm8oLB4MXSl0wH2/cwlH7xGcnRd2DaeRmBkbzYmyT8j0tsX60DwD1eRwHTpNpH8ljKu9oUT1MeQ==}
+  serialize-javascript@7.1.4:
+    resolution: {integrity: sha512-FqlEuoTq/zRmA4Lg6aOqyH3lCHbUtCB0bmHCeFniX2GBdDqMJM3FwdvEhlE5Pim1dlt2FfBdVPmUNNiGhhKqpw==}
     engines: {node: '>=20.0.0'}
 
   seroval-plugins@1.6.7:
@@ -10448,7 +10448,7 @@ snapshots:
 
   '@rollup/plugin-terser@1.0.0(rollup@4.54.0)':
     dependencies:
-      serialize-javascript: 7.1.1
+      serialize-javascript: 7.1.4
       smob: 1.6.1
       terser: 5.46.0
     optionalDependencies:
@@ -14534,7 +14534,7 @@ snapshots:
 
   semver@7.8.5: {}
 
-  serialize-javascript@7.1.1: {}
+  serialize-javascript@7.1.4: {}
 
   seroval-plugins@1.6.7(seroval@1.6.7):
     dependencies:
