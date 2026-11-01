@@ -3,6 +3,8 @@ import { MiniPlayerProvider } from '@/features/media-player/providers/MiniPlayer
 import { PlayQueueProvider } from '@/features/media-player/providers/PlayQueueProvider';
 import { PlayerProvider } from '@/features/media-player/providers/PlayerProvider';
 import { PlaylistListProvider } from '@/features/media-player/providers/PlaylistListProvider';
+import { SettingsProvider } from '@/features/media-player/providers/SettingsProvider';
+import { TimetableProvider } from '@/features/media-player/providers/TimetableProvider';
 import { Compose } from '@/shared/components/Compose';
 import {
 	NostalgicDivaProvider,
@@ -23,8 +25,10 @@ export const HydrangeanDivaProvider = ({
 		<NostalgicDivaProvider {...nostalgicDivaProps}>
 			<Compose
 				components={[
+					SettingsProvider,
 					PlayerProvider,
 					PlayQueueProvider,
+					TimetableProvider,
 					BottomBarProvider,
 					MiniPlayerProvider,
 					PlaylistListProvider,

@@ -1,4 +1,5 @@
 import { repeatIconTypes } from '@/features/media-player/components/BottomBarCenterControls';
+import { TimetableButton } from '@/features/media-player/components/TimetableButton';
 import { useBottomBar } from '@/features/media-player/contexts/BottomBarContext';
 import { RepeatMode } from '@/features/media-player/interfaces/RepeatMode';
 import { useNostalgicDiva } from '@aigamo/nostalgic-diva';
@@ -372,6 +373,7 @@ export const BottomBarRightControls = memo(
 				justifyContent="flexEnd"
 				alignItems="center"
 			>
+				<TimetableButton />
 				<VolumeButton />
 				{onClickPlayQueueButton && (
 					<PlayQueueButton

@@ -1,3 +1,5 @@
+import { SettingsModal } from '@/features/media-player/components/SettingsModal';
+import { useSettings } from '@/features/media-player/contexts/SettingsContext';
 import { bottomBarHeight } from '@/features/media-player/helpers/bottomBarHeight';
 import { featureFlags } from '@/shared/lib/featureFlags';
 import {
@@ -16,7 +18,11 @@ import {
 	type IconType,
 	useGeneratedHtmlId,
 } from '@elastic/eui';
-import { Cd16Regular, NavigationPlayRegular } from '@fluentui/react-icons';
+import {
+	Cd16Regular,
+	NavigationPlayRegular,
+	SettingsRegular,
+} from '@fluentui/react-icons';
 import {
 	type AnyRouter,
 	type LinkProps,
@@ -24,6 +30,7 @@ import {
 	useMatchRoute,
 	useRouter,
 } from '@tanstack/react-router';
+import EasyModal from 'ez-modal-react';
 import {
 	type ReactElement,
 	type ReactNode,
@@ -35,6 +42,28 @@ const commitHash =
 	typeof import.meta.env.VITE_COMMIT_HASH === 'string'
 		? import.meta.env.VITE_COMMIT_HASH
 		: undefined;
+
+const SettingsButton = (): ReactElement => {
+	const settings = useSettings();
+
+	const handleClick = async (): Promise<void> => {
+		const result = await EasyModal.show(SettingsModal, {
+			youTubeApiKey: settings.youTubeApiKey,
+		});
+		settings.setYouTubeApiKey(result.youTubeApiKey);
+	};
+
+	return (
+		<EuiToolTip content="Settings" /* LOC */>
+			<EuiHeaderSectionItemButton
+				aria-label="Settings" /* LOC */
+				onClick={handleClick}
+			>
+				<EuiIcon type={SettingsRegular} aria-hidden="true" />
+			</EuiHeaderSectionItemButton>
+		</EuiToolTip>
+	);
+};
 
 export const Header = (): ReactElement => {
 	const [navIsOpen, setNavIsOpen] = useState(false);
@@ -177,6 +206,7 @@ export const Header = (): ReactElement => {
 						<EuiHeaderLinks
 							popoverProps={{ repositionOnScroll: true }}
 						>
+							<SettingsButton />
 							<EuiToolTip content="GitHub">
 								<EuiHeaderSectionItemButton
 									href="https://github.com/ycanardeau/hydrangean-diva"
