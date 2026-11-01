@@ -11,6 +11,7 @@ export class PlayerStore implements IPlayerStore {
 	@observable playing = false;
 	@observable percent = 0;
 	@observable seeking = false;
+	@observable seconds = 0;
 
 	constructor() {
 		makeObservable(this);
@@ -44,7 +45,11 @@ export class PlayerStore implements IPlayerStore {
 		this.playing = false;
 	}
 
-	@action.bound onTimeUpdate({ percent }: TimeEvent): void {
+	@action.bound onTimeUpdate({ percent, seconds }: TimeEvent): void {
+		if (seconds !== undefined) {
+			this.seconds = seconds;
+		}
+
 		if (percent !== undefined) {
 			if (!this.seeking) {
 				this.percent = percent;
