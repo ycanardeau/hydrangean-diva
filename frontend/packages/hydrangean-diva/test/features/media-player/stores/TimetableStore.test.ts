@@ -1,3 +1,4 @@
+import type { YouTubeComment } from '@/features/media-player/helpers/youTubeDataApi';
 import type { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
 import { PlayQueueStore } from '@/features/media-player/stores/PlayQueueStore';
 import { PlayerStore } from '@/features/media-player/stores/PlayerStore';
@@ -16,6 +17,9 @@ let fetchDescription: ReturnType<
 		(videoId: string, apiKey: string) => Promise<string | undefined>
 	>
 >;
+let fetchComments: ReturnType<
+	typeof vi.fn<(videoId: string, apiKey: string) => Promise<YouTubeComment[]>>
+>;
 let timetable: TimetableStore;
 
 let youTubeItem: IPlayQueueItemStore;
@@ -26,12 +30,11 @@ beforeEach(() => {
 	playQueue = new PlayQueueStore();
 	settings = new SettingsStore();
 	fetchDescription = vi.fn(() => Promise.resolve(description));
-	timetable = new TimetableStore(
-		player,
-		playQueue,
-		settings,
-		fetchDescription,
-	);
+	fetchComments = vi.fn(() => Promise.resolve([]));
+	timetable = new TimetableStore(player, playQueue, settings, {
+		fetchVideoDescription: fetchDescription,
+		fetchTopComments: fetchComments,
+	});
 
 	youTubeItem = playQueue.createItemFromDto({
 		url: 'https://www.youtube.com/watch?v=jUe7dDLGpv8',
@@ -73,6 +76,7 @@ describe('fetch', () => {
 		await timetable.fetch();
 
 		expect(fetchDescription).toHaveBeenCalledWith('jUe7dDLGpv8', 'key');
+		expect(fetchComments).not.toHaveBeenCalled();
 		expect(timetable.entries).toEqual([
 			{ seconds: 0, title: 'Song 1' },
 			{ seconds: 180, title: 'Song 2' },
@@ -82,13 +86,43 @@ describe('fetch', () => {
 		expect(timetable.error).toBeUndefined();
 	});
 
-	it('should store an empty timetable when the description has none', async () => {
+	it('should fall back to the comments when the description has no timetable', async () => {
+		fetchDescription.mockResolvedValue('1. Song 1\n2. Song 2\n3. Song 3');
+		fetchComments.mockResolvedValue([
+			{ text: 'Great live!', likeCount: 5000 },
+			{ text: '0:10 Song 1\n3:00 Song 2\n6:00 Song 3', likeCount: 900 },
+		]);
+		settings.setYouTubeApiKey('key');
+		await playQueue.addItems([youTubeItem]);
+
+		await timetable.fetch();
+
+		expect(fetchComments).toHaveBeenCalledWith('jUe7dDLGpv8', 'key');
+		expect(timetable.entries).toEqual([
+			{ seconds: 10, title: 'Song 1' },
+			{ seconds: 180, title: 'Song 2' },
+			{ seconds: 360, title: 'Song 3' },
+		]);
+	});
+
+	it('should store an empty timetable when neither the description nor the comments have one', async () => {
 		fetchDescription.mockResolvedValue('No timestamps here');
 		settings.setYouTubeApiKey('key');
 		await playQueue.addItems([youTubeItem]);
 
 		await timetable.fetch();
 
+		expect(timetable.entries).toEqual([]);
+	});
+
+	it('should not fetch the comments when the video does not exist', async () => {
+		fetchDescription.mockResolvedValue(undefined);
+		settings.setYouTubeApiKey('key');
+		await playQueue.addItems([youTubeItem]);
+
+		await timetable.fetch();
+
+		expect(fetchComments).not.toHaveBeenCalled();
 		expect(timetable.entries).toEqual([]);
 	});
 

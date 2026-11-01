@@ -1,4 +1,5 @@
 import {
+	findTimetableInComments,
 	formatTimetableTime,
 	parseTimetable,
 	stringifyTimetable,
@@ -67,6 +68,25 @@ describe('parseTimetable', () => {
 		]);
 	});
 
+	it('should strip list numbering', () => {
+		expect(
+			parseTimetable(
+				'1. Song 1 (08:15)\n2. Song 2 (12:14)\n10) Song 10 (1:00:47)',
+			),
+		).toEqual([
+			{ seconds: 495, title: 'Song 1' },
+			{ seconds: 734, title: 'Song 2' },
+			{ seconds: 3647, title: 'Song 10' },
+		]);
+	});
+
+	it('should keep numbers that are part of the title', () => {
+		expect(parseTimetable('0:00 451\n3:00 1.5 Song')).toEqual([
+			{ seconds: 0, title: '451' },
+			{ seconds: 180, title: '1.5 Song' },
+		]);
+	});
+
 	it('should sort entries by time', () => {
 		expect(parseTimetable('3:00 Song 2\n0:00 Song 1')).toEqual([
 			{ seconds: 0, title: 'Song 1' },
@@ -86,6 +106,34 @@ describe('parseTimetable', () => {
 
 	it('should return an empty array for empty text', () => {
 		expect(parseTimetable('')).toEqual([]);
+	});
+});
+
+describe('findTimetableInComments', () => {
+	it('should pick the most liked comment with a timetable', () => {
+		expect(
+			findTimetableInComments([
+				{ text: 'No times here', likeCount: 9000 },
+				{ text: '0:00 A\n1:00 B\n2:00 C', likeCount: 100 },
+				{ text: '0:05 X\n1:05 Y\n2:05 Z', likeCount: 500 },
+			]),
+		).toEqual([
+			{ seconds: 5, title: 'X' },
+			{ seconds: 65, title: 'Y' },
+			{ seconds: 125, title: 'Z' },
+		]);
+	});
+
+	it('should ignore comments with fewer than three timestamps', () => {
+		expect(
+			findTimetableInComments([
+				{ text: '42:03 This part!\n1:01:42 And this', likeCount: 2000 },
+			]),
+		).toEqual([]);
+	});
+
+	it('should return an empty array when there are no comments', () => {
+		expect(findTimetableInComments([])).toEqual([]);
 	});
 });
 

@@ -1,5 +1,11 @@
-import { fetchYouTubeVideoDescription } from '@/features/media-player/helpers/fetchYouTubeVideoDescription';
-import { parseTimetable } from '@/features/media-player/helpers/parseTimetable';
+import {
+	findTimetableInComments,
+	parseTimetable,
+} from '@/features/media-player/helpers/parseTimetable';
+import {
+	fetchYouTubeTopComments,
+	fetchYouTubeVideoDescription,
+} from '@/features/media-player/helpers/youTubeDataApi';
 import type { IPlayQueueItemStore } from '@/features/media-player/interfaces/IPlayQueueItemStore';
 import type { IPlayQueueStore } from '@/features/media-player/interfaces/IPlayQueueStore';
 import type { IPlayerStore } from '@/features/media-player/interfaces/IPlayerStore';
@@ -87,7 +93,10 @@ export class TimetableStore implements ITimetableStore {
 		private readonly player: IPlayerStore,
 		private readonly playQueue: IPlayQueueStore,
 		private readonly settings: ISettingsStore,
-		private readonly fetchDescription = fetchYouTubeVideoDescription,
+		private readonly youTubeDataApi = {
+			fetchVideoDescription: fetchYouTubeVideoDescription,
+			fetchTopComments: fetchYouTubeTopComments,
+		},
 	) {
 		makeObservable(this);
 
@@ -164,13 +173,26 @@ export class TimetableStore implements ITimetableStore {
 		this.statusError = undefined;
 
 		try {
-			const description = await this.fetchDescription(
+			const apiKey = this.settings.youTubeApiKey;
+
+			const description = await this.youTubeDataApi.fetchVideoDescription(
 				item.videoId,
-				this.settings.youTubeApiKey,
+				apiKey,
 			);
+			let entries = parseTimetable(description ?? '');
+
+			// Live videos often list the songs without times in the description,
+			// while viewers post the timetable in the comments.
+			if (entries.length === 0 && description !== undefined) {
+				const comments = await this.youTubeDataApi.fetchTopComments(
+					item.videoId,
+					apiKey,
+				);
+				entries = findTimetableInComments(comments);
+			}
 
 			runInAction(() => {
-				this.timetables.set(key, parseTimetable(description ?? ''));
+				this.timetables.set(key, entries);
 			});
 		} catch (error) {
 			runInAction(() => {

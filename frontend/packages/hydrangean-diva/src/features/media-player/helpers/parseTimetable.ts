@@ -39,6 +39,8 @@ function parseLine(line: string): TimetableEntryDto | undefined {
 		.replace(timestampPattern, '')
 		.replace(/[([]\s*[)\]]/g, '')
 		.replace(separatorPattern, '')
+		// List numbering, e.g. `1. Song (0:00)`.
+		.replace(/^\d{1,3}[.)](?!\d)/, '')
 		.replace(/\s+/g, ' ')
 		.trim();
 
@@ -61,6 +63,29 @@ export function parseTimetable(text: string): TimetableEntryDto[] {
 	}
 
 	return entries.sort((a, b) => a.seconds - b.seconds);
+}
+
+/**
+ * Finds a timetable posted by a viewer, as is common for live videos whose description only lists the songs.
+ * Picks the most liked comment with at least three timestamps,
+ * so that comments that only mention a moment or two are ignored.
+ */
+export function findTimetableInComments(
+	comments: readonly { text: string; likeCount: number }[],
+): TimetableEntryDto[] {
+	let best: { entries: TimetableEntryDto[]; likeCount: number } | undefined;
+
+	for (const comment of comments) {
+		const entries = parseTimetable(comment.text);
+		if (
+			entries.length >= 3 &&
+			(best === undefined || comment.likeCount > best.likeCount)
+		) {
+			best = { entries, likeCount: comment.likeCount };
+		}
+	}
+
+	return best?.entries ?? [];
 }
 
 export function formatTimetableTime(totalSeconds: number): string {
